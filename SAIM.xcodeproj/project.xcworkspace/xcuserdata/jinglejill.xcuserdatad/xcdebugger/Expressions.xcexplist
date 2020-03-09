@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "+[Utility getNoteDataString:]:Utility.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "value">
+            </PersistentString>
+            <PersistentString
+               value = "[value length]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AccountInventorySummaryViewController updateSelectedAccumSales]:AccountInventorySummaryViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "lblCurrentAccumSales.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ReceiptViewController payButtonClicked:]:ReceiptViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[SharedReceipt sharedReceipt].receiptList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[SalesCustomMadeViewController prepareForSegue:sender:]:SalesCustomMadeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "_customMade.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AppDelegate itemsSynced:]:AppDelegate.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

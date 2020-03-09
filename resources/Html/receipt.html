@@ -1,0 +1,106 @@
+<body style='font-family: Helvetica, Sans-Serif;font-size: 12pt;'>
+    <table style="font-family: Helvetica, Sans-Serif;font-size: 12pt;" width="100%">
+        <tbody>
+            <tr>
+                <td style="font-size: 12pt;" width="60%"><strong>เลขที่ </strong>#INVOICE_NUMBER#</td>
+                <td><span style="font-size: 12pt;"><strong>บริษัท เดอะ มินิมัลลิสท์ จำกัด (สำนักงานใหญ่)</strong></span></td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td style="font-size: 12pt;">
+                    <p>บ้านเลขที่ 316-318 ถนนเจริญรัถ แขวงคลองต้นไทร เขตคลองสาน กรุงเทพมหานคร 10600<br />Tel.: (081)564-6320<br />Email: nuttawan@minimalist.co.th<br /><strong>เลขประจำตัวผู้เสียภาษีอากร &nbsp; 0105559144532</strong></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;" width="60%"><span style="font-size: 18pt;"><strong>ใบกำกับภาษี / ใบเสร็จรับเงิน</strong></span></td>
+                <td style="border: 1px solid black; padding: 10px; border-radius: 15px;">
+                    <p><strong>วันที่</strong>&nbsp;<br /><strong>Date</strong> #INVOICE_DATE#</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; padding: 10px; border-radius: 15px;" width="60%">
+                    <p><strong>นามลูกค้า<br /></strong><strong>Customer Name:&nbsp;</strong>#CUSTOMER_NAME#</p>
+                    <p><strong>ที่อยู่<br /></strong><strong>Address:</strong> #CUSTOMER_ADDRESS#</p>
+                    <p><strong>เลขประจำตัวผู้เสียภาษีอากร</strong> &nbsp; #CUSTOMER_TAX_NO#</p>
+                </td>
+                <td style="border: 1px solid black; padding: 10px; border-radius: 15px;">
+                    <p><strong>Vendor code:</strong> -<br /><strong>ใบสั่งซื้อเลขที่</strong><br /><strong>P/O No.</strong> -<br /><br />เงื่อนไขการชำระเงิน<br />Terms of Payment -<br />ครบกำหนดชำระเงิน<br />​Due Date -</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <table style="border-spacing: 0; border-collapse: collapse; font-family: Helvetica, Sans-Serif;font-size: 12pt;" width="100%">
+        <tbody>
+            <tr>
+                <td style="text-align: center; border: 1px solid black;"><strong>รหัสสินค้า</strong><br />Code</td>
+                <td style="text-align: center; border: 1px solid black;"><strong>รายการสินค้าหรือบริการ</strong><br />Descriptions of Goods and Service</td>
+                <td style="text-align: center; border: 1px solid black;"><strong>จำนวน</strong><br />Quantity</td>
+                <td style="text-align: center; border: 1px solid black;"><strong>หน่วยละ</strong><br />Amount/Unit</td>
+                <td style="text-align: center; border: 1px solid black;"><strong>จำนวนเงิน</strong><br />Total Amount</td>
+            </tr>
+            #ITEMS#
+            <tr>
+                <td style="text-align: right; padding-left: 10px; border: 1px solid black;" colspan="3" rowspan="5">
+                    <table style="font-family: Helvetica, Sans-Serif;font-size: 12pt;">
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid black; padding-left: 10px; padding-right: 10px; border-radius: 15px;">x</td>
+                                <td>&nbsp;&nbsp;&nbsp;<strong>เงินสด</strong></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; border: 1px solid black; padding-left: 10px; padding-right: 10px; border-radius: 15px;">&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;<strong>เช็ค เลขที่</strong>................................. &nbsp; &nbsp; <strong>ลงวันที่</strong>...............................</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><br />&nbsp;&nbsp;&nbsp;<strong>ธนาคาร/สาขา</strong>.......................... &nbsp; &nbsp; <strong>จำนวนเงิน</strong>......................... <strong>บาท</strong><br />&nbsp;&nbsp;&nbsp;Bank/Branch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Baht</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="text-align: left; border: 1px solid black;"><strong>รวมเงิน</strong><br />Total</td>
+                <td style="text-align: right; border: 1px solid black;">#TOTAL_AMOUNT#</td>
+            </tr>
+            <tr>
+                <td style="text-align: left; border: 1px solid black;"><strong>ส่วนลด</strong><br />Discount</td>
+                <td style="text-align: right; border: 1px solid black;">#DISCOUNT#</td>
+            </tr>
+            <tr>
+                <td style="text-align: left; border: 1px solid black;"><strong>รวมเงินก่อน VAT</strong><br />Sub Total</td>
+                <td style="text-align: right; border: 1px solid black;">#TOTAL_AMOUNT_BEFORE_VAT#</td>
+            </tr>
+            <tr>
+                <td style="text-align: left; border: 1px solid black;"><strong>ภาษีมูลค่าเพิ่ม</strong><br />VAT 7%</td>
+                <td style="text-align: right; border: 1px solid black;">#VAT#</td>
+            </tr>
+            <tr>
+                <td style="text-align: left; border: 1px solid black;"><strong>ราคาสินค้ารวม VAT</strong><br />Grand Total</td>
+                <td style="text-align: right; border: 1px solid black;"><span>#TOTAL_AMOUNT_INCLUDE_VAT#</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>หมายเหตุ: โปรดสั่งจ่ายในนามบริษัท เดอะ มินิมัลลิสท์ จํากัด<br />สินค้าตามรายการข้างต้นแม้จะได้ส่งมอบแก่ผู้ซื้อแล้วก็ยังเป็นทรัพย์สินของผู้ขายจนกว่าผู้ซื้อได้ชําระเงินเสร็จเรียบร้อยแล้ว</p>
+    <table width="100%" style="font-family: Helvetica, Sans-Serif;font-size: 12pt;">
+        <tbody>
+            <tr>
+                <td style="text-align: center; border: 1px solid black; padding: 10px; border-radius: 15px;" width="25%">
+                    ผู้รับสินค้า/Receiver<br /><br />
+                    <img width="200px" src="http://www.jinglejill.com/saim/blanksignature2.png" /><br />วันที่/Date.................
+                </td>
+                <td style="text-align: center; border: 1px solid black; padding: 10px; border-radius: 15px;" width="25%">ผู้ส่งสินค้า/Delivery By<br /><br />
+                    <img width="200px" src="http://www.jinglejill.com/saim/blanksignature2.png" /><br />วันที่/Date.................
+                </td>
+                <td style="text-align: center; border: 1px solid black; padding: 10px; border-radius: 15px;" width="25%">ผู้รับเงิน/Received By<br /><br />
+                    <img width="200px" src="http://www.jinglejill.com/saim/onesignature3.png" /><br />วันที่/Date&nbsp;&nbsp;&nbsp;#INVOICE_DATE#
+                </td>
+                <td style="text-align: center; border: 1px solid black; padding: 10px; border-radius: 15px;" width="25%">ผู้มีอำนาจลงนาม/Authorized Signature<br />
+                    <img width="200px" src="http://www.jinglejill.com/saim/onesignature3.png" /><br />วันที่/Date&nbsp;&nbsp;&nbsp;#INVOICE_DATE#
+                </td>
+            </tr>
+            <tr style="display:none;">
+                <td colspan="4" style="text-align: right;">Rev. 01</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
