@@ -10,11 +10,12 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "HomeModel.h"
 #import "AccountReceipt.h"
+#import "WebKit/WebKit.h"
 
 
 @interface AccountReceiptHistoryPDFViewController : UIViewController<HomeModelProtocol, MFMailComposeViewControllerDelegate>
 
-@property (strong, nonatomic) IBOutlet UIWebView *webPreview;
+@property (strong, nonatomic) IBOutlet WKWebView *webPreview;
 @property (strong, nonatomic) AccountReceipt *accountReceiptHistory;
 @property (strong, nonatomic) NSString *strReceiptDateFrom;
 @property (strong, nonatomic) NSString *strReceiptDateTo;

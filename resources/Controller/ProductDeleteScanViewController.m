@@ -173,7 +173,6 @@
             {
                 //productCategory2+productCategory1+productName+color+size+year+month+day+id 00+00+00+00+xx+00+00+00+000000
                 Product *productQR = [Utility getProductWithProductCode:lines[1]];
-                Product *productInMain;
                 NSString *currentProductIDGroup = [Utility getProductIDGroup:productQR];
                 if(![_previousProductIDGroup isEqualToString:currentProductIDGroup])
                 {
@@ -185,22 +184,7 @@
                     //******
                     [self queryInDb:productQR];
                     //******
-//                    productInMain = [self getProductInMainInventory:productQR];
-//                    if(productInMain)
-//                    {
-//                        _executeQR = YES;
-//                    }
-//                    else
-//                    {
-//                        dispatch_async(dispatch_get_main_queue(),^ {
-//                            _lblStatus.textColor = [UIColor redColor];
-//                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product to delete in main inventory."];
-//                        } );
-//                        if (_audioPlayer)
-//                        {
-//                            [_audioPlayer play];
-//                        }
-//                    }
+
                 }
                 else if([_previousProductIDGroup isEqualToString:currentProductIDGroup] && _scanBlank)
                 {
@@ -215,22 +199,7 @@
                         //******
                         [self queryInDb:productQR];
                         //******
-//                        productInMain = [self getProductInMainInventory:productQR];
-//                        if(productInMain)
-//                        {
-//                            _executeQR = YES;
-//                        }
-//                        else
-//                        {
-//                            dispatch_async(dispatch_get_main_queue(),^ {
-//                                _lblStatus.textColor = [UIColor redColor];
-//                                _lblStatus.text = [NSString stringWithFormat:@"No scan-product to delete in main inventory."];
-//                            } );
-//                            if (_audioPlayer)
-//                            {
-//                                [_audioPlayer play];
-//                            }
-//                        }
+
                     }
                 }
                 else if([_previousProductIDGroup isEqualToString:currentProductIDGroup] && !_scanBlank)
@@ -246,90 +215,8 @@
                         //******
                         [self queryInDb:productQR];
                         //******
-//                        productInMain = [self getProductInMainInventory:productQR];
-//                        if(productInMain)
-//                        {
-//                            _executeQR = YES;
-//                        }
-//                        else
-//                        {
-//                            dispatch_async(dispatch_get_main_queue(),^ {
-//                                _lblStatus.textColor = [UIColor redColor];
-//                                _lblStatus.text = [NSString stringWithFormat:@"No scan-product to delete in main inventory."];
-//                            } );
-//                            if (_audioPlayer)
-//                            {
-//                                [_audioPlayer play];
-//                            }
-//                        }
                     }
                 }
-                
-                
-//                if(_executeQR)
-//                {
-//                    _executeQR = NO;
-//
-//
-//                    //delete product and insert into productDelete
-//                    ProductDelete *productDelete = [[ProductDelete alloc]init];
-//                    productDelete.productDeleteID = [Utility getNextID:tblProductDelete];
-//                    productDelete.productID = productInMain.productID;
-//                    productDelete.productCategory2 = productInMain.productCategory2;
-//                    productDelete.productCategory1 = productInMain.productCategory1;
-//                    productDelete.productName = productInMain.productName;
-//                    productDelete.color = productInMain.color;
-//                    productDelete.size = productInMain.size;
-//                    productDelete.manufacturingDate = productInMain.manufacturingDate;
-//                    productDelete.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-//                    productDelete.modifiedUser = [Utility modifiedUser];
-//
-//                    //1.insert 2.delete
-//                    //update shared
-//                    [[SharedProductDelete sharedProductDelete].productDeleteList addObject:productDelete];
-//
-//
-//                    //update sharedproduct
-//                    [[SharedProduct sharedProduct].productList removeObject:productInMain];
-//
-//
-//                    [_productScanList addObject:productInMain];
-//                    [_productExecuteTempList addObject:productInMain];
-//                    [_productDeleteExecuteTempList addObject:productDelete];
-//                    if([_productExecuteTempList count] == [Utility getNumberOfRowForExecuteSql])
-//                    {
-//                        _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
-//                        [_productExecuteTempList removeAllObjects];
-//
-//                        _productDeleteExecuteList = [NSMutableArray arrayWithArray:_productDeleteExecuteTempList];
-//                        [_productDeleteExecuteTempList removeAllObjects];
-//
-//
-//                        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
-//                        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//                        NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
-//                        [_homeModel deleteItems:dbProduct withData:@[sortArray,_productDeleteExecuteList]];
-//                    }
-//
-//
-//                    dispatch_async(dispatch_get_main_queue(),^ {
-//                        if(![productInMain.remark isEqualToString:@""])
-//                        {
-//                            NSString *remark = [NSString stringWithFormat:@"delete MFD:%@ instead of MFD:%@",[Utility formatDateForDisplay:productInMain.manufacturingDate],[Utility formatDateForDisplay:productQR.manufacturingDate]];
-//                            _lblStatus.attributedText = [Utility getCountWithRemarkText:[_productScanList count] remark:remark];
-//                        }
-//                        else
-//                        {
-//                            _lblStatus.textColor = tBlueColor;
-//                            _lblStatus.text = [NSString stringWithFormat:@"%lu",(unsigned long)[_productScanList count]];
-//                        }
-//
-//                    } );
-//                    if (_audioPlayer)
-//                    {
-//                        [_audioPlayer play];
-//                    }
-//                }
             }
             else
             {
@@ -421,47 +308,6 @@
         } );
     }
 }
-//-(Product *)getProductInMainInventory:(Product *)product
-//{
-//    //ถ้ามี mfd เดียวกัน return ไปเลย
-//    //ถ้าไม่มี mfd เดียวกัน ให้ alert -> delete product mfd:xx instead of mfd:xx โดยเลือก mfd ที่เก่าที่สุด
-//    //ถ้าไม่มี product นี้เลย alert -> No scan-product to delete in main inventory.
-//
-//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _manufacturingDate = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,product.manufacturingDate,0,@"I"];
-//    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-//
-//    if([filterArray count] > 0)
-//    {
-//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
-//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//        NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-//
-//        return sortArray[0];
-//    }
-//    else
-//    {
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,0,@"I"];
-//        NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-//
-//        if([filterArray count] > 0)
-//        {
-//            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_manufacturingDate" ascending:YES];
-//            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
-//            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,nil];
-//            NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-//
-//            Product *matchProduct = sortArray[0];
-//            matchProduct.remark = [NSString stringWithFormat:@"Scan MFD:%@",[Utility formatDateForDisplay:product.manufacturingDate]];
-//
-//            return matchProduct;
-//        }
-//        else
-//        {
-//            return nil;
-//        }
-//    }
-//}
 
 -(void)stopReading{
     [_captureSession stopRunning];
@@ -470,25 +316,25 @@
     [_videoPreviewLayer removeFromSuperlayer];
     
     
-    if([_productScanList count]>0)
-    {
-        [_productScanList removeAllObjects];
-    }
-    
-    if([_productExecuteTempList count]>0)
-    {
-        _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
-        [_productExecuteTempList removeAllObjects];
-        
-        _productDeleteExecuteList = [NSMutableArray arrayWithArray:_productDeleteExecuteTempList];
-        [_productDeleteExecuteTempList removeAllObjects];
-        
-        
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-        NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
-        [_homeModel deleteItems:dbProduct withData:@[sortArray,_productDeleteExecuteList]];
-    }
+//    if([_productScanList count]>0)
+//    {
+//        [_productScanList removeAllObjects];
+//    }
+//
+//    if([_productExecuteTempList count]>0)
+//    {
+//        _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
+//        [_productExecuteTempList removeAllObjects];
+//
+//        _productDeleteExecuteList = [NSMutableArray arrayWithArray:_productDeleteExecuteTempList];
+//        [_productDeleteExecuteTempList removeAllObjects];
+//
+//
+//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
+//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//        NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
+//        [_homeModel deleteItems:dbProduct withData:@[sortArray,_productDeleteExecuteList]];
+//    }
 }
 
 -(void)startButtonClicked
@@ -545,20 +391,6 @@
 {
 }
 
--(void)itemsDownloaded:(NSArray *)items
-{
-    {
-        PushSync *pushSync = [[PushSync alloc]init];
-        pushSync.deviceToken = [Utility deviceToken];
-        [_homeModel updateItems:dbPushSyncUpdateByDeviceToken withData:pushSync];
-    }
-    
-    
-    [Utility itemsDownloaded:items];
-    [self removeOverlayViews];
-    [self loadViewProcess];
-}
-
 - (void)itemsFail
 {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:[Utility getConnectionLostTitle]
@@ -567,8 +399,7 @@
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-//                                                              [self loadingOverlayView];
-//                                                              [_homeModel downloadItems:dbMaster];
+
                                                           }];
     
     [alert addAction:defaultAction];

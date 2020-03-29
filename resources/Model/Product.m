@@ -73,5 +73,10 @@
     
     return nil;
 }
+
++ (NSString *)getProductNameGroup:(Product *)product
+{
+    return [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
+}
 @end
 

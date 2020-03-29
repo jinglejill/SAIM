@@ -72,7 +72,7 @@
 #import "SharedRewardProgram.h"
 #import "SharedPreOrderEventIDHistory.h"
 
-
+#define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]
 
 extern NSArray *globalMessage;
 extern NSString *globalPingAddress;
@@ -271,10 +271,10 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMUserAccountEventDelete.php";
             break;
         case urlReceiptAndProductBuyInsert:
-            url = @"/SAIM/SAIMReceiptAndProductBuyInsert2.php";
+            url = @"/SAIM/SAIMReceiptAndProductBuyInsert6.php";
             break;
         case urlReceiptAndReceiptProductItemDelete:
-            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete.php";
+            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete3.php";
             break;
         case urlMasterGet:
             url = @"/SAIM/SAIMMasterGet.php?%@";
@@ -283,7 +283,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMMasterGet.php?%@";
             break;
         case urlReceiptProductItemAndProductUpdate:
-            url = @"/SAIM/SAIMReceiptProductItemAndProductUpdate.php";
+            url = @"/SAIM/SAIMReceiptProductItemAndProductUpdate3.php";
             break;
         case urlCompareInventoryInsert:
             url = @"/SAIM/SAIMCompareInventoryInsert.php";
@@ -508,7 +508,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMSalesByChannelGet.php?%@";
             break;
         case urlProductionOrderInsert:
-            url = @"/SAIM/SAIMProductionOrderInsert.php";
+            url = @"/SAIM/SAIMProductionOrderInsert3.php";
             break;
         case urlProductionOrderAdded:
             url = @"/SAIM/SAIMProductionOrderAddedGet.php?%@";
@@ -565,10 +565,10 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMPostDetailGetList.php";
             break;
         case urlPostDetailSearchGet:
-            url = @"/SAIM/SAIMPostDetailSearchGetList.php";
+            url = @"/SAIM/SAIMPostDetailSearchGetList2.php";
             break;
         case urlPostDetailToPostGet:
-            url = @"/SAIM/SAIMPostDetailToPostGetList.php";
+            url = @"/SAIM/SAIMPostDetailToPostGetList2.php";
             break;
         case urlMainInventoryGet:
             url = @"/SAIM/SAIMMainInventoryGet.php";
@@ -601,7 +601,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMCustomMadeOutGetList.php";
             break;
         case urlSalesForDateGet:
-            url = @"/SAIM/SAIMSalesForDateGet2.php";
+            url = @"/SAIM/SAIMSalesForDateGet3.php";
             break;
         case urlProductDeleteGetList:
             url = @"/SAIM/SAIMProductDeleteGetList.php";
@@ -622,10 +622,28 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMSearchSalesTelephoneGetList.php";
             break;
         case urlScanDelete:
-            url = @"/SAIM/SAIMScanDelete.php";
+            url = @"/SAIM/SAIMScanDelete3.php";
             break;
         case urlScanEvent:
             url = @"/SAIM/SAIMScanEvent.php";
+            break;
+        case urlExpenseDailyGetList:
+            url= @"/SAIM/SAIMExpenseDailyGetList.php";
+            break;
+        case urlExpenseDailyInsert:
+            url= @"/SAIM/SAIMExpenseDailyInsert.php";
+            break;
+        case urlExpenseDailyDelete:
+            url= @"/SAIM/SAIMExpenseDailyDelete.php";
+            break;
+        case urlPostCustomerAddInsert:
+            url= @"/SAIM/SAIMPostCustomerAddInsert.php";
+            break;
+        case urlItemTrackingNoUpdate:
+            url= @"/SAIM/SAIMItemTrackingNoUpdate.php";
+            break;
+        case urlItemTrackingNoPostCustomerAddInsert:
+            url= @"/SAIM/SAIMItemTrackingNoPostCustomerAddInsert.php";
             break;
         default:
             break;
@@ -684,7 +702,8 @@ extern NSString *globalModifiedUser;
     df.dateFormat = toFormat;
     
     
-    NSString *strDate = [df stringFromDate:dateTimeInLocalTimezone];
+    NSString *strDate = [df stringFromDate:date];
+//    NSString *strDate = [df stringFromDate:dateTimeInLocalTimezone];
     return strDate;
 }
 
@@ -736,6 +755,15 @@ extern NSString *globalModifiedUser;
 +(void)setModifiedUser:(NSString *)modifiedUser
 {
     globalModifiedUser = modifiedUser;
+}
+
++(NSString *)getProductIDGroupWithProductCode:(NSString *)productCode
+{
+    NSRange needleRange;
+    NSString *needle;
+    needleRange = NSMakeRange(0,10);
+    needle = [productCode substringWithRange:needleRange];
+    return needle;
 }
 
 +(Product *)getProductWithProductCode:(NSString *)productCode

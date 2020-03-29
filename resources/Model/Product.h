@@ -22,6 +22,7 @@
 @property (nonatomic) NSInteger eventID;
 @property (retain, nonatomic) NSString * modifiedDate;
 @property (retain, nonatomic) NSString * productIDGroup;
+@property (retain, nonatomic) NSString * productNameGroup;
 @property (retain, nonatomic) NSString * manufacturingDateYM;
 @property (retain, nonatomic) NSString * productType;
 @property (nonatomic) NSInteger eventIDSpare;
@@ -35,5 +36,6 @@
 - (id)init;
 + (NSMutableArray *)getProductListInMainInventory:(Product *)product;
 + (Product *)getProduct:(NSString *)productID;
++ (NSString *)getProductNameGroup:(Product *)product;
 //+ (Product *) getProductWithProductCode:(NSString *)productCode;
 @end

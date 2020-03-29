@@ -506,9 +506,9 @@
                 CGImageRelease(cr);
                 
                 
-//                NSData *imgData = UIImageJPEGRepresentation(cropped,1);
+                NSData *imgData = UIImageJPEGRepresentation(cropped,1);
 //                test
-                NSData *imgData = UIImageJPEGRepresentation([UIImage imageNamed:@"webgreecegrey.jpg"], 1);
+//                NSData *imgData = UIImageJPEGRepresentation([UIImage imageNamed:@"webgreecegrey.jpg"], 1);
                 [_homeModel uploadPhoto:imgData fileName:imageFileName];
             }
     

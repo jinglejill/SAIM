@@ -29,7 +29,9 @@
 + (NSString *)getName:(NSInteger)productNameID;
 + (ProductName *)getProductNameWithProductID:(NSString *)productID;
 + (ProductName *)getProductNameWithProductNameGroup:(NSString *)productNameGroup;
++ (ProductName *)getProductNameWithProductIDGroup:(NSString *)productIDGroup;
 + (NSInteger)getProductNameIDWithName:(NSString *)name;
 + (NSString *)getNameWithCustomMadeID:(NSInteger)customMadeID;
 + (NSString *)getNameWithProductNameGroup:(NSString *)productNameGroup;
++ (NSString *)getProductNameGroupWithProductName:(ProductName *)productName;
 @end

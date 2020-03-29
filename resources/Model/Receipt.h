@@ -34,6 +34,7 @@
 
 @property (retain, nonatomic) NSString * receiptNoID;
 @property (retain, nonatomic) NSString * total;
+@property (retain, nonatomic) NSString * salesUser;
 
 + (Receipt *)getReceipt:(NSInteger)receiptID;
 + (NSMutableArray *)getReceiptSortByReceiptDate:(NSMutableArray *)receiptList;

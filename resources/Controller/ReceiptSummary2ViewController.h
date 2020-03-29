@@ -10,7 +10,7 @@
 #import "HomeModel.h"
 #import "CustomCollectionViewFlowLayout.h"
 
-@interface ReceiptSummary2ViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,HomeModelProtocol,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ReceiptSummary2ViewController : UIViewController<HomeModelProtocol,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UICollectionView *colViewSummaryTable;
 @property (strong, nonatomic) IBOutlet UILabel *lblLocation;
 @property (strong, nonatomic) IBOutlet UILabel *lblDate;
@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIDatePicker *dtPicker;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnShortOrDetail;
 @property (nonatomic, retain) IBOutlet UITableView *customMadeView;
-@property (nonatomic, retain) IBOutlet UITableView *cashAllocationView;
+//@property (nonatomic, retain) IBOutlet UITableView *cashAllocationView;
 @property (nonatomic, retain) IBOutlet UITableView *preOrderEventIDHistoryView;
 @property (nonatomic, retain) IBOutlet UIView *titleAndCloseButtonView;
 @property (strong, nonatomic) IBOutlet UITableView *tbvData;
@@ -32,10 +32,13 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblTotalTransfer;
 @property (strong, nonatomic) IBOutlet UILabel *lblTotalAmount;
 
+@property (strong, nonatomic) IBOutlet UILabel *lblSalesPerChange;
+@property (strong, nonatomic) IBOutlet UIButton *btnExpense;
 
+- (IBAction)expenseButtonClicked:(id)sender;
 
 - (IBAction)changeDate:(id)sender;
 - (IBAction)datePickerChanged:(id)sender;
 - (IBAction)shortOrDetail:(id)sender;
-- (IBAction)unwindToReceiptSummary:(UIStoryboardSegue *)segue;
+- (IBAction)unwindToReceiptSummary2:(UIStoryboardSegue *)segue;
 @end

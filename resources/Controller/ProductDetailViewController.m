@@ -402,7 +402,8 @@
 }
 
 - (IBAction)viewReceipt:(id)sender {
-    [self performSegueWithIdentifier:@"segReceipt" sender:self];
+//    [self performSegueWithIdentifier:@"segReceipt" sender:self];
+    [self performSegueWithIdentifier:@"segReceipt2" sender:self];
 }
 
 -(void) loadingOverlayView

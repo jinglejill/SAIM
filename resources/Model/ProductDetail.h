@@ -25,4 +25,12 @@
 @property (retain, nonatomic) NSString * priceSold;
 @property (nonatomic) NSInteger eventID;
 
+@property (nonatomic) NSInteger replaceProduct;
+@property (nonatomic) NSInteger ship;
+@property (nonatomic) NSInteger discount;
+@property (nonatomic) float discountValue;
+@property (nonatomic) float discountPercent;
+@property (retain, nonatomic) NSString * discountReason;
+@property (nonatomic) NSInteger postCustomerID;
+
 @end

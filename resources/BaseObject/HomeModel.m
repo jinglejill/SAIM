@@ -57,6 +57,8 @@
 #import "PreOrderEventIDHistory.h"
 #import "EmailQRCode.h"
 #import "PostDetail.h"
+#import "ExpenseDaily.h"
+#import "ItemTrackingNo.h"
 
 
 #import "SharedProductSales.h"
@@ -217,7 +219,7 @@
             break;
         case dbSalesForDate:
         {
-            arrClassName = @[@"Receipt",@"ReceiptProductItem",@"Product",@"CustomMade",@"CustomerReceipt",@"PostCustomer",@"PreOrderEventIDHistory",@"CashAllocation"];
+            arrClassName = @[@"Receipt",@"ReceiptProductItem",@"Product",@"CustomMade",@"ItemTrackingNo",@"PostCustomer",@"PreOrderEventIDHistory",@"ExpenseDaily",@"CashAllocation"];
         }
             break;
         case dbProductDelete:
@@ -292,6 +294,11 @@
             arrClassName = @[@"PostDetail"];
         }
         break;
+        case dbExpenseDaily:
+        {
+            arrClassName = @[@"ExpenseDaily",@"OftenUse"];
+        }
+            break;
         default:
             break;
     }
@@ -410,6 +417,7 @@
         case dbPostDetail:
         case dbPostDetailSearch:
         case dbPostDetailToPost:
+        case dbExpenseDaily:
         {
             [_dataToDownload appendData:dataRaw];
             if([ _dataToDownload length ]/_downloadSize == 1.0f)
@@ -913,6 +921,13 @@
             noteDataString = [NSString stringWithFormat:@"telephone=%@",telephone];
         }
             break;
+        case dbExpenseDaily:
+        {
+            ExpenseDaily *expenseDaily = (ExpenseDaily *)object;
+            url = [NSString stringWithFormat:[Utility url:urlExpenseDailyGetList],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"inputDate=%@&eventID=%@",expenseDaily.inputDate,expenseDaily.eventID];
+        }
+            break;
         default:
             break;
     }
@@ -1015,7 +1030,8 @@
             Receipt *receipt = arrData[4];
             NSMutableArray *arrRewardPoint = arrData[5];
             NSMutableArray *arrPostCustomer = arrData[6];
-            CustomerReceipt *customerReceipt = arrData[7];
+            NSMutableArray *arrItemTrackingNo = arrData[7];
+//            CustomerReceipt *customerReceipt = arrData[7];
             
             
             NSInteger countProduct = 0;
@@ -1023,19 +1039,29 @@
             NSInteger countReceiptProductItem = 0;
             NSInteger countPreOrderEventIDHistory = 0;
             NSInteger countRewardPoint = 0;
+            NSInteger countPostCustomer = 0;
+            NSInteger countItemTrackingNo = 0;
             
             
-            if([arrPostCustomer count]>0)
-            {
-                noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:arrPostCustomer[0]]];
-            }
-            noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:receipt]];
-            noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:customerReceipt]];
-            noteDataString = [NSString stringWithFormat:@"%@&countRewardPoint=%ld&countPostCustomer=%ld&countProduct=%ld&countCustomMade=%ld&countReceiptProductItem=%ld&countPreOrderEventIDHistory=%ld",noteDataString,[arrRewardPoint count],[arrPostCustomer count],[arrProduct count],[arrCustomMade count],[arrReceiptProductItem count],[arrPreOrderEventIDHistory count]];
+            NSString *noteDataStringForReceipt = [Utility getNoteDataString:receipt];
+            noteDataStringForReceipt = [noteDataStringForReceipt stringByReplacingOccurrencesOfString:@"shippingFee"
+            withString:@"shippingFeeReceipt"];
+            noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,noteDataStringForReceipt];
+            noteDataString = [NSString stringWithFormat:@"%@&countRewardPoint=%ld&countPostCustomer=%ld&countProduct=%ld&countCustomMade=%ld&countReceiptProductItem=%ld&countPreOrderEventIDHistory=%ld&countItemTrackingNo=%ld",noteDataString,[arrRewardPoint count],[arrPostCustomer count],[arrProduct count],[arrCustomMade count],[arrReceiptProductItem count],[arrPreOrderEventIDHistory count], [arrItemTrackingNo count]];
             for(RewardPoint *item in arrRewardPoint)
             {
                 noteDataString = [NSString stringWithFormat:@"%@&rewardPointID%02ld=%ld&customerIDReward%02ld=%ld&point%02ld=%ld&statusReward%02ld=%ld",noteDataString,countRewardPoint,item.rewardPointID,countRewardPoint,item.customerID,countRewardPoint,item.point,countRewardPoint,item.status];
                 countRewardPoint++;
+            }
+            for(PostCustomer *item in arrPostCustomer)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:item withRunningNo:countPostCustomer]];
+                countPostCustomer++;
+            }
+            for(ItemTrackingNo *item in arrItemTrackingNo)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&receiptProductItemIDTrackingNo%02ld=%ld&postCustomerID%02ld=%ld",noteDataString,countItemTrackingNo,item.receiptProductItemID,countItemTrackingNo,item.postCustomerID];
+                countItemTrackingNo++;
             }
             for(Product *item in arrProduct)
             {                
@@ -1321,6 +1347,37 @@
             noteDataString = [NSString stringWithFormat:@"stackTrace=%@",stackTrace];
             url = [NSURL URLWithString:[Utility url:urlWriteLog]];
         }
+            break;
+        case dbExpenseDaily:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlExpenseDailyInsert]];
+        }
+            break;
+        case dbPostCustomerAdd:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlPostCustomerAddInsert]];
+        }
+            break;
+        case dbItemTrackingNoPostCustomerAdd:
+        {
+            NSArray *dataList = (NSArray *)data;
+            PostCustomer *postCustomer = dataList[0];
+            NSArray *receiptProductItemList = dataList[1];
+           
+            NSInteger countData = 0;
+            noteDataString = [Utility getNoteDataString:postCustomer];
+            noteDataString = [NSString stringWithFormat:@"%@&countReceiptProductItem=%ld",noteDataString,(long)[receiptProductItemList count]];
+            
+            for(ReceiptProductItem *item in receiptProductItemList)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&receiptProductItemID%02ld=%ld",noteDataString,(long)countData,item.receiptProductItemID];
+                countData++;
+            }
+            url = [NSURL URLWithString:[Utility url:urlItemTrackingNoPostCustomerAddInsert]];
+        }
+            break;
         default:
             break;
     }
@@ -1467,9 +1524,37 @@
                             }
                         }
                     }
-                    else if(propCurrentDB == dbPostCustomer)
+                    else if(propCurrentDB == dbPostCustomer || propCurrentDB == dbPostCustomerAdd)
                     {
                         if([status isEqual:@"1"] && [strTableName isEqualToString:@"PostCustomer"])
+                        {
+                            NSArray *arrClassName = @[@"PostCustomer"];
+                            NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                            
+                            
+                            if(self.delegate)
+                            {
+                                [self.delegate itemsInsertedWithReturnData:items];
+                            }
+                        }
+                    }
+                    else if(propCurrentDB == dbExpenseDaily)
+                    {
+                        if([status isEqual:@"1"] && [strTableName isEqualToString:@"ExpenseDaily"])
+                        {
+                            NSArray *arrClassName = @[@"ExpenseDaily"];
+                            NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                            
+                            
+                            if(self.delegate)
+                            {
+                                [self.delegate itemsInsertedWithReturnData:items];
+                            }
+                        }
+                    }
+                    else if(propCurrentDB == dbItemTrackingNoPostCustomerAdd)
+                    {
+                        if([status isEqual:@"1"] && [strTableName isEqualToString:@"ItemTrackingNoPostCustomerAdd"])
                         {
                             NSArray *arrClassName = @[@"PostCustomer"];
                             NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
@@ -1487,7 +1572,6 @@
                         {
                             [self.delegate itemsInserted];
                         }
-
                     }
                     else if([status isEqual:@"1"])
                     {
@@ -1626,7 +1710,6 @@
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [urlRequest setHTTPMethod:@"POST"];
     [urlRequest setHTTPBody:jsonData];
-    //    [urlRequest setHTTPBody:[noteDataString dataUsingEncoding:NSUTF8StringEncoding]];
     
     
     NSURLSessionDataTask * dataTask = [defaultSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *dataRaw, NSURLResponse *header, NSError *error) {
@@ -2233,7 +2316,6 @@
             NSArray *scanProductIDGroup = dataList[1];
             NSString *modifiedUser = dataList[2];
             NSString *modifiedDate = dataList[3];
-//            NSInteger selectPreOrderEventID = [dataList[4] integerValue];
             NSInteger countData = 0;
             noteDataString = [NSString stringWithFormat:@"scanProductIDGroup=%@&modifiedUser=%@&modifiedDate=%@&countPostDetail=%ld",scanProductIDGroup,modifiedUser,modifiedDate,(long)[selectedPostDetailList count]];
             
@@ -2267,6 +2349,24 @@
             NSString *status = dataList[4];
             noteDataString = [NSString stringWithFormat:@"scanProductIDGroup=%@&modifiedUser=%@&modifiedDate=%@&eventID=%ld&status=%@",scanProductIDGroup,modifiedUser,modifiedDate,eventID,status];
             url = [NSURL URLWithString:[Utility url:urlScanEvent]];
+        }
+            break;
+        case dbItemTrackingNo:
+        case dbItemTrackingNoPostCustomerDelete:
+        {
+            NSArray *dataList = (NSArray *)data;
+            PostCustomer *postCustomer = dataList[0];
+            NSArray *receiptProductItemList = dataList[1];
+           
+            NSInteger countData = 0;
+            noteDataString = [NSString stringWithFormat:@"countReceiptProductItem=%ld&postCustomerID=%ld",(long)[receiptProductItemList count],postCustomer.postCustomerID];
+            
+            for(ReceiptProductItem *item in receiptProductItemList)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&receiptProductItemID%02ld=%ld",noteDataString,(long)countData,item.receiptProductItemID];
+                countData++;
+            }            
+            url = [NSURL URLWithString:[Utility url:urlItemTrackingNoUpdate]];
         }
             break;
         default:
@@ -2351,6 +2451,17 @@
                 else if([function isEqualToString:@"customMadeEdit"])
                 {
                     NSArray *arrClassName = @[@"CustomMade"];
+                    NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                    
+                    
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsUpdatedWithReturnData:items];
+                    }
+                }
+                else if([function isEqualToString:@"ItemTrackingNo"])
+                {
+                    NSArray *arrClassName = @[@"PostCustomer"];
                     NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
                     
                     
@@ -2470,18 +2581,18 @@
             //product->customMade->receiptproductitem->receipt->postcustomer->customerreceipt การเรียง execute table ใน database เพื่อป้องกันการเกิด lock table (การ lock table เกิดได้ใน 2 กรณี ของการ turn off auto commit 1.สับลำดับ execute table 2.การ update หรือ delete ที่ ไม่เรียงตาม primary key)
             NSArray *arrData = (NSArray *)data;
             Receipt *receipt = arrData[0];
-            CustomerReceipt *customerReceipt = arrData[1];
+//            CustomerReceipt *customerReceipt = arrData[1];
+            NSArray *arrItemTrackingNo = arrData[1];
             NSArray *arrReceiptProductItem = arrData[2];
             NSArray *arrCustomMade = arrData[3];
             NSArray *arrProduct = arrData[4];
             
             
-            
-            
             NSInteger countProduct = 0;
             NSInteger countCustomMade = 0;
             NSInteger countReceiptProductItem = 0;
-            noteDataString = [NSString stringWithFormat:@"countProduct=%lu&countCustomMade=%lu&countReceiptProductItem=%lu",(unsigned long)[arrProduct count],(unsigned long)[arrCustomMade count],(unsigned long)[arrReceiptProductItem count]];
+            NSInteger countItemTrackingNo = 0;
+            noteDataString = [NSString stringWithFormat:@"countProduct=%lu&countCustomMade=%lu&countReceiptProductItem=%lu&countItemTrackingNo=%lu",(unsigned long)[arrProduct count],(unsigned long)[arrCustomMade count],(unsigned long)[arrReceiptProductItem count],(unsigned long)[arrItemTrackingNo count]];
             
             for(Product *item in arrProduct)
             {
@@ -2498,8 +2609,13 @@
                 noteDataString = [NSString stringWithFormat:@"%@&receiptProductItemID%02ld=%ld",noteDataString,(long)countReceiptProductItem,(long)item.receiptProductItemID];
                 countReceiptProductItem++;
             }
+            for(ItemTrackingNo *item in arrItemTrackingNo)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&itemTrackingNoID%02ld=%ld",noteDataString,(long)countItemTrackingNo,(long)item.itemTrackingNoID];
+                countItemTrackingNo++;
+            }
             noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:receipt]];
-            noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:customerReceipt]];
+//            noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:customerReceipt]];
             
             
             url = [NSURL URLWithString:[Utility url:urlReceiptAndReceiptProductItemDelete]];
@@ -2602,6 +2718,13 @@
             
             noteDataString = [NSString stringWithFormat:@"rewardProgramID=%ld",rewardProgram.rewardProgramID];
             url = [NSURL URLWithString:[Utility url:urlRewardProgramDelete]];
+        }
+            break;
+        case dbExpenseDaily:
+        {
+            ExpenseDaily *expenseDaily = (ExpenseDaily *)data;
+            noteDataString = [NSString stringWithFormat:@"expenseDailyID=%ld",expenseDaily.expenseDailyID];
+            url = [NSURL URLWithString:[Utility url:urlExpenseDailyDelete]];
         }
             break;
         default:

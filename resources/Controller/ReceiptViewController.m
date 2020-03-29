@@ -93,6 +93,7 @@
     UISegmentedControl *_segConBahtPercent;
     UISegmentedControl *_segConChannel;
     UISegmentedControl *_segConShip;
+    UISegmentedControl *_segConSalesUser;
     UITextField *_txtCashReceive;
     UILabel *_lblChanges;
     UIButton *_btnPay;
@@ -115,7 +116,8 @@
     RewardProgram *_rewardProgramUse;
     NSInteger _time;
     NSInteger _pointSpentActual;
-    
+ 
+    NSArray *_salesUserList;
 }
 @end
 
@@ -346,6 +348,20 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         _segConShip.frame = CGRectMake(channelXOrigin, channelYOrigin, channelWidth, channelHeight);
         [_segConShip setSelectedSegmentIndex:shipForUserValue];
         [_segConShip addTarget:self action:@selector(segConShipValueDidChange:) forControlEvents:UIControlEventValueChanged];
+        
+        
+        
+        //segConSalesUser
+        NSString *salesUserForUserKey = [NSString stringWithFormat:@"salesUser %@",username];
+        NSInteger salesUserForUserValue = [[NSUserDefaults standardUserDefaults] integerForKey:salesUserForUserKey];
+        
+        
+        _salesUserList = @[@"M1",@"M2",@"M3",@"No"];
+        _segConSalesUser = [[UISegmentedControl alloc]initWithItems:_salesUserList];
+        _segConSalesUser.tintColor = [UIColor blackColor];
+        _segConSalesUser.frame = CGRectMake(channelXOrigin, channelYOrigin, channelWidth, channelHeight);
+        [_segConSalesUser setSelectedSegmentIndex:salesUserForUserValue];
+        [_segConSalesUser addTarget:self action:@selector(segConSalesUserValueDidChange:) forControlEvents:UIControlEventValueChanged];
         
     }
     
@@ -605,6 +621,16 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     return discountValue;
 }
 
+-(NSString *)getSalesUser
+{
+    NSString *salesUser = _salesUserList[_segConSalesUser.selectedSegmentIndex];
+    if([salesUser isEqualToString:@"No"])
+    {
+        salesUser = [Utility modifiedUser];
+    }
+    return salesUser;
+}
+
 -(NSInteger)getShippingFee
 {
     NSInteger shippingFee = _segConShip.selectedSegmentIndex==0?[[Utility setting:vShippingFee] integerValue]*[_productBuyList count]:0;
@@ -647,6 +673,13 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     [[NSUserDefaults standardUserDefaults] setInteger:segment.selectedSegmentIndex forKey:shipForUserKey];
     
     [self updateCalculateParts];
+}
+
+-(void)segConSalesUserValueDidChange:(UISegmentedControl *)segment
+{
+    NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+    NSString *salesUserForUserKey = [NSString stringWithFormat:@"salesUser %@",username];
+    [[NSUserDefaults standardUserDefaults] setInteger:segment.selectedSegmentIndex forKey:salesUserForUserKey];
 }
 
 -(void)segConBahtPercentValueDidChange:(UISegmentedControl *)segment
@@ -1148,7 +1181,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
     else if(section == 1)
     {
-        row = 4;
+        row = 5;
     }
     else if(section == 2)
     {
@@ -1215,6 +1248,11 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
             case 3:
             {
                 [cell addSubview:_segConShip];
+            }
+                break;
+            case 4:
+            {
+                [cell addSubview:_segConSalesUser];
             }
                 break;
         }
@@ -1459,13 +1497,13 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         if([[SharedPostBuy sharedPostBuy].postBuyList count] == 0)
         {
             AddEditPostCustomerViewController *vc = segue.destinationViewController;
-            vc.booAddOrEdit = YES;
+//            vc.booAddOrEdit = YES;
             vc.telephoneNoSearch = [Utility removeDashAndSpaceAndParenthesis:_txtTelephoneNo.text];
         }
         else
         {
             AddEditPostCustomerViewController *vc = segue.destinationViewController;
-            vc.booAddOrEdit = NO;
+//            vc.booAddOrEdit = NO;
             vc.telephoneNoSearch = [Utility removeDashAndSpaceAndParenthesis:_txtTelephoneNo.text];
         }
     }
@@ -1943,6 +1981,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     receipt.receiptDate = [Utility dateToString:[Utility GMTDate:[NSDate date]] toFormat:@"yyyy-MM-dd HH:mm:ss"];
     receipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
     receipt.modifiedUser = [Utility modifiedUser];
+    receipt.salesUser = [self getSalesUser];
     [[SharedReceipt sharedReceipt].receiptList addObject:receipt];
     [data addObject:receipt];
     

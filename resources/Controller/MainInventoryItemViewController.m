@@ -66,7 +66,7 @@
 
 @interface MainInventoryItemViewController ()<UISearchBarDelegate>
 {
-    HomeModel *_homeModel;
+//    HomeModel *_homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
     NSArray *_productItemList;
@@ -111,35 +111,21 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 {
     [super loadView];
     
-    // Create new HomeModel object and assign it to _homeModel variable
-    _homeModel = [[HomeModel alloc] init];
-    _homeModel.delegate = self;
+//    // Create new HomeModel object and assign it to _homeModel variable
+//    _homeModel = [[HomeModel alloc] init];
+//    _homeModel.delegate = self;
+//
+//    {
+//        overlayView = [[UIView alloc] initWithFrame:self.view.frame];
+//        overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
+//
+//
+//        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
+//    }
+//
     
-    {
-        overlayView = [[UIView alloc] initWithFrame:self.view.frame];
-        overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
-        
-        
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
-    }
     
-    
-    self.searchBar.delegate = self;
-    _deleteItem = NO;
-    _mutArrProductItemList = [[NSMutableArray alloc]init];
-    _dicSectionDate = [[NSMutableDictionary alloc]init];
-    _selectedSectionAndItem = [[NSMutableDictionary alloc]init];
-    _selectedSectionAndItemColumn1 = [[NSMutableDictionary alloc]init];
-    _txvDetail = [[UITextView alloc]init];
-    btnAllOrRemaining.title = @"All";
-    
-
-//    [self loadViewProcess];
-    [self loadingOverlayView];
-    _page = 1;
-    NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
-    [_homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
 }
 
 -(void)addToMutArrProductItem:(NSArray *)productItemList
@@ -191,77 +177,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
 }
 
-//- (void)loadViewProcess
-//{
-////    [self loadingOverlayView];
-//    [self queryProductItem:YES];
-//}
-//
-//-(void)queryProductItem:(BOOL)firstTime
-//{
-//    [_mutArrProductItemList removeAllObjects];
-//    
-//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-//    NSPredicate *predicate1;
-//    if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
-//    {
-//        predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %ld and (_status = %@ or _status = %@)",0,@"I",@"P"];
-//    }
-//    else if([btnAllOrRemaining.title isEqualToString:@"All"])
-//    {
-//        predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %ld and (_status = %@)",0,@"I"];
-//    }
-//    
-//    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-//    
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:NO];
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//    NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-//    
-//    
-//    for(Product *item in sortArray)
-//    {
-//        NSString *strEventID = [NSString stringWithFormat:@"%ld",item.eventID];
-//        NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",item.productCategory2,item.productCategory1,item.productName];
-//        ProductItem *productItem = [[ProductItem alloc]init];
-//        productItem.row = @"0";
-//        productItem.productID = item.productID;
-//        productItem.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
-//        productItem.color = [Utility getColorName:item.color];
-//        productItem.size = [Utility getSizeLabel:item.size];
-//        productItem.sizeOrder = [Utility getSizeOrder:item.size];
-//        productItem.modifiedDate = item.modifiedDate;
-//        productItem.eventID = strEventID;
-//        productItem.status = item.status;
-//        productItem.modifiedDateNoTime = [Utility formatDate:item.modifiedDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd"];
-//        productItem.manufacturingDate = item.manufacturingDate;
-//        productItem.modifiedDateText = [Utility formatDate:productItem.modifiedDate fromFormat:[Utility setting:vFormatDateTimeDB] toFormat:@"dd/MM/yyyy HH:mm:ss"];
-//        [_mutArrProductItemList addObject:productItem];
-//        
-//        
-//        if([_mutArrProductItemList count] == [Utility getNumberOfRowForExecuteSql]*3)
-//        {
-//            [self setData];
-////            if(firstTime)
-////            {
-////                break;
-////            }
-//        }
-//    }
-//    
-//    if([_mutArrProductItemList count] != [Utility getNumberOfRowForExecuteSql]*3)
-//    {
-//        [self setData];
-//    }
-//    if(!firstTime)
-//    {
-//        [self removeOverlayViews];
-//    }
-//}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    [self queryProductItem:NO];
 }
 
 -(void)setData
@@ -278,67 +195,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     {
         _productItemList = _mutArrProductItemList;
     }
-    
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDateNoTime" ascending:NO];
-//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_productName" ascending:YES];
-//    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_color" ascending:YES];
-//    NSSortDescriptor *sortDescriptor4 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3,sortDescriptor4, nil];
-//    _productItemList = [_productItemList sortedArrayUsingDescriptors:sortDescriptors];
-    
-    
-//    //make section date array for header
-//    for(ProductItem *item in _productItemList)
-//    {
-//        NSString *strModifiedDate = [Utility formatDate:item.modifiedDate fromFormat:[Utility setting:vFormatDateTimeDB] toFormat:[Utility setting:vFormatDateDisplay]];
-//        if(![_arrSectionDate containsObject:strModifiedDate])
-//        {
-//            [_arrSectionDate addObject:strModifiedDate];
-//        }
-//    }
-//    
-//    //make array of array of product item
-//    for(int i=0; i<[_arrSectionDate count]; i++)
-//    {
-//        NSMutableArray *arrSubProductItemList = [[NSMutableArray alloc]init];
-//        [_arrOfSubProductItemList addObject:arrSubProductItemList];
-//    }
-//    
-//    int j = 0;
-//    for(int i=0; i<[_productItemList count]; )
-//    {
-//        ProductItem *item = _productItemList[i];
-//        NSString *strModifiedDate = [Utility formatDate:item.modifiedDate fromFormat:[Utility setting:vFormatDateTimeDB] toFormat:[Utility setting:vFormatDateDisplay]];
-//        if([strModifiedDate isEqualToString:(NSString*)_arrSectionDate[j]])
-//        {
-//            [_arrOfSubProductItemList[j] addObject:item];
-//            i += 1;
-//        }
-//        else
-//        {
-//            j +=1;
-//        }
-//    }
-//    
-//    //run row no.
-//    for(int k=0; k<[_arrOfSubProductItemList count]; k++)
-//    {
-//        //run row no again
-//        int i=0;
-//        for(ProductItem *item in _arrOfSubProductItemList[k])
-//        {
-//            i +=1;
-//            item.row = [NSString stringWithFormat:@"%d", i];
-//        }
-//    }
-//    
-//    //set count item in section
-//    _countItemInSection = [[NSMutableDictionary alloc]init];
-//    for(int k=0; k<[_arrOfSubProductItemList count]; k++)
-//    {
-//        NSString *countItem = [NSString stringWithFormat:@"%lu",(unsigned long)[_arrOfSubProductItemList[k] count]];
-//        [_countItemInSection setValue:countItem forKey:_arrSectionDate[k]];
-//    }
     
     [colViewProductItem reloadData];
 }
@@ -357,6 +213,24 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
+    
+    
+    self.searchBar.delegate = self;
+    _deleteItem = NO;
+    _mutArrProductItemList = [[NSMutableArray alloc]init];
+    _dicSectionDate = [[NSMutableDictionary alloc]init];
+    _selectedSectionAndItem = [[NSMutableDictionary alloc]init];
+    _selectedSectionAndItemColumn1 = [[NSMutableDictionary alloc]init];
+    _txvDetail = [[UITextView alloc]init];
+    btnAllOrRemaining.title = @"All";
+    _productDelete = [[ProductDelete alloc]init];
+    
+
+//    [self loadViewProcess];
+    [self loadingOverlayView];
+    _page = 1;
+    NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
+    [self.homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -525,7 +399,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
             }
             
             NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
-            [_homeModel downloadItems:dbMainInventoryItem condition:@[@"0",all,strPage,_searchBar.text]];
+            [self.homeModel downloadItems:dbMainInventoryItem condition:@[@"0",all,strPage,_searchBar.text]];
         }
         switch (item%countColumn) {
         case 0:
@@ -688,23 +562,12 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
     return @"";
 }
-//-(ProductItem *)getProductItem:(NSString *)productID
-//{
-//    for(ProductItem *item in _productItemList)
-//    {
-//        if([item.productID isEqualToString:productID])
-//        {
-//            return item;
-//        }
-//    }
-//
-//    return nil;
-//}
+
 - (void) deleteProductWith:(UIGestureRecognizer *)gestureRecognizer {
 //    UIView* view = gestureRecognizer.view;
     CGPoint point = [gestureRecognizer locationInView:colViewProductItem];
     NSIndexPath * tappedIP = [colViewProductItem indexPathForItemAtPoint:point];
-    CustomUICollectionViewCellButton2 *cell = [colViewProductItem cellForItemAtIndexPath:tappedIP];
+    CustomUICollectionViewCellButton2 *cell = (CustomUICollectionViewCellButton2 *)[colViewProductItem cellForItemAtIndexPath:tappedIP];
     
     
     NSInteger countColumn = 6;
@@ -713,17 +576,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     NSArray *filterArray = [_productItemList filteredArrayUsingPredicate:predicate1];
     ProductItem *productItem = filterArray[tappedIP.item/countColumn-1];
     
-//    NSString *productID = [NSString stringWithFormat:@"%06ld", (long)view.tag];
-//    ProductItem *productItem = [self getProductItem:productID];
-//    NSString *row = productItem.row;
-    
-    
-//    NSInteger countColumn = 6;
-//    NSInteger indexPathItem = ([row integerValue]+1)*countColumn-1;
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:indexPathItem inSection:0];
-//    CustomUICollectionViewCellButton2 *cell = (CustomUICollectionViewCellButton2*)[self.colViewProductItem cellForItemAtIndexPath:indexPath];
-    
-    
+
     //delete with product id -> confirm delete -> delete -> reload collectionview
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:nil
@@ -748,31 +601,13 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
                                 }
                                 
                                 
-                                //delete product
-                                NSMutableArray *arrProduct = [[NSMutableArray alloc]init];
-                                NSMutableArray *arrProductDelete = [[NSMutableArray alloc]init];
-                                
-//                                Product *productDeleteItem = [Product getProduct:productItem.productID];
-                                Product *productDeleteItem = [[Product alloc]init];
-                                productDeleteItem.productID = productItem.productID;
-                                ProductDelete *productDelete = [[ProductDelete alloc]init];
-//                                productDelete.productDeleteID = [Utility getNextID:tblProductDelete];
-                                productDelete.productID = productDeleteItem.productID;
-//                                productDelete.productCategory2 = productDeleteItem.productCategory2;
-//                                productDelete.productCategory1 = productDeleteItem.productCategory1;
-//                                productDelete.productName = productDeleteItem.productName;
-//                                productDelete.color = productDeleteItem.color;
-//                                productDelete.size = productDeleteItem.size;
-//                                productDelete.manufacturingDate = productDeleteItem.manufacturingDate;
-//                                productDelete.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-//                                productDelete.modifiedUser = [Utility modifiedUser];
-                                [arrProduct addObject: productDeleteItem];
-                                [arrProductDelete addObject:productDelete];
                                 
                                 [self loadingOverlayView];
-                                _productDelete = productDelete;
-                                [_homeModel deleteItems:dbProduct withData:@[arrProduct,arrProductDelete]];
-                                
+                               
+                                //************
+                                _productDelete.productID = productItem.productID;
+                                NSString *scanProductIDGroup = [Utility getProductIDGroupWithProductCode:productItem.productCode];
+                                [self.homeModel updateItems:dbScanDelete withData:@[scanProductIDGroup,[Utility modifiedUser],[Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"],@(0),@"I"]];
                             }]];
     [alert addAction:
      [UIAlertAction actionWithTitle:@"Cancel"
@@ -799,36 +634,51 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)itemsDeleted
+-(void)itemsUpdatedWithReturnID:(NSInteger)ID
 {
     [self removeOverlayViews];
-    //1.insert 2.delete
-//    //update shared
-//    [[SharedProductDelete sharedProductDelete].productDeleteList addObject:_productDelete];
-    
-    
-//    //update sharedproduct
-//    for(Product *item in [SharedProduct sharedProduct].productList)
-//    {
-//        if([item.productID isEqualToString:_productDelete.productID])
-//        {
-//            [[SharedProduct sharedProduct].productList removeObject:item];
-//            break;
-//        }
-//    }
-    
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productID = %@",_productDelete.productID];
-    NSArray *filterArray = [_mutArrProductItemList filteredArrayUsingPredicate:predicate1];
-    
-    [_mutArrProductItemList removeObjectsInArray:filterArray];
-    if(self.searchBarActive)
+    if(ID == 0)
     {
-        [self searchBar:self.searchBar textDidChange:self.searchBar.text];
+        [self alertMessage:@"No scan-product to delete in main inventory." title:@"Warning"];
     }
     else
     {
-        [self setData];
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productID = %@",_productDelete.productID];
+        NSArray *filterArray = [_mutArrProductItemList filteredArrayUsingPredicate:predicate1];
+
+        [_mutArrProductItemList removeObjectsInArray:filterArray];
+
+
+        //adjust countPerDate/countAll
+        for(ProductItem *item in _mutArrProductItemList)
+        {
+           ProductItem *itemDelete = filterArray[0];
+           if(item.sortDate == itemDelete.sortDate)
+           {
+               item.countByDate -= 1;
+           }
+           item.count -= 1;
+        }
+
+
+        //reload data
+        if(self.searchBarActive)
+        {
+           [self searchBar:self.searchBar textDidChange:self.searchBar.text];
+        }
+        else
+        {
+           [self setData];
+        }
     }
+}
+
+- (void)itemsDeleted
+{
+    [self removeOverlayViews];
+    
+    
+   
 }
 #pragma mark <UICollectionViewDelegate>
 
@@ -884,7 +734,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         
         if([_arrSectionDate count]>0)
         {
-//            NSString *modifiedDate = (NSString *)_arrSectionDate[indexPath.section];
             ProductItem *productItemModifiedDate = _arrSectionDate[indexPath.section];
             NSString *modifiedDate = productItemModifiedDate.modifiedDate;
             headerView.label.text = [NSString stringWithFormat:@"Modified date: %@",modifiedDate];
@@ -907,7 +756,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
                 headerView.labelAlignRight.textAlignment = NSTextAlignmentRight;
                 NSString *strCountItemInProductName = [_countItemInSection objectForKey:_arrSectionDate[indexPath.section]];
                 strCountItemInProductName = [Utility formatBaht:strCountItemInProductName];
-    //            NSString *strCountItem = [NSString stringWithFormat:@"%@/%@",strCountItemInProductName,[self countAllItem]];
+
                 NSString *strCountItem = [NSString stringWithFormat:@"%ld/%ld",productItem.countByDate,productItem.count];
                 headerView.labelAlignRight.text = strCountItem;
                 [headerView addSubview:headerView.labelAlignRight];
@@ -945,7 +794,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 
 -(UILabel *)setLabelUnderline:(UILabel *)label underline:(UIView *)viewUnderline
 {
-    //    CGSize expectedLabelSize = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
     CGRect expectedLabelSize = [label.text boundingRectWithSize:label.frame.size
                                                         options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading
                                                      attributes:@{NSFontAttributeName:label.font}
@@ -1060,26 +908,12 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     _page = 1;
     NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
     [self loadingOverlayView];
-    [_homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
+    [self.homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     // user did type something, check our datasource for text that looks the same
-//    if (searchText.length>0)
-//    {
-//        // search and reload data source
-//        self.searchBarActive = YES;
-//        [self filterContentForSearchText:searchText scope:@""];
-//        [self setData];
-//    }
-//    else{
-//        // if text lenght == 0
-//        // we will consider the searchbar is not active
-//        //        self.searchBarActive = NO;
-//
-//        [self cancelSearching];
-//        [self setData];
-//    }
+
     if (searchText.length == 0)
     {
         // if text lenght == 0
@@ -1091,7 +925,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         _page = 1;
         NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
         [self loadingOverlayView];
-        [_homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
+        [self.homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
     }
 }
 
@@ -1100,10 +934,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     [self setData];
 }
 
-//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-//    self.searchBarActive = YES;
-//    [self.view endEditing:YES];
-//}
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     // we used here to set self.searchBarActive = YES
     // but we'll not do that any more... it made problems
@@ -1131,10 +961,9 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-//                                                              [self loadingOverlayView];
-//                                                              [_homeModel downloadItems:dbMaster];
+
         [self loadingOverlayView];
-        [_homeModel downloadItems:dbMainInventory];
+        [self.homeModel downloadItems:dbMainInventory];
                                                           }];
     
     [alert addAction:defaultAction];
@@ -1198,22 +1027,20 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     if([btnAllOrRemaining.title isEqualToString:@"All"])
     {
         btnAllOrRemaining.title = @"Remaining";
-//        [self queryProductItem:NO];
         
         [_mutArrProductItemList removeAllObjects];
         _page = 1;
         NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
-        [_homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"1",strPage,_searchBar.text]];
+        [self.homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"1",strPage,_searchBar.text]];
     }
     else if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
     {
         btnAllOrRemaining.title = @"All";
-//        [self queryProductItem:NO];
 
         [_mutArrProductItemList removeAllObjects];
         _page = 1;
         NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
-        [_homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
+        [self.homeModel downloadItems:dbMainInventoryItem condition:@[@"0",@"0",strPage,_searchBar.text]];
     }
 }
 @end

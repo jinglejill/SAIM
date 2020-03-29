@@ -2816,10 +2816,7 @@ forRowAtIndexPath: (NSIndexPath*)indexPath
         PostCustomer *postCustomer = [self getPostCustomer:[self getPostCustomerID:[_selectedReceiptID integerValue]]];
         AddEditPostCustomerViewController *vc = segue.destinationViewController;
         vc.paid = YES;
-        vc.booAddOrEdit = _booAddOrEdit;
         vc.telephoneNoSearch = postCustomer.telephone;
-        vc.postCustomerID = postCustomer.postCustomerID;
-        vc.receiptID = [_selectedReceiptID integerValue];
         
         vc.selectedCustomerReceipt = [self getCustomerReceiptWithReceiptID:[_selectedReceiptID integerValue]];
         vc.selectedPostCustomer = postCustomer;

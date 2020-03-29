@@ -131,6 +131,15 @@
     return nil;
 }
 
++ (ProductName *)getProductNameWithProductIDGroup:(NSString *)productIDGroup
+{
+    NSRange needleRange = NSMakeRange(0,6);
+    NSString *productNameGroup = [productIDGroup substringWithRange:needleRange];
+    
+    
+    return [self getProductNameWithProductNameGroup:productNameGroup];
+}
+
 + (NSInteger)getProductNameIDWithName:(NSString *)name
 {
     NSMutableArray *productNameList = [SharedProductName sharedProductName].productNameList;
@@ -177,5 +186,10 @@
         }
     }
     return  @"";
+}
+
++ (NSString *)getProductNameGroupWithProductName:(ProductName *)productName
+{
+    return [NSString stringWithFormat:@"%@%@%@",productName.productCategory2,productName.productCategory1,productName.code];
 }
 @end

@@ -10,12 +10,14 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "SalesProductAndPrice.h"
 #import "HomeModel.h"
+#import "WebKit/WebKit.h"
 
 
 @interface AccountReceiptPDFViewController : UIViewController<HomeModelProtocol,MFMailComposeViewControllerDelegate>
 - (IBAction)genReceipt:(id)sender;
 
-@property (strong, nonatomic) IBOutlet UIWebView *webPreview;
+@property (strong, nonatomic) IBOutlet WKWebView *webPreview;
+//@property (strong, nonatomic) IBOutlet UIWebView *webPreview;
 @property (strong, nonatomic) NSMutableArray *saleProductAndPriceList;
 @property (strong, nonatomic) NSMutableArray *accountInventorySummaryList;
 @property (strong, nonatomic) NSString *dateOut;

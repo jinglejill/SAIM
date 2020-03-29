@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tbvDataHeight;
 @property (strong, nonatomic) IBOutlet UILabel *lblReceiptLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblReceiptLabelWidth;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblDiscountReasonHeight;
 
 @end
 

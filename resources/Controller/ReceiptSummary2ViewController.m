@@ -8,6 +8,7 @@
 
 #import "ReceiptSummary2ViewController.h"
 #import "AccountReceiptPDFViewController.h"
+#import "ExpenseDailyViewController.h"
 #import "Utility.h"
 #import "CustomTableViewCellReceipt.h"
 #import "CustomTableViewCellReceiptProductItem.h"
@@ -37,6 +38,8 @@
 #import "ProductName.h"
 #import "AccountInventorySummary.h"
 #import "SalesProductAndPrice.h"
+#import "ExpenseDaily.h"
+#import "ItemTrackingNo.h"
 
 
 /* Macro for background colors */
@@ -107,15 +110,8 @@
     UISegmentedControl *_segmentControl;
     NSArray *_receiptList;
     NSArray *_receiptProductItemList;
-    NSMutableArray *_arrCellSize;
-    NSMutableArray *_arrCellData;
-    NSMutableArray *_arrCellType;
-    NSMutableArray *_arrCellBorder;
-    NSMutableArray *_arrCellReceiptID;
-    NSMutableArray *_arrCellReceiptProductItemIndex;
-    NSMutableArray *_arrCellProductType;
+
     NSDate *_selectedDateTime;
-    NSDate *_selectedDateTimeEndOfDay;
     NSString *_preOrderProductID;
     NSString *_preOrderReceiptProductItemID;
     BOOL _booAddOrEdit;
@@ -153,14 +149,18 @@
     NSMutableArray *_receiptProductItemListForDate;
     NSMutableArray *_productListForDate;
     NSMutableArray *_customMadeListForDate;
-    NSMutableArray *_customerReceiptListForDate;
+//    NSMutableArray *_customerReceiptListForDate;
+    NSMutableArray *_itemTrackingNoListForDate;
     NSMutableArray *_postCustomerListForDate;
     NSMutableArray *_preOrderEventIDHistoryListForDate;
     NSMutableArray *_cashAllocationListForDate;
-    Receipt *_receiptRemark;
+    NSMutableArray *_expenseDailyListForDate;
+ 
+    NSMutableArray *_selectedReceiptProductItemList;
+    PostCustomer *_selectedPostCustomer;
+    UIView *_vwDimBackground;
 }
 
-@property (nonatomic,strong) UIRefreshControl   *refreshControl;
 @end
 
 
@@ -171,7 +171,6 @@ static NSString * const reuseIdentifierReceipt = @"CustomTableViewCellReceipt";
 static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCellReceiptProductItem";
 static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellReceiptShort";
 @implementation ReceiptSummary2ViewController
-//@synthesize colViewSummaryTable;
 @synthesize lblLocation;
 @synthesize lblDate;
 @synthesize btnChangeDate;
@@ -183,17 +182,60 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 @synthesize tbvData;
 
 
-- (IBAction)unwindToReceiptSummary:(UIStoryboardSegue *)segue
+- (IBAction)unwindToReceiptSummary2:(UIStoryboardSegue *)segue
 {
-    AddEditPostCustomerViewController *vc = segue.sourceViewController;
-    [_postCustomerListForDate addObject: vc.selectedPostCustomer];
-    [self setData];
+    if([segue.sourceViewController isMemberOfClass:[AddEditPostCustomerViewController class]])
+    {
+        if([[segue identifier] isEqualToString:@"segUnwindToReceiptSummary2"])
+        {
+            AddEditPostCustomerViewController *vc = segue.sourceViewController;
+            if(vc.selectedPostCustomer)
+            {
+                PostCustomer *postCustomer = [self getPostCustomer:vc.selectedPostCustomer.postCustomerID];
+                if(postCustomer)
+                {
+                    [_postCustomerListForDate removeObject:postCustomer];
+                }
+                [_postCustomerListForDate addObject: vc.selectedPostCustomer];
+                            
+                
+                for(ReceiptProductItem *item in _selectedReceiptProductItemList)
+                {
+                    ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
+                    itemTrackingNo.postCustomerID = vc.selectedPostCustomer.postCustomerID;
+                }
+                [self setData];
+            }
+        }
+        else if([[segue identifier] isEqualToString:@"segUnwindToReceiptSummary2Cancel"])
+        {
+            [self setData];
+        }
+        else if([[segue identifier] isEqualToString:@"segUnwindToReceiptSummary2Delete"])
+        {
+            for(ReceiptProductItem *item in _selectedReceiptProductItemList)
+            {
+                ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
+                itemTrackingNo.postCustomerID = 0;
+            }
+            [self setData];
+        }
+    }
+    else if([segue.sourceViewController isMemberOfClass:[ExpenseDailyViewController class]])
+    {
+        ExpenseDailyViewController *vc = segue.sourceViewController;
+        _expenseDailyListForDate = vc.expenseDailyList;
+        
+        [self setData];
+    }
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.toolbarHidden = YES;
 }
+
 - (void)loadView
 {
     [super loadView];
@@ -345,7 +387,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     
     _selectedDateTime = (NSDate*)(_dateRange[segment.selectedSegmentIndex]);
-    _selectedDateTimeEndOfDay = [_selectedDateTime dateByAddingTimeInterval:60*60*24*1-1];
+//    _selectedDateTimeEndOfDay = [_selectedDateTime dateByAddingTimeInterval:60*60*24*1-1];
     NSString *strSelectedDateDisplay = [Utility dateToString:_selectedDateTime toFormat:[Utility setting:vFormatDateDisplay]];
     _strSelectedDateDB = [Utility dateToString:_selectedDateTime toFormat:[Utility setting:vFormatDateDB]];
     
@@ -365,7 +407,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     NSDate *datePeriodFrom = [Utility stringToDate:_event.periodFrom fromFormat:[Utility setting:vFormatDateDB]];
     NSInteger numberOfDays = [Utility numberOfDaysFromDate:datePeriodFrom dateTo:datePeriodTo];
     
-    
+
     dtPicker.minimumDate = datePeriodFrom;
     dtPicker.maximumDate = datePeriodTo;
     
@@ -460,48 +502,44 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 
 -(void)setData
 {
-    NSMutableArray *receiptList = _receiptListForDate;
-    NSMutableArray *receiptProductItemList = _receiptProductItemListForDate;
+//    NSMutableArray *receiptList = _receiptListForDate;
+//    NSMutableArray *receiptProductItemList = _receiptProductItemListForDate;
     
     
-    for(Receipt *item in receiptList)
-    {
-        item.dtReceiptDate = [Utility stringToDate:item.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss"];
-    }
-    {
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@ and _dtReceiptDate BETWEEN %@",_strEventID,[NSArray arrayWithObjects:_selectedDateTime, _selectedDateTimeEndOfDay, nil]];
-        _receiptList = [receiptList filteredArrayUsingPredicate:predicate1];
-    }
+//    _receiptList = receiptList;
     
     
+//    NSArray *receiptProductItemFilter;
+//    NSMutableArray *receiptProductItemTemp = [[NSMutableArray alloc]init];
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptID" ascending:NO];
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//    _receiptList = [_receiptList sortedArrayUsingDescriptors:sortDescriptors];
     
-    NSArray *receiptProductItemFilter;
-    NSMutableArray *receiptProductItemTemp = [[NSMutableArray alloc]init];
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptID" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-    _receiptList = [_receiptList sortedArrayUsingDescriptors:sortDescriptors];
-    
-    for(Receipt *item in _receiptList)
-    {
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld", item.receiptID];
-        receiptProductItemFilter = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
+//    for(Receipt *item in _receiptList)
+//    {
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld", item.receiptID];
+//        receiptProductItemFilter = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
         
-        if([receiptProductItemFilter count] == 1)
-        {
-            ReceiptProductItem *receiptProductItemCountInReceipt = (ReceiptProductItem *)receiptProductItemFilter[0];
-            receiptProductItemCountInReceipt.countInReceipt = 1;
-        }
-        else if ([receiptProductItemFilter count] > 1)
-        {
-            for(ReceiptProductItem *receiptProductItemCountInReceipt in receiptProductItemFilter)
-            {
-                receiptProductItemCountInReceipt.countInReceipt = [receiptProductItemFilter count];
-            }
-        }
-        [receiptProductItemTemp addObjectsFromArray:receiptProductItemFilter];
-    }
-    _receiptProductItemList = receiptProductItemTemp;
-    
+//        if([receiptProductItemFilter count] == 1)
+//        {
+//            ReceiptProductItem *receiptProductItemCountInReceipt = (ReceiptProductItem *)receiptProductItemFilter[0];
+//            receiptProductItemCountInReceipt.countInReceipt = 1;
+//        }
+//        else if ([receiptProductItemFilter count] > 1)
+//        {
+//            for(ReceiptProductItem *receiptProductItemCountInReceipt in receiptProductItemFilter)
+//            {
+//                receiptProductItemCountInReceipt.countInReceipt = [receiptProductItemFilter count];
+//            }
+//        }
+//        [receiptProductItemTemp addObjectsFromArray:receiptProductItemFilter];
+//    }
+//    _receiptProductItemList = receiptProductItemTemp;
+
+
+
+    _receiptList = _receiptListForDate;
+    _receiptProductItemList = _receiptProductItemListForDate;
     for(ReceiptProductItem *item in _receiptProductItemList)
     {
         if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"F"] || [item.productType isEqualToString:@"U"])
@@ -562,13 +600,30 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     self.txtInitialChanges.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self initialChanges]]];
     self.txtDeposit.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self deposit]]];
     self.lblCashAndChanges.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self cashAndChanges]]];
-    self.lblTotalDiscount.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self totalDiscount]]];;
+    self.lblSalesPerChange.text = [self salesPerChange];
     
     self.lblTotalCash.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self totalCash]]];
     self.lblTotalCredit.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self totalCredit]]];
     self.lblTotalTransfer.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self totalTransfer]]];
     self.lblTotalAmount.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self totalAmount]]];
-
+    self.lblTotalDiscount.text = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self totalDiscount]]];;
+    
+    NSString *strExpense = [_formatter stringFromNumber:[NSNumber numberWithFloat:[self expense]]];;
+    [self.btnExpense setTitle:strExpense forState:UIControlStateNormal];
+    
+    
+    //initial changes is editable only at the date equal to the first date of event
+    Event *event = [SharedSelectedEvent sharedSelectedEvent].event;
+    self.txtInitialChanges.enabled = event.dtPeriodFrom == _selectedDateTime;
+    
+        
+    //deposit value can be changed only at the date equal to current date
+    self.txtDeposit.enabled = [[Utility dateToString:_selectedDateTime toFormat:@"yyyy-MM-dd"] isEqualToString: [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"]];
+    
+    
+    //expense value can be changed only at the date equal to current date
+    self.btnExpense.enabled = [[Utility dateToString:_selectedDateTime toFormat:@"yyyy-MM-dd"] isEqualToString: [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"]];
+    
 }
 
 -(void)itemsDownloaded:(NSArray *)items
@@ -584,207 +639,86 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         _receiptProductItemListForDate = items[i++];
         _productListForDate = items[i++];
         _customMadeListForDate = items[i++];
-        _customerReceiptListForDate = items[i++];
+        _itemTrackingNoListForDate = items[i++];
         _postCustomerListForDate = items[i++];
         _preOrderEventIDHistoryListForDate = items[i++];
+        _expenseDailyListForDate = items[i++];
         _cashAllocationListForDate = items[i++];
         
         [self setData];
     }
-    else if(_homeModel.propCurrentDB == dbAccountReceipt)
-    {
-        NSMutableArray *accountReceiptList = items[0];
-        
-        
-        NSInteger alreadyGenReceipt = [accountReceiptList count]>0;
-        if(alreadyGenReceipt)
-        {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
-                                                                           message:@"Tax invoice has already generated"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      
-                                                                  }];
-            
-            [alert addAction:defaultAction];
-            [self presentViewController:alert animated:YES completion:nil];
-            return;
-        }
-        else
-        {
-            
-            Receipt *receipt = _selectedPrintReceipt;
-            NSMutableArray *receiptProductItemList = [[self getReceiptProductItemList:receipt.receiptID] mutableCopy];
-            _accountInventorySummaryList = [[NSMutableArray alloc]init];
-            _salesProductAndPriceBillingsOnlyList = [[NSMutableArray alloc]init];
-            for(ReceiptProductItem *item in receiptProductItemList)
-            {
-                Product *product = [self getProduct:item.productID];
-                ProductName *productName = [ProductName getProductNameWithProduct:product];
-                CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receipt.receiptID];
-                PostCustomer *postCustomer = [self getPostCustomer:customerReceipt.postCustomerID];
-                
-                
-                
-                //SalesProductAndPrice
-                SalesProductAndPrice *salesProductAndPrice = [[SalesProductAndPrice alloc]init];
-                salesProductAndPrice.productNameID = (int)(productName.productNameID);
-                salesProductAndPrice.productName = productName.name;
-                salesProductAndPrice.priceSales = [item.priceSales floatValue];
-                salesProductAndPrice.billings = 1;
-                salesProductAndPrice.receiptID = (int)(receipt.receiptID);
-                salesProductAndPrice.receiptDiscount = [Utility floatValue:receipt.discountValue];
-                salesProductAndPrice.receiptProductItemID = (int)(item.receiptProductItemID);
-                salesProductAndPrice.receiptDate = receipt.receiptDate;
-                salesProductAndPrice.taxCustomerName = postCustomer.taxCustomerName;
-                [_salesProductAndPriceBillingsOnlyList addObject:salesProductAndPrice];
-                
-                
-                
-                
-                
-                //AccountInventorySummary
-                AccountInventorySummary *accountInventorySummary = [[AccountInventorySummary alloc]init];
-                accountInventorySummary.productNameID = (int)(productName.productNameID);
-                accountInventorySummary.quantity = 1;
-                accountInventorySummary.billings = 1;
-                [_accountInventorySummaryList addObject:accountInventorySummary];
-            }
-            
-            
-            
-            _dateOut = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd"];
-            [self performSegueWithIdentifier:@"segAccountReceiptPDF" sender:self];
-        }
-    }
-    
+
 }
 
 -(void)prepareDataForCollectionView
 {
     //allocate cash, credit, transfer to each receiptProductItem
-    NSInteger previousReceipt = 0;
+    NSInteger previousReceiptID = 0;
     float remainingCash = 0;
     float remainingCredit = 0;
     float remainingTransfer = 0;
-    float remainingPriceSales = 0;
-    float remainingShippingFee = 0;
+    float remainingPayItem = 0;
     int row = 0;
     for(ReceiptProductItem *item in _receiptProductItemList)
     {
-        if(previousReceipt != item.receiptID)
+        if(previousReceiptID != item.receiptID)
         {
             Receipt *receipt = [self getReceipt:item.receiptID];
-            previousReceipt = item.receiptID;
+            previousReceiptID = item.receiptID;
+            
+            
             remainingCash = [receipt.cashAmount floatValue];
             remainingCredit = [receipt.creditAmount floatValue];
             remainingTransfer = [receipt.transferAmount floatValue];
-            remainingShippingFee = [receipt.shippingFee floatValue];
             row = 0;
-            
-            
-            //add discount back to the amount
-            NSInteger discountType = [receipt.discount integerValue];
-            if(discountType == 1)
-            {
-                float discountValue = [receipt.discountValue floatValue];
-                if(remainingTransfer > 0)
-                {
-                    remainingTransfer += discountValue;
-                }
-                else if(remainingCredit > 0)
-                {
-                    remainingCredit += discountValue;
-                }
-                else
-                {
-                    remainingCash += discountValue;
-                }
-            }
-            else if(discountType == 2)
-            {
-                float afterDiscount = remainingCash + remainingCredit + remainingTransfer - remainingShippingFee;
-                float discountValue = [receipt.discountPercent floatValue]/(100-[receipt.discountPercent floatValue])*afterDiscount;
-                remainingTransfer += discountValue;
-                
-                if(remainingTransfer > 0)
-                {
-                    remainingTransfer += discountValue;
-                }
-                else if(remainingCredit > 0)
-                {
-                    remainingCredit += discountValue;
-                }
-                else
-                {
-                    remainingCash += discountValue;
-                }
-            }
-            
-            
-            
-            //deduct shippingFee
-            if(remainingTransfer >= remainingShippingFee)
-            {
-                remainingTransfer -= remainingShippingFee;
-            }
-            else
-            {
-                remainingShippingFee -= remainingTransfer;
-                remainingTransfer = 0;
-                if(remainingCredit >= remainingShippingFee)
-                {
-                    remainingCredit -= remainingShippingFee;
-                }
-                else
-                {
-                    remainingShippingFee -= remainingCredit;
-                    remainingCredit = 0;
-                    if(remainingCash >= remainingShippingFee)
-                    {
-                        remainingCash -= remainingShippingFee;
-                    }
-                }
-            }
+        
         }
-        item.row = [NSString stringWithFormat:@"%ld",++row];
-        remainingPriceSales = [item.priceSales floatValue];
+        
+        item.row = [NSString stringWithFormat:@"%d",++row];
+        
+        float discountValue = 0;
+        if(item.discount == 1)
+        {
+            discountValue = item.discountValue;
+        }
+        else if(item.discount == 2)
+        {
+            discountValue = roundf(item.discountPercent*[Utility floatValue:item.priceSales]/100*100)/100;
+        }
+        remainingPayItem = [item.priceSales floatValue] + item.shippingFee - discountValue;
         
         //cash
-        if(remainingPriceSales <= remainingCash)
+        if(remainingPayItem <= remainingCash)
         {
-            item.cash = remainingPriceSales;
-            remainingCash -= remainingPriceSales;
+            item.cash = remainingPayItem;
+            remainingCash -= remainingPayItem;
             continue;
         }
         else
         {
             item.cash = remainingCash;
             remainingCash = 0;
-            remainingPriceSales -= item.cash;
-            if(remainingPriceSales <= remainingCredit)
+            remainingPayItem -= item.cash;
+            if(remainingPayItem <= remainingCredit)
             {
-                item.credit = remainingPriceSales;
-                remainingCredit -= remainingPriceSales;
+                item.credit = remainingPayItem;
+                remainingCredit -= remainingPayItem;
                 continue;
             }
             else
             {
                 item.credit = remainingCredit;
                 remainingCredit = 0;
-                remainingPriceSales -= item.credit;
-                if(remainingPriceSales <= remainingTransfer)
+                remainingPayItem -= item.credit;
+                if(remainingPayItem <= remainingTransfer)
                 {
-                    item.transfer = remainingPriceSales;
-                    remainingTransfer -= remainingPriceSales;
+                    item.transfer = remainingPayItem;
+                    remainingTransfer -= remainingPayItem;
                     continue;
                 }
             }
         }
     }
-    
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -800,7 +734,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         cashAllocation.inputDate = _strSelectedDateDB;
         cashAllocation.cashChanges = [strChangesRemoveComma floatValue]==0?@"0":strChangesRemoveComma;
         cashAllocation.cashTransfer = [strDepositRemoveComma floatValue]==0?@"0":strDepositRemoveComma;
-        
+        cashAllocation.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
         [self loadingOverlayView];
         [_homeModel updateItems:dbCashAllocationByEventIDAndInputDate withData:cashAllocation];
     }
@@ -808,7 +742,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     {
         //txtRemark
         
-        _receiptRemark = [[Receipt alloc]init];
+        Receipt *_receiptRemark = [[Receipt alloc]init];
         _receiptRemark.receiptID = textField.tag;
         _receiptRemark.remark = [Utility trimString:textField.text];
         
@@ -833,6 +767,10 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     [super viewDidLoad];
     
     
+    _vwDimBackground = [[UIView alloc]initWithFrame:self.view.frame];
+    _vwDimBackground.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    
+    
     //Register table
     tbvData.delegate = self;
     tbvData.dataSource = self;
@@ -850,6 +788,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
     [self.view addGestureRecognizer:tapGesture];
     [tapGesture setCancelsTouchesInView:NO];
+
     
     
     [[NSBundle mainBundle] loadNibNamed:@"CustomMadeView" owner:self options:nil];
@@ -861,8 +800,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     [[NSBundle mainBundle] loadNibNamed:@"PreOrderEventIDHistoryView" owner:self options:nil];
     preOrderEventIDHistoryView.delegate = self;
     preOrderEventIDHistoryView.dataSource = self;
-//    preOrderEventIDHistoryView.backgroundColor = [UIColor lightGrayColor];
-    
+
     
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 40)];
     headerView.backgroundColor = tBlueColor;
@@ -882,26 +820,29 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     
     {
+        
+        //customMadeView ***************
         float customViewWidth = 180;
         float customViewHeight = 264;
         customMadeView.frame = CGRectMake((self.view.frame.size.width-customViewWidth)/2, (self.view.frame.size.height-customViewHeight)/2, customViewWidth, customViewHeight);
         
-        
-        //add dropshadow
-        customMadeView.layer.shadowRadius  = 1.5f;
-        customMadeView.layer.shadowColor   = [UIColor colorWithRed:176.f/255.f green:199.f/255.f blue:226.f/255.f alpha:1.f].CGColor;
-        customMadeView.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
-        customMadeView.layer.shadowOpacity = 0.9f;
-        customMadeView.layer.masksToBounds = NO;
+        {
+            //add dropshadow
+            customMadeView.layer.shadowRadius  = 1.5f;
+            customMadeView.layer.shadowColor   = [UIColor colorWithRed:176.f/255.f green:199.f/255.f blue:226.f/255.f alpha:1.f].CGColor;
+            customMadeView.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
+            customMadeView.layer.shadowOpacity = 0.9f;
+            customMadeView.layer.masksToBounds = NO;
 
-        UIEdgeInsets shadowInsets     = UIEdgeInsetsMake(0, 0, -1.5f, 0);
-        UIBezierPath *shadowPath      = [UIBezierPath bezierPathWithRect:UIEdgeInsetsInsetRect(customMadeView.bounds, shadowInsets)];
-        customMadeView.layer.shadowPath    = shadowPath.CGPath;
-        
+            UIEdgeInsets shadowInsets     = UIEdgeInsetsMake(0, 0, -1.5f, 0);
+            UIBezierPath *shadowPath      = [UIBezierPath bezierPathWithRect:UIEdgeInsetsInsetRect(customMadeView.bounds, shadowInsets)];
+            customMadeView.layer.shadowPath    = shadowPath.CGPath;
+        }
+        //******************************
         
         
     
-        
+        //preOrderEventIDHistoryView *********
         float preOrderEventIDHistoryViewWidth = self.view.frame.size.width;
         float preOrderEventIDHistoryViewHeight = self.view.frame.size.width;
         preOrderEventIDHistoryView.frame = CGRectMake((self.view.frame.size.width-preOrderEventIDHistoryViewWidth)/2, (self.view.frame.size.height-preOrderEventIDHistoryViewHeight)/2, preOrderEventIDHistoryViewWidth, preOrderEventIDHistoryViewHeight);
@@ -918,9 +859,10 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             UIBezierPath *shadowPath      = [UIBezierPath bezierPathWithRect:UIEdgeInsetsInsetRect(preOrderEventIDHistoryView.bounds, shadowInsets)];
             preOrderEventIDHistoryView.layer.shadowPath    = shadowPath.CGPath;
         }
-         
+        //************************************
         
-        float controlWidth = 300;//customMadeView.bounds.size.width - 40*2;//minus left, right margin
+        
+        float controlWidth = 300;
         float controlHeight = 25;
         float controlXOrigin = 20;
         float controlYOrigin = 3+(customMadeView.rowHeight-25)/2;
@@ -959,7 +901,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         
         float saveCMWidth = 44;
         _btnSaveCM = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//        _btnSaveCM.frame = CGRectMake(controlXOrigin, controlYOrigin, controlWidth, controlHeight);
         _btnSaveCM.frame = CGRectMake(controlXOrigin, controlYOrigin, saveCMWidth, controlHeight);
         [_btnSaveCM setTitle:@"Save" forState:UIControlStateNormal];
         [_btnSaveCM setTitleColor:[UIColor systemBlueColor] forState:UIControlStateNormal];
@@ -980,38 +921,27 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 
 - (BOOL) hasPost:(NSInteger)receiptID
 {
-    NSMutableArray *customerReceiptList = _customerReceiptListForDate;
-    for(CustomerReceipt *item in customerReceiptList)
+    BOOL hasPost = NO;
+    NSArray *receiptProductItemList = [self getReceiptProductItemList:receiptID];
+    for(ReceiptProductItem *item in receiptProductItemList)
     {
-        if((item.receiptID == receiptID) && (item.postCustomerID == 0))
+        ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
+        if(itemTrackingNo.postCustomerID > 0)
         {
-            return NO;
-        }
-        else if((item.receiptID == receiptID) && (item.postCustomerID != 0))
-        {
-            return YES;
+            hasPost = YES;
+            break;
         }
     }
-    return NO;
+    
+    return hasPost;
 }
 
-- (void) editPostCustomer:(id)sender
+- (void) addEditPostCustomer:(id)sender
 {
     UIButton *button = (UIButton *)sender;
     NSInteger receiptID = button.tag;
-    _selectedReceiptID = [NSString stringWithFormat:@"%ld", receiptID];
-    _booAddOrEdit = NO;
-    
-    [self performSegueWithIdentifier:@"segPostCustomer" sender:self];
-}
-
-- (void) addPostCustomer:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    NSInteger receiptID = button.tag;
-    _selectedReceiptID = [NSString stringWithFormat:@"%ld", receiptID];
-    _booAddOrEdit = YES;
-    
+    _selectedPostCustomer = [self getPostCustomerFromReceiptID:receiptID];
+    _selectedReceiptProductItemList = [[self getReceiptProductItemList:receiptID] mutableCopy];
     [self performSegueWithIdentifier:@"segPostCustomer" sender:self];
 }
 
@@ -1030,6 +960,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     {
         preOrderEventIDHistoryView.alpha = 0.0;
+        [self.view addSubview:_vwDimBackground];
         [self.view addSubview:preOrderEventIDHistoryView];
         [UIView animateWithDuration:0.2 animations:^{
             preOrderEventIDHistoryView.alpha = 1.0;
@@ -1140,50 +1071,51 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-//- (void) deleteSales:(UIGestureRecognizer *)gestureRecognizer
 -(void)deleteReceiptTapped:(id)sender
 {
     UIButton *deleteButton = (UIButton *)sender;
     NSInteger receiptID = deleteButton.tag;
-    CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
-    PostCustomer *postCustomer = [self getPostCustomer:customerReceipt.postCustomerID];
+//    CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
+//    NSArray *itemTrackingNoList = [self getItemTrackingNoList:receiptID];
+//    NSArray *postCustomerList = [self getPostCustomerList:receiptID];
+//    PostCustomer *postCustomer = [self getPostCustomer:customerReceipt.postCustomerID];
     
     
-    //check ว่าบิลนี้เก็บ point รึเปล่า ถ้าไม่เก็บก็ให้ทำ part delete ได้เลย, ถ้าเก็บ ให้เช็คการใช้แต้มว่าเกินของตัวที่ลบไปหรือไม่
-    RewardPoint *rewardPoint = [RewardPoint getRewardPointReceiveWithReceiptID:receiptID];
-    if(rewardPoint)
-    {
-        float pointRemaining = [RewardPoint getRewardPointPointWithCustomerID:postCustomer.customerID];
-        
-        //คืนค่าแต้มที่เกิดจากบิลที่จะลบกลับไป
-        RewardPoint *rewardPointReceive = [RewardPoint getRewardPointReceiveWithReceiptID:receiptID];
-        RewardPoint *rewardPointSpent = [RewardPoint getRewardPointSpentWithReceiptID:receiptID];
-        if(rewardPointReceive)
-        {
-            pointRemaining -= rewardPointReceive.point;
-        }
-        if(rewardPointSpent)
-        {
-            pointRemaining += rewardPointSpent.point;
-        }
-        
-        
-        if(pointRemaining < 0)
-        {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot delete"
-                                                                           message:@"Point in this bill was used"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action)
-                                            {
-                                            }];
-            
-            [alert addAction:defaultAction];
-            [self presentViewController:alert animated:YES completion:nil];
-            return;
-        }
-    }
+//    //check ว่าบิลนี้เก็บ point รึเปล่า ถ้าไม่เก็บก็ให้ทำ part delete ได้เลย, ถ้าเก็บ ให้เช็คการใช้แต้มว่าเกินของตัวที่ลบไปหรือไม่
+//    RewardPoint *rewardPoint = [RewardPoint getRewardPointReceiveWithReceiptID:receiptID];
+//    if(rewardPoint)
+//    {
+//        float pointRemaining = [RewardPoint getRewardPointPointWithCustomerID:postCustomer.customerID];
+//
+//        //คืนค่าแต้มที่เกิดจากบิลที่จะลบกลับไป
+//        RewardPoint *rewardPointReceive = [RewardPoint getRewardPointReceiveWithReceiptID:receiptID];
+//        RewardPoint *rewardPointSpent = [RewardPoint getRewardPointSpentWithReceiptID:receiptID];
+//        if(rewardPointReceive)
+//        {
+//            pointRemaining -= rewardPointReceive.point;
+//        }
+//        if(rewardPointSpent)
+//        {
+//            pointRemaining += rewardPointSpent.point;
+//        }
+//
+//
+//        if(pointRemaining < 0)
+//        {
+//            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot delete"
+//                                                                           message:@"Point in this bill was used"
+//                                                                    preferredStyle:UIAlertControllerStyleAlert];
+//
+//            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+//                                                                  handler:^(UIAlertAction * action)
+//                                            {
+//                                            }];
+//
+//            [alert addAction:defaultAction];
+//            [self presentViewController:alert animated:YES completion:nil];
+//            return;
+//        }
+//    }
     
     
     {
@@ -1202,7 +1134,8 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
                                     //postcustomer คงไว้ เป็นฐานรายชื่อลูกค้า แต่เราลบตัว link postcustomer ใน customerreceipt ไปแล้ว
                                     _selectedReceiptID = [NSString stringWithFormat:@"%ld", receiptID];
                                     Receipt *receipt = [self getReceipt:receiptID];
-                                    CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
+//                                    CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
+                                    NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
                                     NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
                                     NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
                                     NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
@@ -1240,7 +1173,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
                                         updateProductList = [sortArray mutableCopy];
                                     }
                                     
-                                    NSArray *arrData = @[receipt,customerReceipt,arrReceiptProductItem,arrCustomMade,updateProductList];
+                                    NSArray *arrData = @[receipt,arrItemTrackingNo,arrReceiptProductItem,arrCustomMade,updateProductList];
                                     [self loadingOverlayView];
                                     [_homeModel deleteItems:dbReceiptAndReceiptProductItemDelete withData:arrData];
                                                                         
@@ -1276,7 +1209,8 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     {
         NSInteger receiptID = [_selectedReceiptID integerValue];
         Receipt *receipt = [self getReceipt:receiptID];
-        CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
+//        CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
+        NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
         NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
         NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
         NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
@@ -1284,7 +1218,8 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
        
         
         [_receiptListForDate removeObject:receipt];
-        [_customerReceiptListForDate removeObject:customerReceipt];
+//        [_customerReceiptListForDate removeObject:customerReceipt];
+        [_itemTrackingNoListForDate removeObjectsInArray:arrItemTrackingNo];
         [_receiptProductItemListForDate removeObjectsInArray:arrReceiptProductItem];
         [_customMadeListForDate removeObjectsInArray:arrCustomMade];
         for(Product *item in arrProduct)
@@ -1365,17 +1300,28 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             
          
             ReceiptProductItem *receiptProductItem = _receiptProductItemList[indexPath.item];
+            Receipt *receipt = [self getReceipt:receiptProductItem.receiptID];
             cell.lblProduct.text = [NSString stringWithFormat:@"%ld. %@",indexPath.item+1,receiptProductItem.productName];
             cell.lblColor.text = receiptProductItem.color;
             cell.lblSize.text = receiptProductItem.size;
             
-            NSString *strCash = [NSString stringWithFormat:@"%f",receiptProductItem.cash];
-            cell.lblCash.text = receiptProductItem.cash == 0?@"-":[Utility formatBaht:strCash];
-            NSString *strCredit = [NSString stringWithFormat:@"%f",receiptProductItem.credit];
-            cell.lblCredit.text = receiptProductItem.credit == 0?@"-":[Utility formatBaht:strCredit];
-            NSString *strTransfer = [NSString stringWithFormat:@"%f",receiptProductItem.transfer];
-            cell.lblTransfer.text = receiptProductItem.transfer == 0?@"-":[Utility formatBaht:strTransfer];
             
+            if([receipt.payPrice isEqualToString:@"0"])
+            {
+                cell.lblCash.text = @"-";
+                cell.lblCredit.text = @"-";
+                cell.lblTransfer.text = @"-";
+            }
+            else
+            {
+                NSString *strCash = [NSString stringWithFormat:@"%f",receiptProductItem.cash];
+                cell.lblCash.text = receiptProductItem.cash == 0?@"-":[Utility formatBaht:strCash];
+                NSString *strCredit = [NSString stringWithFormat:@"%f",receiptProductItem.credit];
+                cell.lblCredit.text = receiptProductItem.credit == 0?@"-":[Utility formatBaht:strCredit];
+                NSString *strTransfer = [NSString stringWithFormat:@"%f",receiptProductItem.transfer];
+                cell.lblTransfer.text = receiptProductItem.transfer == 0?@"-":[Utility formatBaht:strTransfer];
+
+            }
             return cell;
         }
         else
@@ -1420,7 +1366,30 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             cell.lblAfterDiscount.text = [Utility formatBaht:receipt.payPrice];
             
             
-            cell.lblDiscountReason.text = receipt.discountReason;
+            //discountReason
+            NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
+            NSString *strDiscountReason = @"";
+            for(ReceiptProductItem *item in receiptProductItemList)
+            {
+                if([Utility isStringEmpty:strDiscountReason])
+                {
+                    strDiscountReason = [NSString stringWithFormat:@"%@",item.discountReason];
+                }
+                else
+                {
+                    strDiscountReason = [NSString stringWithFormat:@"%@,%@",strDiscountReason,item.discountReason];
+                }
+            }
+            cell.lblDiscountReason.text = strDiscountReason;
+            if(![Utility isStringEmpty:strDiscountReason])
+            {
+                [cell.lblDiscountReason sizeToFit];
+                cell.lblDiscountReasonHeight.constant = cell.lblDiscountReason.frame.size.height;
+            }
+            
+            
+            
+            //remark
             cell.txtRemark.text = receipt.remark;
             cell.txtRemark.tag = receipt.receiptID;
             cell.txtRemark.delegate = self;
@@ -1437,10 +1406,14 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
                 UINib *nib = [UINib nibWithNibName:reuseIdentifierReceiptProductItem bundle:nil];
                 [cell.tbvData registerNib:nib forCellReuseIdentifier:reuseIdentifierReceiptProductItem];
             }
-            NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
-            float tableViewHeight = [receiptProductItemList count]*26;
-            cell.tbvDataHeight.constant = tableViewHeight;
-            [cell.tbvData reloadData];
+            {
+                NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
+                float tableViewHeight = [receiptProductItemList count]*30;
+                cell.tbvDataHeight.constant = tableViewHeight;
+                [cell.tbvData reloadData];
+            }
+            
+            
             
             
             //button for delivery address
@@ -1451,17 +1424,14 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             if([self hasPost:receipt.receiptID])
             {
                 cell.btnPostCustomer.imageView.image = [UIImage imageNamed:@"postCustomer2.png"];
-                [cell.btnPostCustomer addTarget:self action:@selector(editPostCustomer:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.btnPostCustomer addTarget:self action:@selector(addEditPostCustomer:) forControlEvents:UIControlEventTouchUpInside];
             }
             else
             {
                 cell.btnPostCustomer.imageView.image = [UIImage imageNamed:@"postCustomerNo2.png"];
-                [cell.btnPostCustomer addTarget:self action:@selector(addPostCustomer:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.btnPostCustomer addTarget:self action:@selector(addEditPostCustomer:) forControlEvents:UIControlEventTouchUpInside];
             }
-            
-            
-            
-            
+
             
             //button delete
             cell.btnDelete.tag = receipt.receiptID;
@@ -1575,9 +1545,34 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         }
         else
         {
+            CustomTableViewCellReceipt *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReceipt];
             Receipt *receipt = _receiptListForDate[indexPath.section];
+            cell.lblDiscountReason.text = receipt.discountReason;
+            float discountReasonHeight = 17;
+            
+            
             NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
-            return 162+[receiptProductItemList count]*26;
+            NSString *strDiscountReason = @"";
+            for(ReceiptProductItem *item in receiptProductItemList)
+            {
+                if([Utility isStringEmpty:strDiscountReason])
+                {
+                    strDiscountReason = [NSString stringWithFormat:@"%@",item.discountReason];
+                }
+                else
+                {
+                    strDiscountReason = [NSString stringWithFormat:@"%@,%@",strDiscountReason,item.discountReason];
+                }
+            }
+            cell.lblDiscountReason.text = strDiscountReason;
+            if(![Utility isStringEmpty:strDiscountReason])
+            {
+                [cell.lblDiscountReason sizeToFit];
+                discountReasonHeight = cell.lblDiscountReason.frame.size.height;
+            }
+            
+//            NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
+            return 176+[receiptProductItemList count]*30 -17+discountReasonHeight;
         }
     }
     else if(tableView == customMadeView)
@@ -1590,7 +1585,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     }
     else
     {
-        return 26;
+        return 30;
     }
     return 44;
 }
@@ -1687,7 +1682,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             return 30;
         }
     }
-    return 0.01f;;
+    return 0.01f;
 }
 
 -(void)showActionList:(id)sender
@@ -1755,6 +1750,19 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         }]];
   }
    
+   [alert addAction:
+    [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Add/Edit Post"]
+                                                     style:UIAlertActionStyleDestructive
+                                                   handler:^(UIAlertAction *action)
+   {
+        NSMutableArray *receiptProductItemList = [[NSMutableArray alloc]init];
+        [receiptProductItemList addObject:receiptProductItem];
+        
+       _selectedReceiptProductItemList = receiptProductItemList;
+       ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:receiptProductItem.receiptProductItemID];
+       _selectedPostCustomer = [self getPostCustomer:itemTrackingNo.postCustomerID];
+       [self performSegueWithIdentifier:@"segPostCustomer" sender:self];
+   }]];
                             
                             
     [alert addAction:
@@ -1784,6 +1792,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 - (void) closePreOrderEventIDHistoryView:(id)sender
 {
     [preOrderEventIDHistoryView removeFromSuperview];
+    [_vwDimBackground removeFromSuperview];
 }
 
 - (void) saveCM:(id)sender
@@ -1791,6 +1800,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     if(![self customMadeChanged])
     {
         [customMadeView removeFromSuperview];
+        [_vwDimBackground removeFromSuperview];
         return;
     }
     
@@ -1812,6 +1822,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 -(void)cancelCM:(id)sender
 {
     [customMadeView removeFromSuperview];
+    [_vwDimBackground removeFromSuperview];
 }
 
 -(void)editCustomMadeDetail:(NSInteger)receiptProductItemID
@@ -1837,6 +1848,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     {
         customMadeView.alpha = 0.0;
+        [self.view addSubview:_vwDimBackground];
         [self.view addSubview:customMadeView];
         [UIView animateWithDuration:0.2 animations:^{
             customMadeView.alpha = 1.0;
@@ -1844,65 +1856,39 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     }
 }
 
-- (void) showProductID:(id)sender
+-(PostCustomer *)getPostCustomerFromReceiptID:(NSInteger)receiptID
 {
-    if ([_txvDetail isDescendantOfView:self.view]) {
-        [_txvDetail removeFromSuperview];
-    }
-    else
+    NSArray *receiptProductItemList = [self getReceiptProductItemList:receiptID];
+    for(ReceiptProductItem *item in receiptProductItemList)
     {
-        UIButton *button = sender;
-        NSInteger itemIndexPath = button.tag;
-        NSInteger receiptProductItemIndex = [_arrCellReceiptProductItemIndex[itemIndexPath] integerValue];
-        ReceiptProductItem * receiptProductItem = _receiptProductItemList[receiptProductItemIndex];
-        NSString *productIDLabel = [NSString stringWithFormat:@"ProductID: %@",receiptProductItem.productID];
-        
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:itemIndexPath inSection:0];
-        CustomUICollectionViewCellButton2 *cell = (CustomUICollectionViewCellButton2*)[self.colViewSummaryTable cellForItemAtIndexPath:indexPath];
-        
-        
-        CGRect frame = [self.colViewSummaryTable convertRect:cell.frame toView:self.view];
-        _txvDetail.frame = CGRectMake(frame.size.width*3/4+frame.origin.x, frame.size.height*3/4+frame.origin.y, 120, 30);
-        _txvDetail.backgroundColor = [UIColor lightGrayColor];
-        _txvDetail.font = [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:13];
-        _txvDetail.text = productIDLabel;
-        [self.view addSubview:_txvDetail];
-        
+        ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
+        if(itemTrackingNo.postCustomerID > 0)
+        {
+            PostCustomer *postCustomer = [self getPostCustomer:itemTrackingNo.postCustomerID];
+            return postCustomer;
+        }
     }
+    
+    return nil;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"segPostCustomer"])
     {
-        PostCustomer *postCustomer = [self getPostCustomer:[self getPostCustomerID:[_selectedReceiptID integerValue]]];
         AddEditPostCustomerViewController *vc = segue.destinationViewController;
         vc.paid = YES;
-        vc.booAddOrEdit = _booAddOrEdit;
-        vc.telephoneNoSearch = postCustomer.telephone;
-        vc.postCustomerID = postCustomer.postCustomerID;
-        vc.receiptID = [_selectedReceiptID integerValue];
-        
-        vc.selectedCustomerReceipt = [self getCustomerReceiptWithReceiptID:[_selectedReceiptID integerValue]];
-        vc.selectedPostCustomer = postCustomer;
+        vc.telephoneNoSearch = _selectedPostCustomer?_selectedPostCustomer.telephone:@"";
+        vc.receiptProductItemList = _selectedReceiptProductItemList;
+        vc.selectedPostCustomer = _selectedPostCustomer;
     }
-    else if ([[segue identifier] isEqualToString:@"segPreOrderScan"])
+    else if([[segue identifier] isEqualToString:@"segExpenseDaily"])
     {
-        // Get reference to the destination view controller
-        PreOrderScanViewController *vc = segue.destinationViewController;
+        NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
         
-        // Pass any objects to the view controller here, like...
-        vc.preOrderProductID = _preOrderProductID;
-        vc.preOrderReceiptProductItemID = _preOrderReceiptProductItemID;
-    }
-    else if([[segue identifier] isEqualToString:@"segAccountReceiptPDF"])
-    {
-        AccountReceiptPDFViewController *vc = segue.destinationViewController;
-        vc.saleProductAndPriceList = _salesProductAndPriceBillingsOnlyList;
-        vc.accountInventorySummaryList = _accountInventorySummaryList;
-        vc.dateOut = _dateOut;
-        vc.sendMail = 1;
+        ExpenseDailyViewController *vc = segue.destinationViewController;
+        vc.inputDate = _strSelectedDateDB;
+        vc.eventID = eventID;
     }
     
 }
@@ -1912,14 +1898,18 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     float totalDiscount = 0;
     for(Receipt *item in _receiptList)
     {
-        if([item.discount isEqualToString:@"1"])
+        if(![item.payPrice isEqualToString:@"0"])
         {
-            totalDiscount += [item.discountValue floatValue];
+            if([item.discount isEqualToString:@"1"])
+            {
+                totalDiscount += [item.discountValue floatValue];
+            }
+            else if([item.discount isEqualToString:@"2"])
+            {
+                totalDiscount += ([item.payPrice floatValue] - [item.shippingFee floatValue])/(100-[item.discountPercent floatValue])*[item.discountPercent floatValue];
+            }
         }
-        else if([item.discount isEqualToString:@"2"])
-        {
-            totalDiscount += ([item.payPrice floatValue] - [item.shippingFee floatValue])/(100-[item.discountPercent floatValue])*[item.discountPercent floatValue];
-        }
+        
     }
     return totalDiscount;
 }
@@ -1929,10 +1919,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     float totalCredit = 0;
     for(Receipt *item in _receiptList)
     {
-//        if([item.paymentMethod isEqualToString:@"CC"] || [item.paymentMethod isEqualToString:@"BO"])
-        {
-            totalCredit += [item.creditAmount floatValue];
-        }
+        totalCredit += [item.creditAmount floatValue];
     }
     return totalCredit;
 }
@@ -1977,6 +1964,44 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 {
     return [self totalCash]+[self initialChanges]-[self deposit];
 }
+
+- (NSString *)salesPerChange
+{
+    NSInteger salesNum = 0;
+    NSInteger changeNum = 0;
+    NSInteger upProductNum = 0;
+    for(ReceiptProductItem *item in _receiptProductItemListForDate)
+    {
+        if(item.replaceProduct)
+        {
+            float discountValue = 0;
+            if(item.discount == 1)
+            {
+                discountValue = item.discountValue;
+            }
+            else if(item.discount == 2)
+            {
+                discountValue = roundf(item.discountPercent * [Utility floatValue:item.priceSales]/100*100)/100;
+            }
+            
+            
+            if(discountValue == [Utility floatValue:item.priceSales])
+            {
+                changeNum += 1;
+            }
+            else
+            {
+                upProductNum +=1;
+            }
+        }
+        else
+        {
+            salesNum += 1;
+        }
+    }
+    return [NSString stringWithFormat:@"%ld/%ld/%ld",salesNum,changeNum,upProductNum];
+}
+
 - (float)initialChanges
 {
     NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
@@ -1991,6 +2016,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     CashAllocation *cashAllocation = filterArray[0];
     return [cashAllocation.cashChanges floatValue];
 }
+
 - (float)deposit
 {
     NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
@@ -2005,6 +2031,17 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     CashAllocation *cashAllocation = filterArray[0];
     return [cashAllocation.cashTransfer floatValue];
 }
+
+- (float)expense
+{
+    float sumExpense = 0;
+    for(ExpenseDaily *item in _expenseDailyListForDate)
+    {
+        sumExpense += [item.amount floatValue];
+    }
+    return sumExpense;
+}
+
 - (float)changesAfterTransfer
 {
     float changesAfterTransfer = [self cashAndChanges]-[self deposit];
@@ -2043,6 +2080,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     {
         [self removeOverlayViews];
         [customMadeView removeFromSuperview];
+        [_vwDimBackground removeFromSuperview];
             
         NSArray *customMadeList = data[0];
         CustomMade *dbCustomMade = customMadeList[0];
@@ -2082,6 +2120,11 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     }
 }
 
+- (IBAction)expenseButtonClicked:(id)sender
+{
+    [self performSegueWithIdentifier:@"segExpenseDaily" sender:self];
+}
+
 - (IBAction)changeDate:(id)sender {
     if([btnChangeDate.titleLabel.text isEqualToString:@"Choose date"])
     {
@@ -2111,6 +2154,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     [_txvDetail removeFromSuperview];
     [customMadeView removeFromSuperview];
     [preOrderEventIDHistoryView removeFromSuperview];
+    [_vwDimBackground removeFromSuperview];
     
     if([btnShortOrDetail.title isEqualToString:@"Detail"])
     {
@@ -2340,19 +2384,19 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     }
     return nil;
 }
-
-- (NSInteger) getPostCustomerID:(NSInteger)receiptID
-{
-    NSMutableArray *customerReceiptList = _customerReceiptListForDate;
-    for(CustomerReceipt *item in customerReceiptList)
-    {
-        if(item.receiptID == receiptID)
-        {
-            return item.postCustomerID;
-        }
-    }
-    return 0;
-}
+//
+//- (NSInteger) getPostCustomerID:(NSInteger)receiptID
+//{
+//    NSMutableArray *customerReceiptList = _customerReceiptListForDate;
+//    for(CustomerReceipt *item in customerReceiptList)
+//    {
+//        if(item.receiptID == receiptID)
+//        {
+//            return item.postCustomerID;
+//        }
+//    }
+//    return 0;
+//}
 
 - (PostCustomer *) getPostCustomer:(NSInteger)postCustomerID
 {
@@ -2379,19 +2423,19 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     return [sortArray mutableCopy];
 }
-
--(CustomerReceipt *)getCustomerReceiptWithReceiptID:(NSInteger)receiptID
-{
-    NSMutableArray *customerReceiptList = _customerReceiptListForDate;
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld",receiptID];
-    NSArray *filterArray = [customerReceiptList filteredArrayUsingPredicate:predicate1];
-    
-    if([filterArray count]>0)
-    {
-        return filterArray[0];
-    }
-    return nil;
-}
+//
+//-(CustomerReceipt *)getCustomerReceiptWithReceiptID:(NSInteger)receiptID
+//{
+//    NSMutableArray *customerReceiptList = _customerReceiptListForDate;
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld",receiptID];
+//    NSArray *filterArray = [customerReceiptList filteredArrayUsingPredicate:predicate1];
+//
+//    if([filterArray count]>0)
+//    {
+//        return filterArray[0];
+//    }
+//    return nil;
+//}
 
 -(ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID
 {
@@ -2418,6 +2462,45 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     return sortArray;
 }
+
+- (ItemTrackingNo *)getItemTrackingNo:(NSInteger)receiptProductItemID
+{
+    NSMutableArray *itemTrackingNoList = _itemTrackingNoListForDate;
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptProductItemID = %ld",receiptProductItemID];
+    NSArray *filterArray  = [itemTrackingNoList filteredArrayUsingPredicate:predicate1];
+    
+    return filterArray[0];
+}
+
+- (NSArray *)getItemTrackingNoList:(NSInteger)receiptID
+{
+    NSMutableArray *itemTrackingNoList = [[NSMutableArray alloc]init];
+    NSArray *receiptProductItemList = [self getReceiptProductItemList:receiptID];
+    for(ReceiptProductItem *item in receiptProductItemList)
+    {
+        ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
+        [itemTrackingNoList addObject:itemTrackingNo];
+    }
+    
+    return itemTrackingNoList;
+}
+
+//- (NSArray *)getPostCustomerList:(NSInteger)receiptID
+//{
+//    NSMutableArray *postCustomerList = [[NSMutableArray alloc]init];
+//    NSArray *receiptProductItemList = [self getReceiptProductItemList:receiptID];
+//    for(ReceiptProductItem *item in receiptProductItemList)
+//    {
+//        ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
+//        PostCustomer *postCustomer = [self getPostCustomer:itemTrackingNo.postCustomerID];
+//        if(postCustomer)
+//        {
+//            [postCustomerList addObject:postCustomer];
+//        }
+//    }
+//
+//    return postCustomerList;
+//}
 
 - (NSArray *)getCustomMadeList:(NSArray *)receiptProductItemList
 {

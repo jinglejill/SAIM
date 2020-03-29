@@ -293,159 +293,9 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
 }
 
-//- (void)loadViewProcess
-//{
-//    [self queryData:YES];
-//}
-
-//-(void)queryData:(BOOL)firstTime
-//{
-//    [_mutArrPostDetailList removeAllObjects];
-//    NSArray *arrFilter;
-//    if(fromUserMenu)
-//    {
-//        NSDate *currentDateTime = [NSDate date];
-//        NSString *strCurrentDate = [Utility dateToString:currentDateTime toFormat:@"yyyy-MM-dd"];
-//        
-//        NSDate *currentDate = [Utility stringToDate:strCurrentDate fromFormat:@"yyyy-MM-dd"];
-//        NSDate *currentDateEndOfDay = [currentDate dateByAddingTimeInterval:60*60*24*1-1];
-//        NSDate *twoDateAgo = [currentDate dateByAddingTimeInterval:-2*60*60*24*1];
-//        
-//        
-//        NSMutableArray *receiptProductItemList = [SharedReceiptItem sharedReceiptItem].receiptItemList;
-//        for(ReceiptProductItem *item in receiptProductItemList)
-//        {
-//            item.dtModifiedDate = [Utility stringToDate:item.modifiedDate fromFormat:@"yyyy-MM-dd HH:mm:ss"];
-//        }
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"(_productType = %@ or _productType = %@) and _dtModifiedDate BETWEEN %@ and _preOrderEventID = %ld",@"S",@"R",[NSArray arrayWithObjects:twoDateAgo, currentDateEndOfDay, nil],[_strSelectedEventID integerValue]];
-//        arrFilter = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-//    }
-//    else
-//    {
-//        NSMutableArray *receiptProductItemList = [SharedReceiptItem sharedReceiptItem].receiptItemList;
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"(_productType = %@ or _productType = %@) and _preOrderEventID = %ld",@"S",@"R",[_strSelectedEventID integerValue]];
-//        arrFilter = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-//    }
-//    
-//    
-//    //ทำเพื่อจะ select portion
-//    for(ReceiptProductItem *item in arrFilter)
-//    {
-//        NSMutableArray *receiptList = [SharedReceipt sharedReceipt].receiptList;
-//        NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"_receiptID = %ld",item.receiptID];
-//        NSArray *arrFilterReceipt = [receiptList filteredArrayUsingPredicate:predicate3];
-//        Receipt *receipt = arrFilterReceipt[0];
-//        item.receiptDate = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd"];
-//    }
-//    
-//    
-//    {
-//        //sort
-//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptDate" ascending:NO];
-//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//        _arrSortReceiptDate = [arrFilter sortedArrayUsingDescriptors:sortDescriptors];
-//    }
-//    
-//
-//    
-//    
-//    for(ReceiptProductItem *item in _arrSortReceiptDate)
-//    {
-//        NSMutableArray *customerReceiptList = [SharedCustomerReceipt sharedCustomerReceipt].customerReceiptList;
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld",item.receiptID];
-//        NSArray *arrFilterCustomerReceipt = [customerReceiptList filteredArrayUsingPredicate:predicate1];
-//        NSString *trackingNo = @"";
-//        PostCustomer *postCustomer = [[PostCustomer alloc]init];
-//        postCustomer.firstName = @"";
-//
-//        if([arrFilterCustomerReceipt count]>0)
-//        {
-//            CustomerReceipt *customerReceipt = arrFilterCustomerReceipt[0];
-//            trackingNo = customerReceipt.trackingNo;
-//            if(customerReceipt.postCustomerID != 0)
-//            {
-//                NSMutableArray *postCustomerList = [SharedPostCustomer sharedPostCustomer].postCustomerList;
-//                NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"_postCustomerID = %ld",customerReceipt.postCustomerID];
-//                NSArray *arrFilterPostCustomer = [postCustomerList filteredArrayUsingPredicate:predicate2];
-//                postCustomer = arrFilterPostCustomer[0];
-//            }
-//        }
-//        
-//        
-//        Receipt *receipt = [Receipt getReceipt:item.receiptID];
-//        if([item.productType isEqualToString:@"S"])
-//        {
-//            Product *product = [Product getProduct:item.productID];
-//            
-//            PostDetail *postDetail = [[PostDetail alloc]init];
-//            postDetail.productName = [ProductName getNameWithProductID:product.productID];
-//            postDetail.color = [Utility getColorName:product.color];
-//            postDetail.size = product.size;
-//            postDetail.sizeOrder = [Utility getSizeOrder:product.size];
-//            postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",postDetail.productName,postDetail.color,[Utility getSizeLabel:product.size]];
-//            postDetail.customerName = postCustomer.firstName;
-//            postDetail.trackingNo = trackingNo;
-//            postDetail.productType = item.productType;
-//            postDetail.receiptID = item.receiptID;
-//            postDetail.receiptDate = [Utility formatDate:item.receiptDate fromFormat:@"yyyy-MM-dd" toFormat:@"dd/MM/yy" ];
-//            postDetail.productID = product.productID;
-//            postDetail.receiptProductItemID = item.receiptProductItemID;
-//            postDetail.editType = @"0";
-//            postDetail.receiptDateSort = item.receiptDate;
-//            postDetail.channel = receipt.channel;
-//            postDetail.channelUserID = receipt.channel == 2?postCustomer.lineID:receipt.channel == 3?postCustomer.facebookID:@"";
-//            
-//            [_mutArrPostDetailList addObject:postDetail];
-//        }
-//        else if([item.productType isEqualToString:@"R"])
-//        {
-//            CustomMade *customMade = [Utility getCustomMadeFromProductIDPost:item.productID];
-//            PostDetail *postDetail = [[PostDetail alloc]init];
-//            postDetail.productName = [ProductName getNameWithCustomMadeID:customMade.customMadeID];
-//            postDetail.color = customMade.body;
-//            postDetail.size = customMade.size;
-//            postDetail.sizeOrder = 0;
-//            postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",postDetail.productName,postDetail.color,postDetail.size];
-//            postDetail.customerName = postCustomer.firstName;
-//            postDetail.trackingNo = trackingNo;
-//            postDetail.productType = item.productType;
-//            postDetail.receiptID = item.receiptID;
-//            postDetail.receiptDate = [Utility formatDate:item.receiptDate fromFormat:@"yyyy-MM-dd" toFormat:@"dd/MM/yy"];
-//            postDetail.productID = customMade.productIDPost; //[NSString stringWithFormat:@"%ld",customMade.customMadeID];
-//            postDetail.receiptProductItemID = item.receiptProductItemID;
-//            postDetail.editType = @"0";
-//            postDetail.receiptDateSort = item.receiptDate;
-//            [_mutArrPostDetailList addObject:postDetail];
-//        }
-//
-//        if([_mutArrPostDetailList count]%([Utility getNumberOfRowForExecuteSql]*3) == 0)
-//        {
-//            [self setData];
-//            
-//            if(firstTime)
-//            {
-//                return;
-//            }
-//        }
-//    }
-//    
-//    
-//    if([_mutArrPostDetailList count] == 0)
-//    {
-//        [self setData];
-//        return;
-//    }
-//    if([_mutArrPostDetailList count] != ([Utility getNumberOfRowForExecuteSql]*3))
-//    {
-//        [self setData];
-//    }
-//}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    if(!_isUnwind)
-//    {
-//        [self queryData:NO];
-//    }
+
 }
 -(void)setData
 {
@@ -458,17 +308,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         _postDetailList = _mutArrPostDetailList;
     }
     
-    //prepare for postdetail bind to tableview
-//    //sort
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptDateSort" ascending:NO];
-//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_productName" ascending:YES];
-//    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_color" ascending:YES];
-//    NSSortDescriptor *sortDescriptor4 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
-//    NSSortDescriptor *sortDescriptor5 = [[NSSortDescriptor alloc] initWithKey:@"_customerName" ascending:YES];
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3,sortDescriptor4,sortDescriptor5, nil];
-//    NSArray *arrSort1 = [_postDetailList sortedArrayUsingDescriptors:sortDescriptors];
-//    _postDetailList = [arrSort1 mutableCopy];
-    
+  
     
     btnUnpost.enabled = [_postDetailList count]>0;
     
@@ -1265,22 +1105,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     // user did type something, check our datasource for text that looks the same
-//    if (searchText.length>0)
-//    {
-//        // search and reload data source
-//        self.searchBarActive = YES;
-//        [self filterContentForSearchText:searchText scope:@""];
-//        [self setData];
-//    }
-//    else
-//    {
-//        // if text lenght == 0
-//        // we will consider the searchbar is not active
-//        //        self.searchBarActive = NO;
-//
-//        [self cancelSearching];
-//        [self setData];
-//    }
+
     if (searchText.length == 0)
     {
         // if text lenght == 0
@@ -1298,45 +1123,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     {
         return;
     }
-    
-    
-    //    ถ้า select all แล้ว narrow search ให้เคลียร์อันที่หลุดออกไป
-    //    ถ้า select all แล้ว wider search ไม่ต้องทำไร
-    //copy selected row ออกมา
-    //clear เป็น o
-    //เอา selected row ใส่คืน
-//    NSMutableArray *copySelectedList = [[NSMutableArray alloc]init];
-//    for(PostDetail *item in _postDetailList)
-//    {
-//        if([item.editType integerValue] == 2)
-//        {
-//            [copySelectedList addObject:item];
-//        }
-//    }
-//
-//    BOOL match;
-//    for(PostDetail *item in _mutArrPostDetailList)
-//    {
-//        match = NO;
-//        for(PostDetail *copyItem in copySelectedList)
-//        {
-//            if([item.productType isEqualToString:copyItem.productType] && ([item.productID integerValue]==[copyItem.productID integerValue]))
-//            {
-//                match = YES;
-//                item.editType = @"2";
-//                break;
-//            }
-//        }
-//        if(!match)
-//        {
-//            item.editType = @"1";
-//        }
-//    }
-//
-//    //    ทุกตัว select all ก้ให้ show unselect
-//    //    ทุกตัว unselect all ก้ให้ show select
-//    //    else select all
-//    [self updateButtonShowCountSelect];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{

@@ -108,6 +108,7 @@
     for(Product *item in productList)
     {
         item.productIDGroup = [Utility getProductIDGroup:item];
+        item.productNameGroup = [Product getProductNameGroup:item];
     }
     
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_eventID" ascending:YES];
@@ -161,6 +162,7 @@
         productWithQuantity.size = product.size;
         productWithQuantity.quantity = quantity;
         productWithQuantity.productIDGroup = product.productIDGroup;
+        productWithQuantity.productNameGroup = product.productNameGroup;
         productWithQuantity.eventID = strEventID;
         productWithQuantity.status = product.status;
         productWithQuantity.productCategory2 = product.productCategory2;

@@ -14,6 +14,7 @@
 @property (retain, nonatomic) NSString * size;
 @property (retain, nonatomic) NSString * quantity;
 @property (retain, nonatomic) NSString * productIDGroup;
+@property (retain, nonatomic) NSString * productNameGroup;
 @property (retain, nonatomic) NSString * eventID;
 @property (retain, nonatomic) NSString * status;
 @property (retain, nonatomic) NSString * productCategory2;

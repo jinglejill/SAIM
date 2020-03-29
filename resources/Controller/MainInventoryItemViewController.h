@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
+#import "CustomViewController.h"
 
 
-
-@interface MainInventoryItemViewController : UIViewController<HomeModelProtocol,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface MainInventoryItemViewController : CustomViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) IBOutlet UICollectionView *colViewProductItem;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAllOrRemaining;

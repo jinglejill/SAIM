@@ -42,6 +42,14 @@
 @property (nonatomic) NSInteger idInserted;//ใช้ตอน update or delete
 
 
+@property (nonatomic) NSInteger replaceProduct;
+@property (nonatomic) NSInteger ship;
+@property (nonatomic) float shippingFee;
+@property (nonatomic) NSInteger discount;
+@property (nonatomic) float discountValue;
+@property (nonatomic) float discountPercent;
+@property (retain, nonatomic) NSString * discountReason;
+
 +(ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID;
 +(ReceiptProductItem *)getReceiptProductItem:(NSString *)productID productType:(NSString *)productType;
 + (NSMutableArray *) getReceiptProductItemWithReceiptID:(NSInteger)receiptID receiptProductItemList:(NSMutableArray *)receiptProductItemList;//สำหรับแสดง ทุกใบเสร็จของ member คนนั้้น โดยแสดงทีละใบเสร็จ

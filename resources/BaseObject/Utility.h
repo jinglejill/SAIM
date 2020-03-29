@@ -185,8 +185,12 @@ enum enumDB
     dbSearchSales,
     dbSearchSalesTelephone,
     dbScanDelete,
-    dbScanEvent
-    
+    dbScanEvent,
+    dbExpenseDaily,
+    dbPostCustomerAdd,
+    dbItemTrackingNo,
+    dbItemTrackingNoPostCustomerAdd,
+    dbItemTrackingNoPostCustomerDelete
 };
 enum enumUrl
 {
@@ -334,7 +338,13 @@ enum enumUrl
     urlSearchSalesGetList,
     urlSearchSalesTelephoneGetList,
     urlScanDelete,
-    urlScanEvent
+    urlScanEvent,
+    urlExpenseDailyGetList,
+    urlExpenseDailyInsert,
+    urlExpenseDailyDelete,
+    urlPostCustomerAddInsert,
+    urlItemTrackingNoUpdate,
+    urlItemTrackingNoPostCustomerAddInsert
     
 };
 enum enumTableName
@@ -450,6 +460,7 @@ enum enumProductLabel
 + (NSDate *) setDateWithYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day;
 //+ (NSData *) encrypt:(NSString *)data;
 //+ (NSString *) decrypt:(NSData *)encryptedData;
++(NSString *)getProductIDGroupWithProductCode:(NSString *)productCode;
 + (Product *) getProductWithProductCode:(NSString *)productCode;
 + (NSInteger) numberOfDaysFromDate:(NSDate *)dateFrom dateTo:(NSDate *)dateTo;
 + (NSInteger) numberOfDaysInEvent:(NSInteger)eventID;

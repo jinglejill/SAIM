@@ -24,5 +24,15 @@
 @property (nonatomic) NSInteger replaceSelf;//ใช้เฉพาะตอน push type = 'd'
 @property (nonatomic) NSInteger idInserted;//ใช้ตอน update or delete
 
+
+@property (nonatomic) NSInteger replaceProduct;
+@property (nonatomic) NSInteger ship;
+@property (nonatomic) NSInteger discount;
+@property (nonatomic) float discountValue;
+@property (nonatomic) float discountPercent;
+@property (retain, nonatomic) NSString * discountReason;
+@property (nonatomic) NSInteger postCustomerID;
+
+
 +(CustomMade*)getCustomMade:(NSInteger)custommMadeID;
 @end
