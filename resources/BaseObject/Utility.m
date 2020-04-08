@@ -274,7 +274,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMReceiptAndProductBuyInsert6.php";
             break;
         case urlReceiptAndReceiptProductItemDelete:
-            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete3.php";
+            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete2.php";
             break;
         case urlMasterGet:
             url = @"/SAIM/SAIMMasterGet.php?%@";
@@ -283,7 +283,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMMasterGet.php?%@";
             break;
         case urlReceiptProductItemAndProductUpdate:
-            url = @"/SAIM/SAIMReceiptProductItemAndProductUpdate3.php";
+            url = @"/SAIM/SAIMReceiptProductItemAndProductUpdate2.php";
             break;
         case urlCompareInventoryInsert:
             url = @"/SAIM/SAIMCompareInventoryInsert.php";
@@ -465,6 +465,9 @@ extern NSString *globalModifiedUser;
         case urlSalesSummaryGet:
             url = @"/SAIM/SAIMSalesSummaryGet.php?%@";
             break;
+        case urlSalesSummaryByEventByPeriodGet:
+            url = @"/SAIM/SAIMSalesSummaryByEventByPeriodGet.php?%@";
+            break;
         case urlSalesSummaryByPeriodGet:
             url = @"/SAIM/SAIMSalesSummaryByPeriodGet.php?%@";
             break;
@@ -508,7 +511,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMSalesByChannelGet.php?%@";
             break;
         case urlProductionOrderInsert:
-            url = @"/SAIM/SAIMProductionOrderInsert3.php";
+            url = @"/SAIM/SAIMProductionOrderInsert2.php";
             break;
         case urlProductionOrderAdded:
             url = @"/SAIM/SAIMProductionOrderAddedGet.php?%@";
@@ -622,7 +625,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMSearchSalesTelephoneGetList.php";
             break;
         case urlScanDelete:
-            url = @"/SAIM/SAIMScanDelete3.php";
+            url = @"/SAIM/SAIMScanDelete2.php";
             break;
         case urlScanEvent:
             url = @"/SAIM/SAIMScanEvent.php";
@@ -644,6 +647,21 @@ extern NSString *globalModifiedUser;
             break;
         case urlItemTrackingNoPostCustomerAddInsert:
             url= @"/SAIM/SAIMItemTrackingNoPostCustomerAddInsert.php";
+            break;
+        case urlReportTopSpenderGetList:
+            url= @"/SAIM/SAIMReportTopSpenderGetList.php?%@";
+            break;
+        case urlReportTopSpenderDetailGetList:
+            url= @"/SAIM/SAIMReportTopSpenderDetailGetList.php?%@";
+            break;
+        case urlItemTrackingNoTrackingNoUpdate:
+            url= @"/SAIM/SAIMItemTrackingNoTrackingNoUpdate.php";
+            break;
+        case urlReceiptSearchGet:
+            url= @"/SAIM/SAIMReceiptSearchGet.php";
+            break;
+        case urlSearchSalesTelephoneDetailGetList:
+            url= @"/SAIM/SAIMSearchSalesTelephoneDetailGetList.php";
             break;
         default:
             break;

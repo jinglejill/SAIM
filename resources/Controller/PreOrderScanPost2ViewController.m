@@ -12,6 +12,7 @@
 #import "CustomMade.h"
 #import "ReceiptProductItem.h"
 #import "CustomerReceipt.h"
+#import "ItemTrackingNo.h"
 #import "PostDetail.h"
 #import "SharedProduct.h"
 #import "SharedPushSync.h"
@@ -56,7 +57,8 @@
     
     NSInteger countScanSuccess;
     NSInteger countTrackingNo;
-    NSInteger _currentReceiptID;
+    NSInteger _currentReceiptProductItemID;
+//    NSInteger _currentReceiptID;
 }
 @property (nonatomic) BOOL isReading;
 @property (nonatomic, strong) AVCaptureSession *captureSession;
@@ -208,8 +210,7 @@
             //tracking post barcode
             if([decryptedMessage length] == 13 || [decryptedMessage length] == 7 || [decryptedMessage length] < 18)
             {
-//                if(![_previousTrackingNo isEqualToString:decryptedMessage] && [_arrReceiptIDScanPost count]>0)
-                if(![_previousTrackingNo isEqualToString:decryptedMessage] && _currentReceiptID != 0)
+                if(![_previousTrackingNo isEqualToString:decryptedMessage] && _currentReceiptProductItemID != 0)
                 {
                     _previousTrackingNo = decryptedMessage;
                     
@@ -283,8 +284,7 @@
             //tracking post barcode
             if([decryptedMessage length] < 18)
             {
-//                if(![_previousTrackingNo isEqualToString:decryptedMessage] && [_arrReceiptIDScanPost count]>0)
-                if(![_previousTrackingNo isEqualToString:decryptedMessage] && _currentReceiptID != 0)
+                if(![_previousTrackingNo isEqualToString:decryptedMessage] && _currentReceiptProductItemID != 0)
                 {
                     _previousTrackingNo = decryptedMessage;
                     
@@ -528,12 +528,20 @@
     dispatch_async(dispatch_get_main_queue(),^ {
         [self loadingOverlayView];
     } );
-    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-    customerReceipt.receiptID = _currentReceiptID;
-    customerReceipt.trackingNo = trackingNo;
-    customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-    customerReceipt.modifiedUser = [Utility modifiedUser];
-    [_homeModel updateItems:dbCustomerReceiptUpdateTrackingNo withData:customerReceipt];
+//    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
+//    customerReceipt.receiptID = _currentReceiptID;
+//    customerReceipt.trackingNo = trackingNo;
+//    customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    customerReceipt.modifiedUser = [Utility modifiedUser];
+//    [_homeModel updateItems:dbCustomerReceiptUpdateTrackingNo withData:customerReceipt];
+//
+    
+    ItemTrackingNo *itemTrackingNo = [[ItemTrackingNo alloc]init];
+    itemTrackingNo.receiptProductItemID = _currentReceiptProductItemID;
+    itemTrackingNo.trackingNo = trackingNo;
+    itemTrackingNo.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+    itemTrackingNo.modifiedUser = [Utility modifiedUser];
+    [_homeModel updateItems:dbItemTrackingNoTrackingNoUpdate withData:itemTrackingNo];
 }
 
 - (void)itemsUpdated
@@ -565,7 +573,8 @@
     else
     {
         PostDetail *postDetail = [self getPostDetailFromReceiptProductItemID:ID];
-        _currentReceiptID = postDetail.receiptID;
+//        _currentReceiptID = postDetail.receiptID;
+        _currentReceiptProductItemID = ID;
         [arrSelectedPostDetail removeObject:postDetail];
         [mutArrPostDetailList removeObject:postDetail];
         
@@ -654,16 +663,7 @@
 
 -(void)itemsDownloaded:(NSArray *)items
 {
-//    {
-//        PushSync *pushSync = [[PushSync alloc]init];
-//        pushSync.deviceToken = [Utility deviceToken];
-//        [_homeModel updateItems:dbPushSyncUpdateByDeviceToken withData:pushSync];
-//    }
-//
-//
-//    [Utility itemsDownloaded:items];
-//    [self removeOverlayViews];
-//    [self loadViewProcess];
+
 }
 
 - (void)itemsFail
@@ -674,8 +674,7 @@
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-//                                                              [self loadingOverlayView];
-//                                                              [_homeModel downloadItems:dbMaster];
+//
                                                           }];
     
     [alert addAction:defaultAction];

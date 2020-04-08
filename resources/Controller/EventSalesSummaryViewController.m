@@ -187,16 +187,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     NSString *strStartDate = [Utility formatDate:txtStartDate.text fromFormat:@"dd/MM/yyyy" toFormat:@"yyyy-MM-dd"];
     NSString *strEndDate = [Utility formatDate:txtEndDate.text fromFormat:@"dd/MM/yyyy" toFormat:@"yyyy-MM-dd"];
     [_homeModel downloadItems:dbEventSalesSummary condition:@[_strEventID,strStartDate,strEndDate]];
-//    if(![Utility hasEventSales:_event.eventID])
-//    {
-//        [self loadingOverlayView];
-//        [_homeModel downloadItems:dbSalesSummary condition:_event];
-//    }
-//    else
-//    {
-//        [self setDataSales];
-//        [self setDataExpenses];
-//    }
+
 }
 
 - (void)itemsDownloaded:(NSArray *)items

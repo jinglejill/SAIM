@@ -26,6 +26,7 @@
         [copy setCode:[self.code copyWithZone:zone]];
         [copy setName:[self.name copyWithZone:zone]];
         [copy setDetail:[self.detail copyWithZone:zone]];
+        ((ProductName *)copy).active = self.active;
         [copy setModifiedDate:[self.modifiedDate copyWithZone:zone]];
     }
     

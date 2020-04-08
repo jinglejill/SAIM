@@ -13,7 +13,12 @@
 #import "CPTTheme.h"
 #import "HomeModel.h"
 
-@interface ChartSalesBySizeViewController : UIViewController<CPTBarPlotDataSource, CPTBarPlotDelegate,HomeModelProtocol>
+@interface ChartSalesBySizeViewController : UIViewController<CPTBarPlotDataSource, CPTBarPlotDelegate,HomeModelProtocol,UITextFieldDelegate,CALayerDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *lblTotal;
+@property (strong, nonatomic) IBOutlet UITextField *txtStartDate;
+@property (strong, nonatomic) IBOutlet UITextField *txtEndDate;
+@property (strong, nonatomic) IBOutlet UIDatePicker *dtPicker;
+- (IBAction)datePickerChanged:(id)sender;
+
 @end

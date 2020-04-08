@@ -11,6 +11,7 @@
 #import "Utility.h"
 #import "ProductCost.h"
 #import "CustomerReceipt.h"
+#import "ItemTrackingNo.h"
 #import "PostDetail.h"
 #import "TrackingNoScanViewController.h"
 #import "SharedPushSync.h"
@@ -25,7 +26,7 @@
 @end
 @implementation TrackingNoViewController
 @synthesize strTrackingNo;
-@synthesize receiptID;
+//@synthesize receiptID;
 @synthesize edit;
 @synthesize btnCancel;
 @synthesize btnDone;
@@ -118,40 +119,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if([sender isEqual:btnDone])
-//    {
-//        edit = YES;
-//
-//        CustomerReceipt *customerReceipt = [CustomerReceipt getCustomerReceiptWithReceiptID:receiptID];
-//        for(PostDetail *item in postDetailList)
-//        {
-//            if(item.receiptID == receiptID)
-//            {
-//                //update tracking no in table postdetail in postedviewcontroller
-//                item.trackingNo = txtTrackingNo.text;
-//
-//                customerReceipt.trackingNo = txtTrackingNo.text;
-//                customerReceipt.receiptID = receiptID;
-//                break;
-//            }
-//        }
-//
-//        [_homeModel updateItems:dbCustomerReceiptUpdateTrackingNo withData:customerReceipt];
-//    }
+
 }
-//-(void)itemsDownloaded:(NSArray *)items
-//{
-//    {
-//        PushSync *pushSync = [[PushSync alloc]init];
-//        pushSync.deviceToken = [Utility deviceToken];
-//        [_homeModel updateItems:dbPushSyncUpdateByDeviceToken withData:pushSync];
-//    }
-//
-//
-//    [Utility itemsDownloaded:items];
-//    [self removeOverlayViews];
-//    [self loadViewProcess];
-//}
+
 
 - (void)itemsFail
 {
@@ -225,19 +195,28 @@
 {
     edit = YES;
 
-//    CustomerReceipt *customerReceipt = [CustomerReceipt getCustomerReceiptWithReceiptID:receiptID];
-    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-    customerReceipt.trackingNo = txtTrackingNo.text;
-    customerReceipt.receiptID = receiptID;
+//    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
+//    customerReceipt.trackingNo = txtTrackingNo.text;
+//    customerReceipt.receiptID = receiptID;
+//
+//    [_homeModel updateItems:dbCustomerReceiptUpdateTrackingNo withData:customerReceipt];
     
-    [_homeModel updateItems:dbCustomerReceiptUpdateTrackingNo withData:customerReceipt];
+    
+    
+    ItemTrackingNo *itemTrackingNo = [[ItemTrackingNo alloc]init];
+    itemTrackingNo.receiptProductItemID = _receiptProductItemID;
+    itemTrackingNo.trackingNo = txtTrackingNo.text;
+    itemTrackingNo.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+    itemTrackingNo.modifiedUser = [Utility modifiedUser];
+    [_homeModel updateItems:dbItemTrackingNoTrackingNoUpdate withData:itemTrackingNo];
 }
 
 -(void)itemsUpdated
 {
     for(PostDetail *item in postDetailList)
     {
-        if(item.receiptID == receiptID)
+//        if(item.receiptID == receiptID)
+        if(item.receiptProductItemID == _receiptProductItemID)
         {
             //update tracking no in table postdetail in postedviewcontroller
             item.trackingNo = txtTrackingNo.text;            

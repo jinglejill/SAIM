@@ -521,6 +521,7 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         cell.label.text = sortedColor[(item/(sizeNum+1))-1];
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
+        cell.label.adjustsFontSizeToFitWidth = YES;
         cell.label.textColor= [UIColor blackColor];
         cell.label.backgroundColor = [UIColor clearColor];
         cell.label.textAlignment = NSTextAlignmentLeft;

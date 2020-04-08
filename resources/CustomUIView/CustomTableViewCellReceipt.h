@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CustomTableViewCellReceipt : UITableViewCell
+@property (strong, nonatomic) IBOutlet UIButton *btnReceipt;
 @property (strong, nonatomic) IBOutlet UILabel *lblReceipt;
 @property (strong, nonatomic) IBOutlet UIButton *btnPostCustomer;
 @property (strong, nonatomic) IBOutlet UIButton *btnDelete;
@@ -29,6 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) IBOutlet UILabel *lblReceiptLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblReceiptLabelWidth;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblDiscountReasonHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *btnDeleteWidth;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *btnDeteteTrailing;
+@property (strong, nonatomic) IBOutlet UILabel *lblEventLabel;
+@property (strong, nonatomic) IBOutlet UILabel *lblEvent;
 
 @end
 

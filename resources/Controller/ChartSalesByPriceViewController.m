@@ -7,6 +7,7 @@
 //
 
 #import "ChartSalesByPriceViewController.h"
+#import "ChartSalesByItemViewController.h"
 #import "SharedSalesByPriceData.h"
 #import "SalesByPriceData.h"
 #import "SharedSelectedEvent.h"
@@ -16,6 +17,7 @@
 #import "ReceiptProductItem.h"
 #import "SharedReceipt.h"
 #import "SharedProduct.h"
+#import "SharedCustomMade.h"
 
 @interface ChartSalesByPriceViewController ()
 {
@@ -48,11 +50,50 @@
 @synthesize arrLabelAnnotation;
 @synthesize segConType;
 @synthesize lblTotal;
+@synthesize dtPicker;
+@synthesize txtStartDate;
+@synthesize txtEndDate;
 
 #pragma mark - UIViewController lifecycle methods
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self loadData];
+    ChartSalesByItemViewController *vc = (ChartSalesByItemViewController *)[[self.tabBarController viewControllers] objectAtIndex:0];
+    vc.txtStartDate.text = txtStartDate.text;
+    vc.txtEndDate.text = txtEndDate.text;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField;
+{
+    NSString *strDate = textField.text;
+    NSDate *datePeriod = [Utility stringToDate:strDate fromFormat:@"yyyy-MM-dd"];
+    [dtPicker setDate:datePeriod];
+}
+
+- (IBAction)datePickerChanged:(id)sender
+{
+    if([txtStartDate isFirstResponder])
+    {
+        txtStartDate.text = [Utility dateToString:dtPicker.date toFormat:@"yyyy-MM-dd"];
+    }
+    else if([txtEndDate isFirstResponder])
+    {
+        txtEndDate.text = [Utility dateToString:dtPicker.date toFormat:@"yyyy-MM-dd"];
+    }
+}
+
 - (void)loadView {
     [super loadView];
     // Do any additional setup after loading the view.
+    
+    [dtPicker removeFromSuperview];
+    txtStartDate.inputView = dtPicker;
+    txtStartDate.delegate = self;
+    
+    txtEndDate.inputView = dtPicker;
+    txtEndDate.delegate = self;
+    
     
     _homeModel = [[HomeModel alloc] init];
     _homeModel.delegate = self;
@@ -74,32 +115,21 @@
     CGRect frameSize = CGRectMake(segConType.frame.origin.x, segConType.frame.origin.y, segConType.frame.size.width, 20);
     segConType.frame = frameSize;
     
-    
-    [self loadViewProcess];
 }
 
--(void)loadViewProcess
+-(void)loadData
 {
-    if(![Utility hasEventSales:_event.eventID])
-    {
-        [self loadingOverlayView];
-        [_homeModel downloadItems:dbSalesSummary condition:_event];
-    }
-    else
-    {
-        [self setData];
-    }
+    [self loadingOverlayView];
+    [_homeModel downloadItems:dbSalesSummaryByEventByPeriod condition:@[_event,txtStartDate.text,txtEndDate.text]];
 }
 
 - (void)itemsDownloaded:(NSArray *)items
 {
-    [Utility setEventSales:@"1" eventID:_event.eventID];
-    
-    
     int i=0;
-    [[SharedProduct sharedProduct].productList addObjectsFromArray:items[i++]];
-    [[SharedReceipt sharedReceipt].receiptList addObjectsFromArray:items[i++]];
-    [[SharedReceiptItem sharedReceiptItem].receiptItemList addObjectsFromArray:items[i++]];
+    [SharedProduct sharedProduct].productList = items[i++];
+    [SharedReceipt sharedReceipt].receiptList = items[i++];
+    [SharedReceiptItem sharedReceiptItem].receiptItemList = items[i++];
+    [SharedCustomMade sharedCustomMade].customMadeList = items[i++];
     
     
     dispatch_async(dispatch_get_main_queue(),^ {
@@ -120,10 +150,10 @@
             item.eventID = receipt.eventID;
         }
         
-        //filter by event
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@",_strEventID];
-        NSArray *filteredArray = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-        receiptProductItemList = [filteredArray mutableCopy];
+//        //filter by event
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@",_strEventID];
+//        NSArray *filteredArray = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
+//        receiptProductItemList = [filteredArray mutableCopy];
         
         //sort by productname
         NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_priceSales" ascending:YES];
@@ -135,6 +165,7 @@
         NSInteger countItem = 0;
         float sumValue = 0.0f;
         NSString *previousPrice = @"";
+        [_salesByPriceDataListTemp removeAllObjects];
         for(ReceiptProductItem *item in receiptProductItemList)
         {
             if([previousPrice isEqualToString:@""])
@@ -181,7 +212,7 @@
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intNoOfPair" ascending:NO];
     NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_price" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2, nil];
-    _salesByPriceDataListTemp = [_salesByPriceDataListTemp sortedArrayUsingDescriptors:sortDescriptors];
+    _salesByPriceDataListTemp = [[_salesByPriceDataListTemp sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
 }
 
 -(void)sortBySumValue
@@ -189,7 +220,7 @@
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_floatSumValue" ascending:NO];
     NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_price" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2, nil];
-    _salesByPriceDataListTemp = [_salesByPriceDataListTemp sortedArrayUsingDescriptors:sortDescriptors];
+    _salesByPriceDataListTemp = [[_salesByPriceDataListTemp sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
 }
 
 -(int)getTotalNoOfPair
@@ -286,12 +317,24 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    [self initPlot];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    ChartSalesByItemViewController *vc = (ChartSalesByItemViewController *)[[self.tabBarController viewControllers] objectAtIndex:0];
+    txtStartDate.text = vc.txtStartDate.text;
+    txtEndDate.text = vc.txtEndDate.text;
+    [self loadData];
+}
 
 #pragma mark - Chart behavior
 -(void)initPlot {
+    arrValueAnnotation = nil;
+    arrLabelAnnotation = nil;
+    
     self.hostView.allowPinchScaling = NO;
     [self configureGraph];
     [self configurePlots];

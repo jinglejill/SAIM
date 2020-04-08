@@ -133,13 +133,18 @@
     NSArray *arrClassName;
     
     
-    switch (propCurrentDB) {
+    switch (propCurrentDB)
+    {
         case dbSalesDetail:
         case dbProductStatus:
-        case dbSalesSummary:
         case dbSalesSummaryByPeriod:
         {
             arrClassName = @[@"Product",@"Receipt",@"ReceiptProductItem"];
+        }
+            break;
+        case dbSalesSummaryByEventByPeriod:
+        {
+            arrClassName = @[@"Product",@"Receipt",@"ReceiptProductItem",@"CustomMade"];
         }
             break;
         case dbAccountInventorySummary:
@@ -222,6 +227,13 @@
             arrClassName = @[@"Receipt",@"ReceiptProductItem",@"Product",@"CustomMade",@"ItemTrackingNo",@"PostCustomer",@"PreOrderEventIDHistory",@"ExpenseDaily",@"CashAllocation"];
         }
             break;
+        case dbReportTopSpenderDetail:
+        case dbReceiptSearch:
+        case dbSearchSalesTelephoneDetail:
+        {
+            arrClassName = @[@"Receipt",@"ReceiptProductItem",@"Product",@"CustomMade",@"ItemTrackingNo",@"PostCustomer",@"Event"];
+        }
+            break;
         case dbProductDelete:
         {
             arrClassName = @[@"ProductDelete"];
@@ -299,6 +311,11 @@
             arrClassName = @[@"ExpenseDaily",@"OftenUse"];
         }
             break;
+        case dbReportTopSpender:
+        {
+            arrClassName = @[@"TopSpender"];
+        }
+            break;
         default:
             break;
     }
@@ -327,7 +344,6 @@
             break;
         case dbSalesDetail:
         case dbProductStatus:
-        case dbSalesSummary:
         case dbSalesSummaryByPeriod:
         case dbRewardProgram:
         {
@@ -386,6 +402,7 @@
         }
             break;
         //สำหรับ ไม่ใช้ Shared model
+        case dbSalesSummaryByEventByPeriod:
         case dbAccountInventorySummary:
         case dbPostCustomerByReceiptID:
         case dbAccountInventoryAdded:
@@ -418,6 +435,10 @@
         case dbPostDetailSearch:
         case dbPostDetailToPost:
         case dbExpenseDaily:
+        case dbReportTopSpender:
+        case dbReportTopSpenderDetail:
+        case dbReceiptSearch:
+        case dbSearchSalesTelephoneDetail:
         {
             [_dataToDownload appendData:dataRaw];
             if([ _dataToDownload length ]/_downloadSize == 1.0f)
@@ -638,10 +659,15 @@
             noteDataString = [Utility getNoteDataString:object];
         }
             break;
-        case dbSalesSummary:
+        case dbSalesSummaryByEventByPeriod:
         {
-            url = [NSString stringWithFormat:[Utility url:urlSalesSummaryGet],[Utility randomStringWithLength:6]];
-            noteDataString = [Utility getNoteDataString:object];
+            NSArray *dataList = (NSArray *)object;
+            Event *event = dataList[0];
+            NSString *startDate = dataList[1];
+            NSString *endDate = dataList[2];
+            
+            url = [NSString stringWithFormat:[Utility url:urlSalesSummaryByEventByPeriodGet],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"eventID=%ld&startDate=%@&endDate=%@",event.eventID,startDate,endDate];
         }
             break;
         case dbSalesSummaryByPeriod:
@@ -928,6 +954,45 @@
             noteDataString = [NSString stringWithFormat:@"inputDate=%@&eventID=%@",expenseDaily.inputDate,expenseDaily.eventID];
         }
             break;
+        case dbReportTopSpender:
+        {
+            NSArray *dataList = (NSArray *)object;
+            NSString *startDate = dataList[0];
+            NSString *endDate = dataList[1];
+            NSString *strOption = dataList[2];
+            
+            url = [NSString stringWithFormat:[Utility url:urlReportTopSpenderGetList],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"startDate=%@&endDate=%@&option=%@",startDate,endDate,strOption];
+        }
+            break;
+        case dbReportTopSpenderDetail:
+        {
+            NSArray *dataList = (NSArray *)object;
+            NSString *startDate = dataList[0];
+            NSString *endDate = dataList[1];
+            NSString *strOption = dataList[2];
+            NSString *telephone = dataList[3];
+            
+            url = [NSString stringWithFormat:[Utility url:urlReportTopSpenderDetailGetList],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"startDate=%@&endDate=%@&option=%@&telephone=%@",startDate,endDate,strOption,telephone];
+        }
+            break;
+        case dbReceiptSearch:
+        {
+            NSArray *dataList = (NSArray *)object;
+            NSString *receiptNo = dataList[0];
+            NSString *channel = dataList[1];
+            url = [NSString stringWithFormat:[Utility url:urlReceiptSearchGet],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"receiptNo=%@&channel=%@",receiptNo,channel];
+        }
+            break;
+        case dbSearchSalesTelephoneDetail:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlSearchSalesTelephoneDetailGetList],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"telephone=%@",(NSString *)object];
+        }
+            break;
+            
         default:
             break;
     }
@@ -2325,6 +2390,7 @@
                 countData++;
             }
             url = [NSURL URLWithString:[Utility url:urlScanPost]];
+            NSLog(@"scanpost url:%@",url);
         }
             break;
         case dbScanDelete:
@@ -2367,6 +2433,15 @@
                 countData++;
             }            
             url = [NSURL URLWithString:[Utility url:urlItemTrackingNoUpdate]];
+        }
+            break;
+        case dbItemTrackingNoTrackingNoUpdate:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlItemTrackingNoTrackingNoUpdate]];
+//            url = [NSURL URLWithString:@"/SAIM/SAIMItemTrackingNoTrackingNoUpdate.php"];
+            
+            NSLog(@"dbItemTrackingNoTrackingNoUpdate url:%@",url);
         }
             break;
         default:

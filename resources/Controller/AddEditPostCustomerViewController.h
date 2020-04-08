@@ -41,19 +41,12 @@
 @property (strong, nonatomic) ItemTrackingNo *selectedItemTrackingNo;
 @property (strong, nonatomic) NSArray *receiptProductItemList;
 @property (strong, nonatomic) PostCustomer *selectedPostCustomer;
+@property (nonatomic) BOOL readOnly;
+@property (nonatomic) NSInteger pageIndex;//1=searchReceipt
 - (IBAction)cancelButtonClicked:(id)sender;
 
 
 
-
-//@property (nonatomic) NSInteger receiptID;
-//@property (nonatomic) NSInteger receiptProductItemID;
-//@property (nonatomic) NSInteger postCustomerID;
-//@property (nonatomic) BOOL booAddOrEdit;// YES = add, NO = edit
-@property (nonatomic) NSInteger action;////cancel=0,add=1,edit=2,delete=3
-@property (nonatomic) BOOL hasPost;
-
-@property (strong, nonatomic) CustomerReceipt *selectedCustomerReceipt;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnCancel;
 @property (strong, nonatomic) IBOutlet UIButton *btnDelete;
@@ -65,4 +58,5 @@
 - (IBAction)deletePost:(id)sender;
 - (IBAction)nextButtonClicked:(id)sender;
 - (IBAction)previousButtonClicked:(id)sender;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnDone;
 @end

@@ -11,14 +11,16 @@
 #import "HomeModel.h"
 #import "AccountReceipt.h"
 #import "WebKit/WebKit.h"
+#import "NDHTMLtoPDF.h"
 
 
-@interface AccountReceiptHistoryPDFViewController : UIViewController<HomeModelProtocol, MFMailComposeViewControllerDelegate>
+@interface AccountReceiptHistoryPDFViewController : UIViewController<HomeModelProtocol, MFMailComposeViewControllerDelegate,NDHTMLtoPDFDelegate,WKNavigationDelegate>
 
 @property (strong, nonatomic) IBOutlet WKWebView *webPreview;
 @property (strong, nonatomic) AccountReceipt *accountReceiptHistory;
 @property (strong, nonatomic) NSString *strReceiptDateFrom;
 @property (strong, nonatomic) NSString *strReceiptDateTo;
+@property (nonatomic, strong) NDHTMLtoPDF *PDFCreator;
 - (IBAction)emailPDF:(id)sender;
 
 @end

@@ -149,7 +149,6 @@
     NSMutableArray *_receiptProductItemListForDate;
     NSMutableArray *_productListForDate;
     NSMutableArray *_customMadeListForDate;
-//    NSMutableArray *_customerReceiptListForDate;
     NSMutableArray *_itemTrackingNoListForDate;
     NSMutableArray *_postCustomerListForDate;
     NSMutableArray *_preOrderEventIDHistoryListForDate;
@@ -502,43 +501,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 
 -(void)setData
 {
-//    NSMutableArray *receiptList = _receiptListForDate;
-//    NSMutableArray *receiptProductItemList = _receiptProductItemListForDate;
-    
-    
-//    _receiptList = receiptList;
-    
-    
-//    NSArray *receiptProductItemFilter;
-//    NSMutableArray *receiptProductItemTemp = [[NSMutableArray alloc]init];
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptID" ascending:NO];
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//    _receiptList = [_receiptList sortedArrayUsingDescriptors:sortDescriptors];
-    
-//    for(Receipt *item in _receiptList)
-//    {
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld", item.receiptID];
-//        receiptProductItemFilter = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-        
-//        if([receiptProductItemFilter count] == 1)
-//        {
-//            ReceiptProductItem *receiptProductItemCountInReceipt = (ReceiptProductItem *)receiptProductItemFilter[0];
-//            receiptProductItemCountInReceipt.countInReceipt = 1;
-//        }
-//        else if ([receiptProductItemFilter count] > 1)
-//        {
-//            for(ReceiptProductItem *receiptProductItemCountInReceipt in receiptProductItemFilter)
-//            {
-//                receiptProductItemCountInReceipt.countInReceipt = [receiptProductItemFilter count];
-//            }
-//        }
-//        [receiptProductItemTemp addObjectsFromArray:receiptProductItemFilter];
-//    }
-//    _receiptProductItemList = receiptProductItemTemp;
-
-
-
-    _receiptList = _receiptListForDate;
+   _receiptList = _receiptListForDate;
     _receiptProductItemList = _receiptProductItemListForDate;
     for(ReceiptProductItem *item in _receiptProductItemList)
     {
@@ -1332,10 +1295,38 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             
             Receipt *receipt = _receiptListForDate[indexPath.section];
             NSString *receiptTime = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"HH:mm"];
+            
             cell.lblReceiptLabel.text = [NSString stringWithFormat:@"%ld. Receipt",indexPath.section+1];
             [cell.lblReceiptLabel sizeToFit];
             cell.lblReceiptLabelWidth.constant = cell.lblReceiptLabel.frame.size.width;
-            cell.lblReceipt.text = [NSString stringWithFormat:@"#R%@ (%@)",receipt.receiptNoID,receiptTime];
+            
+            
+            //show receiptNoID/referenceOrderNo******************
+            NSString *receiptNoID = [NSString stringWithFormat:@"#%@ (%@)",receipt.receiptNoID,receiptTime];
+            NSString *referenceOrderNo = [NSString stringWithFormat:@"#%@ (%@)",receipt.referenceOrderNo,receiptTime];
+            
+            if(receipt.showReceiptNoID == 1)
+            {
+                if([Utility isStringEmpty:receipt.referenceOrderNo])
+                {
+                    [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [cell.btnReceipt setTitle:referenceOrderNo forState:UIControlStateNormal];
+                }
+            }
+            else
+            {
+                [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
+            }
+            receipt.showReceiptNoID = !receipt.showReceiptNoID;
+
+            [cell.btnReceipt addTarget:self action:@selector(switchOrderNo:) forControlEvents:UIControlEventTouchUpInside];
+            cell.btnReceipt.tag = indexPath.section;
+            //******************
+            
+            
             cell.lblCash.text = [receipt.cashAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.cashAmount];
             cell.lblCredit.text = [receipt.creditAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.creditAmount];
             cell.lblTransfer.text = [receipt.transferAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.transferAmount];
@@ -2271,9 +2262,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               [self loadingOverlayView];
-                                                              //                                                              [self loadViewProcess];
-                                                              //                                                              [self removeOverlayViews];
-//                                                              [_homeModel downloadItems:dbMaster];
                                                           }];
     
     [alert addAction:defaultAction];
@@ -2297,40 +2285,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     dispatch_async(dispatch_get_main_queue(),^ {
         [self presentViewController:alert animated:YES completion:nil];
     } );
-}
-
-- (void)printTaxInvoice:(id)sender
-{
-    
-    UIButton *button = sender;
-    NSInteger receiptID = button.tag;
-    Receipt *receipt = [self getReceipt:receiptID];
-    _selectedPrintReceipt = receipt;
-    
-    
-    NSString *strReceiptDate = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd"];
-    NSString *currentDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd"];
-    if(![strReceiptDate isEqualToString:currentDate])
-    {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
-                                                                       message:@"Can print today receipt only"
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  
-                                                              }];
-        
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
-        return;
-    }
-    
-    
-    //ถ้าเคย generate แล้ว ไม่ต้อง gen ซ้ำ ให้เอาข้อมูลที่ gen มาแสดงเลย
-    //ถ้าไม่เคย gen
-    [self loadingOverlayView];
-    [_homeModel downloadItems:dbAccountReceipt condition:receipt];
 }
 
 - (Product *)getProduct:(NSString *)productID
@@ -2533,5 +2487,11 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         }
     }
     return productList;
+}
+
+-(void)switchOrderNo:(id)sender
+{
+    UIButton *button = (UIButton *)sender;    
+    [tbvData reloadSections:[[NSIndexSet alloc] initWithIndex:button.tag] withRowAnimation:NO];
 }
 @end

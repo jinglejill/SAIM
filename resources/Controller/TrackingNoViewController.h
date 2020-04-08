@@ -15,7 +15,8 @@
 }
 
 @property (strong, nonatomic) NSString *strTrackingNo;
-@property (nonatomic) NSInteger receiptID;
+//@property (nonatomic) NSInteger receiptID;
+@property (nonatomic) NSInteger receiptProductItemID;
 @property (nonatomic) NSInteger postDetailIndex;
 @property (strong, nonatomic) NSArray *postDetailList;
 

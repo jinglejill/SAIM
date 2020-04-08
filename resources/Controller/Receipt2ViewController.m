@@ -49,6 +49,7 @@
     UITextField *_txtDiscountReason;
     UITextField *_txtSalesRemark;
     UITextField *_txtTelephoneNo;
+    UITextField *_txtReferenceOrderNo;
     UIButton *_btnPost;
     
     
@@ -202,7 +203,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     }
     
     {
-        float channelWidth = self.view.frame.size.width-2*40;
+        float channelWidth = self.view.frame.size.width-2*15;
         float channelHeight = 29;
         float channelXOrigin = 15;
         float channelYOrigin = (39 - 25)/2;
@@ -234,6 +235,12 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         [_txtTelephoneNo addTarget:self action:@selector(txtTelephoneNoDidChange:) forControlEvents:UIControlEventEditingChanged];
         _txtTelephoneNo.delegate = self;
 
+        
+        _txtReferenceOrderNo = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, controlHeight)];
+        _txtReferenceOrderNo.placeholder = @"Reference order no.";
+        _txtReferenceOrderNo.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _txtReferenceOrderNo.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+        [_txtReferenceOrderNo  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
         
         
         _btnPost = [[UIButton alloc]initWithFrame:CGRectMake(postXOrigin, postYOrigin, postWidth, postHeight)];
@@ -276,7 +283,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         NSInteger channelForUserValue = [[NSUserDefaults standardUserDefaults] integerForKey:channelForUserKey];
         
         
-        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Event",@"Web",@"Line",@"FB",@"Shop",@"Other"]];
+        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Ev",@"Wb",@"Ln",@"FB",@"MS",@"Sh",@"Lz",@"JD",@"KP",@"Ot"]];
         _segConChannel.tintColor = [UIColor blackColor];
         _segConChannel.frame = CGRectMake(channelXOrigin, channelYOrigin, channelWidth, channelHeight);
         [_segConChannel setSelectedSegmentIndex:channelForUserValue];
@@ -744,8 +751,9 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
             customMade.ship = _segConShip.selectedSegmentIndex == 0;
         }
     }
+    
+    _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
     [tbvPay reloadData];
-//    [self updateCalculateParts];
 }
 
 -(void)segConSalesUserValueDidChange:(UISegmentedControl *)segment
@@ -824,9 +832,9 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     {
         CustomMade *customMade = (CustomMade *)_productBuyList[i][productBuyDetail];
         ProductDetail *productDetail = (ProductDetail *)_productBuyList[i][productBuyDetail];
-        if([self isProductInventoryOrPreOrder:i])
+        if(![Utility isStringEmpty:textField.text] && [Utility floatValue:textField.text]>0)
         {
-            if(![Utility isStringEmpty:textField.text] && [Utility floatValue:textField.text]>0)
+            if([self isProductInventoryOrPreOrder:i])
             {
                 productDetail.discount = _segConBahtPercent.selectedSegmentIndex == 0?1:2;
                 productDetail.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?[Utility floatValue:textField.text]:0;
@@ -838,11 +846,6 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
                 customMade.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?[Utility floatValue:textField.text]:0;
                 customMade.discountPercent = _segConBahtPercent.selectedSegmentIndex == 1?[Utility floatValue:textField.text]:0;
             }
-            
-        }
-        else
-        {
-            customMade.discountReason = [Utility trimString:_txtDiscountReason.text];
         }
     }
     [tbvPay reloadSections:[[NSIndexSet alloc] initWithIndex:0] withRowAnimation:NO];
@@ -909,7 +912,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         }
         else if(section == 1)
         {
-            row = 5;
+            row = 6;
         }
         else if(section == 2)
         {
@@ -1182,10 +1185,15 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
                     break;
                 case 3:
                 {
-                    [cell addSubview:_segConShip];
+                    [cell addSubview:_txtReferenceOrderNo];
                 }
                     break;
                 case 4:
+                {
+                    [cell addSubview:_segConShip];
+                }
+                    break;
+                case 5:
                 {
                     [cell addSubview:_segConSalesUser];
                 }
@@ -1703,6 +1711,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         customMade.replaceProduct = _booReplaceProduct;
     }
     
+    _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
     _booReplaceProduct = NO;
     [tbvPay reloadData];
     [_tbvDiscount removeFromSuperview];
@@ -1808,10 +1817,6 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
             }
         }
     }
-//    if([textField isEqual:_txtDiscountValuePercent])
-//    {
-//        [self txtDiscountValuePercentDidChange:_txtDiscountValuePercent];
-//    }
 }
 
 - (void)payButtonClicked:(id)sender
@@ -1999,7 +2004,8 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     Receipt *receipt = [[Receipt alloc]init];
     receipt.receiptID = receiptID;
     receipt.eventID = strEventID;
-    receipt.channel = _segConChannel.selectedSegmentIndex;//0=event,1=web,2=line,3=fb,4=shop,5=other
+    receipt.channel = [self getChannel];
+    receipt.referenceOrderNo = [Utility trimString:_txtReferenceOrderNo.text];
     receipt.payPrice = [Utility removeComma:[self getStrFmtAfterDiscountValue]];
     receipt.paymentMethod = @"";//[_txtCreditAmount.text isEqualToString:@""]?@"CA":[_txtCashReceive.text isEqualToString:@""]?@"CC":@"BO";
     receipt.creditAmount = [self getStrCreditAmount];
@@ -2154,5 +2160,19 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     NSString *strCashAmount = [_formatter stringFromNumber:[NSNumber numberWithFloat:cashAmount]];
     
     return [Utility removeComma:strCashAmount];
+}
+
+-(NSInteger)getChannel
+{
+    NSInteger channel = _segConChannel.selectedSegmentIndex;
+    if(channel >= 5 && channel <= 8)
+    {
+        channel += 1;
+    }
+    else if(channel == 9)
+    {
+        channel = 5;
+    }
+    return channel;
 }
 @end

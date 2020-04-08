@@ -7,17 +7,12 @@
 //
 
 #import "CustomUINavigationController.h"
-#import "ReceiptSummaryViewController.h"
 #import "AdminMenuViewController.h"
 #import "SalesSummaryViewController.h"
 #import "ChartTabBarController.h"
 #import "ChartSalesByItemViewController.h"
 #import "ChartSalesByZoneViewController.h"
-
-#import "ProductPostViewController.h"
-#import "ProductPostedViewController.h"
-
-
+#import "ReceiptSummary2ViewController.h"
 #import "ComparingScanViewController.h"
 #import "EventInventoryScanViewController.h"
 #import "EventProductDeleteScanViewController.h"
@@ -34,7 +29,8 @@
 
 
 #define tYellow          [UIColor colorWithRed:251/255.0 green:188/255.0 blue:5/255.0 alpha:1]
-#define tTheme          [UIColor colorWithRed:196/255.0 green:164/255.0 blue:168/255.0 alpha:1]
+//#define tTheme          [UIColor colorWithRed:196/255.0 green:164/255.0 blue:168/255.0 alpha:1]
+#define tTheme          [UIColor colorWithRed:230/255.0 green:171/255.0 blue:188/255.0 alpha:1]
 
 @interface CustomUINavigationController ()
 
@@ -74,7 +70,7 @@ extern BOOL globalRotateFromSeg;
         globalRotateFromSeg = NO;
         return NO;
     }
-    else if ([currentViewController isKindOfClass:[ReceiptSummaryViewController class]])
+    else if ([currentViewController isKindOfClass:[ReceiptSummary2ViewController class]])
         return NO;
     
     else if ([currentViewController isKindOfClass:[ComparingScanViewController class]])

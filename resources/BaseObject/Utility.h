@@ -140,8 +140,8 @@ enum enumDB
     dbUserAccountUpdateCountNotSeen,
     dbCredentials,
     dbProductStatus,
-    dbSalesSummary,
     dbSalesSummaryByPeriod,
+    dbSalesSummaryByEventByPeriod,
     dbDevice,
     dbAccountInventory,
     dbAccountInventorySummary,
@@ -190,7 +190,12 @@ enum enumDB
     dbPostCustomerAdd,
     dbItemTrackingNo,
     dbItemTrackingNoPostCustomerAdd,
-    dbItemTrackingNoPostCustomerDelete
+    dbItemTrackingNoPostCustomerDelete,
+    dbReportTopSpender,
+    dbReportTopSpenderDetail,
+    dbItemTrackingNoTrackingNoUpdate,
+    dbReceiptSearch,
+    dbSearchSalesTelephoneDetail
 };
 enum enumUrl
 {
@@ -285,6 +290,7 @@ enum enumUrl
     urlCredentialsValidate,
     urlProductStatusGet,
     urlSalesSummaryGet,
+    urlSalesSummaryByEventByPeriodGet,
     urlSalesSummaryByPeriodGet,
     urlDeviceInsert,
     urlAccountInventoryInsert,
@@ -344,7 +350,12 @@ enum enumUrl
     urlExpenseDailyDelete,
     urlPostCustomerAddInsert,
     urlItemTrackingNoUpdate,
-    urlItemTrackingNoPostCustomerAddInsert
+    urlItemTrackingNoPostCustomerAddInsert,
+    urlReportTopSpenderGetList,
+    urlReportTopSpenderDetailGetList,
+    urlItemTrackingNoTrackingNoUpdate,
+    urlReceiptSearchGet,
+    urlSearchSalesTelephoneDetailGetList
     
 };
 enum enumTableName

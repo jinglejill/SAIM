@@ -14,7 +14,6 @@
 #import "FirstPageViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "PasscodeViewController.h"
-#import "ReceiptSummaryViewController.h"
 #import "EventViewController.h"
 #import "PushSync.h"
 #import "SharedPushSync.h"
@@ -99,6 +98,8 @@ void myExceptionHandler(NSException *exception)
     UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearance];
     [barButtonAppearance setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault]; // Change to your colour
 //        [barButtonAppearance setBackButtonBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    
     
     
     
@@ -458,38 +459,7 @@ void myExceptionHandler(NSException *exception)
             {
                 UINavigationController * navigationController = self.navController;
                 UIViewController *viewController = navigationController.visibleViewController;
-                if([viewController isMemberOfClass:[ReceiptSummaryViewController class]])//check กรณีเดียวก่อนคือ ReceiptSummaryViewController
-                {
-                    NSLog(@"staying at ReceiptSummaryViewController");
-                    NSArray *arrReferenceTable = @[@"tProduct",@"tCashAllocation",@"tCustomMade",@"tReceipt",@"tReceiptProductItem",@"tCustomerReceipt",@"tPostCustomer",@"tPreOrderEventIDHistory"];
-                    if([arrReferenceTable containsObject:type])
-                    {
-                        {
-                            SEL s = NSSelectorFromString(@"loadingOverlayView");
-                            if([viewController respondsToSelector:s])
-                            {
-                                [viewController performSelector:s];
-                            }
-                        }
-                        
-                        {
-                            SEL s = NSSelectorFromString(@"loadViewProcess");
-                            if([viewController respondsToSelector:s])
-                            {
-                                [viewController performSelector:s];
-                            }
-                        }
-                        {
-                            SEL s = NSSelectorFromString(@"removeOverlayViews");
-                            if([viewController respondsToSelector:s])
-                            {
-                                [viewController performSelector:s];
-                            }
-                        }
-                        break;
-                    }
-                }
-                else if([viewController isMemberOfClass:[EventViewController class]])
+                if([viewController isMemberOfClass:[EventViewController class]])
                 {
                     NSArray *arrReferenceTable = @[@"tEvent"];
                     if([arrReferenceTable containsObject:type])

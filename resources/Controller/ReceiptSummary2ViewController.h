@@ -18,7 +18,6 @@
 @property (strong, nonatomic) IBOutlet UIDatePicker *dtPicker;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnShortOrDetail;
 @property (nonatomic, retain) IBOutlet UITableView *customMadeView;
-//@property (nonatomic, retain) IBOutlet UITableView *cashAllocationView;
 @property (nonatomic, retain) IBOutlet UITableView *preOrderEventIDHistoryView;
 @property (nonatomic, retain) IBOutlet UIView *titleAndCloseButtonView;
 @property (strong, nonatomic) IBOutlet UITableView *tbvData;

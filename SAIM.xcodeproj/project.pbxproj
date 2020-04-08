@@ -14,27 +14,6 @@
 		EF0C10E11CC35744001A23E6 /* PreOrderPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C10D91CC35744001A23E6 /* PreOrderPageViewController.m */; };
 		EF0C10E21CC35744001A23E6 /* EventInventoryItemUserPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C10DB1CC35744001A23E6 /* EventInventoryItemUserPageViewController.m */; };
 		EF0C10E31CC35744001A23E6 /* EventInventorySummaryPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C10DC1CC35744001A23E6 /* EventInventorySummaryPageViewController.m */; };
-		EF158DCE21C39440000A1CFB /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DBB21C3943E000A1CFB /* Icon-Small@3x.png */; };
-		EF158DCF21C39440000A1CFB /* Icon-iPadPro@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DBC21C3943E000A1CFB /* Icon-iPadPro@2x.png */; };
-		EF158DD021C39440000A1CFB /* Icon-Spotlight-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DBD21C3943F000A1CFB /* Icon-Spotlight-40@2x.png */; };
-		EF158DD121C39440000A1CFB /* Icon-Spotlight-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DBE21C3943F000A1CFB /* Icon-Spotlight-40@3x.png */; };
-		EF158DD221C39440000A1CFB /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DBF21C3943F000A1CFB /* Icon-76@2x.png */; };
-		EF158DD321C39440000A1CFB /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC021C3943F000A1CFB /* Icon-72@2x.png */; };
-		EF158DD421C39440000A1CFB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC121C3943F000A1CFB /* Icon.png */; };
-		EF158DD521C39440000A1CFB /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC221C3943F000A1CFB /* Icon-60.png */; };
-		EF158DD621C39440000A1CFB /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC321C3943F000A1CFB /* Icon-Small.png */; };
-		EF158DD721C39440000A1CFB /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC421C3943F000A1CFB /* Icon-76.png */; };
-		EF158DD821C39440000A1CFB /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC521C3943F000A1CFB /* Icon-Small-50.png */; };
-		EF158DD921C39440000A1CFB /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC621C3943F000A1CFB /* Icon-72.png */; };
-		EF158DDA21C39440000A1CFB /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC721C3943F000A1CFB /* Icon-60@3x.png */; };
-		EF158DDB21C39440000A1CFB /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC821C3943F000A1CFB /* Icon-60@2x.png */; };
-		EF158DDC21C39440000A1CFB /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DC921C3943F000A1CFB /* Icon@2x.png */; };
-		EF158DDD21C39440000A1CFB /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DCA21C3943F000A1CFB /* Icon-Small@2x.png */; };
-		EF158DDE21C39440000A1CFB /* Icon-Spotlight-40.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DCB21C39440000A1CFB /* Icon-Spotlight-40.png */; };
-		EF158DDF21C39440000A1CFB /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DCC21C39440000A1CFB /* Icon-Small-50@2x.png */; };
-		EF158DE021C39440000A1CFB /* Icon-76@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DCD21C39440000A1CFB /* Icon-76@3x.png */; };
-		EF158DE321C39591000A1CFB /* Icon-20.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DE121C39590000A1CFB /* Icon-20.png */; };
-		EF158DE421C39591000A1CFB /* Icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = EF158DE221C39590000A1CFB /* Icon-1024.png */; };
 		EF3EF42A1D54D44600F36F93 /* PrintQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3EF4261D54D44600F36F93 /* PrintQRCodeViewController.m */; };
 		EF3EF42B1D54D44600F36F93 /* GenerateQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3EF4271D54D44600F36F93 /* GenerateQRCodeViewController.m */; };
 		EF3EF4301D54D4A900F36F93 /* CustomUITableViewCell4.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3EF42C1D54D4A900F36F93 /* CustomUITableViewCell4.m */; };
@@ -45,6 +24,9 @@
 		EF4CB25A1E717128008A93FC /* pdfDoc.png in Resources */ = {isa = PBXBuildFile; fileRef = EF4CB2591E717128008A93FC /* pdfDoc.png */; };
 		EF4CB25D1E717134008A93FC /* AccountReceiptHistorySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CB25C1E717134008A93FC /* AccountReceiptHistorySummary.m */; };
 		EF52735722B37C3400D428A4 /* testview.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF52735622B37C3400D428A4 /* testview.xib */; };
+		EF5983142438B76400775677 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5983132438B76400775677 /* NetworkExtension.framework */; };
+		EF59831624399C9E00775677 /* oneSignature3.png in Resources */ = {isa = PBXBuildFile; fileRef = EF59831524399C9E00775677 /* oneSignature3.png */; };
+		EF5983192439D0F500775677 /* ExportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5983182439D0F500775677 /* ExportManager.m */; };
 		EF5E04CE1D7A80DD005CC8DE /* EventInventoryItemPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5E04CA1D7A80DD005CC8DE /* EventInventoryItemPageViewController.m */; };
 		EF5E04CF1D7A80DD005CC8DE /* ProductStatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */; };
 		EF67EF091E79581A005D20F9 /* ProductionOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF061E79581A005D20F9 /* ProductionOrder.m */; };
@@ -88,10 +70,6 @@
 		EF795DD61DA9FD2B00191CDA /* SharedEventSales.m in Sources */ = {isa = PBXBuildFile; fileRef = EF795DD21DA9FD2B00191CDA /* SharedEventSales.m */; };
 		EF799BA81D0C066B00473F5F /* SalesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BA51D0C066B00473F5F /* SalesDetailViewController.m */; };
 		EF799BA91D0C066B00473F5F /* SearchSalesTelephoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BA71D0C066B00473F5F /* SearchSalesTelephoneViewController.m */; };
-		EF799BB01D0C068000473F5F /* CashAllocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BAB1D0C068000473F5F /* CashAllocationView.m */; };
-		EF799BB11D0C068000473F5F /* CashAllocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF799BAC1D0C068000473F5F /* CashAllocationView.xib */; };
-		EF799BB21D0C068000473F5F /* CustomMadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BAE1D0C068000473F5F /* CustomMadeView.m */; };
-		EF799BB31D0C068000473F5F /* CustomMadeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF799BAF1D0C068000473F5F /* CustomMadeView.xib */; };
 		EF799BB91D121C6700473F5F /* SharedCompareProductScan.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BB81D121C6700473F5F /* SharedCompareProductScan.m */; };
 		EF799BC41D13CF0900473F5F /* PrintAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BC31D13CF0900473F5F /* PrintAddressView.m */; };
 		EF799BCC1D16C15200473F5F /* CustomMadeInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BCA1D16C15200473F5F /* CustomMadeInViewController.m */; };
@@ -106,6 +84,37 @@
 		EF88062E241F6F0B00862ED5 /* CustomTableViewCellOrder.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF88062C241F6F0B00862ED5 /* CustomTableViewCellOrder.xib */; };
 		EF880635241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF880634241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib */; };
 		EF880638241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = EF880637241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m */; };
+		EF8B8A412432CF43005F6E91 /* ReportTopSpenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A402432CF43005F6E91 /* ReportTopSpenderViewController.m */; };
+		EF8B8A452432DC40005F6E91 /* CustomTableViewCellTopSpender.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */; };
+		EF8B8A462432DC40005F6E91 /* CustomTableViewCellTopSpender.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */; };
+		EF8B8A492432E13A005F6E91 /* TopSpender.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A482432E13A005F6E91 /* TopSpender.m */; };
+		EF8B8A4C24331EC8005F6E91 /* ReportTopSpenderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A4B24331EC8005F6E91 /* ReportTopSpenderDetailViewController.m */; };
+		EF8B8A53243338D6005F6E91 /* CustomMadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A4D243338D5005F6E91 /* CustomMadeView.m */; };
+		EF8B8A54243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A4E243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib */; };
+		EF8B8A55243338D6005F6E91 /* CustomMadeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A50243338D6005F6E91 /* CustomMadeView.xib */; };
+		EF8B8A56243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A52243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m */; };
+		EF8B8A6B2433A100005F6E91 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A572433A0FD005F6E91 /* Icon-76@2x.png */; };
+		EF8B8A6C2433A100005F6E91 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A582433A0FD005F6E91 /* Icon-60.png */; };
+		EF8B8A6D2433A100005F6E91 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A592433A0FD005F6E91 /* Icon-Small.png */; };
+		EF8B8A6E2433A100005F6E91 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A5A2433A0FD005F6E91 /* Icon-Small-50.png */; };
+		EF8B8A6F2433A100005F6E91 /* Icon-Spotlight-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A5B2433A0FD005F6E91 /* Icon-Spotlight-40@2x.png */; };
+		EF8B8A702433A100005F6E91 /* Icon-Spotlight-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A5C2433A0FD005F6E91 /* Icon-Spotlight-40@3x.png */; };
+		EF8B8A712433A100005F6E91 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A5D2433A0FE005F6E91 /* Icon@2x.png */; };
+		EF8B8A722433A100005F6E91 /* Icon-76@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A5E2433A0FE005F6E91 /* Icon-76@3x.png */; };
+		EF8B8A732433A100005F6E91 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A5F2433A0FE005F6E91 /* Icon-Small@2x.png */; };
+		EF8B8A742433A100005F6E91 /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A602433A0FE005F6E91 /* Icon-Small@3x.png */; };
+		EF8B8A752433A100005F6E91 /* Icon-iPadPro@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A612433A0FE005F6E91 /* Icon-iPadPro@2x.png */; };
+		EF8B8A762433A100005F6E91 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A622433A0FE005F6E91 /* Icon.png */; };
+		EF8B8A782433A100005F6E91 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A642433A0FF005F6E91 /* Icon-76.png */; };
+		EF8B8A792433A100005F6E91 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A652433A0FF005F6E91 /* Icon-Small-50@2x.png */; };
+		EF8B8A7A2433A100005F6E91 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A662433A0FF005F6E91 /* Icon-60@2x.png */; };
+		EF8B8A7B2433A100005F6E91 /* Icon-Spotlight-40.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A672433A0FF005F6E91 /* Icon-Spotlight-40.png */; };
+		EF8B8A7C2433A100005F6E91 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A682433A0FF005F6E91 /* Icon-72@2x.png */; };
+		EF8B8A7D2433A100005F6E91 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A692433A100005F6E91 /* Icon-72.png */; };
+		EF8B8A7E2433A100005F6E91 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A6A2433A100005F6E91 /* Icon-60@3x.png */; };
+		EF8B8A802433A26E005F6E91 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A7F2433A26D005F6E91 /* Icon.png */; };
+		EF8B8A822433A2AA005F6E91 /* miniLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A812433A2AA005F6E91 /* miniLogo.png */; };
+		EF8B8A842433A2B8005F6E91 /* Icon-20.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A832433A2B7005F6E91 /* Icon-20.png */; };
 		EF8C520A239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8C5209239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.m */; };
 		EF8C520D239F307F00AC2987 /* PreOrderScanPost2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8C520C239F307F00AC2987 /* PreOrderScanPost2ViewController.m */; };
 		EF9DC7CE1CCF5E84004ABAB6 /* EventProductDeleteScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9DC7C81CCF5E83004ABAB6 /* EventProductDeleteScanViewController.m */; };
@@ -130,6 +139,10 @@
 		EFA2392F1EAA0C10009CE51A /* TransferHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA2392D1EAA0C10009CE51A /* TransferHistory.m */; };
 		EFA9308423832090001C9517 /* ProductPosted2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA9308323832090001C9517 /* ProductPosted2ViewController.m */; };
 		EFA9308923952068001C9517 /* ProductPost2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA9308823952068001C9517 /* ProductPost2ViewController.m */; };
+		EFB460BB243A731F00C5100E /* blankSignature2.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460BA243A731F00C5100E /* blankSignature2.png */; };
+		EFB460C5243A889700C5100E /* NDHTMLtoPDF.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */; };
+		EFB460CA243C838000C5100E /* SearchReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460C9243C838000C5100E /* SearchReceiptViewController.m */; };
+		EFB460CD243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */; };
 		EFB8719B20C0E6020011AF78 /* BRPtouchPrinterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */; };
 		EFB8719C20C0E6020011AF78 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */; };
 		EFB8719D20C0E6020011AF78 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719820C0E6020011AF78 /* DropboxSDK.framework */; };
@@ -250,13 +263,10 @@
 		EFF083B71CAFA7E0003E74D6 /* ProductNameDetailEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081D91CAFA7E0003E74D6 /* ProductNameDetailEditViewController.m */; };
 		EFF083B81CAFA7E0003E74D6 /* ProductNameDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081DB1CAFA7E0003E74D6 /* ProductNameDetailViewController.m */; };
 		EFF083B91CAFA7E0003E74D6 /* ProductNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081DD1CAFA7E0003E74D6 /* ProductNameViewController.m */; };
-		EFF083BA1CAFA7E0003E74D6 /* ProductPostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081DF1CAFA7E0003E74D6 /* ProductPostedViewController.m */; };
-		EFF083BB1CAFA7E0003E74D6 /* ProductPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081E11CAFA7E0003E74D6 /* ProductPostViewController.m */; };
 		EFF083BC1CAFA7E0003E74D6 /* ProductSalesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081E31CAFA7E0003E74D6 /* ProductSalesViewController.m */; };
 		EFF083BD1CAFA7E0003E74D6 /* ProductSettingColorAndSizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081E51CAFA7E0003E74D6 /* ProductSettingColorAndSizeViewController.m */; };
 		EFF083BE1CAFA7E0003E74D6 /* ProductSizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081E71CAFA7E0003E74D6 /* ProductSizeViewController.m */; };
 		EFF083BF1CAFA7E0003E74D6 /* QRCodeImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081E91CAFA7E0003E74D6 /* QRCodeImageViewController.m */; };
-		EFF083C01CAFA7E0003E74D6 /* ReceiptSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081EB1CAFA7E0003E74D6 /* ReceiptSummaryViewController.m */; };
 		EFF083C11CAFA7E0003E74D6 /* SalesCustomMadeAddCustomMadeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081ED1CAFA7E0003E74D6 /* SalesCustomMadeAddCustomMadeViewController.m */; };
 		EFF083C21CAFA7E0003E74D6 /* SalesCustomMadeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081EF1CAFA7E0003E74D6 /* SalesCustomMadeViewController.m */; };
 		EFF083C31CAFA7E0003E74D6 /* SalesScanAddScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081F11CAFA7E0003E74D6 /* SalesScanAddScanViewController.m */; };
@@ -438,27 +448,6 @@
 		EF0C10DC1CC35744001A23E6 /* EventInventorySummaryPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventInventorySummaryPageViewController.m; sourceTree = "<group>"; };
 		EF0C10DD1CC35744001A23E6 /* EventInventoryItemUserPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventInventoryItemUserPageViewController.h; sourceTree = "<group>"; };
 		EF0C10DE1CC35744001A23E6 /* EventInventorySummaryPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventInventorySummaryPageViewController.h; sourceTree = "<group>"; };
-		EF158DBB21C3943E000A1CFB /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@3x.png"; sourceTree = "<group>"; };
-		EF158DBC21C3943E000A1CFB /* Icon-iPadPro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPadPro@2x.png"; sourceTree = "<group>"; };
-		EF158DBD21C3943F000A1CFB /* Icon-Spotlight-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight-40@2x.png"; sourceTree = "<group>"; };
-		EF158DBE21C3943F000A1CFB /* Icon-Spotlight-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight-40@3x.png"; sourceTree = "<group>"; };
-		EF158DBF21C3943F000A1CFB /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
-		EF158DC021C3943F000A1CFB /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		EF158DC121C3943F000A1CFB /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		EF158DC221C3943F000A1CFB /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
-		EF158DC321C3943F000A1CFB /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
-		EF158DC421C3943F000A1CFB /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
-		EF158DC521C3943F000A1CFB /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
-		EF158DC621C3943F000A1CFB /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
-		EF158DC721C3943F000A1CFB /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
-		EF158DC821C3943F000A1CFB /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
-		EF158DC921C3943F000A1CFB /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		EF158DCA21C3943F000A1CFB /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
-		EF158DCB21C39440000A1CFB /* Icon-Spotlight-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight-40.png"; sourceTree = "<group>"; };
-		EF158DCC21C39440000A1CFB /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
-		EF158DCD21C39440000A1CFB /* Icon-76@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@3x.png"; sourceTree = "<group>"; };
-		EF158DE121C39590000A1CFB /* Icon-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-20.png"; sourceTree = "<group>"; };
-		EF158DE221C39590000A1CFB /* Icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-1024.png"; sourceTree = "<group>"; };
 		EF3EF4261D54D44600F36F93 /* PrintQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintQRCodeViewController.m; sourceTree = "<group>"; };
 		EF3EF4271D54D44600F36F93 /* GenerateQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateQRCodeViewController.m; sourceTree = "<group>"; };
 		EF3EF4281D54D44600F36F93 /* PrintQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintQRCodeViewController.h; sourceTree = "<group>"; };
@@ -477,6 +466,10 @@
 		EF4CB25B1E717134008A93FC /* AccountReceiptHistorySummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountReceiptHistorySummary.h; sourceTree = "<group>"; };
 		EF4CB25C1E717134008A93FC /* AccountReceiptHistorySummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountReceiptHistorySummary.m; sourceTree = "<group>"; };
 		EF52735622B37C3400D428A4 /* testview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = testview.xib; sourceTree = "<group>"; };
+		EF5983132438B76400775677 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		EF59831524399C9E00775677 /* oneSignature3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oneSignature3.png; sourceTree = "<group>"; };
+		EF5983172439D0F500775677 /* ExportManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExportManager.h; sourceTree = "<group>"; };
+		EF5983182439D0F500775677 /* ExportManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExportManager.m; sourceTree = "<group>"; };
 		EF5E04CA1D7A80DD005CC8DE /* EventInventoryItemPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventInventoryItemPageViewController.m; sourceTree = "<group>"; };
 		EF5E04CB1D7A80DD005CC8DE /* EventInventoryItemPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventInventoryItemPageViewController.h; sourceTree = "<group>"; };
 		EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductStatusDetailViewController.m; sourceTree = "<group>"; };
@@ -553,12 +546,6 @@
 		EF799BA51D0C066B00473F5F /* SalesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesDetailViewController.m; sourceTree = "<group>"; };
 		EF799BA61D0C066B00473F5F /* SearchSalesTelephoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSalesTelephoneViewController.h; sourceTree = "<group>"; };
 		EF799BA71D0C066B00473F5F /* SearchSalesTelephoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSalesTelephoneViewController.m; sourceTree = "<group>"; };
-		EF799BAA1D0C068000473F5F /* CashAllocationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CashAllocationView.h; sourceTree = "<group>"; };
-		EF799BAB1D0C068000473F5F /* CashAllocationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CashAllocationView.m; sourceTree = "<group>"; };
-		EF799BAC1D0C068000473F5F /* CashAllocationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CashAllocationView.xib; sourceTree = "<group>"; };
-		EF799BAD1D0C068000473F5F /* CustomMadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMadeView.h; sourceTree = "<group>"; };
-		EF799BAE1D0C068000473F5F /* CustomMadeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMadeView.m; sourceTree = "<group>"; };
-		EF799BAF1D0C068000473F5F /* CustomMadeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomMadeView.xib; sourceTree = "<group>"; };
 		EF799BB71D121C6700473F5F /* SharedCompareProductScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedCompareProductScan.h; sourceTree = "<group>"; };
 		EF799BB81D121C6700473F5F /* SharedCompareProductScan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedCompareProductScan.m; sourceTree = "<group>"; };
 		EF799BC21D13CF0900473F5F /* PrintAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintAddressView.h; sourceTree = "<group>"; };
@@ -583,6 +570,43 @@
 		EF880634241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableHeaderFooterViewOrderSummary.xib; sourceTree = "<group>"; };
 		EF880636241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableHeaderFooterViewOrderSummary.h; sourceTree = "<group>"; };
 		EF880637241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderFooterViewOrderSummary.m; sourceTree = "<group>"; };
+		EF8B8A3F2432CF43005F6E91 /* ReportTopSpenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportTopSpenderViewController.h; sourceTree = "<group>"; };
+		EF8B8A402432CF43005F6E91 /* ReportTopSpenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportTopSpenderViewController.m; sourceTree = "<group>"; };
+		EF8B8A422432DC40005F6E91 /* CustomTableViewCellTopSpender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellTopSpender.h; sourceTree = "<group>"; };
+		EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellTopSpender.m; sourceTree = "<group>"; };
+		EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellTopSpender.xib; sourceTree = "<group>"; };
+		EF8B8A472432E13A005F6E91 /* TopSpender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TopSpender.h; sourceTree = "<group>"; };
+		EF8B8A482432E13A005F6E91 /* TopSpender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopSpender.m; sourceTree = "<group>"; };
+		EF8B8A4A24331EC8005F6E91 /* ReportTopSpenderDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportTopSpenderDetailViewController.h; sourceTree = "<group>"; };
+		EF8B8A4B24331EC8005F6E91 /* ReportTopSpenderDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportTopSpenderDetailViewController.m; sourceTree = "<group>"; };
+		EF8B8A4D243338D5005F6E91 /* CustomMadeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMadeView.m; sourceTree = "<group>"; };
+		EF8B8A4E243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTableViewCellExpenseDailyHeader.xib; sourceTree = "<group>"; };
+		EF8B8A4F243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellExpenseDailyHeader.h; sourceTree = "<group>"; };
+		EF8B8A50243338D6005F6E91 /* CustomMadeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomMadeView.xib; sourceTree = "<group>"; };
+		EF8B8A51243338D6005F6E91 /* CustomMadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMadeView.h; sourceTree = "<group>"; };
+		EF8B8A52243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellExpenseDailyHeader.m; sourceTree = "<group>"; };
+		EF8B8A572433A0FD005F6E91 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		EF8B8A582433A0FD005F6E91 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
+		EF8B8A592433A0FD005F6E91 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		EF8B8A5A2433A0FD005F6E91 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		EF8B8A5B2433A0FD005F6E91 /* Icon-Spotlight-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight-40@2x.png"; sourceTree = "<group>"; };
+		EF8B8A5C2433A0FD005F6E91 /* Icon-Spotlight-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight-40@3x.png"; sourceTree = "<group>"; };
+		EF8B8A5D2433A0FE005F6E91 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		EF8B8A5E2433A0FE005F6E91 /* Icon-76@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@3x.png"; sourceTree = "<group>"; };
+		EF8B8A5F2433A0FE005F6E91 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		EF8B8A602433A0FE005F6E91 /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@3x.png"; sourceTree = "<group>"; };
+		EF8B8A612433A0FE005F6E91 /* Icon-iPadPro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPadPro@2x.png"; sourceTree = "<group>"; };
+		EF8B8A622433A0FE005F6E91 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		EF8B8A642433A0FF005F6E91 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		EF8B8A652433A0FF005F6E91 /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		EF8B8A662433A0FF005F6E91 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
+		EF8B8A672433A0FF005F6E91 /* Icon-Spotlight-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Spotlight-40.png"; sourceTree = "<group>"; };
+		EF8B8A682433A0FF005F6E91 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		EF8B8A692433A100005F6E91 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		EF8B8A6A2433A100005F6E91 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
+		EF8B8A7F2433A26D005F6E91 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../../../mini2020Logo/Icon.png; sourceTree = "<group>"; };
+		EF8B8A812433A2AA005F6E91 /* miniLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = miniLogo.png; sourceTree = "<group>"; };
+		EF8B8A832433A2B7005F6E91 /* Icon-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-20.png"; sourceTree = "<group>"; };
 		EF8C5208239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrderScanUnpost2ViewController.h; sourceTree = "<group>"; };
 		EF8C5209239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrderScanUnpost2ViewController.m; sourceTree = "<group>"; };
 		EF8C520B239F307F00AC2987 /* PreOrderScanPost2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrderScanPost2ViewController.h; sourceTree = "<group>"; };
@@ -628,6 +652,13 @@
 		EFA9308323832090001C9517 /* ProductPosted2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductPosted2ViewController.m; sourceTree = "<group>"; };
 		EFA9308723952067001C9517 /* ProductPost2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductPost2ViewController.h; sourceTree = "<group>"; };
 		EFA9308823952068001C9517 /* ProductPost2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductPost2ViewController.m; sourceTree = "<group>"; };
+		EFB460BA243A731F00C5100E /* blankSignature2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankSignature2.png; sourceTree = "<group>"; };
+		EFB460C3243A889700C5100E /* NDHTMLtoPDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDHTMLtoPDF.h; sourceTree = "<group>"; };
+		EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDHTMLtoPDF.m; sourceTree = "<group>"; };
+		EFB460C8243C838000C5100E /* SearchReceiptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchReceiptViewController.h; sourceTree = "<group>"; };
+		EFB460C9243C838000C5100E /* SearchReceiptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchReceiptViewController.m; sourceTree = "<group>"; };
+		EFB460CB243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchSalesTelephoneDetailViewController.h; sourceTree = "<group>"; };
+		EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchSalesTelephoneDetailViewController.m; sourceTree = "<group>"; };
 		EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRPtouchPrinterKit.framework; sourceTree = "<group>"; };
 		EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		EFB8719820C0E6020011AF78 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
@@ -841,10 +872,6 @@
 		EFF081DB1CAFA7E0003E74D6 /* ProductNameDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductNameDetailViewController.m; sourceTree = "<group>"; };
 		EFF081DC1CAFA7E0003E74D6 /* ProductNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductNameViewController.h; sourceTree = "<group>"; };
 		EFF081DD1CAFA7E0003E74D6 /* ProductNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductNameViewController.m; sourceTree = "<group>"; };
-		EFF081DE1CAFA7E0003E74D6 /* ProductPostedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPostedViewController.h; sourceTree = "<group>"; };
-		EFF081DF1CAFA7E0003E74D6 /* ProductPostedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPostedViewController.m; sourceTree = "<group>"; };
-		EFF081E01CAFA7E0003E74D6 /* ProductPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPostViewController.h; sourceTree = "<group>"; };
-		EFF081E11CAFA7E0003E74D6 /* ProductPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPostViewController.m; sourceTree = "<group>"; };
 		EFF081E21CAFA7E0003E74D6 /* ProductSalesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductSalesViewController.h; sourceTree = "<group>"; };
 		EFF081E31CAFA7E0003E74D6 /* ProductSalesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductSalesViewController.m; sourceTree = "<group>"; };
 		EFF081E41CAFA7E0003E74D6 /* ProductSettingColorAndSizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductSettingColorAndSizeViewController.h; sourceTree = "<group>"; };
@@ -853,8 +880,6 @@
 		EFF081E71CAFA7E0003E74D6 /* ProductSizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductSizeViewController.m; sourceTree = "<group>"; };
 		EFF081E81CAFA7E0003E74D6 /* QRCodeImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeImageViewController.h; sourceTree = "<group>"; };
 		EFF081E91CAFA7E0003E74D6 /* QRCodeImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeImageViewController.m; sourceTree = "<group>"; };
-		EFF081EA1CAFA7E0003E74D6 /* ReceiptSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiptSummaryViewController.h; sourceTree = "<group>"; };
-		EFF081EB1CAFA7E0003E74D6 /* ReceiptSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiptSummaryViewController.m; sourceTree = "<group>"; };
 		EFF081EC1CAFA7E0003E74D6 /* SalesCustomMadeAddCustomMadeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesCustomMadeAddCustomMadeViewController.h; sourceTree = "<group>"; };
 		EFF081ED1CAFA7E0003E74D6 /* SalesCustomMadeAddCustomMadeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesCustomMadeAddCustomMadeViewController.m; sourceTree = "<group>"; };
 		EFF081EE1CAFA7E0003E74D6 /* SalesCustomMadeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesCustomMadeViewController.h; sourceTree = "<group>"; };
@@ -1202,6 +1227,7 @@
 				EFF084681CAFA80B003E74D6 /* CoreText.framework in Frameworks */,
 				EFB8719B20C0E6020011AF78 /* BRPtouchPrinterKit.framework in Frameworks */,
 				EFB8719C20C0E6020011AF78 /* libCorePlot-CocoaTouch.a in Frameworks */,
+				EF5983142438B76400775677 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,6 +1248,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF5983122438B76400775677 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EF5983132438B76400775677 /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EFA072A21F57175E00830045 /* BaseObject */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,12 +1279,24 @@
 			path = Voice;
 			sourceTree = "<group>";
 		};
+		EFB460C2243A883800C5100E /* NDHTMLtoPDF */ = {
+			isa = PBXGroup;
+			children = (
+				EFB460C3243A889700C5100E /* NDHTMLtoPDF.h */,
+				EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */,
+			);
+			path = NDHTMLtoPDF;
+			sourceTree = "<group>";
+		};
 		EFB8719220C0E6020011AF78 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				EFB460C2243A883800C5100E /* NDHTMLtoPDF */,
 				EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */,
 				EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */,
 				EFB8719820C0E6020011AF78 /* DropboxSDK.framework */,
+				EF5983172439D0F500775677 /* ExportManager.h */,
+				EF5983182439D0F500775677 /* ExportManager.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -1286,6 +1332,7 @@
 				EFF081311CAF52C5003E74D6 /* SAIMTests */,
 				EFF0813C1CAF52C5003E74D6 /* SAIMUITests */,
 				EFF081161CAF52C5003E74D6 /* Products */,
+				EF5983122438B76400775677 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1602,10 +1649,6 @@
 				EFA9308823952068001C9517 /* ProductPost2ViewController.m */,
 				EFA9308223832090001C9517 /* ProductPosted2ViewController.h */,
 				EFA9308323832090001C9517 /* ProductPosted2ViewController.m */,
-				EFF081DE1CAFA7E0003E74D6 /* ProductPostedViewController.h */,
-				EFF081DF1CAFA7E0003E74D6 /* ProductPostedViewController.m */,
-				EFF081E01CAFA7E0003E74D6 /* ProductPostViewController.h */,
-				EFF081E11CAFA7E0003E74D6 /* ProductPostViewController.m */,
 				EFF0846D1CAFA87E003E74D6 /* ProductSalesSetViewController.h */,
 				EFF0846E1CAFA87E003E74D6 /* ProductSalesSetViewController.m */,
 				EFF081E21CAFA7E0003E74D6 /* ProductSalesViewController.h */,
@@ -1618,8 +1661,6 @@
 				EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */,
 				EFF081E81CAFA7E0003E74D6 /* QRCodeImageViewController.h */,
 				EFF081E91CAFA7E0003E74D6 /* QRCodeImageViewController.m */,
-				EFF081EA1CAFA7E0003E74D6 /* ReceiptSummaryViewController.h */,
-				EFF081EB1CAFA7E0003E74D6 /* ReceiptSummaryViewController.m */,
 				EFF084701CAFA8F8003E74D6 /* ReceiptViewController.h */,
 				EFF084711CAFA8F8003E74D6 /* ReceiptViewController.m */,
 				EFA239171EAA0C00009CE51A /* RewardProgramCollectAddViewController.h */,
@@ -1666,6 +1707,14 @@
 				EF77B79E241A0A8700834B8D /* ExpenseDailyViewController.m */,
 				EF880627241F699C00862ED5 /* Receipt2ViewController.h */,
 				EF880628241F699C00862ED5 /* Receipt2ViewController.m */,
+				EF8B8A3F2432CF43005F6E91 /* ReportTopSpenderViewController.h */,
+				EF8B8A402432CF43005F6E91 /* ReportTopSpenderViewController.m */,
+				EF8B8A4A24331EC8005F6E91 /* ReportTopSpenderDetailViewController.h */,
+				EF8B8A4B24331EC8005F6E91 /* ReportTopSpenderDetailViewController.m */,
+				EFB460C8243C838000C5100E /* SearchReceiptViewController.h */,
+				EFB460C9243C838000C5100E /* SearchReceiptViewController.m */,
+				EFB460CB243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.h */,
+				EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1758,18 +1807,18 @@
 		EFF082531CAFA7E0003E74D6 /* CustomUIView */ = {
 			isa = PBXGroup;
 			children = (
+				EF8B8A51243338D6005F6E91 /* CustomMadeView.h */,
+				EF8B8A4D243338D5005F6E91 /* CustomMadeView.m */,
+				EF8B8A50243338D6005F6E91 /* CustomMadeView.xib */,
+				EF8B8A4F243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.h */,
+				EF8B8A52243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m */,
+				EF8B8A4E243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib */,
 				EFF082541CAFA7E0003E74D6 /* APLSectionHeaderView.h */,
 				EFF082551CAFA7E0003E74D6 /* APLSectionHeaderView.m */,
 				EFF082561CAFA7E0003E74D6 /* APLSectionInfo.h */,
 				EFF082571CAFA7E0003E74D6 /* APLSectionInfo.m */,
-				EF799BAA1D0C068000473F5F /* CashAllocationView.h */,
-				EF799BAB1D0C068000473F5F /* CashAllocationView.m */,
-				EF799BAC1D0C068000473F5F /* CashAllocationView.xib */,
 				EFF082581CAFA7E0003E74D6 /* CustomCollectionViewFlowLayout.h */,
 				EFF082591CAFA7E0003E74D6 /* CustomCollectionViewFlowLayout.m */,
-				EF799BAD1D0C068000473F5F /* CustomMadeView.h */,
-				EF799BAE1D0C068000473F5F /* CustomMadeView.m */,
-				EF799BAF1D0C068000473F5F /* CustomMadeView.xib */,
 				EFCAD5CA1E5EEB460013393D /* CustomPrintPageRenderer.h */,
 				EFCAD5CB1E5EEB460013393D /* CustomPrintPageRenderer.m */,
 				EFF0825A1CAFA7E0003E74D6 /* CustomUIAlertController.h */,
@@ -1849,6 +1898,9 @@
 				EF733D8B24206E8700750577 /* CustomTableViewCellSaveCancel.h */,
 				EF733D8C24206E8700750577 /* CustomTableViewCellSaveCancel.m */,
 				EF733D8D24206E8700750577 /* CustomTableViewCellSaveCancel.xib */,
+				EF8B8A422432DC40005F6E91 /* CustomTableViewCellTopSpender.h */,
+				EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */,
+				EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1868,33 +1920,8 @@
 		EFF082811CAFA7E0003E74D6 /* Icon */ = {
 			isa = PBXGroup;
 			children = (
-				EF77B7982414DB3500834B8D /* postCustomer2.png */,
-				EFF0E01E240FC4E900776023 /* cross2.png */,
-				EFF0E01C240FC43200776023 /* postCustomerNo2.png */,
-				EF158DE121C39590000A1CFB /* Icon-20.png */,
-				EF158DE221C39590000A1CFB /* Icon-1024.png */,
-				EF158DC221C3943F000A1CFB /* Icon-60.png */,
-				EF158DC821C3943F000A1CFB /* Icon-60@2x.png */,
-				EF158DC721C3943F000A1CFB /* Icon-60@3x.png */,
-				EF158DC621C3943F000A1CFB /* Icon-72.png */,
-				EF158DC021C3943F000A1CFB /* Icon-72@2x.png */,
-				EF158DC421C3943F000A1CFB /* Icon-76.png */,
-				EF158DBF21C3943F000A1CFB /* Icon-76@2x.png */,
-				EF158DCD21C39440000A1CFB /* Icon-76@3x.png */,
-				EF158DBC21C3943E000A1CFB /* Icon-iPadPro@2x.png */,
-				EF158DC521C3943F000A1CFB /* Icon-Small-50.png */,
-				EF158DCC21C39440000A1CFB /* Icon-Small-50@2x.png */,
-				EF158DC321C3943F000A1CFB /* Icon-Small.png */,
-				EF158DCA21C3943F000A1CFB /* Icon-Small@2x.png */,
-				EF158DBB21C3943E000A1CFB /* Icon-Small@3x.png */,
-				EF158DCB21C39440000A1CFB /* Icon-Spotlight-40.png */,
-				EF158DBD21C3943F000A1CFB /* Icon-Spotlight-40@2x.png */,
-				EF158DBE21C3943F000A1CFB /* Icon-Spotlight-40@3x.png */,
-				EF158DC121C3943F000A1CFB /* Icon.png */,
-				EF158DC921C3943F000A1CFB /* Icon@2x.png */,
-				EF01F18F1FF8457A00FD5A89 /* minimalistLogo.png */,
-				EF4CB2591E717128008A93FC /* pdfDoc.png */,
-				EF799BCD1D16C18000473F5F /* customMadeIn.png */,
+				EFB460BA243A731F00C5100E /* blankSignature2.png */,
+				EF59831524399C9E00775677 /* oneSignature3.png */,
 				EFF082821CAFA7E0003E74D6 /* add active3.png */,
 				EFF082831CAFA7E0003E74D6 /* add inactive3.png */,
 				EFF082841CAFA7E0003E74D6 /* addImage.png */,
@@ -1907,16 +1934,44 @@
 				EFF0828B1CAFA7E0003E74D6 /* check.png */,
 				EFF0828C1CAFA7E0003E74D6 /* clearButton.png */,
 				EFF0828D1CAFA7E0003E74D6 /* cross.png */,
+				EFF0E01E240FC4E900776023 /* cross2.png */,
 				EFF0828E1CAFA7E0003E74D6 /* customer.png */,
 				EFF0828F1CAFA7E0003E74D6 /* customer2.png */,
+				EF799BCD1D16C18000473F5F /* customMadeIn.png */,
 				EFF082901CAFA7E0003E74D6 /* edit white.png */,
 				EFF082921CAFA7E0003E74D6 /* edit2.png */,
+				EF8B8A832433A2B7005F6E91 /* Icon-20.png */,
+				EF8B8A582433A0FD005F6E91 /* Icon-60.png */,
+				EF8B8A662433A0FF005F6E91 /* Icon-60@2x.png */,
+				EF8B8A6A2433A100005F6E91 /* Icon-60@3x.png */,
+				EF8B8A692433A100005F6E91 /* Icon-72.png */,
+				EF8B8A682433A0FF005F6E91 /* Icon-72@2x.png */,
+				EF8B8A642433A0FF005F6E91 /* Icon-76.png */,
+				EF8B8A572433A0FD005F6E91 /* Icon-76@2x.png */,
+				EF8B8A5E2433A0FE005F6E91 /* Icon-76@3x.png */,
+				EF8B8A612433A0FE005F6E91 /* Icon-iPadPro@2x.png */,
+				EF8B8A5A2433A0FD005F6E91 /* Icon-Small-50.png */,
+				EF8B8A652433A0FF005F6E91 /* Icon-Small-50@2x.png */,
+				EF8B8A592433A0FD005F6E91 /* Icon-Small.png */,
+				EF8B8A5F2433A0FE005F6E91 /* Icon-Small@2x.png */,
+				EF8B8A602433A0FE005F6E91 /* Icon-Small@3x.png */,
+				EF8B8A672433A0FF005F6E91 /* Icon-Spotlight-40.png */,
+				EF8B8A5B2433A0FD005F6E91 /* Icon-Spotlight-40@2x.png */,
+				EF8B8A5C2433A0FD005F6E91 /* Icon-Spotlight-40@3x.png */,
+				EF8B8A622433A0FE005F6E91 /* Icon.png */,
+				EF8B8A7F2433A26D005F6E91 /* Icon.png */,
+				EF8B8A5D2433A0FE005F6E91 /* Icon@2x.png */,
 				EFF082931CAFA7E0003E74D6 /* info active3.png */,
 				EFF082941CAFA7E0003E74D6 /* info inactive3.png */,
+				EF8B8A812433A2AA005F6E91 /* miniLogo.png */,
+				EF01F18F1FF8457A00FD5A89 /* minimalistLogo.png */,
 				EFF082951CAFA7E0003E74D6 /* order.png */,
 				EFF082961CAFA7E0003E74D6 /* order2.png */,
+				EF4CB2591E717128008A93FC /* pdfDoc.png */,
 				EFF082971CAFA7E0003E74D6 /* postCustomer.png */,
+				EF77B7982414DB3500834B8D /* postCustomer2.png */,
 				EFF082981CAFA7E0003E74D6 /* postCustomerNo.png */,
+				EFF0E01C240FC43200776023 /* postCustomerNo2.png */,
 				EFF082991CAFA7E0003E74D6 /* print.png */,
 				EFF0829A1CAFA7E0003E74D6 /* qrcode icon.png */,
 				EFF0829B1CAFA7E0003E74D6 /* select.png */,
@@ -2161,6 +2216,8 @@
 				EF77B7B3241A30C100834B8D /* OftenUse.m */,
 				EF733D902420E38800750577 /* ItemTrackingNo.h */,
 				EF733D912420E38800750577 /* ItemTrackingNo.m */,
+				EF8B8A472432E13A005F6E91 /* TopSpender.h */,
+				EF8B8A482432E13A005F6E91 /* TopSpender.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2292,46 +2349,47 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF8B8A762433A100005F6E91 /* Icon.png in Resources */,
+				EF8B8A782433A100005F6E91 /* Icon-76.png in Resources */,
+				EF8B8A7C2433A100005F6E91 /* Icon-72@2x.png in Resources */,
 				EFF083761CAFA7E0003E74D6 /* PDFSelectVIewControllerViewController.xib in Resources */,
-				EF158DD121C39440000A1CFB /* Icon-Spotlight-40@3x.png in Resources */,
 				EFCAD5F81E5FEADB0013393D /* last_item.html in Resources */,
-				EF158DDD21C39440000A1CFB /* Icon-Small@2x.png in Resources */,
 				EFF084001CAFA7E0003E74D6 /* trackingNoEmpty.png in Resources */,
-				EF158DCE21C39440000A1CFB /* Icon-Small@3x.png in Resources */,
+				EFB460BB243A731F00C5100E /* blankSignature2.png in Resources */,
 				EFF083FC1CAFA7E0003E74D6 /* qrcode icon.png in Resources */,
-				EF158DD521C39440000A1CFB /* Icon-60.png in Resources */,
 				EF77B7AC241A22E700834B8D /* CustomTableViewCellExpenseItem.xib in Resources */,
+				EF8B8A6D2433A100005F6E91 /* Icon-Small.png in Resources */,
+				EF8B8A712433A100005F6E91 /* Icon@2x.png in Resources */,
 				EFF081281CAF52C5003E74D6 /* LaunchScreen.storyboard in Resources */,
 				EFF0836C1CAFA7E0003E74D6 /* 58_0_2120.bin in Resources */,
 				EFA072AD1F57175E00830045 /* Main.storyboard in Resources */,
 				EFF083721CAFA7E0003E74D6 /* OptionView_QL.xib in Resources */,
-				EF158DDE21C39440000A1CFB /* Icon-Spotlight-40.png in Resources */,
 				EFF0837B1CAFA7E0003E74D6 /* bspe55ad.ptd in Resources */,
 				EFF083F01CAFA7E0003E74D6 /* customer.png in Resources */,
 				EFF083811CAFA7E0003E74D6 /* bsr404ad.ptd in Resources */,
 				EF7074B71F3869C100D1EA2E /* TransferUndoView.xib in Resources */,
-				EF158DDB21C39440000A1CFB /* Icon-60@2x.png in Resources */,
 				EFF083E91CAFA7E0003E74D6 /* carat.png in Resources */,
-				EF158DD621C39440000A1CFB /* Icon-Small.png in Resources */,
-				EF158DD721C39440000A1CFB /* Icon-76.png in Resources */,
 				EFF083E71CAFA7E0003E74D6 /* blank560px.png in Resources */,
 				EFF0836B1CAFA7E0003E74D6 /* 58_0_2000.bin in Resources */,
+				EF8B8A752433A100005F6E91 /* Icon-iPadPro@2x.png in Resources */,
+				EF8B8A842433A2B8005F6E91 /* Icon-20.png in Resources */,
 				EFF083DF1CAFA7E0003E74D6 /* SectionHeaderView.xib in Resources */,
-				EF158DD921C39440000A1CFB /* Icon-72.png in Resources */,
 				EFF0837C1CAFA7E0003E74D6 /* bspp75ad.ptd in Resources */,
 				EFF083801CAFA7E0003E74D6 /* bsr315ad.ptd in Resources */,
+				EF8B8A7D2433A100005F6E91 /* Icon-72.png in Resources */,
+				EF8B8A732433A100005F6E91 /* Icon-Small@2x.png in Resources */,
+				EF8B8A7A2433A100005F6E91 /* Icon-60@2x.png in Resources */,
 				EF880635241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib in Resources */,
-				EF158DD221C39440000A1CFB /* Icon-76@2x.png in Resources */,
+				EF8B8A6F2433A100005F6E91 /* Icon-Spotlight-40@2x.png in Resources */,
 				EF88062E241F6F0B00862ED5 /* CustomTableViewCellOrder.xib in Resources */,
 				EFF0837F1CAFA7E0003E74D6 /* bsr305ad.ptd in Resources */,
 				EF4CB25A1E717128008A93FC /* pdfDoc.png in Resources */,
 				EFF0836D1CAFA7E0003E74D6 /* 58_0_4000.bin in Resources */,
 				EFF083F11CAFA7E0003E74D6 /* customer2.png in Resources */,
 				EFCAD5F91E5FEADB0013393D /* receipt.html in Resources */,
+				EF8B8A54243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib in Resources */,
 				EFF083EA1CAFA7E0003E74D6 /* change active3.png in Resources */,
-				EF158DD421C39440000A1CFB /* Icon.png in Resources */,
 				EFF083FB1CAFA7E0003E74D6 /* print.png in Resources */,
-				EF158DDA21C39440000A1CFB /* Icon-60@3x.png in Resources */,
 				EFF083681CAFA7E0003E74D6 /* 102_50_4000.bin in Resources */,
 				EFF0836A1CAFA7E0003E74D6 /* 51_20_700.bin in Resources */,
 				EFF081251CAF52C5003E74D6 /* Assets.xcassets in Resources */,
@@ -2340,6 +2398,7 @@
 				EFF083F61CAFA7E0003E74D6 /* info inactive3.png in Resources */,
 				EFF083731CAFA7E0003E74D6 /* OptionView_RJ.xib in Resources */,
 				EF799BD01D16CB0600473F5F /* PrinterView.xib in Resources */,
+				EF8B8A55243338D6005F6E91 /* CustomMadeView.xib in Resources */,
 				EFF083831CAFA7E0003E74D6 /* bst213ad.ptd in Resources */,
 				EFF083691CAFA7E0003E74D6 /* 51_20_2000.bin in Resources */,
 				EFF083EB1CAFA7E0003E74D6 /* change inactive3.png in Resources */,
@@ -2347,15 +2406,13 @@
 				EF77B7B1241A26B200834B8D /* CustomTableViewCellExpenseAmount.xib in Resources */,
 				EFF083FE1CAFA7E0003E74D6 /* show.png in Resources */,
 				EFF0837E1CAFA7E0003E74D6 /* bsq72wad.ptd in Resources */,
+				EF8B8A822433A2AA005F6E91 /* miniLogo.png in Resources */,
 				EF77B7A7241A130800834B8D /* CustomTableViewCellExpenseDaily.xib in Resources */,
-				EF158DE421C39591000A1CFB /* Icon-1024.png in Resources */,
-				EF158DD321C39440000A1CFB /* Icon-72@2x.png in Resources */,
 				EFF083EE1CAFA7E0003E74D6 /* clearButton.png in Resources */,
 				EFF083E61CAFA7E0003E74D6 /* addImage.png in Resources */,
 				EFF083821CAFA7E0003E74D6 /* bst212ad.ptd in Resources */,
 				EFF083E51CAFA7E0003E74D6 /* add inactive3.png in Resources */,
 				EFF083F81CAFA7E0003E74D6 /* order2.png in Resources */,
-				EF158DCF21C39440000A1CFB /* Icon-iPadPro@2x.png in Resources */,
 				EFF084031CAFA7E0003E74D6 /* unselect.png in Resources */,
 				EFF083771CAFA7E0003E74D6 /* PrinterList.plist in Resources */,
 				EFF083F51CAFA7E0003E74D6 /* info active3.png in Resources */,
@@ -2363,41 +2420,45 @@
 				EFF0836E1CAFA7E0003E74D6 /* 58_0_700.bin in Resources */,
 				EFF0E01B240FBF8F00776023 /* CustomTableViewCellReceipt.xib in Resources */,
 				EFF083EF1CAFA7E0003E74D6 /* cross.png in Resources */,
+				EF8B8A722433A100005F6E91 /* Icon-76@3x.png in Resources */,
 				EFA072B21F5717B000830045 /* beep.mp3 in Resources */,
-				EF158DE021C39440000A1CFB /* Icon-76@3x.png in Resources */,
 				EFF0E02424109CE300776023 /* CustomTableViewCellReceiptProductItem.xib in Resources */,
 				EFF083741CAFA7E0003E74D6 /* OptionView_TD.xib in Resources */,
 				EFF083E41CAFA7E0003E74D6 /* add active3.png in Resources */,
 				EF733D8A24206C6700750577 /* CustomTableViewCellDiscountReason.xib in Resources */,
-				EF158DD821C39440000A1CFB /* Icon-Small-50.png in Resources */,
 				EFF084061CAFA7E0003E74D6 /* webgreecegrey.jpg in Resources */,
+				EF8B8A792433A100005F6E91 /* Icon-Small-50@2x.png in Resources */,
+				EF8B8A7E2433A100005F6E91 /* Icon-60@3x.png in Resources */,
 				EF77B7972410C14E00834B8D /* CustomTableViewCellReceiptShort.xib in Resources */,
 				EFF083F91CAFA7E0003E74D6 /* postCustomer.png in Resources */,
 				EF733D8F24206E8700750577 /* CustomTableViewCellSaveCancel.xib in Resources */,
 				EFA072AE1F57175E00830045 /* Property List.plist in Resources */,
+				EF8B8A462432DC40005F6E91 /* CustomTableViewCellTopSpender.xib in Resources */,
 				EFF0837D1CAFA7E0003E74D6 /* bsq71wad.ptd in Resources */,
 				EFF084011CAFA7E0003E74D6 /* trackingNoFill.png in Resources */,
 				EF77B7992414DB3500834B8D /* postCustomer2.png in Resources */,
 				EFF083701CAFA7E0003E74D6 /* OptionView_PJ.xib in Resources */,
+				EF8B8A742433A100005F6E91 /* Icon-Small@3x.png in Resources */,
 				EFF083F71CAFA7E0003E74D6 /* order.png in Resources */,
-				EF799BB31D0C068000473F5F /* CustomMadeView.xib in Resources */,
 				EF733D8524206B0D00750577 /* CustomTableViewCellDiscount.xib in Resources */,
+				EF59831624399C9E00775677 /* oneSignature3.png in Resources */,
 				EFF083EC1CAFA7E0003E74D6 /* change.png in Resources */,
-				EF799BB11D0C068000473F5F /* CashAllocationView.xib in Resources */,
-				EF158DDF21C39440000A1CFB /* Icon-Small-50@2x.png in Resources */,
 				EFF0E01F240FC4E900776023 /* cross2.png in Resources */,
+				EF8B8A7B2433A100005F6E91 /* Icon-Spotlight-40.png in Resources */,
 				EF7074B81F3869C100D1EA2E /* PreOrderEventIDHistoryView.xib in Resources */,
 				EFF083ED1CAFA7E0003E74D6 /* check.png in Resources */,
-				EF158DE321C39591000A1CFB /* Icon-20.png in Resources */,
 				EFF083FD1CAFA7E0003E74D6 /* select.png in Resources */,
 				EFF0837A1CAFA7E0003E74D6 /* bsj673ad.ptd in Resources */,
+				EF8B8A802433A26E005F6E91 /* Icon.png in Resources */,
+				EF8B8A6B2433A100005F6E91 /* Icon-76@2x.png in Resources */,
+				EF8B8A6C2433A100005F6E91 /* Icon-60.png in Resources */,
 				EFF083F21CAFA7E0003E74D6 /* edit white.png in Resources */,
-				EF158DD021C39440000A1CFB /* Icon-Spotlight-40@2x.png in Resources */,
 				EFF0E01D240FC43200776023 /* postCustomerNo2.png in Resources */,
 				EF52735722B37C3400D428A4 /* testview.xib in Resources */,
 				EFF083711CAFA7E0003E74D6 /* OptionView_PT.xib in Resources */,
 				EFF083FF1CAFA7E0003E74D6 /* show2.png in Resources */,
-				EF158DDC21C39440000A1CFB /* Icon@2x.png in Resources */,
+				EF8B8A6E2433A100005F6E91 /* Icon-Small-50.png in Resources */,
+				EF8B8A702433A100005F6E91 /* Icon-Spotlight-40@3x.png in Resources */,
 				EF799BCE1D16C18000473F5F /* customMadeIn.png in Resources */,
 				EF01F1901FF8457B00FD5A89 /* minimalistLogo.png in Resources */,
 				EFF083E21CAFA7E0003E74D6 /* RootViewController.xib in Resources */,
@@ -2465,7 +2526,6 @@
 				EFCAD5EC1E5EEB630013393D /* RewardPoint.m in Sources */,
 				EFF0842A1CAFA7E0003E74D6 /* Receipt.m in Sources */,
 				EFF084471CAFA7E0003E74D6 /* SharedProductCategory2.m in Sources */,
-				EF799BB01D0C068000473F5F /* CashAllocationView.m in Sources */,
 				EFF084251CAFA7E0003E74D6 /* ProductSales.m in Sources */,
 				EF67EF091E79581A005D20F9 /* ProductionOrder.m in Sources */,
 				EFF0842D1CAFA7E0003E74D6 /* SalesByItemData.m in Sources */,
@@ -2486,6 +2546,7 @@
 				EFA2392F1EAA0C10009CE51A /* TransferHistory.m in Sources */,
 				EFF084281CAFA7E0003E74D6 /* ProductSource.m in Sources */,
 				EFF083A61CAFA7E0003E74D6 /* PasscodeViewController.m in Sources */,
+				EFB460CD243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m in Sources */,
 				EFF084351CAFA7E0003E74D6 /* SharedCompareInventoryHistory.m in Sources */,
 				EFF083A71CAFA7E0003E74D6 /* PreOrderAddPreOrderViewController.m in Sources */,
 				EFF083AA1CAFA7E0003E74D6 /* PreOrderScanViewController.m in Sources */,
@@ -2497,11 +2558,11 @@
 				EFF0839C1CAFA7E0003E74D6 /* EventViewController.m in Sources */,
 				EFF084361CAFA7E0003E74D6 /* SharedComparingScan.m in Sources */,
 				EFF0839A1CAFA7E0003E74D6 /* EventSalesSummaryViewController.m in Sources */,
-				EF799BB21D0C068000473F5F /* CustomMadeView.m in Sources */,
 				EFF0838E1CAFA7E0003E74D6 /* ChartSalesBySizeViewController.m in Sources */,
 				EF7074C21F3869CF00D1EA2E /* SharedMainEvent.m in Sources */,
 				EFF084321CAFA7E0003E74D6 /* SharedCashAllocation.m in Sources */,
 				EFF083D31CAFA7E0003E74D6 /* CustomUICollectionViewCell.m in Sources */,
+				EFB460C5243A889700C5100E /* NDHTMLtoPDF.m in Sources */,
 				EFCAD5C91E5EEB3A0013393D /* AccountInventoryAddedListViewController.m in Sources */,
 				EFF084231CAFA7E0003E74D6 /* ProductItem.m in Sources */,
 				EFF0843B1CAFA7E0003E74D6 /* SharedEventCost.m in Sources */,
@@ -2514,11 +2575,11 @@
 				EF878BC61D9BF2AD00B4076C /* GenerateQRCodePageViewController.m in Sources */,
 				EFF083A81CAFA7E0003E74D6 /* PreOrderScanPostViewController.m in Sources */,
 				EFF083AE1CAFA7E0003E74D6 /* ProductCategory1SelectionViewController.m in Sources */,
+				EF8B8A412432CF43005F6E91 /* ReportTopSpenderViewController.m in Sources */,
 				EFF083BE1CAFA7E0003E74D6 /* ProductSizeViewController.m in Sources */,
 				EFF083B21CAFA7E0003E74D6 /* ProductCostEditViewController.m in Sources */,
 				EFF0E01A240FBF8F00776023 /* CustomTableViewCellReceipt.m in Sources */,
 				EF77B7A2241A10D400834B8D /* CustomViewController.m in Sources */,
-				EFF083BB1CAFA7E0003E74D6 /* ProductPostViewController.m in Sources */,
 				EFCAD5E91E5EEB630013393D /* AccountReceipt.m in Sources */,
 				EFA072AC1F57175E00830045 /* HomeModel.m in Sources */,
 				EFF083B61CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.m in Sources */,
@@ -2556,19 +2617,22 @@
 				EFF084261CAFA7E0003E74D6 /* ProductSalesSet.m in Sources */,
 				EF799BA81D0C066B00473F5F /* SalesDetailViewController.m in Sources */,
 				EFF083D71CAFA7E0003E74D6 /* CustomUINavigationController.m in Sources */,
+				EFB460CA243C838000C5100E /* SearchReceiptViewController.m in Sources */,
 				EFCAD5EF1E5EEB630013393D /* SharedRewardPoint.m in Sources */,
 				EFF083D51CAFA7E0003E74D6 /* CustomUICollectionViewCellButton2.m in Sources */,
 				EFF083D01CAFA7E0003E74D6 /* CustomUIAlertController.m in Sources */,
-				EFF083BA1CAFA7E0003E74D6 /* ProductPostedViewController.m in Sources */,
 				EFF0839D1CAFA7E0003E74D6 /* ExportSalesViewController.m in Sources */,
 				EFF083881CAFA7E0003E74D6 /* AddUserAccountViewController.m in Sources */,
 				EFF0841A1CAFA7E0003E74D6 /* PostCustomer.m in Sources */,
 				EFF0811A1CAF52C5003E74D6 /* main.m in Sources */,
+				EF5983192439D0F500775677 /* ExportManager.m in Sources */,
 				EFF084171CAFA7E0003E74D6 /* ImageRunningID.m in Sources */,
 				EFA239281EAA0C00009CE51A /* TransferProductHistoryViewController.m in Sources */,
+				EF8B8A56243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m in Sources */,
 				EFF0841D1CAFA7E0003E74D6 /* Product.m in Sources */,
 				EFF084331CAFA7E0003E74D6 /* SharedColor.m in Sources */,
 				EFCAD5CC1E5EEB460013393D /* CustomPrintPageRenderer.m in Sources */,
+				EF8B8A53243338D6005F6E91 /* CustomMadeView.m in Sources */,
 				EFF084401CAFA7E0003E74D6 /* SharedPostBuy.m in Sources */,
 				EFF083A01CAFA7E0003E74D6 /* ForgotPasswordViewController.m in Sources */,
 				EFF084551CAFA7E0003E74D6 /* SharedSalesByPriceData.m in Sources */,
@@ -2580,6 +2644,7 @@
 				EFF083A91CAFA7E0003E74D6 /* PreOrderScanUnpostViewController.m in Sources */,
 				EFF0838D1CAFA7E0003E74D6 /* ChartSalesByPriceViewController.m in Sources */,
 				EF878BC11D9BF28300B4076C /* SharedGenerateQRCodePage.m in Sources */,
+				EF8B8A4C24331EC8005F6E91 /* ReportTopSpenderDetailViewController.m in Sources */,
 				EFF083B11CAFA7E0003E74D6 /* ProductCategory2ViewController.m in Sources */,
 				EFF083DE1CAFA7E0003E74D6 /* MGSwipeTableCell.m in Sources */,
 				EFF083AF1CAFA7E0003E74D6 /* ProductCategory1ViewController.m in Sources */,
@@ -2602,6 +2667,7 @@
 				EFF0840D1CAFA7E0003E74D6 /* CompareInventory.m in Sources */,
 				EF799BD61D18F5FB00473F5F /* CustomMadeOutViewController.m in Sources */,
 				EFF084161CAFA7E0003E74D6 /* EventSalesSummaryByDate.m in Sources */,
+				EF8B8A492432E13A005F6E91 /* TopSpender.m in Sources */,
 				EF799BCC1D16C15200473F5F /* CustomMadeInViewController.m in Sources */,
 				EFF083941CAFA7E0003E74D6 /* ComparingScanViewController.m in Sources */,
 				EFF083A41CAFA7E0003E74D6 /* MainInventorySummaryViewController.m in Sources */,
@@ -2673,7 +2739,6 @@
 				EFDB57041CF143FF0082E91D /* Login.m in Sources */,
 				EFF083B31CAFA7E0003E74D6 /* ProductCostViewController.m in Sources */,
 				EF880629241F699C00862ED5 /* Receipt2ViewController.m in Sources */,
-				EFF083C01CAFA7E0003E74D6 /* ReceiptSummaryViewController.m in Sources */,
 				EFF084541CAFA7E0003E74D6 /* SharedSalesByItemData.m in Sources */,
 				EF01F1891FF7159400FD5A89 /* EmailQRCode.m in Sources */,
 				EF77B7B4241A30C100834B8D /* OftenUse.m in Sources */,
@@ -2691,6 +2756,7 @@
 				EFF0838A1CAFA7E0003E74D6 /* ChangePasswordViewController.m in Sources */,
 				EFF084371CAFA7E0003E74D6 /* SharedCostLabel.m in Sources */,
 				EFCAD5EA1E5EEB630013393D /* AccountReceiptProductItem.m in Sources */,
+				EF8B8A452432DC40005F6E91 /* CustomTableViewCellTopSpender.m in Sources */,
 				EFCAD5C41E5EEB3A0013393D /* AccountReceiptHistoryPDFViewController.m in Sources */,
 				EF7074C01F3869CF00D1EA2E /* PreOrderEventIDHistory.m in Sources */,
 				EFF084201CAFA7E0003E74D6 /* ProductCategory2.m in Sources */,
@@ -2884,7 +2950,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2918,7 +2984,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

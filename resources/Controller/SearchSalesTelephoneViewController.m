@@ -13,7 +13,8 @@
 #import "SharedPostCustomer.h"
 #import "PostCustomer.h"
 #import "QRCodeImageViewController.h"
-#import "SalesDetailViewController.h"
+//#import "SalesDetailViewController.h"
+#import "SearchSalesTelephoneDetailViewController.h"
 #import "SharedCustomerReceipt.h"
 #import "CustomerReceipt.h"
 
@@ -370,19 +371,17 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     _selectedIndexPathForRow = view.tag;
     PostCustomer *postCustomer = _postCustomerList[_selectedIndexPathForRow/countColumn-1];
-//    _postCustomerID = postCustomer.postCustomerID;
     _telephone = postCustomer.telephone;
     
-    [self performSegueWithIdentifier:@"segSalesDetail" sender:self];
+    [self performSegueWithIdentifier:@"segSearchSalesTelephoneDetail" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"segSalesDetail"])
+    if ([[segue identifier] isEqualToString:@"segSearchSalesTelephoneDetail"])
     {
-        SalesDetailViewController *vc = segue.destinationViewController;
+        SearchSalesTelephoneDetailViewController *vc = segue.destinationViewController;
         vc.telephone = _telephone;
-//        vc.postCustomerID = _postCustomerID;
     }
 }
 

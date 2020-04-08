@@ -3,6 +3,47 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[Receipt2ViewController tableView:cellForRowAtIndexPath:]:Receipt2ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "+[Utility getNoteDataString:]:Utility.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "value">
+            </PersistentString>
+            <PersistentString
+               value = "[value length]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[HomeModel updateItems:withData:]:HomeModel.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[Utility url:urlItemTrackingNoTrackingNoUpdate]">
+            </PersistentString>
+            <PersistentString
+               value = "[NSURL URLWithString:[Utility url:urlItemTrackingNoTrackingNoUpdate]]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ReportTopSpenderViewController tableView:numberOfRowsInSection:]:ReportTopSpenderViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "lblTelephoneCount.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ReceiptSummary2ViewController tableView:cellForRowAtIndexPath:]:ReceiptSummary2ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "receipt.discountReason">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[ReceiptSummary2ViewController setData]:ReceiptSummary2ViewController.m">
          <PersistentStrings>
             <PersistentString
@@ -20,23 +61,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[AccountInventorySummaryViewController updateSelectedAccumSales]:AccountInventorySummaryViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "lblCurrentAccumSales.text">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[ChartSalesByItemViewController itemsDownloaded:]:ChartSalesByItemViewController.m">
       </ContextState>
       <ContextState
-         contextName = "-[Receipt2ViewController tableView:viewForFooterInSection:]:Receipt2ViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "[self getStrFmtTotalAmount]">
-            </PersistentString>
-            <PersistentString
-               value = "cell.lblTotal.text">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[HomeModel URLSession:dataTask:didReceiveData:]:HomeModel.m">
       </ContextState>
       <ContextState
          contextName = "-[ReceiptViewController payButtonClicked:]:ReceiptViewController.m">
@@ -47,34 +75,12 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[AppDelegate itemsSynced:]:AppDelegate.m">
+         contextName = "-[AccountInventorySummaryViewController updateSelectedAccumSales]:AccountInventorySummaryViewController.m">
          <PersistentStrings>
             <PersistentString
-               value = "items">
+               value = "lblCurrentAccumSales.text">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[ReceiptSummary2ViewController tableView:cellForRowAtIndexPath:]:ReceiptSummary2ViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "receipt.discountReason">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "+[Utility getNoteDataString:]:Utility.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "value">
-            </PersistentString>
-            <PersistentString
-               value = "[value length]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[Receipt2ViewController tableView:cellForRowAtIndexPath:]:Receipt2ViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[SalesCustomMadeViewController prepareForSegue:sender:]:SalesCustomMadeViewController.m">
@@ -89,6 +95,36 @@
          <PersistentStrings>
             <PersistentString
                value = "_productBuyList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ChartSalesByItemViewController configurePlots]:ChartSalesByItemViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "plot.graph.plotAreaFrame">
+            </PersistentString>
+            <PersistentString
+               value = "y">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AppDelegate itemsSynced:]:AppDelegate.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "items">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[Receipt2ViewController tableView:viewForFooterInSection:]:Receipt2ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self getStrFmtTotalAmount]">
+            </PersistentString>
+            <PersistentString
+               value = "cell.lblTotal.text">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

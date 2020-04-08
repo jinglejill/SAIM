@@ -13,6 +13,7 @@
 @property (nonatomic) CGFloat A4PageHeight;
 
 - (id)init;
+- (NSString *)exportHTMLContentToPDFWIthPrintFormatterList:(NSMutableArray *)printFormatterList fileName:(NSString *)fileName;
 - (NSString *)exportHTMLContentToPDF:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName;
 - (NSData *)exportHTMLContentToPDFNSData:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName;
 @end

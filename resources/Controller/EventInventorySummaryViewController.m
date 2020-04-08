@@ -325,9 +325,6 @@ static NSString * const reuseIdentifier = @"Cell";
     NSArray *sortedProductSize = [arrProductSize sortedArrayUsingDescriptors:sortDescriptors];
     
     
-    
-    
-//    NSArray *sortedSize = [arrSize sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     NSInteger sizeNum = [arrProductSize count];
     
     
@@ -340,7 +337,6 @@ static NSString * const reuseIdentifier = @"Cell";
     else if(item >=1 && item <=sizeNum)
     {
         ProductSize *productSize = sortedProductSize[item-1];
-//        NSString *sizeLabel = sortedSize[item-1];
         cell.label.text = productSize.sizeLabel;
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
         cell.label.textColor= [UIColor whiteColor];
@@ -351,6 +347,7 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         cell.label.text = sortedColor[(item/(sizeNum+1))-1];
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
+        cell.label.adjustsFontSizeToFitWidth = YES;
         cell.label.textColor = [UIColor blackColor];
         cell.label.backgroundColor = [UIColor clearColor];
         cell.label.textAlignment = NSTextAlignmentLeft;
@@ -573,7 +570,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
                              [indicator stopAnimating];
                              [indicator removeFromSuperview];
                          } );
-                         
                      }
      ];
 }

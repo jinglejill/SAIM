@@ -13,6 +13,7 @@
 #import "AccountReceipt.h"
 #import "AccountReceiptProductItem.h"
 #import "ProductName.h"
+#import "ExportManager.h"
 
 
 @interface AccountReceiptHistoryPDFViewController ()
@@ -28,6 +29,8 @@
     NSString *pdfFileName;
     NSMutableArray *receiptInfoList;
     NSString *_strAccountReceiptHistoryDate;
+    NSInteger runningPage;
+    NSMutableArray *_viewPrintFormatterList;
 }
 @end
 
@@ -41,6 +44,9 @@
 - (void)loadView
 {
     [super loadView];
+    
+    webPreview.navigationDelegate = self;
+    _viewPrintFormatterList = [[NSMutableArray alloc]init];
     
     _homeModel = [[HomeModel alloc] init];
     _homeModel.delegate = self;
@@ -285,34 +291,84 @@
         invoiceComposer = [[InvoiceComposer alloc]init];
         NSString *invoiceHtml = [invoiceComposer renderInvoice:receiptInfo[@"receiptNo"] invoiceDate:receiptInfo[@"receiptDate"] customerName:receiptInfo[@"customerName"] customerAddress:receiptInfo[@"customerAddress"] customerTaxNo:receiptInfo[@"customerTaxNo"] items:receiptInfo[@"items"] totalAmount:receiptInfo[@"totalAmount"] discount:receiptInfo[@"discount"] totalAmountBeforeVat:receiptInfo[@"totalAmountBeforeVat"] vat:receiptInfo[@"vat"] totalAmountIncludeVat:receiptInfo[@"totalAmountIncludeVat"]];
         
-        
         htmlContent = [NSString stringWithFormat:@"%@%@",htmlContent,invoiceHtml];
         [htmlContentList addObject:invoiceHtml];
     }
     
-    
-    [webPreview loadHTMLString:htmlContent baseURL:[NSURL URLWithString:invoiceComposer.pathToInvoiceHtml]];
+    //load one by one
+    [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];
+//    [webPreview loadHTMLString:htmlContent baseURL:[NSURL URLWithString:@""]];
+}
+
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    [_viewPrintFormatterList addObject: webView.viewPrintFormatter];
+    if(runningPage == [htmlContentList count]-1)
+    {
+        NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+        
+        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+        pdfFileName = [printPageRenderer exportHTMLContentToPDFWIthPrintFormatterList:_viewPrintFormatterList fileName:strFileName];
+    }
+    else
+    {
+        runningPage++;
+        [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];
+    }
 }
 
 - (IBAction)emailPDF:(id)sender
 {
-    [self loadingOverlayView];
-    
-    
-    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
-    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
-    pdfFileName = [printPageRenderer exportHTMLContentToPDF:htmlContentList fileName:strFileName];
-
-//    //test
-////    NSData *pdfNSData = [printPageRenderer exportHTMLContentToPDFNSData:htmlContentList fileName:strFileName];
+//    exportManager not show webView on screen, right now delegate not working, don't know why
+//    ExportManager *exportManager = [[ExportManager alloc]init];
+//    [exportManager exportPDF:htmlContent completion:^(BOOL success, NSData * _Nonnull pdfData, NSError * _Nonnull error)
+//    {
+//       if(success)
+//       {
+//            NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//            NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],strFileName];
 //
-//    NSData* database = [NSData dataWithContentsOfFile: pdfFileName];
-//    [_homeModel uploadPhoto:database fileName:@"test.pdf"];
-//    [self removeOverlayViews];
-//    //
-    
-    
-    [self performSelectorOnMainThread: @selector(mail:) withObject:pdfFileName waitUntilDone:NO];
+//
+//            [pdfData writeToFile:pdfFileName atomically:YES];
+//            NSLog(@"pdf filename: %@",pdfFileName);
+//       }
+//    }];
+
+
+////    //old with uiWebView work when run on device but not on simulator
+//    [self loadingOverlayView];
+//
+//
+//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+//    pdfFileName = [printPageRenderer exportHTMLContentToPDF:htmlContentList fileName:strFileName];
+//
+//    [self performSelectorOnMainThread: @selector(mail:) withObject:pdfFileName waitUntilDone:NO];
+////*********
+
+
+
+    //NDHTML this is work for 1 pdf page, if want to use->need to modify the code
+//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],strFileName];
+//    NSLog(@"file name : %@",pdfFileName);
+//    self.PDFCreator = [NDHTMLtoPDF createPDFWithHTML:htmlContentList[0] pathForPDF:pdfFileName delegate:self pageSize:kPaperSizeA4 margins:UIEdgeInsetsMake(10, 5, 10, 5)];
+}
+
+#pragma mark NDHTMLtoPDFDelegate
+
+- (void)HTMLtoPDFDidSucceed:(NDHTMLtoPDF*)htmlToPDF
+{
+    NSString *result = [NSString stringWithFormat:@"HTMLtoPDF did succeed (%@ / %@)", htmlToPDF, htmlToPDF.PDFpath];
+    NSLog(@"%@",result);
+//    self.resultLabel.text = result;
+}
+
+- (void)HTMLtoPDFDidFail:(NDHTMLtoPDF*)htmlToPDF
+{
+    NSString *result = [NSString stringWithFormat:@"HTMLtoPDF did fail (%@)", htmlToPDF];
+    NSLog(@"%@",result);
+//    self.resultLabel.text = result;
 }
 
 - (void) mail: (NSString*) filePath

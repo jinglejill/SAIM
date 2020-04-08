@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (retain, nonatomic) NSString * trackingNo;
 @property (nonatomic) NSInteger postCustomerID;
 @property (retain, nonatomic) NSString * modifiedDate;
+@property (retain, nonatomic) NSString * modifiedUser;
 @end
 
 NS_ASSUME_NONNULL_END

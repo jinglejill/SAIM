@@ -18,7 +18,6 @@
 #import "Login.h"
 #import <stdlib.h>
 #import "Product.h"
-#import "ProductPostedViewController.h"
 #import "ProductPosted2ViewController.h"
 #import "ExportSalesViewController.h"
 
@@ -72,6 +71,7 @@ enum enumAdminMenu
     menuSalesSummary,
     menuSalesByZone,
     menuSalesByChannel,
+    menuTopSpender,
     menuExportSales,
     
     //Account
@@ -210,20 +210,15 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
                                  @"Responsibility management"];
     _menuSectionInventory = @[@"Main inventory summary",
                               @"Main inventory item",
-//                              @"Inventory source",
                               @"Main inventory scan",
                               @"Transfer product",
                               @"Transfer product history",
-//                              @"Compare inventory history",
-//                              @"Product status scan",
                               @"Product delete scan",
                               @"Product delete history"];
     _menuSectionPost = @[@"Custom-made in",
                          @"Custom-made out",
-//                         @"To post product",
-//                         @"Posted product",
-                         @"To post product new",
-                         @"Posted product new"];
+                         @"To post product",
+                         @"Posted product"];
     _menuSectionSales = @[@"Search sales (telephone)",
                           @"Price offer set",
                           @"Product cost",
@@ -232,6 +227,7 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
                           @"Sales summary",
                           @"Sales by zone",
                           @"Sales by channel",
+                          @"Top Spender",
                           @"Export sales"
                           ];
     _menuSectionAccount = @[@"Account Inventory Add",
@@ -541,11 +537,6 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
         [_homeModel insertItems:dbLogin withData:login];
         [Utility setModifiedUser:@""];
     }
-    else if([[segue identifier] isEqualToString:@"segProductPosted"])
-    {
-        ProductPostedViewController *vc = segue.destinationViewController;
-        vc.fromUserMenu = NO;
-    }
     else if([[segue identifier] isEqualToString:@"segProductPostedNew"])
     {
         ProductPosted2ViewController *vc = segue.destinationViewController;
@@ -644,9 +635,6 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
             case menuMainInventoryItem:
                 [self performSegueWithIdentifier:@"segMainInventoryItem" sender:self];
                 break;
-//            case menuInventorySource:
-//                [self performSegueWithIdentifier:@"segInventorySource" sender:self];
-//                break;
             case menuMainInventoryScan:
             {
                 NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
@@ -660,16 +648,6 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
             case menuTransferProductHistory:
                 [self performSegueWithIdentifier:@"segTransferProductHistory" sender:self];
                 break;
-//            case menuCompareInventoryHistory:
-//                [self performSegueWithIdentifier:@"segCompareInventoryHistory" sender:self];
-//                break;
-//            case menuProductLocationAndStatus:
-//            {
-//                NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-//                [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-//                [self performSegueWithIdentifier:@"segProductLocationAndStatusScan" sender:self];
-//            }
-//                break;
             case menuProductDeleteScan:
             {
                 NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
@@ -701,22 +679,6 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
                 [self performSegueWithIdentifier:@"segCustomMadeOut" sender:self];
             }
                 break;
-//            case menuProductPost:
-//            {
-//                [self performSegueWithIdentifier:@"segProductPost" sender:self];
-//            }
-//                break;
-//            case menuProductPosted:
-//            {
-//                //print current date
-//                NSDate *today = [NSDate date];
-//                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//                [dateFormat setDateFormat:@"hh:mm:ss"];
-//                NSString *dateString = [dateFormat stringFromDate:today];
-//                NSLog(@"click posted time: %@", dateString);
-//                [self performSegueWithIdentifier:@"segProductPosted" sender:self];
-//            }
-//                break;
             case menuProductPostNew:
                 {
                     [self performSegueWithIdentifier:@"segProductPost2" sender:self];
@@ -770,6 +732,11 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
             case menuSalesByChannel:
             {
                 [self performSegueWithIdentifier:@"segSalesByChannel" sender:self];
+            }
+                break;
+            case menuTopSpender:
+            {
+                [self performSegueWithIdentifier:@"segReportTopSpender" sender:self];
             }
                 break;
             case menuExportSales:

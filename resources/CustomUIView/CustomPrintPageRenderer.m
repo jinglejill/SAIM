@@ -7,6 +7,7 @@
 //
 
 #import "CustomPrintPageRenderer.h"
+#import "Utility.h"
 
 @implementation CustomPrintPageRenderer
 
@@ -26,6 +27,28 @@
     return self;
 }
 
+- (NSString *)exportHTMLContentToPDFWIthPrintFormatterList:(NSMutableArray *)printFormatterList fileName:(NSString *)fileName
+{
+    NSMutableArray *printPageRendererList = [[NSMutableArray alloc]init];
+    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+    for(int i=0; i<[printFormatterList count]; i++)
+    {
+        [printPageRenderer addPrintFormatter:printFormatterList[i] startingAtPageAtIndex:i];
+        [printPageRendererList addObject:printPageRenderer];
+    }
+        
+    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRendererList];
+    
+    
+    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
+    
+    
+    [pdfData writeToFile:pdfFileName atomically:YES];
+    NSLog(@"pdf filename: %@",pdfFileName);
+    
+    return pdfFileName;
+}
+
 - (NSString *)exportHTMLContentToPDF:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName
 {
     NSMutableArray *printPageRendererList = [[NSMutableArray alloc]init];
@@ -38,7 +61,7 @@
         [printPageRendererList addObject:printPageRenderer];
     }
     
-    NSData *pdfData = [self drawPDFUsingPrintPageRenderer:printPageRendererList];
+    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRendererList];
     
     
     NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
@@ -62,7 +85,7 @@
         [printPageRendererList addObject:printPageRenderer];
     }
     
-    NSData *pdfData = [self drawPDFUsingPrintPageRenderer:printPageRendererList];
+    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRendererList];
     return pdfData;
     
 //    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
@@ -74,7 +97,34 @@
 //    return pdfFileName;
 }
 
-- (NSData *)drawPDFUsingPrintPageRenderer:(NSMutableArray *)printPageRendererList
+- (NSData *)drawPDFUsingPrintPageRenderer:(CustomPrintPageRenderer *)printPageRenderer
+{
+    NSMutableData *data = [[NSMutableData alloc]init];
+    UIGraphicsBeginPDFContextToData(data, CGRectZero, nil);
+    
+    
+//    for(int i=0; i<[printPageRendererList count]; i++)
+    {
+        UIGraphicsBeginPDFPage();
+        
+        [printPageRenderer drawPageAtIndex:0 inRect:UIGraphicsGetPDFContextBounds()];
+    }
+    
+    UIGraphicsEndPDFContext();
+    
+    
+//    //test
+//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:@"2020-04-06 00:00:00" fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],strFileName];
+//
+//
+//    [data writeToFile:pdfFileName atomically:YES];
+//    NSLog(@"pdf filename: %@",pdfFileName);
+            
+    return data;
+}
+
+- (NSData *)drawPDFUsingPrintPageRendererList:(NSMutableArray *)printPageRendererList
 {
     NSMutableData *data = [[NSMutableData alloc]init];
     UIGraphicsBeginPDFContextToData(data, CGRectZero, nil);
@@ -87,8 +137,17 @@
         [printPageRendererList[i] drawPageAtIndex:i inRect:UIGraphicsGetPDFContextBounds()];
     }
     
-    
     UIGraphicsEndPDFContext();
+    
+    
+//    //test
+//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:@"2020-04-06 00:00:00" fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],strFileName];
+//
+//
+//    [data writeToFile:pdfFileName atomically:YES];
+//    NSLog(@"pdf filename: %@",pdfFileName);
+            
     return data;
 }
 @end

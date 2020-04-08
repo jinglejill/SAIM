@@ -39,7 +39,8 @@
     NSMutableArray *_arrSelectedRow;
     UIView *_viewUnderline;
     NSString *_strTrackingNo;
-    NSInteger _receiptID;
+//    NSInteger _receiptID;
+    NSInteger _receiptProductItemID;
     NSInteger _postDetailIndex;
     NSInteger _selectedIndexPathForRow;
     UIActivityIndicatorView *indicator;
@@ -726,7 +727,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     PostDetail *postDetail;
     postDetail = _postDetailList[_selectedIndexPathForRow/countColumn-1];
     
-    _receiptID = postDetail.receiptID;
+//    _receiptID = postDetail.receiptID;
+    _receiptProductItemID = postDetail.receiptProductItemID;
     _strTrackingNo = postDetail.trackingNo;
     _postDetailIndex = _selectedIndexPathForRow/countColumn-1;
     
@@ -944,7 +946,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         TrackingNoViewController *vc = segue.destinationViewController;
         
         vc.strTrackingNo = _strTrackingNo;
-        vc.receiptID = _receiptID;
+//        vc.receiptID = _receiptID;
+        vc.receiptProductItemID = _receiptProductItemID;
         vc.postDetailIndex = _postDetailIndex;
         vc.postDetailList = _postDetailList;
     }

@@ -14,7 +14,6 @@
 #import "CustomerReceipt.h"
 #import "SharedCustomerReceipt.h"
 #import "SharedSelectedEvent.h"
-#import "ProductPostViewController.h"
 #import "ProductPosted2ViewController.h"
 #import "SharedReceiptItem.h"
 #import "SharedReceipt.h"
@@ -105,7 +104,8 @@ enum enumAdminMenu
                           ];
     _menuExtra = @[@"To post product",
                    @"Posted product",
-                   @"Create QR Code File"];
+                   @"Create QR Code File",
+                   @"Search Receipt"];
 
     
     [self loadViewProcess];
@@ -115,11 +115,6 @@ enum enumAdminMenu
 {
     if(!menuExtra)
     {
-//        if(![Utility hasEventSales:_event.eventID])
-//        {
-//            [self loadingOverlayView];
-//            [_homeModel downloadItems:dbSalesSummary condition:_event];
-//        }
         [self loadingOverlayView];
         [_homeModel downloadItems:dbMainInventory];
     }
@@ -137,19 +132,7 @@ enum enumAdminMenu
     [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
     [SharedProductSize sharedProductSize].productSizeList = items[i++];
     [SharedProduct sharedProduct].productList = items[i++];
-//    [SharedProductSales sharedProductSales].productSalesList = items[i++];
 }
-
-//- (void)itemsDownloaded:(NSArray *)items
-//{
-//    [self removeOverlayViews];
-//    [Utility setEventSales:@"1" eventID:_event.eventID];
-//
-//    int i=0;
-//    [[SharedProduct sharedProduct].productList addObjectsFromArray:items[i++]];
-//    [[SharedReceipt sharedReceipt].receiptList addObjectsFromArray:items[i++]];
-//    [[SharedReceiptItem sharedReceiptItem].receiptItemList addObjectsFromArray:items[i++]];
-//}
 
 - (void)viewDidLoad
 {
@@ -245,6 +228,9 @@ enum enumAdminMenu
             case 2:
                 [self performSegueWithIdentifier:@"segGenerateQRCodePage" sender:self];
                 break;
+            case 3:
+                [self performSegueWithIdentifier:@"segSearchReceipt" sender:self];
+                break;
         }
     }
     else
@@ -325,11 +311,6 @@ enum enumAdminMenu
     {
         
     }
-//    else if([[segue identifier] isEqualToString:@"segProductPosted2"])
-//    {
-//        ProductPosted2ViewController *vc = [segue destinationViewController];
-//        vc.fromUserMenu = YES;
-//    }
     else if([[segue identifier] isEqualToString:@"segGenerateQRCodePage"])
     {
         GenerateQRCodePageViewController *vc = [segue destinationViewController];

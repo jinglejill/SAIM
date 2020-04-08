@@ -7,6 +7,7 @@
 //
 
 #import "InvoiceComposer.h"
+#import <UIKit/UIKit.h>
 
 @implementation InvoiceComposer
 - (id)init
@@ -39,6 +40,14 @@
     htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#TOTAL_AMOUNT_BEFORE_VAT#" withString:totalAmountBeforeVat];
     htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#VAT#" withString:vat];
     htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#TOTAL_AMOUNT_INCLUDE_VAT#" withString:totalAmountIncludeVat];
+    
+    
+//    NSString *imgPath = [[[NSBundle mainBundle] URLForResource:@"oneSignature3" withExtension:@"png"] absoluteString];
+//    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#IMG_SIGNATURE#" withString:imgPath];
+    
+    
+    NSString *imgTag = [self imageBase64Tag:[UIImage imageNamed:@"oneSignature3.png"]];
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#ONE_SIGNATURE#" withString:imgTag];
     
     
     NSString *allItems = @"";
@@ -87,4 +96,15 @@
     NSString *strFormattedBaht = [formatterBaht stringFromNumber:[NSNumber numberWithFloat:[value floatValue]]];
     return strFormattedBaht;
 }
+
+-(NSString *)imageBase64Tag:(UIImage *)image
+{
+//    NSData *jpegData = UIImageJPEGRepresentation(image, 1);
+    NSData *pngData = UIImagePNGRepresentation(image);
+    NSString *base64EncodedString = [pngData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *src = [NSString stringWithFormat:@"data:image/png;base64,%@",base64EncodedString];
+    NSString *tag = [NSString stringWithFormat:@"<img width=\"200px\" src=\"%@\"/>",src];
+    return tag;
+}
+
 @end

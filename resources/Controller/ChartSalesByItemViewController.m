@@ -18,6 +18,7 @@
 #import "SharedReceiptItem.h"
 #import "SharedReceipt.h"
 #import "SharedProduct.h"
+#import "SharedCustomMade.h"
 #import "ProductName.h"
 
 
@@ -53,8 +54,36 @@ extern BOOL globalRotateFromSeg;
 @synthesize arrLabelAnnotation;
 @synthesize segConType;
 @synthesize lblTotal;
+@synthesize dtPicker;
+@synthesize txtStartDate;
+@synthesize txtEndDate;
+
 
 #pragma mark - UIViewController lifecycle methods
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self loadData];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField;
+{
+    NSString *strDate = textField.text;
+    NSDate *datePeriod = [Utility stringToDate:strDate fromFormat:@"yyyy-MM-dd"];
+    [dtPicker setDate:datePeriod];
+}
+
+- (IBAction)datePickerChanged:(id)sender
+{
+    if([txtStartDate isFirstResponder])
+    {
+        txtStartDate.text = [Utility dateToString:dtPicker.date toFormat:@"yyyy-MM-dd"];
+    }
+    else if([txtEndDate isFirstResponder])
+    {
+        txtEndDate.text = [Utility dateToString:dtPicker.date toFormat:@"yyyy-MM-dd"];
+    }
+}
 
 -(void)viewDidLayoutSubviews
 {
@@ -69,6 +98,17 @@ extern BOOL globalRotateFromSeg;
 - (void)loadView {
     [super loadView];
     // Do any additional setup after loading the view.
+    
+    [dtPicker removeFromSuperview];
+    txtStartDate.inputView = dtPicker;
+    txtStartDate.delegate = self;
+    
+    txtEndDate.inputView = dtPicker;
+    txtEndDate.delegate = self;
+    
+    txtStartDate.text = [Utility dateToString:[Utility addDay:[Utility currentDateTime]  numberOfDay:-6] toFormat:@"yyyy-MM-dd"];
+    txtEndDate.text = [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"];
+    
     
     CGRect frame = segConType.frame;
     frame.size.width = self.view.frame.size.width/3;
@@ -105,32 +145,21 @@ extern BOOL globalRotateFromSeg;
     }
     
     self.navigationController.topViewController.title = @"Sales Chart by Type";
-    
-    
-    [self loadViewProcess];
 }
 
--(void)loadViewProcess
+-(void)loadData
 {
-    if(![Utility hasEventSales:_event.eventID])
-    {
-        [self loadingOverlayView];
-        [_homeModel downloadItems:dbSalesSummary condition:_event];
-    }
-    else
-    {
-        [self setData];
-    }
+    [self loadingOverlayView];
+    [_homeModel downloadItems:dbSalesSummaryByEventByPeriod condition:@[_event,txtStartDate.text,txtEndDate.text]];
 }
 
 - (void)itemsDownloaded:(NSArray *)items
 {
-    [Utility setEventSales:@"1" eventID:_event.eventID];
-    
     int i=0;
-    [[SharedProduct sharedProduct].productList addObjectsFromArray:items[i++]];
-    [[SharedReceipt sharedReceipt].receiptList addObjectsFromArray:items[i++]];
-    [[SharedReceiptItem sharedReceiptItem].receiptItemList addObjectsFromArray:items[i++]];
+    [SharedProduct sharedProduct].productList = items[i++];
+    [SharedReceipt sharedReceipt].receiptList = items[i++];
+    [SharedReceiptItem sharedReceiptItem].receiptItemList = items[i++];
+    [SharedCustomMade sharedCustomMade].customMadeList = items[i++];
     
     
     dispatch_async(dispatch_get_main_queue(),^ {
@@ -173,10 +202,10 @@ extern BOOL globalRotateFromSeg;
             }
         }
         
-        //filter by event
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@",_strEventID];
-        NSArray *filteredArray = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-        receiptProductItemList = [filteredArray mutableCopy];
+//        //filter by event
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@",_strEventID];
+//        NSArray *filteredArray = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
+//        receiptProductItemList = [filteredArray mutableCopy];
         
         //sort by productname
         NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productName" ascending:NO];
@@ -189,6 +218,7 @@ extern BOOL globalRotateFromSeg;
         float sumValue = 0.0f;
         float sumCost = 0.0f;
         NSString *previousProductName = @"";
+        [_salesByItemDataListTemp removeAllObjects];
         for(ReceiptProductItem *item in receiptProductItemList)
         {
             if([previousProductName isEqualToString:@""])
@@ -412,11 +442,26 @@ extern BOOL globalRotateFromSeg;
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    [self initPlot];
+    
+    
+//    [self loadData];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                    style:UIBarButtonItemStylePlain target:self action:@selector(backToPreviousPage)];
+    self.tabBarController.navigationItem.leftBarButtonItem = leftButton;
+    [self loadData];
 }
 
 #pragma mark - Chart behavior
 -(void)initPlot {
+    arrValueAnnotation = nil;
+    arrLabelAnnotation = nil;
     self.hostView.allowPinchScaling = NO;
     [self configureGraph];
     [self configurePlots];
@@ -425,7 +470,7 @@ extern BOOL globalRotateFromSeg;
 
 -(void)configureGraph {
     // 1 - Create the graph
-    NSLog([NSString stringWithFormat:@"hostview y: %f",self.hostView.bounds.origin.y]);
+//    NSLog([NSString stringWithFormat:@"hostview y: %f",self.hostView.bounds.origin.y]);
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.hostView.bounds];
     graph.plotAreaFrame.masksToBorder = NO;
     self.hostView.hostedGraph = graph;
@@ -565,9 +610,8 @@ extern BOOL globalRotateFromSeg;
             
             NSNumber *anchorY = [NSNumber numberWithFloat:y];
             priceAnnotation.anchorPlotPoint = [NSArray arrayWithObjects:anchorX, anchorY, nil];
-            // 8 - Add the annotation 
+            // 8 - Add the annotation
             [plot.graph.plotAreaFrame.plotArea addAnnotation:priceAnnotation];
-
         }
         
         //label x axis
@@ -633,9 +677,8 @@ extern BOOL globalRotateFromSeg;
             
             NSNumber *anchorY = [NSNumber numberWithFloat:y];
             labelAnnotation.anchorPlotPoint = [NSArray arrayWithObjects:anchorX, anchorY, nil];
-            // 8 - Add the annotation
+            // 8 - Add the annotation            
             [plot.graph.plotAreaFrame.plotArea addAnnotation:labelAnnotation];
-            
         }
         
         //////////////////
@@ -738,10 +781,6 @@ extern BOOL globalRotateFromSeg;
     return [_salesByItemDataList count];
 }
 - (IBAction)segConChanged:(id)sender {
-    arrValueAnnotation = nil;
-    arrLabelAnnotation = nil;
-    
-    
     if(segConType.selectedSegmentIndex==0)
     {
         [self sortByNoOfPair];
@@ -773,14 +812,6 @@ extern BOOL globalRotateFromSeg;
     [self initPlot];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                                                    style:UIBarButtonItemStylePlain target:self action:@selector(backToPreviousPage)];
-    self.tabBarController.navigationItem.leftBarButtonItem = leftButton;
-}
 -(void)backToPreviousPage
 {
     globalRotateFromSeg = YES;
@@ -819,4 +850,5 @@ extern BOOL globalRotateFromSeg;
                      }
      ];
 }
+
 @end
