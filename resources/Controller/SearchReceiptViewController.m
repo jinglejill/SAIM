@@ -36,9 +36,9 @@ static NSString * const reuseIdentifierReceipt = @"CustomTableViewCellReceipt";
 static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCellReceiptProductItem";
 
 @implementation SearchReceiptViewController
-@synthesize txtReceiptNoSearch;
+@synthesize txtSearchText;
 @synthesize tbvData;
-@synthesize segConChannel;
+@synthesize segConSearchBy;
 
 
 - (IBAction)unwindToSearchReceipt:(UIStoryboardSegue *)segue
@@ -96,6 +96,8 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         [tbvData registerNib:nib forCellReuseIdentifier:reuseIdentifierReceipt];
     }
     
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
+    [self.view addGestureRecognizer:tapGesture];
 }
 
 -(void)itemsDownloaded:(NSArray *)items
@@ -153,31 +155,9 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         cell.lblReceiptLabelWidth.constant = cell.lblReceiptLabel.frame.size.width;
         
         
-        //show receiptNoID/referenceOrderNo******************
         NSString *receiptNoID = [NSString stringWithFormat:@"#%@ (%@)",receipt.receiptNoID,receiptTime];
-        NSString *referenceOrderNo = [NSString stringWithFormat:@"#%@ (%@)",receipt.referenceOrderNo,receiptTime];
-        
-        if(receipt.showReceiptNoID == 1)
-        {
-            if([Utility isStringEmpty:receipt.referenceOrderNo])
-            {
-                [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
-            }
-            else
-            {
-                [cell.btnReceipt setTitle:referenceOrderNo forState:UIControlStateNormal];
-            }
-        }
-        else
-        {
-            [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
-        }
-        receipt.showReceiptNoID = !receipt.showReceiptNoID;
+        [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
 
-        [cell.btnReceipt addTarget:self action:@selector(switchOrderNo:) forControlEvents:UIControlEventTouchUpInside];
-        cell.btnReceipt.tag = indexPath.section;
-        //******************
-        
         
         cell.lblCash.text = [receipt.cashAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.cashAmount];
         cell.lblCredit.text = [receipt.creditAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.creditAmount];
@@ -783,9 +763,9 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
 - (IBAction)searchReceipt:(id)sender
 {
     [self loadingOverlayView];
-    NSString *receiptNoSearch = [Utility trimString:txtReceiptNoSearch.text];
-    NSString *channel = [NSString stringWithFormat:@"%ld",segConChannel.selectedSegmentIndex];
-    [self.homeModel downloadItems:dbReceiptSearch condition:@[receiptNoSearch,channel]];
+    NSString *searchText = [Utility trimString:txtSearchText.text];
+    NSString *searchBy = [NSString stringWithFormat:@"%ld",segConSearchBy.selectedSegmentIndex];
+    [self.homeModel downloadItems:dbReceiptSearch condition:@[searchText,searchBy]];
 }
 
 -(void)showActionList:(id)sender
@@ -1022,12 +1002,6 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         [self setData];
     }
 }
-- (IBAction)segConChannelValueChanged:(id)sender {
-}
 
--(void)switchOrderNo:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    [tbvData reloadSections:[[NSIndexSet alloc] initWithIndex:button.tag] withRowAnimation:NO];
-}
+
 @end

@@ -281,7 +281,9 @@
                             <constraint firstAttribute="height" constant="17" id="tZp-iV-G5Q"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <state key="normal" title="Button"/>
+                        <state key="normal" title="#0390121">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
                     </button>
                 </subviews>
                 <constraints>

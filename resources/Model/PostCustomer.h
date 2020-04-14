@@ -30,6 +30,8 @@
 @property (nonatomic) NSInteger replaceSelf;//ใช้เฉพาะตอน push type = 'd'
 @property (nonatomic) NSInteger idInserted;//ใช้ตอน update or delete
 
+@property (nonatomic) NSInteger countPostCustomer;
+
 +(PostCustomer*)getPostCustomer:(NSInteger)postCustomerID;
 +(PostCustomer*)getPostCustomerWithReceiptID:(NSInteger)receiptID postCustomerList:(NSMutableArray *)postCustomerList;
 +(NSInteger)getCustomerID:(NSString *)telephone;

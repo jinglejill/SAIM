@@ -39,6 +39,8 @@
     NSInteger _page;
     NSInteger _lastItemReached;
     NSString *_telephone;
+    PostCustomer *_postCustomerCount;
+    PostCustomer *_postCustomer;
 }
 @property (nonatomic,strong) NSArray        *dataSource;
 @property (nonatomic,strong) NSArray        *dataSourceForSearchResult;
@@ -87,7 +89,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     _page = 1;
     NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
     [_homeModel downloadItems:dbSearchSales condition:@[_searchBar.text,strPage]];
-//    [self loadViewProcess];
 }
 
 -(void)addToMutArrPostCustomer:(NSArray *)postCustomerList
@@ -95,7 +96,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     for(int i=0; i<postCustomerList.count; i++)
     {
         PostCustomer *postCustomer = postCustomerList[i];
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_postCustomerID = %ld",postCustomer.postCustomerID];
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_firstName = %@ and _telephone = %@",postCustomer.firstName,postCustomer.telephone];
         NSArray *filterArray = [_mutArrPostCustomerList filteredArrayUsingPredicate:predicate1];
         if(filterArray.count == 0)
@@ -116,7 +116,9 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     int i=0;
     [self addToMutArrPostCustomer:items[i++]];
-
+    NSMutableArray *postCustomerCountList = items[i++];
+    _postCustomerCount = postCustomerCountList[0];
+    
     
     [self setData];
     
@@ -131,53 +133,16 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
 }
 
-//- (void)loadViewProcess
-//{
-//    [self queryData];
-//    [self setData];
-//}
-//-(void)queryData
-//{
-//    _mutArrCustomerReceiptList = [SharedCustomerReceipt sharedCustomerReceipt].customerReceiptList;
-//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_postCustomerID != %ld",0];
-//    NSArray *filterArray = [_mutArrCustomerReceiptList filteredArrayUsingPredicate:predicate1];
-//    _mutArrCustomerReceiptList = [filterArray mutableCopy];
-//
-//
-//    _mutSetPostCustomerList = [[NSMutableSet alloc]init];
-//    for(CustomerReceipt *item in _mutArrCustomerReceiptList)
-//    {
-//        PostCustomer *postCustomer = [Utility getPostCustomer:item.postCustomerID];
-//        if(postCustomer)
-//        {
-//            [_mutSetPostCustomerList addObject:postCustomer];
-//        }
-//        else
-//        {
-//            NSLog(@"postcustomer id in customer receipt: %ld",item.postCustomerID);
-//        }
-//    }
-//    _mutArrPostCustomerList = [[_mutSetPostCustomerList allObjects] mutableCopy];
-//}
 -(void)setData
 {
-    if(self.searchBarActive)
-    {
-        _postCustomerList = self.dataSourceForSearchResult;
-    }
-    else
+//    if(self.searchBarActive)
+//    {
+//        _postCustomerList = self.dataSourceForSearchResult;
+//    }
+//    else
     {
         _postCustomerList = _mutArrPostCustomerList;
     }
-    
-    
-//    {
-//        //sort
-//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_firstName" ascending:YES];
-//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//        NSArray *filterArray = [_postCustomerList sortedArrayUsingDescriptors:sortDescriptors];
-//        _postCustomerList = [filterArray mutableCopy];
-//    }
     
     
     int i=0;
@@ -214,11 +179,11 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSInteger rowNo;
     
-    if (self.searchBarActive)
-    {
-        rowNo = self.dataSourceForSearchResult.count;
-    }
-    else
+//    if (self.searchBarActive)
+//    {
+//        rowNo = self.dataSourceForSearchResult.count;
+//    }
+//    else
     {
         rowNo = [_postCustomerList count];
     }
@@ -370,8 +335,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     UIView* view = gestureRecognizer.view;
     
     _selectedIndexPathForRow = view.tag;
-    PostCustomer *postCustomer = _postCustomerList[_selectedIndexPathForRow/countColumn-1];
-    _telephone = postCustomer.telephone;
+    _postCustomer = _postCustomerList[_selectedIndexPathForRow/countColumn-1];
+//    _telephone = _postCustomer.telephone;
     
     [self performSegueWithIdentifier:@"segSearchSalesTelephoneDetail" sender:self];
 }
@@ -381,7 +346,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     if ([[segue identifier] isEqualToString:@"segSearchSalesTelephoneDetail"])
     {
         SearchSalesTelephoneDetailViewController *vc = segue.destinationViewController;
-        vc.telephone = _telephone;
+//        vc.telephone = _telephone;
+        vc.postCustomer = _postCustomer;        
     }
 }
 
@@ -446,7 +412,8 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         frame2.size.width = frame2.size.width - 20;
         headerView.labelAlignRight.frame = frame2;
         headerView.labelAlignRight.textAlignment = NSTextAlignmentRight;
-        NSString *strCountItem = [NSString stringWithFormat:@"%ld",self.searchBarActive?self.dataSourceForSearchResult.count:[_postCustomerList count]];
+//        NSString *strCountItem = [NSString stringWithFormat:@"%ld",self.searchBarActive?self.dataSourceForSearchResult.count:[_postCustomerList count]];
+        NSString *strCountItem = [NSString stringWithFormat:@"%ld",_postCustomerCount.countPostCustomer];
         strCountItem = [Utility formatBaht:strCountItem];
         headerView.labelAlignRight.text = strCountItem;
         [headerView addSubview:headerView.labelAlignRight];
@@ -554,21 +521,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     // user did type something, check our datasource for text that looks the same
-//    if (searchText.length>0)
-//    {
-//        // search and reload data source
-//        self.searchBarActive = YES;
-//        [self filterContentForSearchText:searchText scope:@""];
-//        [self setData];
-//    }
-//    else{
-//        // if text lenght == 0
-//        // we will consider the searchbar is not active
-//        //        self.searchBarActive = NO;
-//
-//        [self cancelSearching];
-//        [self setData];
-//    }
+
     if (searchText.length == 0)
     {
         // if text lenght == 0
@@ -576,7 +529,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         //        self.searchBarActive = NO;
 
         [self cancelSearching];
-//        [self setData];
         _page = 1;
         NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
         [self loadingOverlayView];

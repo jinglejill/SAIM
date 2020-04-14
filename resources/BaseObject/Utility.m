@@ -586,13 +586,10 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMScanUnpostCM.php";
             break;
         case urlScanUnpost:
-            url = @"/SAIM/SAIMScanUnpost.php";
-            break;
-        case urlScanPostCM:
-            url = @"/SAIM/SAIMScanPostCM.php";
+            url = @"/SAIM/SAIMScanUnpost2.php";
             break;
         case urlScanPost:
-            url = @"/SAIM/SAIMScanPost.php";
+            url = @"/SAIM/SAIMScanPost2.php";
             break;
         case urlPostCustomerGetList:
             url = @"/SAIM/SAIMPostCustomerGetList.php";
@@ -662,6 +659,9 @@ extern NSString *globalModifiedUser;
             break;
         case urlSearchSalesTelephoneDetailGetList:
             url= @"/SAIM/SAIMSearchSalesTelephoneDetailGetList.php";
+            break;
+        case urlReceiptReferenceOrderNoUpdate:
+            url = @"/SAIM/SAIMReceiptReferenceOrderNoUpdate.php";
             break;
         default:
             break;

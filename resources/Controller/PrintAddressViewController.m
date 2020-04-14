@@ -382,24 +382,11 @@
     }
     
     PostDetail *postDetail = arrPostDetail[indexPath.row];
-//    NSInteger receiptProductItemID = postDetail.receiptProductItemID;
-//    ReceiptProductItem *receiptProductItem = [Utility getReceiptProductItem:receiptProductItemID];
-//    NSInteger receiptID = receiptProductItem.receiptID;
-//    NSInteger postCustomerID = [Utility getPostCustomerID:receiptID];
-//    PostCustomer *postCustomer = [Utility getPostCustomer:postCustomerID];
+
     NSString *strAddress = @"";
     NSString *postcode = @"";
     NSString *country = @"";;
-//    if(postCustomer)
-//    {
-//        NSString *strTel = [postCustomer.telephone isEqualToString:@""]?@"":[NSString stringWithFormat:@"\r\n(โทร. %@)",[Utility insertDash:postCustomer.telephone]];
-//        NSString *street1 = [postCustomer.street1 length]>0?[NSString stringWithFormat:@"%@ ",postCustomer.street1]:@"";
-//        strAddress = [NSString stringWithFormat:@"%@%@\r\n\r\n%@",postCustomer.firstName,strTel,street1];
-//        
-//
-//        postcode = [postCustomer.postcode length]>0?[NSString stringWithFormat:@"\r\n%@ ",postCustomer.postcode]:@"";
-//        country = postCustomer.country;
-//    }
+
     if(postDetail.hasPostCustomer)
     {
         NSString *strTel = [postDetail.telephone isEqualToString:@""]?@"":[NSString stringWithFormat:@"\r\n(โทร. %@)",[Utility insertDash:postDetail.telephone]];
@@ -417,7 +404,6 @@
     NSDictionary *arialDict = [NSDictionary dictionaryWithObject: font1 forKey:NSFontAttributeName];
     NSMutableAttributedString *aAttrString1 = [[NSMutableAttributedString alloc] initWithString:@"ชื่อและที่อยู่ผู้รับ" attributes: arialDict];
     cell.lblHeaderAddress.attributedText = aAttrString1;
-//    [self setLabelUnderline:cell.lblHeaderAddress underline:cell.viewUnderline];
     
     
     
@@ -446,28 +432,7 @@
     
     //style/color/size
     NSString *remark = [NSString stringWithFormat:@"* %@",postDetail.product];
-//    NSString *remark;
-//    if([receiptProductItem.productType isEqualToString:@"P"])
-//    {
-//        Product *product = [Product getProduct:receiptProductItem.productID];
-//        PostDetail *postDetail = [[PostDetail alloc]init];
-//        postDetail.productName = [ProductName getNameWithProductID:product.productID];
-//        postDetail.color = [Utility getColorName:product.color];
-//        postDetail.size = [Utility getSizeLabel:product.size];
-//        postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",postDetail.productName,postDetail.color,postDetail.size];
-//        remark = [NSString stringWithFormat:@"* %@",postDetail.product];
-//    }
-//    else if([receiptProductItem.productType isEqualToString:@"C"])
-//    {
-//        CustomMade *customMade = [Utility getCustomMade:[receiptProductItem.productID integerValue]];
-//        PostDetail *postDetail = [[PostDetail alloc]init];
-//        postDetail.productName = [ProductName getNameWithCustomMadeID:customMade.customMadeID];
-//        postDetail.color = customMade.body;
-//        postDetail.size = customMade.size;
-//        postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",@"CM",postDetail.color,postDetail.size];
-//        remark = [NSString stringWithFormat:@"* %@",postDetail.product];
-//    }
-    
+
 
     UIFont *font3 = [UIFont fontWithName:@"HelveticaNeue" size:17];
     NSDictionary *arialDict3 = [NSDictionary dictionaryWithObject: font3 forKey:NSFontAttributeName];
@@ -476,9 +441,6 @@
     cell.lblRemark.adjustsFontSizeToFitWidth = true;
     cell.lblRemark.minimumScaleFactor = 0.5;
     
-    
-    
-//    [cell.vwPrint addSubview:cell.txtVwAddress];
     
     
     
@@ -648,24 +610,10 @@
             PrintAddressView *vwPrintAddress = [[PrintAddressView alloc]initWithFrame:CGRectMake(margin, 0, 10, 10)];//use only x position value
             {
                 PostDetail *postDetail = arrPostDetail[i];
-//                NSInteger receiptProductItemID = postDetail.receiptProductItemID;
-//                ReceiptProductItem *receiptProductItem = [Utility getReceiptProductItem:receiptProductItemID];
-//                NSInteger receiptID = receiptProductItem.receiptID;
-//                NSInteger postCustomerID = [Utility getPostCustomerID:receiptID];
-//                PostCustomer *postCustomer = [Utility getPostCustomer:postCustomerID];
                 NSString *strAddress = @"";
                 NSString *postcode = @"";
                 NSString *country = @"";;
-//                if(postCustomer)
-//                {
-//                    NSString *strTel = [postCustomer.telephone isEqualToString:@""]?@"":[NSString stringWithFormat:@"\r\n(โทร. %@)",[Utility insertDash:postCustomer.telephone]];
-//                    NSString *street1 = [postCustomer.street1 length]>0?[NSString stringWithFormat:@"%@ ",postCustomer.street1]:@"";
-//                    strAddress = [NSString stringWithFormat:@"%@%@\r\n\r\n%@",postCustomer.firstName,strTel,street1];
-//
-//
-//                    postcode = [postCustomer.postcode length]>0?[NSString stringWithFormat:@"\r\n%@ ",postCustomer.postcode]:@"";
-//                    country = postCustomer.country;
-//                }
+
                 if(postDetail.hasPostCustomer)
                 {
                     NSString *strTel = [postDetail.telephone isEqualToString:@""]?@"":[NSString stringWithFormat:@"\r\n(โทร. %@)",[Utility insertDash:postDetail.telephone]];
@@ -676,14 +624,6 @@
                     postcode = [postDetail.postcode length]>0?[NSString stringWithFormat:@"\r\n%@ ",postDetail.postcode]:@"";
                     country = postDetail.country;
                 }
-                
-                
-                //ชื่อและที่อยู่ผู้รับ
-//                UIFont *font1 = [UIFont fontWithName:@"HelveticaNeue-Medium" size:17];
-//                NSDictionary *arialDict = [NSDictionary dictionaryWithObject: font1 forKey:NSFontAttributeName];
-//                NSMutableAttributedString *aAttrString1 = [[NSMutableAttributedString alloc] initWithString:@"ชื่อและที่อยู่ผู้รับ" attributes: arialDict];
-//                vwPrintAddress.lblHeaderAddress.attributedText = aAttrString1;
-//                [self setLabelUnderline:vwPrintAddress.lblHeaderAddress underline:vwPrintAddress.viewUnderline];
                 
                 
                 //customer's address
@@ -711,28 +651,6 @@
                 
                 //style/color/size
                 NSString *remark = [NSString stringWithFormat:@"* %@",postDetail.product];
-//                NSString *remark;
-//                if([receiptProductItem.productType isEqualToString:@"P"])
-//                {
-//                    Product *product = [Product getProduct:receiptProductItem.productID];
-//                    PostDetail *postDetail = [[PostDetail alloc]init];
-//                    postDetail.productName = [ProductName getNameWithProductID:product.productID];
-//                    postDetail.color = [Utility getColorName:product.color];
-//                    postDetail.size = [Utility getSizeLabel:product.size];
-//                    postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",postDetail.productName,postDetail.color,postDetail.size];
-//                    remark = [NSString stringWithFormat:@"* %@",postDetail.product];
-//                }
-//                else if([receiptProductItem.productType isEqualToString:@"C"])
-//                {
-//                    CustomMade *customMade = [Utility getCustomMade:[receiptProductItem.productID integerValue]];
-//                    PostDetail *postDetail = [[PostDetail alloc]init];
-//                    postDetail.productName = [ProductName getNameWithCustomMadeID:customMade.customMadeID];
-//                    postDetail.color = customMade.body;
-//                    postDetail.size = customMade.size;
-//                    postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",@"CM",postDetail.color,postDetail.size];
-//                    remark = [NSString stringWithFormat:@"* %@",postDetail.product];
-//                }
-                
                 
                 UIFont *font3 = [UIFont fontWithName:@"HelveticaNeue" size:17];
                 NSDictionary *arialDict3 = [NSDictionary dictionaryWithObject: font3 forKey:NSFontAttributeName];
@@ -753,10 +671,7 @@
                         vwPrintAddress.vwPrint.frame = frame;
                     }
                     {
-//                        CGRect frame = vwPrintAddress.lblRemark.frame;
-//                        frame.origin.y = 351;
-//                        vwPrintAddress.lblRemark.frame = frame;
-                        
+
                         
                         [vwPrintAddress.txtVwAddress sizeToFit];
                         CGRect frame = vwPrintAddress.lblRemark.frame;

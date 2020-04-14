@@ -97,7 +97,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     txtLocation.text = event.location;
     _strSelectedEventID = [NSString stringWithFormat:@"%ld",event.eventID];
     [Utility setUserDefaultPreOrderEventID:_strSelectedEventID];
-//    [self queryData:NO];
+
 
     [_mutArrPostDetailList removeAllObjects];
     _page = 1;

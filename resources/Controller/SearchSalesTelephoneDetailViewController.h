@@ -7,12 +7,13 @@
 //
 
 #import "CustomViewController.h"
-
+#import "PostCustomer.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchSalesTelephoneDetailViewController : CustomViewController
 @property (strong, nonatomic) IBOutlet UITableView *tbvData;
 @property (strong, nonatomic) NSString *telephone;
+@property (strong, nonatomic) PostCustomer *postCustomer;
 - (IBAction)unwindToSearchSalesTelephoneDetail:(UIStoryboardSegue *)segue;
 
 @end

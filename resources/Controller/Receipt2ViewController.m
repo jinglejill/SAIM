@@ -283,7 +283,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         NSInteger channelForUserValue = [[NSUserDefaults standardUserDefaults] integerForKey:channelForUserKey];
         
         
-        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Ev",@"Wb",@"Ln",@"FB",@"MS",@"Sh",@"Lz",@"JD",@"KP",@"Ot"]];
+        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Event",@"Web",@"Line",@"FB",@"Shop",@"Other"]];
         _segConChannel.tintColor = [UIColor blackColor];
         _segConChannel.frame = CGRectMake(channelXOrigin, channelYOrigin, channelWidth, channelHeight);
         [_segConChannel setSelectedSegmentIndex:channelForUserValue];
@@ -912,7 +912,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         }
         else if(section == 1)
         {
-            row = 6;
+            row = 5;
         }
         else if(section == 2)
         {
@@ -1185,15 +1185,10 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
                     break;
                 case 3:
                 {
-                    [cell addSubview:_txtReferenceOrderNo];
-                }
-                    break;
-                case 4:
-                {
                     [cell addSubview:_segConShip];
                 }
                     break;
-                case 5:
+                case 4:
                 {
                     [cell addSubview:_segConSalesUser];
                 }
@@ -2004,7 +1999,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     Receipt *receipt = [[Receipt alloc]init];
     receipt.receiptID = receiptID;
     receipt.eventID = strEventID;
-    receipt.channel = [self getChannel];
+    receipt.channel = _segConChannel.selectedSegmentIndex;//[self getChannel];
     receipt.referenceOrderNo = [Utility trimString:_txtReferenceOrderNo.text];
     receipt.payPrice = [Utility removeComma:[self getStrFmtAfterDiscountValue]];
     receipt.paymentMethod = @"";//[_txtCreditAmount.text isEqualToString:@""]?@"CA":[_txtCashReceive.text isEqualToString:@""]?@"CC":@"BO";
@@ -2162,17 +2157,17 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     return [Utility removeComma:strCashAmount];
 }
 
--(NSInteger)getChannel
-{
-    NSInteger channel = _segConChannel.selectedSegmentIndex;
-    if(channel >= 5 && channel <= 8)
-    {
-        channel += 1;
-    }
-    else if(channel == 9)
-    {
-        channel = 5;
-    }
-    return channel;
-}
+//-(NSInteger)getChannel
+//{
+//    NSInteger channel = _segConChannel.selectedSegmentIndex;
+//    if(channel >= 5 && channel <= 8)
+//    {
+//        channel += 1;
+//    }
+//    else if(channel == 9)
+//    {
+//        channel = 5;
+//    }
+//    return channel;
+//}
 @end

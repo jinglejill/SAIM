@@ -32,6 +32,7 @@ static NSString * const reuseIdentifierReceipt = @"CustomTableViewCellReceipt";
 static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCellReceiptProductItem";
 @implementation SearchSalesTelephoneDetailViewController
 @synthesize tbvData;
+@synthesize postCustomer;
 
 - (IBAction)unwindToSearchSalesTelephoneDetail:(UIStoryboardSegue *)segue
 {
@@ -53,7 +54,7 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     }
     
     [self loadingOverlayView];
-    [self.homeModel downloadItems:dbSearchSalesTelephoneDetail condition:self.telephone];
+    [self.homeModel downloadItems:dbSearchSalesTelephoneDetail condition:postCustomer];
 }
 
 -(void)itemsDownloaded:(NSArray *)items
@@ -111,30 +112,8 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         cell.lblReceiptLabelWidth.constant = cell.lblReceiptLabel.frame.size.width;
         
         
-        //show receiptNoID/referenceOrderNo******************
         NSString *receiptNoID = [NSString stringWithFormat:@"#%@ (%@)",receipt.receiptNoID,receiptTime];
-        NSString *referenceOrderNo = [NSString stringWithFormat:@"#%@ (%@)",receipt.referenceOrderNo,receiptTime];
-        
-        if(receipt.showReceiptNoID == 1)
-        {
-            if([Utility isStringEmpty:receipt.referenceOrderNo])
-            {
-                [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
-            }
-            else
-            {
-                [cell.btnReceipt setTitle:referenceOrderNo forState:UIControlStateNormal];
-            }
-        }
-        else
-        {
-            [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
-        }
-        receipt.showReceiptNoID = !receipt.showReceiptNoID;
-
-        [cell.btnReceipt addTarget:self action:@selector(switchOrderNo:) forControlEvents:UIControlEventTouchUpInside];
-        cell.btnReceipt.tag = indexPath.section;
-        //******************
+        [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
         
         
         cell.lblCash.text = [receipt.cashAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.cashAmount];
@@ -191,6 +170,7 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         
         
         //remark
+        cell.txtRemark.enabled = NO;
         cell.txtRemark.text = receipt.remark;
         cell.txtRemark.tag = receipt.receiptID;
         cell.txtRemark.delegate = self;
@@ -739,10 +719,5 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     }
 }
 
--(void)switchOrderNo:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    [tbvData reloadSections:[[NSIndexSet alloc] initWithIndex:button.tag] withRowAnimation:NO];
-}
 @end
 

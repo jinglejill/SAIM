@@ -195,7 +195,8 @@ enum enumDB
     dbReportTopSpenderDetail,
     dbItemTrackingNoTrackingNoUpdate,
     dbReceiptSearch,
-    dbSearchSalesTelephoneDetail
+    dbSearchSalesTelephoneDetail,
+    dbReceiptReferenceOrderNo
 };
 enum enumUrl
 {
@@ -331,7 +332,6 @@ enum enumUrl
     urlMainInventoryItemGet,
     urlScanUnpostCM,
     urlScanUnpost,
-    urlScanPostCM,
     urlScanPost,
     urlPostCustomerGetList,
     urlCustomMadeIn,
@@ -355,7 +355,8 @@ enum enumUrl
     urlReportTopSpenderDetailGetList,
     urlItemTrackingNoTrackingNoUpdate,
     urlReceiptSearchGet,
-    urlSearchSalesTelephoneDetailGetList
+    urlSearchSalesTelephoneDetailGetList,
+    urlReceiptReferenceOrderNoUpdate
     
 };
 enum enumTableName

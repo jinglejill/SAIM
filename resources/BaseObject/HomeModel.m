@@ -261,7 +261,7 @@
             break;
         case dbSearchSales:
         {
-            arrClassName = @[@"PostCustomer"];
+            arrClassName = @[@"PostCustomer",@"PostCustomer"];
         }
             break;
         case dbSearchSalesTelephone:
@@ -977,22 +977,32 @@
             noteDataString = [NSString stringWithFormat:@"startDate=%@&endDate=%@&option=%@&telephone=%@",startDate,endDate,strOption,telephone];
         }
             break;
+        case dbSearchSalesTelephoneDetail:
+        {
+            PostCustomer *postCustomer = (PostCustomer *)object;
+            url = [NSString stringWithFormat:[Utility url:urlSearchSalesTelephoneDetailGetList],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"telephone=%@&firstName=%@",postCustomer.telephone,postCustomer.firstName];
+        }
+            break;
         case dbReceiptSearch:
         {
             NSArray *dataList = (NSArray *)object;
-            NSString *receiptNo = dataList[0];
-            NSString *channel = dataList[1];
-            url = [NSString stringWithFormat:[Utility url:urlReceiptSearchGet],[Utility randomStringWithLength:6]];
-            noteDataString = [NSString stringWithFormat:@"receiptNo=%@&channel=%@",receiptNo,channel];
-        }
-            break;
-        case dbSearchSalesTelephoneDetail:
-        {
+            NSString *searchText = dataList[0];
+            NSString *searchBy = dataList[1];
+            NSString *telephone = @"";
+            NSString *firstName = @"";
+            if([searchBy isEqualToString:@"0"])
+            {
+                telephone = searchText;
+            }
+            else
+            {
+                firstName = searchText;
+            }
             url = [NSString stringWithFormat:[Utility url:urlSearchSalesTelephoneDetailGetList],[Utility randomStringWithLength:6]];
-            noteDataString = [NSString stringWithFormat:@"telephone=%@",(NSString *)object];
+            noteDataString = [NSString stringWithFormat:@"telephone=%@&firstName=%@",telephone,firstName];
         }
             break;
-            
         default:
             break;
     }
@@ -2439,9 +2449,15 @@
         {
             noteDataString = [Utility getNoteDataString:data];
             url = [NSURL URLWithString:[Utility url:urlItemTrackingNoTrackingNoUpdate]];
-//            url = [NSURL URLWithString:@"/SAIM/SAIMItemTrackingNoTrackingNoUpdate.php"];
-            
-            NSLog(@"dbItemTrackingNoTrackingNoUpdate url:%@",url);
+        }
+            break;
+        case dbReceiptReferenceOrderNo:
+        {
+            NSArray *dataList = (NSArray *)data;
+            NSString *strReceiptID = dataList[0];
+            NSString *strReferenceOrderNo =dataList[1];
+            noteDataString = [NSString stringWithFormat:@"receiptID=%@&referenceOrderNo=%@",strReceiptID,strReferenceOrderNo];
+            url = [NSURL URLWithString:[Utility url:urlReceiptReferenceOrderNoUpdate]];
         }
             break;
         default:
@@ -2512,7 +2528,7 @@
                         [self.delegate itemsUpdatedWithReturnData:items];
                     }
                 }
-                else if([function isEqualToString:@"receiptRemark"])
+                else if([function isEqualToString:@"receiptRemark"] || [function isEqualToString:@"receiptReferenceOrderNo"])
                 {
                     NSArray *arrClassName = @[@"Receipt"];
                     NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];

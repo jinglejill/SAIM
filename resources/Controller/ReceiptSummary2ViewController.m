@@ -106,7 +106,6 @@
     NSString *_selectedReceiptProductItemID;
     NSInteger _selectedIndexPathForRow;
     NSString *_strSelectedDateDB;
-    UITextView *_txvDetail;
     UISegmentedControl *_segmentControl;
     NSArray *_receiptList;
     NSArray *_receiptProductItemList;
@@ -158,6 +157,10 @@
     NSMutableArray *_selectedReceiptProductItemList;
     PostCustomer *_selectedPostCustomer;
     UIView *_vwDimBackground;
+    
+    
+    UITextField *_txtReferenceOrderNo;
+//    UITapGestureRecognizer *_singleTap;
 }
 
 @end
@@ -256,9 +259,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     _formatter = [NSNumberFormatter new];
     _formatter.numberStyle = NSNumberFormatterDecimalStyle;
         
-    
-    _txvDetail = [[UITextView alloc]init];
-    
 
     [_homeModel updateItems:dbUserAccountUpdateCountNotSeen withData:@""];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -380,9 +380,9 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 
 -(void)segmentedControlValueDidChange:(UISegmentedControl *)segment
 {
-    [_txvDetail removeFromSuperview];
     [customMadeView removeFromSuperview];
     [preOrderEventIDHistoryView removeFromSuperview];
+    [_txtReferenceOrderNo removeFromSuperview];
     
     
     _selectedDateTime = (NSDate*)(_dateRange[segment.selectedSegmentIndex]);
@@ -701,6 +701,13 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         [self loadingOverlayView];
         [_homeModel updateItems:dbCashAllocationByEventIDAndInputDate withData:cashAllocation];
     }
+    else if(textField == _txtReferenceOrderNo)
+    {
+        NSString *strReceiptID = [NSString stringWithFormat:@"%ld",textField.tag];
+        NSString *strReferenceOrderNo = [Utility trimString:_txtReferenceOrderNo.text];
+        [self loadingOverlayView];
+        [_homeModel updateItems:dbReceiptReferenceOrderNo withData:@[strReceiptID,strReferenceOrderNo]];
+    }
     else
     {
         //txtRemark
@@ -726,12 +733,14 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     return YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    
+    //dimBackground
     _vwDimBackground = [[UIView alloc]initWithFrame:self.view.frame];
     _vwDimBackground.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    
     
     
     //Register table
@@ -880,6 +889,36 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         [_btnCancelCM addTarget:self action:@selector(cancelCM:) forControlEvents:UIControlEventTouchUpInside];
         _btnCancelCM.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     }
+    
+    
+    //txtReferenceOrderNo
+    {
+        float controlWidth = 300;
+        float controlHeight = 44;
+        float controlXOrigin = 20;
+        float controlYOrigin = 20;
+        _txtReferenceOrderNo = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, controlHeight)];
+        _txtReferenceOrderNo.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+        _txtReferenceOrderNo.placeholder = @"Reference order no.";
+//        _txtReferenceOrderNo.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _txtReferenceOrderNo.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+        _txtReferenceOrderNo.font = [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14];
+        _txtReferenceOrderNo.delegate = self;
+        
+        //add dropshadow
+        {
+            _txtReferenceOrderNo.layer.shadowRadius  = 1.5f;
+            _txtReferenceOrderNo.layer.shadowColor   = [UIColor colorWithRed:0.f/255.f green:0.f/255.f blue:0.f/255.f alpha:1.f].CGColor;
+            _txtReferenceOrderNo.layer.shadowOffset  = CGSizeMake(0.f, 0.f);
+            _txtReferenceOrderNo.layer.shadowOpacity = 0.2f;
+            _txtReferenceOrderNo.layer.masksToBounds = NO;
+
+            UIEdgeInsets shadowInsets     = UIEdgeInsetsMake(0, 0, -1.5f, 0);
+            UIBezierPath *shadowPath      = [UIBezierPath bezierPathWithRect:UIEdgeInsetsInsetRect(_txtReferenceOrderNo.bounds, shadowInsets)];
+            _txtReferenceOrderNo.layer.shadowPath    = shadowPath.CGPath;
+        }
+    }
+    
 }
 
 - (BOOL) hasPost:(NSInteger)receiptID
@@ -1172,7 +1211,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     {
         NSInteger receiptID = [_selectedReceiptID integerValue];
         Receipt *receipt = [self getReceipt:receiptID];
-//        CustomerReceipt *customerReceipt = [self getCustomerReceiptWithReceiptID:receiptID];
         NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
         NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
         NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
@@ -1181,7 +1219,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
        
         
         [_receiptListForDate removeObject:receipt];
-//        [_customerReceiptListForDate removeObject:customerReceipt];
         [_itemTrackingNoListForDate removeObjectsInArray:arrItemTrackingNo];
         [_receiptProductItemListForDate removeObjectsInArray:arrReceiptProductItem];
         [_customMadeListForDate removeObjectsInArray:arrCustomMade];
@@ -1299,32 +1336,10 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
             cell.lblReceiptLabel.text = [NSString stringWithFormat:@"%ld. Receipt",indexPath.section+1];
             [cell.lblReceiptLabel sizeToFit];
             cell.lblReceiptLabelWidth.constant = cell.lblReceiptLabel.frame.size.width;
-            
-            
-            //show receiptNoID/referenceOrderNo******************
-            NSString *receiptNoID = [NSString stringWithFormat:@"#%@ (%@)",receipt.receiptNoID,receiptTime];
-            NSString *referenceOrderNo = [NSString stringWithFormat:@"#%@ (%@)",receipt.referenceOrderNo,receiptTime];
-            
-            if(receipt.showReceiptNoID == 1)
-            {
-                if([Utility isStringEmpty:receipt.referenceOrderNo])
-                {
-                    [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
-                }
-                else
-                {
-                    [cell.btnReceipt setTitle:referenceOrderNo forState:UIControlStateNormal];
-                }
-            }
-            else
-            {
-                [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
-            }
-            receipt.showReceiptNoID = !receipt.showReceiptNoID;
 
-            [cell.btnReceipt addTarget:self action:@selector(switchOrderNo:) forControlEvents:UIControlEventTouchUpInside];
-            cell.btnReceipt.tag = indexPath.section;
-            //******************
+
+            NSString *receiptNoID = [NSString stringWithFormat:@"#%@ (%@)",receipt.receiptNoID,receiptTime];
+            [cell.btnReceipt setTitle:receiptNoID forState:UIControlStateNormal];
             
             
             cell.lblCash.text = [receipt.cashAmount isEqualToString:@"0"]?@"-":[Utility formatBaht:receipt.cashAmount];
@@ -1754,7 +1769,8 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
        _selectedPostCustomer = [self getPostCustomer:itemTrackingNo.postCustomerID];
        [self performSegueWithIdentifier:@"segPostCustomer" sender:self];
    }]];
-                            
+   
+                
                             
     [alert addAction:
      [UIAlertAction actionWithTitle:@"Cancel"
@@ -2083,7 +2099,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         customMade.accessory = dbCustomMade.accessory;
         customMade.remark = dbCustomMade.remark;
 
-    //        [self setData];
     }
     else if(_homeModel.propCurrentDB == dbReceiptProductItemAndProductUpdate)
     {
@@ -2108,6 +2123,19 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         updateReceiptProductItem.productType = returnReceiptProductItem.productType;
         updateReceiptProductItem.productID = returnReceiptProductItem.productID;
         [self setData];
+    }
+    else if(_homeModel.propCurrentDB == dbReceiptReferenceOrderNo)
+    {
+        [self removeOverlayViews];
+        [_txtReferenceOrderNo removeFromSuperview];
+        [_vwDimBackground removeFromSuperview];
+        
+        
+        NSArray *receiptList = data[0];
+        Receipt *dbReceipt = receiptList[0];
+        Receipt *receipt = [self getReceipt:dbReceipt.receiptID];
+        receipt.referenceOrderNo = dbReceipt.referenceOrderNo;
+        [tbvData reloadData];
     }
 }
 
@@ -2142,9 +2170,9 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
 
 - (IBAction)shortOrDetail:(id)sender {
     
-    [_txvDetail removeFromSuperview];
     [customMadeView removeFromSuperview];
     [preOrderEventIDHistoryView removeFromSuperview];
+    [_txtReferenceOrderNo removeFromSuperview];
     [_vwDimBackground removeFromSuperview];
     
     if([btnShortOrDetail.title isEqualToString:@"Detail"])
@@ -2377,19 +2405,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     
     return [sortArray mutableCopy];
 }
-//
-//-(CustomerReceipt *)getCustomerReceiptWithReceiptID:(NSInteger)receiptID
-//{
-//    NSMutableArray *customerReceiptList = _customerReceiptListForDate;
-//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptID = %ld",receiptID];
-//    NSArray *filterArray = [customerReceiptList filteredArrayUsingPredicate:predicate1];
-//
-//    if([filterArray count]>0)
-//    {
-//        return filterArray[0];
-//    }
-//    return nil;
-//}
 
 -(ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID
 {
@@ -2439,23 +2454,6 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     return itemTrackingNoList;
 }
 
-//- (NSArray *)getPostCustomerList:(NSInteger)receiptID
-//{
-//    NSMutableArray *postCustomerList = [[NSMutableArray alloc]init];
-//    NSArray *receiptProductItemList = [self getReceiptProductItemList:receiptID];
-//    for(ReceiptProductItem *item in receiptProductItemList)
-//    {
-//        ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:item.receiptProductItemID];
-//        PostCustomer *postCustomer = [self getPostCustomer:itemTrackingNo.postCustomerID];
-//        if(postCustomer)
-//        {
-//            [postCustomerList addObject:postCustomer];
-//        }
-//    }
-//
-//    return postCustomerList;
-//}
-
 - (NSArray *)getCustomMadeList:(NSArray *)receiptProductItemList
 {
     NSMutableArray *customMadeList = [[NSMutableArray alloc]init];
@@ -2483,15 +2481,13 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"R"])
         {
             Product *product = [self getProduct:item.productID];
-            [productList addObject:product];
+            if(product)
+            {
+                [productList addObject:product];
+            }
         }
     }
     return productList;
 }
 
--(void)switchOrderNo:(id)sender
-{
-    UIButton *button = (UIButton *)sender;    
-    [tbvData reloadSections:[[NSIndexSet alloc] initWithIndex:button.tag] withRowAnimation:NO];
-}
 @end

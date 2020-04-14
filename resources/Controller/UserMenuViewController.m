@@ -37,7 +37,6 @@ enum enumAdminMenu
     menuSalesScan,
     menuSalesCustomMade,
     menuSalesPreOrder,
-//    menuReceiptSummary,
     menuReceiptSummary2
 };
 
@@ -94,13 +93,11 @@ enum enumAdminMenu
                        @"Sales scan",
                        @"Sales custom-made",
                        @"Sales pre-order",
-//                       @"Receipt summary",
-                       @"Receipt summary2"
+                       @"Receipt summary"
                        ];
     _menuWithoutSales = @[@"Event inventory summary",
                           @"Event inventory item",
-//                          @"Receipt summary",
-                          @"Receipt summary2"
+                          @"Receipt summary"
                           ];
     _menuExtra = @[@"To post product",
                    @"Posted product",
@@ -257,13 +254,6 @@ enum enumAdminMenu
                 case menuSalesPreOrder:
                     [self performSegueWithIdentifier:@"segPreOrderPage" sender:self];
                     break;
-//                case menuReceiptSummary:
-//                {
-//                    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-//                    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-//                    [self performSegueWithIdentifier:@"segReceiptSummaryFromUserMenu" sender:self];
-//                }
-//                    break;
                 case menuReceiptSummary2:
                 {
                     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
@@ -284,13 +274,6 @@ enum enumAdminMenu
                 case 1:
                     [self performSegueWithIdentifier:@"segEventInventoryItemUserPage" sender:self];
                     break;
-//                case 2:
-//                {
-//                    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-//                    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-//                    [self performSegueWithIdentifier:@"segReceiptSummaryFromUserMenu" sender:self];
-//                }
-//                    break;
                 case 2:
                 {
                     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];

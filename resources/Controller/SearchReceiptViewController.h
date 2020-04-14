@@ -11,13 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchReceiptViewController : CustomViewController
-@property (strong, nonatomic) IBOutlet UITextField *txtReceiptNoSearch;
+@property (strong, nonatomic) IBOutlet UITextField *txtSearchText;
 @property (strong, nonatomic) IBOutlet UIButton *btnSearch;
 @property (strong, nonatomic) IBOutlet UITableView *tbvData;
 - (IBAction)searchReceipt:(id)sender;
 - (IBAction)unwindToSearchReceipt:(UIStoryboardSegue *)segue;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *segConChannel;
-- (IBAction)segConChannelValueChanged:(id)sender;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segConSearchBy;
 @end
 
 NS_ASSUME_NONNULL_END

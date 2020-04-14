@@ -528,14 +528,8 @@
     dispatch_async(dispatch_get_main_queue(),^ {
         [self loadingOverlayView];
     } );
-//    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-//    customerReceipt.receiptID = _currentReceiptID;
-//    customerReceipt.trackingNo = trackingNo;
-//    customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    customerReceipt.modifiedUser = [Utility modifiedUser];
-//    [_homeModel updateItems:dbCustomerReceiptUpdateTrackingNo withData:customerReceipt];
-//
-    
+
+
     ItemTrackingNo *itemTrackingNo = [[ItemTrackingNo alloc]init];
     itemTrackingNo.receiptProductItemID = _currentReceiptProductItemID;
     itemTrackingNo.trackingNo = trackingNo;
