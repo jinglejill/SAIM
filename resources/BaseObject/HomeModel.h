@@ -21,6 +21,7 @@
 - (void)itemsUpdated:(NSString *)alert;
 - (void)itemsSynced:(NSArray *)items;
 - (void)itemsDeleted;
+- (void)itemsDeletedWithReturnData:(NSArray *)data;
 - (void)emailSent;
 - (void)photoUploaded;
 - (void)connectionFail;

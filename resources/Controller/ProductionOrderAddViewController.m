@@ -17,6 +17,7 @@
 #import "SharedProductName.h"
 #import "SharedProductSales.h"
 #import "ProductionOrder.h"
+#import "Message.h"
 
 
 #define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]
@@ -142,9 +143,26 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     Event *event = _eventListNowAndFutureAsc[_selectedEvent];
     [_homeModel insertItems:dbProductionOrder withData:@[productionOrderList,event]];
+
+}
+
+-(void)itemsInsertedWithReturnData:(NSArray *)data
+{
+    NSArray *messageList = data[0];
+    InAppMessage *message = messageList[0];
+    NSString *strMessage;
+    if([Utility isStringEmpty:message.message])
+    {
+        strMessage = @"Add order success";
+    }
+    else
+    {
+        strMessage = [NSString stringWithFormat:@"%@\n\n%@",@"Add order success",message.message];
+    }
+    
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Success"
-                                                                   message:@"Add order success"
+                                                                   message:strMessage
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
@@ -158,6 +176,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     [_dicGenerateQRCode removeAllObjects];
     [colViewData reloadData];
+    
+    
 }
 
 - (void)loadView

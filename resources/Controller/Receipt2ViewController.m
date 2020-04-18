@@ -21,6 +21,7 @@
 #import "RewardProgram.h"
 #import "ProductDetail.h"
 #import "PreOrderEventIDHistory.h"
+#import "PreOrder2.h"
 
 
 
@@ -1014,6 +1015,15 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
             }
             [cell.btnProduct addTarget:self action:@selector(productTapped:) forControlEvents:UIControlEventTouchUpInside];
             cell.btnProduct.tag = indexPath.item;
+            if([self isPreOrder2:indexPath.item])
+            {
+                cell.btnProduct.tintColor = [UIColor colorWithRed:255/255.0 green:47/255.0 blue:146/255.0 alpha:1];
+            }
+            else
+            {
+                cell.btnProduct.tintColor = [UIColor colorWithRed:0/255.0 green:122/255.0 blue:255/255.0 alpha:1];
+            }
+            
             
             
             //replace
@@ -1721,7 +1731,12 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
 
 -(BOOL)isProductInventoryOrPreOrder:(NSInteger)productBuyIndex
 {
-    return [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productInventory]] || [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productPreOrder]];
+    return [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productInventory]] || [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productPreOrder]] || [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productPreOrder2]];
+}
+
+-(BOOL)isPreOrder2:(NSInteger)productBuyIndex
+{
+    return [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productPreOrder2]];
 }
 
 -(PostCustomer *)getPostCustomer:(NSInteger)postCustomerID
@@ -1832,6 +1847,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     NSMutableArray *arrPreOrderEventIDHistory = [[NSMutableArray alloc]init];
     //insert itemTrackingNoList
     NSMutableArray *arrItemTrackingNo = [[NSMutableArray alloc]init];
+    NSMutableArray *arrPreOrder2 = [[NSMutableArray alloc]init];
     
     for(int i=0; i<[_productBuyList count]; i++)
     {
@@ -1923,6 +1939,70 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     }
     
     
+    //update product preOrder2
+    for(int i=0; i<[_productBuyList count]; i++)
+    {
+        if([_productBuyList[i][productType] intValue] == productPreOrder2)
+        {
+            ProductDetail *productDetail = (ProductDetail*)_productBuyList[i][productBuyDetail];
+//            Product *product = [Product getProduct:productDetail.productID];
+//            product.status = @"P"; //update shared in the same time
+//            product.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//            product.modifiedUser = [Utility modifiedUser];
+//            [arrProduct addObject:product];
+            
+            
+            
+            NSInteger receiptProductItemID = [Utility getNextID:tblReceiptProductItem];
+            ReceiptProductItem *receiptProductItem = [[ReceiptProductItem alloc]init];
+            receiptProductItem.receiptProductItemID = receiptProductItemID;
+            receiptProductItem.receiptID = receiptID;
+            receiptProductItem.productType = @"C";//@"P";
+            receiptProductItem.preOrderEventID = 0;//product.eventID;
+            receiptProductItem.productID = 0;//product.productID;
+            receiptProductItem.priceSales = productDetail.pricePromotion;
+            receiptProductItem.customMadeIn = @"0";
+            receiptProductItem.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+            receiptProductItem.modifiedUser = [Utility modifiedUser];
+            
+            receiptProductItem.ship = productDetail.ship;
+            receiptProductItem.shippingFee = productDetail.ship?[Utility floatValue:[Utility setting:vShippingFee]]:0;
+            receiptProductItem.replaceProduct = productDetail.replaceProduct;
+            receiptProductItem.discount = productDetail.discount;
+            receiptProductItem.discountValue = productDetail.discountValue;
+            receiptProductItem.discountPercent = productDetail.discountPercent;
+            receiptProductItem.discountReason = productDetail.discountReason;
+            [ReceiptProductItem addObject:receiptProductItem];
+            [arrReceiptProductItem addObject:receiptProductItem];
+            
+            
+            //insert itemTrackingNo
+            ItemTrackingNo *itemTrackingNo = [[ItemTrackingNo alloc]init];
+            itemTrackingNo.receiptProductItemID = receiptProductItem.receiptProductItemID;
+            itemTrackingNo.postCustomerID = productDetail.postCustomerID;
+            [arrItemTrackingNo addObject:itemTrackingNo];
+            
+            
+            //preOrder2
+            NSString *productIDGroup = (NSString*)_productBuyList[i][eProductIDGroup];
+            NSRange needleRange = NSMakeRange(0,6);
+            NSString *productNameGroup = [productIDGroup substringWithRange:needleRange];
+            
+            needleRange = NSMakeRange(6,2);
+            NSString *strColor = [productIDGroup substringWithRange:needleRange];
+            
+            needleRange = NSMakeRange(8,2);
+            NSString *strSize = [productIDGroup substringWithRange:needleRange];
+            
+            ProductName *productName = [ProductName getProductNameWithProductNameGroup:productNameGroup];
+            PreOrder2 *preOrder2 = [[PreOrder2 alloc]init];
+            preOrder2.receiptProductItemID = receiptProductItemID;
+            preOrder2.productNameID = productName.productNameID;
+            preOrder2.color = strColor;
+            preOrder2.size = strSize;
+            [arrPreOrder2 addObject:preOrder2];
+        }
+    }
     
     
     //insert custom made
@@ -2060,6 +2140,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     
     
     [data addObject:arrItemTrackingNo];
+    [data addObject:arrPreOrder2];
     
     
     [self loadingOverlayView];

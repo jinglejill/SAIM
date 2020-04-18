@@ -143,6 +143,13 @@
 		EFB460C5243A889700C5100E /* NDHTMLtoPDF.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */; };
 		EFB460CA243C838000C5100E /* SearchReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460C9243C838000C5100E /* SearchReceiptViewController.m */; };
 		EFB460CD243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */; };
+		EFB460D02445DD6B00C5100E /* PreOrderPage2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460CF2445DD6B00C5100E /* PreOrderPage2ViewController.m */; };
+		EFB460D32445DE1C00C5100E /* PreOrder2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460D22445DE1C00C5100E /* PreOrder2ViewController.m */; };
+		EFB460D62446C00600C5100E /* PreOrderAddPreOrder2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460D52446C00600C5100E /* PreOrderAddPreOrder2ViewController.m */; };
+		EFB460D92446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */; };
+		EFB460DC2446F3EC00C5100E /* PreOrder2.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460DB2446F3EC00C5100E /* PreOrder2.m */; };
+		EFB460DE2447264700C5100E /* sewingMachine.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460DD2447264600C5100E /* sewingMachine.png */; };
+		EFB460E0244841FC00C5100E /* sewingMachine2.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460DF244841FB00C5100E /* sewingMachine2.png */; };
 		EFB8719B20C0E6020011AF78 /* BRPtouchPrinterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */; };
 		EFB8719C20C0E6020011AF78 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */; };
 		EFB8719D20C0E6020011AF78 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719820C0E6020011AF78 /* DropboxSDK.framework */; };
@@ -258,8 +265,6 @@
 		EFF083B21CAFA7E0003E74D6 /* ProductCostEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081CF1CAFA7E0003E74D6 /* ProductCostEditViewController.m */; };
 		EFF083B31CAFA7E0003E74D6 /* ProductCostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081D11CAFA7E0003E74D6 /* ProductCostViewController.m */; };
 		EFF083B41CAFA7E0003E74D6 /* ProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081D31CAFA7E0003E74D6 /* ProductDetailViewController.m */; };
-		EFF083B51CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081D51CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.m */; };
-		EFF083B61CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081D71CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.m */; };
 		EFF083B71CAFA7E0003E74D6 /* ProductNameDetailEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081D91CAFA7E0003E74D6 /* ProductNameDetailEditViewController.m */; };
 		EFF083B81CAFA7E0003E74D6 /* ProductNameDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081DB1CAFA7E0003E74D6 /* ProductNameDetailViewController.m */; };
 		EFF083B91CAFA7E0003E74D6 /* ProductNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF081DD1CAFA7E0003E74D6 /* ProductNameViewController.m */; };
@@ -659,6 +664,18 @@
 		EFB460C9243C838000C5100E /* SearchReceiptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchReceiptViewController.m; sourceTree = "<group>"; };
 		EFB460CB243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchSalesTelephoneDetailViewController.h; sourceTree = "<group>"; };
 		EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchSalesTelephoneDetailViewController.m; sourceTree = "<group>"; };
+		EFB460CE2445DD6B00C5100E /* PreOrderPage2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrderPage2ViewController.h; sourceTree = "<group>"; };
+		EFB460CF2445DD6B00C5100E /* PreOrderPage2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrderPage2ViewController.m; sourceTree = "<group>"; };
+		EFB460D12445DE1C00C5100E /* PreOrder2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrder2ViewController.h; sourceTree = "<group>"; };
+		EFB460D22445DE1C00C5100E /* PreOrder2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrder2ViewController.m; sourceTree = "<group>"; };
+		EFB460D42446C00600C5100E /* PreOrderAddPreOrder2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrderAddPreOrder2ViewController.h; sourceTree = "<group>"; };
+		EFB460D52446C00600C5100E /* PreOrderAddPreOrder2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrderAddPreOrder2ViewController.m; sourceTree = "<group>"; };
+		EFB460D72446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrderAddPreOrderPage2ViewController.h; sourceTree = "<group>"; };
+		EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrderAddPreOrderPage2ViewController.m; sourceTree = "<group>"; };
+		EFB460DA2446F3EC00C5100E /* PreOrder2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrder2.h; sourceTree = "<group>"; };
+		EFB460DB2446F3EC00C5100E /* PreOrder2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrder2.m; sourceTree = "<group>"; };
+		EFB460DD2447264600C5100E /* sewingMachine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sewingMachine.png; sourceTree = "<group>"; };
+		EFB460DF244841FB00C5100E /* sewingMachine2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sewingMachine2.png; sourceTree = "<group>"; };
 		EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRPtouchPrinterKit.framework; sourceTree = "<group>"; };
 		EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		EFB8719820C0E6020011AF78 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
@@ -862,10 +879,6 @@
 		EFF081D11CAFA7E0003E74D6 /* ProductCostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCostViewController.m; sourceTree = "<group>"; };
 		EFF081D21CAFA7E0003E74D6 /* ProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailViewController.h; sourceTree = "<group>"; };
 		EFF081D31CAFA7E0003E74D6 /* ProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailViewController.m; sourceTree = "<group>"; };
-		EFF081D41CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductLocationAndStatusScanViewController.h; sourceTree = "<group>"; };
-		EFF081D51CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductLocationAndStatusScanViewController.m; sourceTree = "<group>"; };
-		EFF081D61CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductLocationAndStatusViewController.h; sourceTree = "<group>"; };
-		EFF081D71CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductLocationAndStatusViewController.m; sourceTree = "<group>"; };
 		EFF081D81CAFA7E0003E74D6 /* ProductNameDetailEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductNameDetailEditViewController.h; sourceTree = "<group>"; };
 		EFF081D91CAFA7E0003E74D6 /* ProductNameDetailEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductNameDetailEditViewController.m; sourceTree = "<group>"; };
 		EFF081DA1CAFA7E0003E74D6 /* ProductNameDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductNameDetailViewController.h; sourceTree = "<group>"; };
@@ -1635,10 +1648,6 @@
 				EF67EF0B1E795832005D20F9 /* ProductionOrderAddedListViewController.m */,
 				EF67EF101E795833005D20F9 /* ProductionOrderAddViewController.h */,
 				EF67EF0F1E795833005D20F9 /* ProductionOrderAddViewController.m */,
-				EFF081D41CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.h */,
-				EFF081D51CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.m */,
-				EFF081D61CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.h */,
-				EFF081D71CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.m */,
 				EFF081D81CAFA7E0003E74D6 /* ProductNameDetailEditViewController.h */,
 				EFF081D91CAFA7E0003E74D6 /* ProductNameDetailEditViewController.m */,
 				EFF081DA1CAFA7E0003E74D6 /* ProductNameDetailViewController.h */,
@@ -1715,6 +1724,14 @@
 				EFB460C9243C838000C5100E /* SearchReceiptViewController.m */,
 				EFB460CB243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.h */,
 				EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */,
+				EFB460CE2445DD6B00C5100E /* PreOrderPage2ViewController.h */,
+				EFB460CF2445DD6B00C5100E /* PreOrderPage2ViewController.m */,
+				EFB460D12445DE1C00C5100E /* PreOrder2ViewController.h */,
+				EFB460D22445DE1C00C5100E /* PreOrder2ViewController.m */,
+				EFB460D42446C00600C5100E /* PreOrderAddPreOrder2ViewController.h */,
+				EFB460D52446C00600C5100E /* PreOrderAddPreOrder2ViewController.m */,
+				EFB460D72446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.h */,
+				EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1920,6 +1937,8 @@
 		EFF082811CAFA7E0003E74D6 /* Icon */ = {
 			isa = PBXGroup;
 			children = (
+				EFB460DF244841FB00C5100E /* sewingMachine2.png */,
+				EFB460DD2447264600C5100E /* sewingMachine.png */,
 				EFB460BA243A731F00C5100E /* blankSignature2.png */,
 				EF59831524399C9E00775677 /* oneSignature3.png */,
 				EFF082821CAFA7E0003E74D6 /* add active3.png */,
@@ -2218,6 +2237,8 @@
 				EF733D912420E38800750577 /* ItemTrackingNo.m */,
 				EF8B8A472432E13A005F6E91 /* TopSpender.h */,
 				EF8B8A482432E13A005F6E91 /* TopSpender.m */,
+				EFB460DA2446F3EC00C5100E /* PreOrder2.h */,
+				EFB460DB2446F3EC00C5100E /* PreOrder2.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2350,6 +2371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF8B8A762433A100005F6E91 /* Icon.png in Resources */,
+				EFB460E0244841FC00C5100E /* sewingMachine2.png in Resources */,
 				EF8B8A782433A100005F6E91 /* Icon-76.png in Resources */,
 				EF8B8A7C2433A100005F6E91 /* Icon-72@2x.png in Resources */,
 				EFF083761CAFA7E0003E74D6 /* PDFSelectVIewControllerViewController.xib in Resources */,
@@ -2406,6 +2428,7 @@
 				EF77B7B1241A26B200834B8D /* CustomTableViewCellExpenseAmount.xib in Resources */,
 				EFF083FE1CAFA7E0003E74D6 /* show.png in Resources */,
 				EFF0837E1CAFA7E0003E74D6 /* bsq72wad.ptd in Resources */,
+				EFB460DE2447264700C5100E /* sewingMachine.png in Resources */,
 				EF8B8A822433A2AA005F6E91 /* miniLogo.png in Resources */,
 				EF77B7A7241A130800834B8D /* CustomTableViewCellExpenseDaily.xib in Resources */,
 				EFF083EE1CAFA7E0003E74D6 /* clearButton.png in Resources */,
@@ -2554,6 +2577,7 @@
 				EF67EF141E795833005D20F9 /* DeliverOrderScanViewController.m in Sources */,
 				EF67EF0A1E79581A005D20F9 /* SalesByChannel.m in Sources */,
 				EF9DC7D01CCF5E84004ABAB6 /* ProductDeleteScanViewController.m in Sources */,
+				EFB460D62446C00600C5100E /* PreOrderAddPreOrder2ViewController.m in Sources */,
 				EFF084571CAFA7E0003E74D6 /* SharedSelectedEvent.m in Sources */,
 				EFF0839C1CAFA7E0003E74D6 /* EventViewController.m in Sources */,
 				EFF084361CAFA7E0003E74D6 /* SharedComparingScan.m in Sources */,
@@ -2582,8 +2606,6 @@
 				EF77B7A2241A10D400834B8D /* CustomViewController.m in Sources */,
 				EFCAD5E91E5EEB630013393D /* AccountReceipt.m in Sources */,
 				EFA072AC1F57175E00830045 /* HomeModel.m in Sources */,
-				EFF083B61CAFA7E0003E74D6 /* ProductLocationAndStatusViewController.m in Sources */,
-				EFF083B51CAFA7E0003E74D6 /* ProductLocationAndStatusScanViewController.m in Sources */,
 				EFF083A51CAFA7E0003E74D6 /* MasterListViewController.m in Sources */,
 				EFF083991CAFA7E0003E74D6 /* EventInventorySummaryViewController.m in Sources */,
 				EF799BA91D0C066B00473F5F /* SearchSalesTelephoneViewController.m in Sources */,
@@ -2624,6 +2646,8 @@
 				EFF0839D1CAFA7E0003E74D6 /* ExportSalesViewController.m in Sources */,
 				EFF083881CAFA7E0003E74D6 /* AddUserAccountViewController.m in Sources */,
 				EFF0841A1CAFA7E0003E74D6 /* PostCustomer.m in Sources */,
+				EFB460D02445DD6B00C5100E /* PreOrderPage2ViewController.m in Sources */,
+				EFB460DC2446F3EC00C5100E /* PreOrder2.m in Sources */,
 				EFF0811A1CAF52C5003E74D6 /* main.m in Sources */,
 				EF5983192439D0F500775677 /* ExportManager.m in Sources */,
 				EFF084171CAFA7E0003E74D6 /* ImageRunningID.m in Sources */,
@@ -2680,6 +2704,7 @@
 				EFF083A11CAFA7E0003E74D6 /* InventorySourceViewController.m in Sources */,
 				EFC91FEB1D5496C6007345F1 /* Credentials.m in Sources */,
 				EFF083D21CAFA7E0003E74D6 /* CustomUICollectionReusableView.m in Sources */,
+				EFB460D32445DE1C00C5100E /* PreOrder2ViewController.m in Sources */,
 				EFF0838F1CAFA7E0003E74D6 /* ChartTabBarController.m in Sources */,
 				EFF083DD1CAFA7E0003E74D6 /* MGSwipeButton.m in Sources */,
 				EFF083841CAFA7E0003E74D6 /* ReachabilityBrother.m in Sources */,
@@ -2716,6 +2741,7 @@
 				EF9DC7CF1CCF5E84004ABAB6 /* ProductDeleteHistoryViewController.m in Sources */,
 				EF880638241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m in Sources */,
 				EFF0842E1CAFA7E0003E74D6 /* SalesByPriceData.m in Sources */,
+				EFB460D92446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m in Sources */,
 				EFF083AD1CAFA7E0003E74D6 /* PrintAddressViewController.m in Sources */,
 				EFF084271CAFA7E0003E74D6 /* ProductSize.m in Sources */,
 				EFA9308923952068001C9517 /* ProductPost2ViewController.m in Sources */,
@@ -2950,7 +2976,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.1.12;
+				MARKETING_VERSION = 1.2.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2984,7 +3010,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.1.12;
+				MARKETING_VERSION = 1.2.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

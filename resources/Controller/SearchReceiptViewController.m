@@ -318,7 +318,15 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         || [receiptProductItem.productType isEqualToString:@"F"]
         )
         {
-            [cell.btnProduct setTitleColor:tBlueColor forState:UIControlStateNormal];
+            if(receiptProductItem.isPreOrder2)
+            {
+                UIColor *color = [UIColor colorWithRed:255/255.0 green:47/255.0 blue:146/255.0 alpha:1];
+                [cell.btnProduct setTitleColor:color forState:UIControlStateNormal];
+            }
+            else
+            {
+                [cell.btnProduct setTitleColor:tBlueColor forState:UIControlStateNormal];
+            }
         }
         else
         {
@@ -426,7 +434,15 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     _receiptProductItemList = _receiptProductItemListForDate;
     for(ReceiptProductItem *item in _receiptProductItemList)
     {
-        if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"F"] || [item.productType isEqualToString:@"U"])
+        if(item.isPreOrder2)
+        {
+            ProductName *productName = [ProductName getProductName:item.preOrder2ProductNameID];
+            item.productName = productName.name;
+            item.color = [Utility getColorName:item.preOrder2Color];
+            item.size = [Utility getSizeLabel:item.preOrder2Size];
+            item.sizeOrder = [Utility getSizeOrder:item.preOrder2Size];
+        }
+        else if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"F"] || [item.productType isEqualToString:@"U"])
         {
             Product *product = [self getProduct:item.productID];
             NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
@@ -609,12 +625,18 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         if([item.productType isEqualToString:@"C"] || [item.productType isEqualToString:@"B"] || [item.productType isEqualToString:@"E"])
         {
             CustomMade *customMade = [self getCustomMade:[item.productID integerValue]];
-            [customMadeList addObject:customMade];
+            if(customMade)
+            {
+                [customMadeList addObject:customMade];
+            }
         }
         else if([item.productType isEqualToString:@"R"])
         {
             CustomMade *customMade = [self getCustomMadeFromProductIDPost:item.productID];
-            [customMadeList addObject:customMade];
+            if(customMade)
+            {
+                [customMadeList addObject:customMade];
+            }
         }
     }
     return customMadeList;
@@ -628,7 +650,10 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"R"])
         {
             Product *product = [self getProduct:item.productID];
-            [productList addObject:product];
+            if(product)
+            {
+                [productList addObject:product];
+            }
         }
     }
     return productList;
@@ -796,42 +821,6 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
                                    [self changeProduct:receiptProductItemID];
                                }]];
     }
-    
-              
-              
-//  //I=Inventory,C=Custom made,A=change I,B=change C,P=preorder,D=change P,S=post preorder,R=post CM,E=change R,F=change S
-//  if([receiptProductItem.productType isEqualToString:@"C"]
-////      || [receiptProductItem.productType isEqualToString:@"B"]
-////      || [receiptProductItem.productType isEqualToString:@"R"]
-////      || [receiptProductItem.productType isEqualToString:@"E"]
-//  )
-//  {
-//      [alert addAction:
-//       [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Change CM Spec"]
-//                                                        style:UIAlertActionStyleDestructive
-//                                                      handler:^(UIAlertAction *action)
-//      {
-//           [self editCustomMadeDetail:receiptProductItemID];
-//      }]];
-//  }
-//
-//
-//
-//  //I=Inventory,C=Custom made,A=change I,B=change C,P=preorder,D=change P,S=post preorder,R=post CM,E=change R,F=change S
-//  if([receiptProductItem.productType isEqualToString:@"P"]
-//  || [receiptProductItem.productType isEqualToString:@"D"]
-//  || [receiptProductItem.productType isEqualToString:@"S"]
-//  || [receiptProductItem.productType isEqualToString:@"F"]
-//  )
-//  {
-//        [alert addAction:
-//         [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Show pre-order route"]
-//                                                          style:UIAlertActionStyleDestructive
-//                                                        handler:^(UIAlertAction *action)
-//        {
-//            [self viewPreOrderHistory:receiptProductItemID];
-//        }]];
-//  }
    
    [alert addAction:
     [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Add/Edit Post"]
@@ -939,16 +928,23 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
                                 }
                                 else if([receiptProductItem.productType isEqualToString:@"R"])
                                 {
-//                                    CustomMade *customMade = [self getCustomMadeFromProductIDPost:receiptProductItem.productID];
-                                    CustomMade *customMade = [[CustomMade alloc]init];
-                                    NSString *strCustomMadeID = [NSString stringWithFormat:@"%ld",customMade.customMadeID];
-                                    customMade.productIDPost = @"";
-                                    customMade.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                                    customMade.modifiedUser = [Utility modifiedUser];
-                                    [arrCustomMade addObject:customMade];
-                                    
-                                    receiptProductItemUpdate.productID = strCustomMadeID;
-                                    receiptProductItemUpdate.productType = @"E";
+                                    if(receiptProductItem.isPreOrder2)
+                                    {
+                                        receiptProductItemUpdate.productID = @"";
+                                        receiptProductItemUpdate.productType = @"E";
+                                    }
+                                    else
+                                    {
+                                        CustomMade *customMade = [[CustomMade alloc]init];
+                                        NSString *strCustomMadeID = [NSString stringWithFormat:@"%ld",customMade.customMadeID];
+                                        customMade.productIDPost = @"";
+                                        customMade.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+                                        customMade.modifiedUser = [Utility modifiedUser];
+                                        [arrCustomMade addObject:customMade];
+                                        
+                                        receiptProductItemUpdate.productID = strCustomMadeID;
+                                        receiptProductItemUpdate.productType = @"E";
+                                    }
                                 }
                                 else if([receiptProductItem.productType isEqualToString:@"S"])
                                 {

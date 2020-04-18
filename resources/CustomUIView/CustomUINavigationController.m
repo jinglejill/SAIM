@@ -21,7 +21,6 @@
 #import "PreOrderScanUnpostViewController.h"
 #import "PreOrderScanViewController.h"
 #import "ProductDeleteScanViewController.h"
-#import "ProductLocationAndStatusScanViewController.h"
 #import "SalesScanAddScanViewController.h"
 #import "SalesScanViewController.h"
 #import "TrackingNoScanViewController.h"
@@ -88,8 +87,6 @@ extern BOOL globalRotateFromSeg;
     else if ([currentViewController isKindOfClass:[PreOrderScanViewController class]])
         return NO;
     else if ([currentViewController isKindOfClass:[ProductDeleteScanViewController class]])
-        return NO;
-    else if ([currentViewController isKindOfClass:[ProductLocationAndStatusScanViewController class]])
         return NO;
     else if ([currentViewController isKindOfClass:[SalesScanAddScanViewController class]])
         return NO;

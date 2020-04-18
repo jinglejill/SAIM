@@ -155,84 +155,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
 }
 
-//- (void)loadViewProcess
-//{
-//    [self queryData];
-//    [self setData];
-//}
-
-//-(void)queryData
-//{
-//    [_mutArrPostDetailList removeAllObjects];
-//    NSMutableArray *receiptProductItemList = [SharedReceiptItem sharedReceiptItem].receiptItemList;
-//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"(_productType = %@ and _customMadeIn = %@)",@"C",@"0"];
-//    NSArray *arrFilter = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-//
-//
-//    for(ReceiptProductItem *item in arrFilter)
-//    {
-//        CustomerReceipt *customerReceipt = [CustomerReceipt getCustomerReceiptWithReceiptID:item.receiptID];
-//        PostCustomer *postCustomer = [[PostCustomer alloc]init];
-//        postCustomer.firstName = @"";
-//        if(customerReceipt.postCustomerID != 0)
-//        {
-//            NSMutableArray *postCustomerList = [SharedPostCustomer sharedPostCustomer].postCustomerList;
-//            NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"_postCustomerID = %ld",customerReceipt.postCustomerID];
-//            NSArray *arrFilterPostCustomer = [postCustomerList filteredArrayUsingPredicate:predicate2];
-//            postCustomer = arrFilterPostCustomer[0];
-//        }
-//
-//
-//        NSMutableArray *receiptList = [SharedReceipt sharedReceipt].receiptList;
-//        NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"_receiptID = %ld",item.receiptID];
-//        NSArray *arrFilterReceipt = [receiptList filteredArrayUsingPredicate:predicate3];
-//        Receipt *receipt = arrFilterReceipt[0];
-//
-//
-//        if([item.productType isEqualToString:@"P"])//filter producttype = 'C' แล้วทำไมมาif producttype = 'P' แล้วจะเจอหรอ
-//        {
-//            Product *product = [Product getProduct:item.productID];
-//
-//            PostDetail *postDetail = [[PostDetail alloc]init];
-//            postDetail.productName = [ProductName getNameWithProductID:product.productID];
-//            postDetail.color = [Utility getColorName:product.color];
-//            postDetail.size = [Utility getSizeLabel:product.size];
-//            postDetail.sizeOrder = [Utility getSizeOrder:product.size];
-//            postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",postDetail.productName,postDetail.color,postDetail.size];
-//            postDetail.customerName = postCustomer.firstName;
-//            postDetail.trackingNo = customerReceipt.trackingNo;
-//            postDetail.productType = item.productType;
-//            postDetail.receiptID = item.receiptID;
-//            postDetail.receiptDate = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"dd/MM/yyyy"];
-//            postDetail.productID = product.productID;
-//            postDetail.receiptProductItemID = item.receiptProductItemID;
-//            postDetail.editType = @"0";
-//            postDetail.receiptDateSort = receipt.receiptDate;
-//            [_mutArrPostDetailList addObject:postDetail];
-//        }
-//        else if([item.productType isEqualToString:@"C"])
-//        {
-//            CustomMade *customMade = [Utility getCustomMade:[item.productID integerValue]];
-//            PostDetail *postDetail = [[PostDetail alloc]init];
-//            postDetail.productName = [ProductName getNameWithCustomMadeID:customMade.customMadeID];
-//            postDetail.color = customMade.body;
-//            postDetail.size = customMade.size;
-//            postDetail.sizeOrder = 0;
-//            postDetail.product = [NSString stringWithFormat:@"%@/%@/%@",postDetail.productName,postDetail.color,postDetail.size];
-//            postDetail.customerName = postCustomer.firstName;
-//            postDetail.trackingNo = customerReceipt.trackingNo;
-//            postDetail.productType = item.productType;
-//            postDetail.receiptID = item.receiptID;
-//            postDetail.receiptDate = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"dd/MM/yyyy"];
-//            postDetail.productID = [NSString stringWithFormat:@"%ld",customMade.customMadeID];
-//            postDetail.receiptProductItemID = item.receiptProductItemID;
-//            postDetail.editType = @"0";
-//            postDetail.receiptDateSort = receipt.receiptDate;
-//            [_mutArrPostDetailList addObject:postDetail];
-//        }
-//    }
-//}
-
 -(void)setData
 {
     if(self.searchBarActive)
@@ -243,17 +165,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     {
         _postDetailList = _mutArrPostDetailList;
     }
-    
-    
-//    //sort
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptDateSort" ascending:NO];
-//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_productName" ascending:YES];
-//    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_color" ascending:YES];
-//    NSSortDescriptor *sortDescriptor4 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
-//    NSSortDescriptor *sortDescriptor5 = [[NSSortDescriptor alloc] initWithKey:@"_customerName" ascending:YES];
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3,sortDescriptor4,sortDescriptor5, nil];
-//    NSArray *arrSort1 = [_postDetailList sortedArrayUsingDescriptors:sortDescriptors];
-//    _postDetailList = [arrSort1 mutableCopy];
     
     
     btnCMIn.enabled = [_postDetailList count]>0;

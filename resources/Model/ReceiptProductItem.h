@@ -49,7 +49,10 @@
 @property (nonatomic) float discountValue;
 @property (nonatomic) float discountPercent;
 @property (retain, nonatomic) NSString * discountReason;
-
+@property (nonatomic) NSInteger isPreOrder2;
+@property (nonatomic) NSInteger preOrder2ProductNameID;
+@property (retain, nonatomic) NSString * preOrder2Color;
+@property (retain, nonatomic) NSString * preOrder2Size;
 +(ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID;
 +(ReceiptProductItem *)getReceiptProductItem:(NSString *)productID productType:(NSString *)productType;
 + (NSMutableArray *) getReceiptProductItemWithReceiptID:(NSInteger)receiptID receiptProductItemList:(NSMutableArray *)receiptProductItemList;//สำหรับแสดง ทุกใบเสร็จของ member คนนั้้น โดยแสดงทีละใบเสร็จ

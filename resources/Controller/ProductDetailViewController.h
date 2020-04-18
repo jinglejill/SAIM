@@ -23,13 +23,16 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnViewReceipt;
 
 @property (strong, nonatomic) CustomMade *customMade;
-@property (nonatomic) NSInteger productType; //0=productStock, 1=productCustomMade, 2=productBooking
+@property (nonatomic) NSInteger productType; //0=productStock, 1=productCustomMade, 2=productBooking, 3=productWaitOrder
+@property (strong, nonatomic) NSString *productIDGroup;
+
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnDelete;
 - (IBAction)deleteProductBuy:(id)sender;
 - (IBAction)addScan:(id)sender;
 - (IBAction)addCustomMade:(id)sender;
 - (IBAction)addPreOrder:(id)sender;
+- (IBAction)addPreOrder2:(id)sender;
 - (IBAction)viewReceipt:(id)sender;
 - (IBAction)unwindToProductDetail:(UIStoryboardSegue *)segue;
 

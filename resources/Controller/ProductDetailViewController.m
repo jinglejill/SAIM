@@ -17,6 +17,7 @@
 #import "SalesCustomMadeAddCustomMadeViewController.h"
 #import "SalesScanAddScanViewController.h"
 #import "PreOrderAddPreOrderViewController.h"
+#import "PreOrderAddPreOrder2ViewController.h"
 #import "SharedProductDetail.h"
 #import "SharedProductSales.h"
 #import "ProductName.h"
@@ -47,6 +48,7 @@
 @synthesize productType;
 @synthesize btnViewReceipt;
 @synthesize btnDelete;
+@synthesize productIDGroup;
 
 
 - (IBAction)unwindToProductDetail:(UIStoryboardSegue *)segue
@@ -128,6 +130,34 @@
             //stay the same as before add more product
         }
     }
+    else if([[segue sourceViewController] isMemberOfClass:[PreOrderAddPreOrder2ViewController class]])
+    {
+        self.navigationController.toolbarHidden = YES;
+        PreOrderAddPreOrder2ViewController *source = [segue sourceViewController];
+        productIDGroup = source.productIDGroup;
+//        product = source.product;
+        
+//        if(product)
+        if(![Utility isStringEmpty:productIDGroup])
+        {
+            //clear data before set new
+            imvProduct.image = nil;
+            lblModel.text = [NSString stringWithFormat:@"Model"];
+            lblColor.text = [NSString stringWithFormat:@"Color"];
+            lblSize.text = [NSString stringWithFormat:@"Size"];
+            lblPrice.text = [NSString stringWithFormat:@"Price"];
+            lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
+            txvDetail.text = [NSString stringWithFormat:@""];
+            
+            
+            productType = productPreOrder2;
+            [self setData];
+        }
+        else//press back button
+        {
+            //stay the same as before add more product
+        }
+    }
 }
 
 
@@ -180,7 +210,7 @@
         
         //productsalessetid = 0
         ProductSales *productSales = [Utility getProductSales:productName.productNameID color:product.color size:product.size  productSalesSetID:@"0"];
-        
+     
         
         ProductDetail *productDetail = [[ProductDetail alloc]init];
         productDetail.productID = product.productID;
@@ -245,6 +275,87 @@
         {
             [_productBuyList addObject:[NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%d",productInventory], productDetail,imageFileName,price,productDetail.pricePromotion,[NSNull null],nil]];
         }
+    }
+    else if(productType == productPreOrder2)
+    {
+        NSRange needleRange = NSMakeRange(0,6);
+        NSString *productNameGroup = [productIDGroup substringWithRange:needleRange];
+        
+        needleRange = NSMakeRange(6,2);
+        NSString *strColor = [productIDGroup substringWithRange:needleRange];
+        
+        needleRange = NSMakeRange(8,2);
+        NSString *strSize = [productIDGroup substringWithRange:needleRange];
+        
+        ProductName *productName = [ProductName getProductNameWithProductNameGroup:productNameGroup];
+        
+        
+        //ราคาขายตาม event, ส่วน รูปและdetail ตาม event = 0
+        //productsalessetid = event.productsalessetid
+        
+        ProductSales *productSalesEvent = [Utility getProductSales:productName.productNameID color:strColor size:strSize  productSalesSetID:_event.productSalesSetID];
+        NSString *pricePromotion = productSalesEvent.pricePromotion;
+        
+        
+        ProductSales *productSales = [Utility getProductSales:productName.productNameID color:strColor size:strSize  productSalesSetID:@"0"];
+        
+        
+        ProductDetail *productDetail = [[ProductDetail alloc]init];
+//        productDetail.productID = product.productID;
+        productDetail.productName = productName.name;
+        productDetail.color = [Utility getColorName:strColor];
+        productDetail.size = strSize;
+        productDetail.price = productSales.price;
+        productDetail.pricePromotion = pricePromotion;
+        productDetail.detail = productSales.detail;
+        productDetail.imageDefault = productSales.imageDefault;
+//        productDetail.status = product.status;
+        productDetail.productIDGroup = productIDGroup;//[Utility getProductIDGroup:product];
+//        productDetail.manufacturingDate = product.manufacturingDate;
+        
+  
+        
+        NSNumberFormatter *formatter = [NSNumberFormatter new];
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        
+        NSString *price = [formatter stringFromNumber:[NSNumber numberWithFloat:[productDetail.price floatValue]]];
+        NSString *strPricePromotion = [formatter stringFromNumber:[NSNumber numberWithFloat:[productDetail.pricePromotion floatValue]]];
+        price = [NSString stringWithFormat:@"%@ baht",price];
+        strPricePromotion = [NSString stringWithFormat:@"%@ baht",strPricePromotion];
+
+
+        
+        btnDelete.enabled = YES;
+        btnViewReceipt.enabled = YES;
+
+        
+        
+        //download product image
+        [self loadingOverlayView];
+        NSString *imageFileName = productSales.imageDefault;
+        [_homeModel downloadImageWithFileName:imageFileName completionBlock:^(BOOL succeeded, UIImage *image) {
+            if (succeeded) {
+                imvProduct.image = image;
+                [self removeOverlayViews];
+                NSLog(@"download image successful");
+            }else
+            {
+                NSLog(@"download image fail");
+                [self removeOverlayViews];
+            }
+        }];
+        lblModel.attributedText = [self getTextFormatHeader:@"Model: " detail:productDetail.productName];
+        lblColor.attributedText = [self getTextFormatHeader:@"Color: " detail:productDetail.color];
+        lblSize.attributedText = [self getTextFormatHeader:@"Size: " detail:[Utility getSizeLabel:productDetail.size]];
+        lblPrice.attributedText = [self getTextFormatHeader:@"Price: " detail:price];
+        lblPromotionPrice.attributedText = [self getTextFormatHeader:@"Price offer: " detail:strPricePromotion];
+        txvDetail.attributedText = [self getTextFormatHeader:@"Detail: \r\n" detail:productDetail.detail];
+        
+        
+        
+        //                enum enumProductBuy{productType,productDetail,image,price,pricePromotion};
+        _productBuyList = [SharedProductBuy sharedProductBuy].productBuyList;
+        [_productBuyList addObject:[NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%d",productPreOrder2], productDetail,imageFileName,price,productDetail.pricePromotion,productIDGroup,nil]];
     }
     else if(productType == productCustomMade)
     {
@@ -399,6 +510,10 @@
 
 - (IBAction)addPreOrder:(id)sender {
     [self performSegueWithIdentifier:@"segAddPreOrderPage" sender:self];
+}
+
+- (IBAction)addPreOrder2:(id)sender {
+    [self performSegueWithIdentifier:@"segAddPreOrderPage2" sender:self];
 }
 
 - (IBAction)viewReceipt:(id)sender {

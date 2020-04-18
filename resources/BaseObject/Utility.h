@@ -354,7 +354,6 @@ enum enumUrl
     urlReportTopSpenderGetList,
     urlReportTopSpenderDetailGetList,
     urlItemTrackingNoTrackingNoUpdate,
-    urlReceiptSearchGet,
     urlSearchSalesTelephoneDetailGetList,
     urlReceiptReferenceOrderNoUpdate
     
@@ -418,7 +417,8 @@ enum enumProductType
 {
     productInventory,
     productCustomMade,
-    productPreOrder
+    productPreOrder,
+    productPreOrder2
 };
 enum enumReceipt
 {
@@ -434,7 +434,8 @@ enum enumProductBuy
     productBuyDetail,
     productBuyImageFileName,
     price,
-    productBuyPricePromotion//,
+    productBuyPricePromotion,
+    eProductIDGroup
 };
 enum enumProductLabel
 {
@@ -489,10 +490,8 @@ enum enumProductLabel
 + (NSString *)formatBaht:(NSString *)number;
 + (NSString *)formatBaht:(NSString *)number withMinFraction:(NSInteger)min andMaxFraction:(NSInteger)max;
 + (NSString *)getProductName:(NSString *)productNameGroupInput;
-+ (NSArray *)getProductList:(NSArray *)receiptProductItemList;
 + (CustomMade *)getCustomMade:(NSInteger)customMadeID;
 + (CustomMade *)getCustomMadeFromProductIDPost:(NSString *)productIDPost;
-+ (NSArray *)getCustomMadeList:(NSArray *)receiptProductItemList;
 + (NSString *)getUsername:(NSInteger)userAccountID;
 + (Color *)getColor:(NSString *)colorCode;
 + (NSString *)getColorName:(NSString *)colorCode;
@@ -508,8 +507,6 @@ enum enumProductLabel
 + (NSString *)getProductCode:(Product *)product;
 + (Receipt *)getReceipt:(NSInteger)receiptID;
 + (ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID;
-+ (ReceiptProductItem *)getReceiptProductItemFromProductID:(NSString *)productID;
-+ (ReceiptProductItem *)getReceiptProductItemFromProductID:(NSString *)productID productType:(NSString *)productType;
 + (NSArray *)getReceiptProductItemList:(NSInteger)receiptID;
 + (ProductSize *)getSize:(NSString *)code;
 + (NSString *)getSizeLabel:(NSString *)code;

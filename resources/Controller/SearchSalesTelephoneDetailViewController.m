@@ -261,30 +261,8 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         }
         
         cell.btnProduct.enabled = NO;
-//        [cell.btnProduct addTarget:self action:@selector(showActionList:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.btnProduct.tag = receiptProductItem.receiptProductItemID;
-        
-        
-//        //I=Inventory,C=Custom made,A=change I,B=change C,P=preorder,D=change P,S=post preorder,R=post CM,E=change R,F=change S
-//        if([receiptProductItem.productType isEqualToString:@"C"]
-//        || [receiptProductItem.productType isEqualToString:@"B"]
-//        || [receiptProductItem.productType isEqualToString:@"P"]
-//        || [receiptProductItem.productType isEqualToString:@"D"]
-//        || [receiptProductItem.productType isEqualToString:@"S"]
-//        || [receiptProductItem.productType isEqualToString:@"R"]
-//        || [receiptProductItem.productType isEqualToString:@"E"]
-//        || [receiptProductItem.productType isEqualToString:@"F"]
-//        )
-//        {
-//            [cell.btnProduct setTitleColor:tBlueColor forState:UIControlStateNormal];
-//        }
-//        else
-//        {
-//            [cell.btnProduct setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        }
-        
-        
-        
+
+
         cell.lblPrice.text = [Utility formatBaht:receiptProductItem.priceSales];
         
         return cell;
@@ -384,7 +362,15 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     _receiptProductItemList = _receiptProductItemListForDate;
     for(ReceiptProductItem *item in _receiptProductItemList)
     {
-        if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"F"] || [item.productType isEqualToString:@"U"])
+        if(item.isPreOrder2)
+        {
+            ProductName *productName = [ProductName getProductName:item.preOrder2ProductNameID];
+            item.productName = productName.name;
+            item.color = [Utility getColorName:item.preOrder2Color];
+            item.size = [Utility getSizeLabel:item.preOrder2Size];
+            item.sizeOrder = [Utility getSizeOrder:item.preOrder2Size];
+        }
+        else if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"F"] || [item.productType isEqualToString:@"U"])
         {
             Product *product = [self getProduct:item.productID];
             NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
@@ -567,12 +553,18 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         if([item.productType isEqualToString:@"C"] || [item.productType isEqualToString:@"B"] || [item.productType isEqualToString:@"E"])
         {
             CustomMade *customMade = [self getCustomMade:[item.productID integerValue]];
-            [customMadeList addObject:customMade];
+            if(customMade)
+            {
+                [customMadeList addObject:customMade];
+            }
         }
         else if([item.productType isEqualToString:@"R"])
         {
             CustomMade *customMade = [self getCustomMadeFromProductIDPost:item.productID];
-            [customMadeList addObject:customMade];
+            if(customMade)
+            {
+                [customMadeList addObject:customMade];
+            }
         }
     }
     return customMadeList;
@@ -586,7 +578,10 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"R"])
         {
             Product *product = [self getProduct:item.productID];
-            [productList addObject:product];
+            if(product)
+            {
+                [productList addObject:product];
+            }
         }
     }
     return productList;

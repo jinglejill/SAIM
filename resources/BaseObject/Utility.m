@@ -271,10 +271,10 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMUserAccountEventDelete.php";
             break;
         case urlReceiptAndProductBuyInsert:
-            url = @"/SAIM/SAIMReceiptAndProductBuyInsert6.php";
+            url = @"/SAIM/SAIMReceiptAndProductBuyInsert7.php";
             break;
         case urlReceiptAndReceiptProductItemDelete:
-            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete2.php";
+            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete3.php";
             break;
         case urlMasterGet:
             url = @"/SAIM/SAIMMasterGet.php?%@";
@@ -283,7 +283,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMMasterGet.php?%@";
             break;
         case urlReceiptProductItemAndProductUpdate:
-            url = @"/SAIM/SAIMReceiptProductItemAndProductUpdate2.php";
+            url = @"/SAIM/SAIMReceiptProductItemAndProductUpdate3.php";
             break;
         case urlCompareInventoryInsert:
             url = @"/SAIM/SAIMCompareInventoryInsert.php";
@@ -511,7 +511,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMSalesByChannelGet.php?%@";
             break;
         case urlProductionOrderInsert:
-            url = @"/SAIM/SAIMProductionOrderInsert2.php";
+            url = @"/SAIM/SAIMProductionOrderInsert3.php";
             break;
         case urlProductionOrderAdded:
             url = @"/SAIM/SAIMProductionOrderAddedGet.php?%@";
@@ -568,10 +568,10 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMPostDetailGetList.php";
             break;
         case urlPostDetailSearchGet:
-            url = @"/SAIM/SAIMPostDetailSearchGetList2.php";
+            url = @"/SAIM/SAIMPostDetailSearchGetList3.php";
             break;
         case urlPostDetailToPostGet:
-            url = @"/SAIM/SAIMPostDetailToPostGetList2.php";
+            url = @"/SAIM/SAIMPostDetailToPostGetList3.php";
             break;
         case urlMainInventoryGet:
             url = @"/SAIM/SAIMMainInventoryGet.php";
@@ -595,13 +595,13 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMPostCustomerGetList.php";
             break;
         case urlCustomMadeIn:
-            url = @"/SAIM/SAIMCustomMadeInGetList.php";
+            url = @"/SAIM/SAIMCustomMadeInGetList2.php";
             break;
         case urlCustomMadeOut:
-            url = @"/SAIM/SAIMCustomMadeOutGetList.php";
+            url = @"/SAIM/SAIMCustomMadeOutGetList2.php";
             break;
         case urlSalesForDateGet:
-            url = @"/SAIM/SAIMSalesForDateGet3.php";
+            url = @"/SAIM/SAIMSalesForDateGet4.php";
             break;
         case urlProductDeleteGetList:
             url = @"/SAIM/SAIMProductDeleteGetList.php";
@@ -653,10 +653,7 @@ extern NSString *globalModifiedUser;
             break;
         case urlItemTrackingNoTrackingNoUpdate:
             url= @"/SAIM/SAIMItemTrackingNoTrackingNoUpdate.php";
-            break;
-        case urlReceiptSearchGet:
-            url= @"/SAIM/SAIMReceiptSearchGet.php";
-            break;
+            break;        
         case urlSearchSalesTelephoneDetailGetList:
             url= @"/SAIM/SAIMSearchSalesTelephoneDetailGetList.php";
             break;
@@ -1043,20 +1040,6 @@ extern NSString *globalModifiedUser;
     return strFormattedBaht;
 }
 
-+ (NSArray *)getProductList:(NSArray *)receiptProductItemList
-{
-    NSMutableArray *productList = [[NSMutableArray alloc]init];
-    for(ReceiptProductItem *item in receiptProductItemList)
-    {
-        if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"R"])
-        {
-            Product *product = [Product getProduct:item.productID];
-            [productList addObject:product];
-        }
-    }
-    return productList;
-}
-
 + (CustomMade *)getCustomMade:(NSInteger)customMadeID
 {
     NSMutableArray *customMadeList = [SharedCustomMade sharedCustomMade].customMadeList;
@@ -1081,24 +1064,7 @@ extern NSString *globalModifiedUser;
     }
     return nil;
 }
-+ (NSArray *)getCustomMadeList:(NSArray *)receiptProductItemList
-{
-    NSMutableArray *customMadeList = [[NSMutableArray alloc]init];
-    for(ReceiptProductItem *item in receiptProductItemList)
-    {
-        if([item.productType isEqualToString:@"C"] || [item.productType isEqualToString:@"B"] || [item.productType isEqualToString:@"E"])
-        {
-            CustomMade *customMade = [Utility getCustomMade:[item.productID integerValue]];
-            [customMadeList addObject:customMade];
-        }
-        else if([item.productType isEqualToString:@"R"])
-        {
-            CustomMade *customMade = [Utility getCustomMadeFromProductIDPost:item.productID];
-            [customMadeList addObject:customMade];
-        }
-    }
-    return customMadeList;    
-}
+
 + (Color *)getColor:(NSString *)colorCode
 {
     NSMutableArray *colorList = [SharedColor sharedColor].colorList;
@@ -1325,33 +1291,6 @@ extern NSString *globalModifiedUser;
     }
     return nil;
 }
-
-+ (ReceiptProductItem *)getReceiptProductItemFromProductID:(NSString *)productID
-{
-    NSMutableArray *receiptProductItemList = [SharedReceiptItem sharedReceiptItem].receiptItemList;
-    for(ReceiptProductItem *item in receiptProductItemList)
-    {
-        if([item.productID isEqualToString:productID] && ([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"R"]))
-        {
-            return item;
-        }
-    }
-    return nil;
-}
-
-+ (ReceiptProductItem *)getReceiptProductItemFromProductID:(NSString *)productID productType:(NSString *)productType
-{
-    NSMutableArray *receiptProductItemList = [SharedReceiptItem sharedReceiptItem].receiptItemList;
-    for(ReceiptProductItem *item in receiptProductItemList)
-    {
-        if([item.productID isEqualToString:productID] && [item.productType isEqualToString:productType])
-        {
-            return item;
-        }
-    }
-    return nil;
-}
-
 
 + (NSArray *)getReceiptProductItemList:(NSInteger)receiptID
 {

@@ -59,6 +59,7 @@
 #import "PostDetail.h"
 #import "ExpenseDaily.h"
 #import "ItemTrackingNo.h"
+#import "PreOrder2.h"
 
 
 #import "SharedProductSales.h"
@@ -1106,7 +1107,7 @@
             NSMutableArray *arrRewardPoint = arrData[5];
             NSMutableArray *arrPostCustomer = arrData[6];
             NSMutableArray *arrItemTrackingNo = arrData[7];
-//            CustomerReceipt *customerReceipt = arrData[7];
+            NSMutableArray *arrPreOrder2 = arrData[8];
             
             
             NSInteger countProduct = 0;
@@ -1116,13 +1117,14 @@
             NSInteger countRewardPoint = 0;
             NSInteger countPostCustomer = 0;
             NSInteger countItemTrackingNo = 0;
+            NSInteger countPreOrder2 = 0;
             
             
             NSString *noteDataStringForReceipt = [Utility getNoteDataString:receipt];
             noteDataStringForReceipt = [noteDataStringForReceipt stringByReplacingOccurrencesOfString:@"shippingFee"
             withString:@"shippingFeeReceipt"];
             noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,noteDataStringForReceipt];
-            noteDataString = [NSString stringWithFormat:@"%@&countRewardPoint=%ld&countPostCustomer=%ld&countProduct=%ld&countCustomMade=%ld&countReceiptProductItem=%ld&countPreOrderEventIDHistory=%ld&countItemTrackingNo=%ld",noteDataString,[arrRewardPoint count],[arrPostCustomer count],[arrProduct count],[arrCustomMade count],[arrReceiptProductItem count],[arrPreOrderEventIDHistory count], [arrItemTrackingNo count]];
+            noteDataString = [NSString stringWithFormat:@"%@&countRewardPoint=%ld&countPostCustomer=%ld&countProduct=%ld&countCustomMade=%ld&countReceiptProductItem=%ld&countPreOrderEventIDHistory=%ld&countItemTrackingNo=%ld&countPreOrder2=%ld",noteDataString,[arrRewardPoint count],[arrPostCustomer count],[arrProduct count],[arrCustomMade count],[arrReceiptProductItem count],[arrPreOrderEventIDHistory count], [arrItemTrackingNo count],[arrPreOrder2 count]];
             for(RewardPoint *item in arrRewardPoint)
             {
                 noteDataString = [NSString stringWithFormat:@"%@&rewardPointID%02ld=%ld&customerIDReward%02ld=%ld&point%02ld=%ld&statusReward%02ld=%ld",noteDataString,countRewardPoint,item.rewardPointID,countRewardPoint,item.customerID,countRewardPoint,item.point,countRewardPoint,item.status];
@@ -1157,6 +1159,11 @@
             {
                 noteDataString = [NSString stringWithFormat:@"%@&preOrderEventIDHistoryID%02ld=%ld&receiptProductItemIDPreHis%02ld=%ld&preOrderEventIDPreHis%02ld=%ld",noteDataString,countPreOrderEventIDHistory,item.preOrderEventIDHistoryID,countPreOrderEventIDHistory,item.receiptProductItemID,countPreOrderEventIDHistory,item.preOrderEventID];
                 countPreOrderEventIDHistory++;
+            }
+            for(PreOrder2 *item in arrPreOrder2)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&receiptProductItemIDPreOrder2%02ld=%ld&productNameID%02ld=%ld&colorCode%02ld=%@&sizeCode%02ld=%@",noteDataString,countPreOrder2,item.receiptProductItemID,countPreOrder2,item.productNameID,countPreOrder2,item.color,countPreOrder2,item.size];
+                countPreOrder2++;
             }
             
             url = [NSURL URLWithString:[Utility url:urlReceiptAndProductBuyInsert]];
@@ -1632,6 +1639,20 @@
                         if([status isEqual:@"1"] && [strTableName isEqualToString:@"ItemTrackingNoPostCustomerAdd"])
                         {
                             NSArray *arrClassName = @[@"PostCustomer"];
+                            NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                            
+                            
+                            if(self.delegate)
+                            {
+                                [self.delegate itemsInsertedWithReturnData:items];
+                            }
+                        }
+                    }
+                    else if(propCurrentDB == dbProductionOrder)
+                    {
+                        if([status isEqual:@"1"] && [strTableName isEqualToString:@"ProductionOrder"])
+                        {
+                            NSArray *arrClassName = @[@"InAppMessage"];
                             NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
                             
                             
@@ -2508,7 +2529,7 @@
                 }
                 else if([function isEqualToString:@"changeProduct"])
                 {
-                    NSArray *arrClassName = @[@"Product",@"CustomMade",@"ReceiptProductItem"];
+                    NSArray *arrClassName = @[@"Product",@"CustomMade",@"ReceiptProductItem",@"InAppMessage"];
                     NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
                     
                     
@@ -2850,22 +2871,41 @@
                                   JSONObjectWithData:dataRaw
                                   options:kNilOptions error:&error];
             NSString *status = json[@"status"];
-            if([status isEqual:@"1"])
+            NSArray *dataJson = json[@"dataJson"];
+            NSString *strTableName = json[@"tableName"];
+            if(propCurrentDB == dbReceiptAndReceiptProductItemDelete)
             {
-                if(self.delegate)
+                if([status isEqual:@"1"] && [strTableName isEqualToString:@"Receipt"])
                 {
-                    [self.delegate itemsDeleted];
+                    NSArray *arrClassName = @[@"InAppMessage"];
+                    NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                    
+                    
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsDeletedWithReturnData:items];
+                    }
                 }
-                NSLog(@"delete success");
             }
             else
             {
-                //Error
-                NSLog(@"delete fail");
-                NSLog(@"%@", status);
-                if (self.delegate)
+                if([status isEqual:@"1"])
                 {
-//                    [self.delegate itemsFail];
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsDeleted];
+                    }
+                    NSLog(@"delete success");
+                }
+                else
+                {
+                    //Error
+                    NSLog(@"delete fail");
+                    NSLog(@"%@", status);
+                    if (self.delegate)
+                    {
+    //                    [self.delegate itemsFail];
+                    }
                 }
             }
         }

@@ -181,7 +181,12 @@ extern BOOL globalRotateFromSeg;
             item.eventID = receipt.eventID;
             item.itemCost = productSalesCost.cost;
             //I=Inventory,C=Custom made,A=change I,B=change C,P=preorder,D=change P,S=post preorder
-            if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"F"])
+            if(item.isPreOrder2)
+            {
+                ProductName *productName = [ProductName getProductName:item.preOrder2ProductNameID];
+                item.productName = productName.name;
+            }
+            else if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"F"])
             {
                 Product *product = [Product getProduct:item.productID];
                 ProductName *productName = [ProductName getProductNameWithProductID:product.productID];

@@ -153,7 +153,12 @@
             Receipt *receipt = [Utility getReceipt:item.receiptID];
             item.eventID = receipt.eventID;
             //I=Inventory,C=Custom made,A=change I,B=change C,P=preorder,D=change P,S=post preorder
-            if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"F"])
+            if(item.isPreOrder2)
+            {
+                Color *color = [Color getColor:item.preOrder2Color];
+                item.color = color.name;
+            }
+            else if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"F"])
             {
                 Product *product = [Product getProduct:item.productID];
                 item.color = [Utility getColorName:product.color];
@@ -170,10 +175,6 @@
             }
         }
         
-//        //filter by event
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@",_strEventID];
-//        NSArray *filteredArray = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-//        receiptProductItemList = [filteredArray mutableCopy];
         
         //sort by color
         NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_color" ascending:NO];

@@ -156,7 +156,11 @@
             item.eventID = receipt.eventID;
             
             //I=Inventory,C=Custom made,A=change I,B=change C,P=preorder,D=change P,S=post preorder
-            if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"F"])
+            if(item.isPreOrder2)
+            {
+                item.size = item.preOrder2Size;
+            }
+            else if([item.productType isEqualToString:@"I"] || [item.productType isEqualToString:@"P"] || [item.productType isEqualToString:@"S"] || [item.productType isEqualToString:@"A"] || [item.productType isEqualToString:@"D"] || [item.productType isEqualToString:@"F"])
             {
                 Product *product = [Product getProduct:item.productID];
                 item.size = product.size;
@@ -173,11 +177,7 @@
             }
         }
         
-//        //filter by event
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@",_strEventID];
-//        NSArray *filteredArray = [receiptProductItemList filteredArrayUsingPredicate:predicate1];
-//        receiptProductItemList = [filteredArray mutableCopy];
-        
+
         //sort by size
         NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_size" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];

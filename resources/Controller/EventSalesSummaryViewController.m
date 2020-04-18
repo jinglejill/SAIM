@@ -90,9 +90,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     NSString *strEndDate = [Utility formatDate:txtEndDate.text fromFormat:@"dd/MM/yyyy" toFormat:@"yyyy-MM-dd"];
     [_homeModel downloadItems:dbEventSalesSummary condition:@[_strEventID,strStartDate,strEndDate]];
     
-//    [self setDataSales];
-//    [self setDataExpenses];
-//    [self removeOverlayViews];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
@@ -205,19 +202,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         item.row = [NSString stringWithFormat:@"%d", j++];        
     }
     [colViewSummaryTable reloadData];
-    
-//    [Utility setEventSales:@"1" eventID:_event.eventID];
-//
-//
-//    [self removeOverlayViews];
-//    int i=0;
-//    [[SharedProduct sharedProduct].productList addObjectsFromArray:items[i++]];
-//    [[SharedReceipt sharedReceipt].receiptList addObjectsFromArray:items[i++]];
-//    [[SharedReceiptItem sharedReceiptItem].receiptItemList addObjectsFromArray:items[i++]];
-//
-//
-//    [self setDataSales];
-//    [self setDataExpenses];
+
 }
 
 -(void)setDataSales
@@ -344,19 +329,19 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         Receipt *receipt = [Utility getReceipt:item.receiptID];
         item.eventID = receipt.eventID;
         item.itemCost = productCost.cost;
-        if([item.productType isEqualToString:@"I"])
-        {
-            Product *product = [Product getProduct:item.productID];
-            ProductName *productName = [ProductName getProductNameWithProductID:product.productID];
-            item.productName = productName.name;
-        }
-        else if([item.productType isEqualToString:@"C"])
-        {
-            CustomMade *customMade = [Utility getCustomMade:[item.productID integerValue]];
-            NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",customMade.productCategory2,customMade.productCategory1,customMade.productName];
-            NSString *customMadeProductName = [ProductName getNameWithProductNameGroup:productNameGroup];
-            item.productName = customMadeProductName;
-        }
+//        if([item.productType isEqualToString:@"I"])
+//        {
+//            Product *product = [Product getProduct:item.productID];
+//            ProductName *productName = [ProductName getProductNameWithProductID:product.productID];
+//            item.productName = productName.name;
+//        }
+//        else if([item.productType isEqualToString:@"C"])
+//        {
+//            CustomMade *customMade = [Utility getCustomMade:[item.productID integerValue]];
+//            NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",customMade.productCategory2,customMade.productCategory1,customMade.productName];
+//            NSString *customMadeProductName = [ProductName getNameWithProductNameGroup:productNameGroup];
+//            item.productName = customMadeProductName;
+//        }
     }
     
     //filter by event

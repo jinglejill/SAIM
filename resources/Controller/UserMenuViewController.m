@@ -37,6 +37,7 @@ enum enumAdminMenu
     menuSalesScan,
     menuSalesCustomMade,
     menuSalesPreOrder,
+    menuSalesPreOrder2,
     menuReceiptSummary2
 };
 
@@ -93,6 +94,7 @@ enum enumAdminMenu
                        @"Sales scan",
                        @"Sales custom-made",
                        @"Sales pre-order",
+                       @"Sales pre-order2",
                        @"Receipt summary"
                        ];
     _menuWithoutSales = @[@"Event inventory summary",
@@ -253,6 +255,9 @@ enum enumAdminMenu
                     break;
                 case menuSalesPreOrder:
                     [self performSegueWithIdentifier:@"segPreOrderPage" sender:self];
+                    break;
+                case menuSalesPreOrder2:
+                    [self performSegueWithIdentifier:@"segPreOrderPage2" sender:self];
                     break;
                 case menuReceiptSummary2:
                 {
