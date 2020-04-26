@@ -32,5 +32,6 @@
 @property (nonatomic) float discountPercent;
 @property (retain, nonatomic) NSString * discountReason;
 @property (nonatomic) NSInteger postCustomerID;
+@property (nonatomic) NSInteger productNameID;
 
 @end

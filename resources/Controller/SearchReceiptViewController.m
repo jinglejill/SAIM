@@ -9,9 +9,13 @@
 
 #import "SearchReceiptViewController.h"
 #import "AddEditPostCustomerViewController.h"
+#import "ProductDetailViewController.h"
 #import "CustomTableViewCellReceipt.h"
 #import "CustomTableViewCellReceiptProductItem.h"
 #import "ItemTrackingNo.h"
+#import "SharedReplaceReceiptProductItem.h"
+#import "SharedPostBuy.h"
+#import "SharedProductBuy.h"
 
 #define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]
 
@@ -95,6 +99,8 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         UINib *nib = [UINib nibWithNibName:reuseIdentifierReceipt bundle:nil];
         [tbvData registerNib:nib forCellReuseIdentifier:reuseIdentifierReceipt];
     }
+    
+    
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -187,6 +193,29 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         
         
         cell.lblAfterDiscount.text = [Utility formatBaht:receipt.payPrice];
+        
+        
+        //redeemed value
+        if(receipt.redeemedValue > 0)
+        {
+            NSString *strRedeemedValue = [NSString stringWithFormat:@"%f",receipt.redeemedValue];
+            cell.lblRedeemedValue.text = [NSString stringWithFormat:@"-%@",[Utility formatBaht:strRedeemedValue]];
+            
+            cell.lblRedeemedValueTop.constant = 2;
+            cell.lblRedeemedValueHeight.constant = 17;
+            cell.lblRedeemedValueLabelHeight.constant = 17;
+        }
+        else
+        {
+            cell.lblRedeemedValueTop.constant = 0;
+            cell.lblRedeemedValueHeight.constant = 0;
+            cell.lblRedeemedValueLabelHeight.constant = 0;
+        }
+        
+        //after discount
+        cell.lblAfterDiscount.text = [Utility formatBaht:receipt.payPrice];
+        cell.lblEarnedPointDot.hidden = receipt.earnedPoints > 0?NO:YES;
+        
         
         
         //discountReason
@@ -371,7 +400,8 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
             discountReasonHeight = cell.lblDiscountReason.frame.size.height;
         }
         
-        return 176+[receiptProductItemList count]*30 -17+discountReasonHeight;
+        float redeemedValueHeight = receipt.redeemedValue > 0?19:0;
+        return 176+[receiptProductItemList count]*30 -17+discountReasonHeight+redeemedValueHeight;
     }
     else
     {
@@ -821,6 +851,25 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
                                    [self changeProduct:receiptProductItemID];
                                }]];
     }
+    
+    //replace product
+    if([receiptProductItem.productType isEqualToString:@"A"]
+    || [receiptProductItem.productType isEqualToString:@"B"]
+    || [receiptProductItem.productType isEqualToString:@"D"]
+    || [receiptProductItem.productType isEqualToString:@"E"]
+    || [receiptProductItem.productType isEqualToString:@"F"]
+    )
+    {
+        [alert addAction:
+        [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Order Replace-Product"]
+                                 style:UIAlertActionStyleDestructive
+                               handler:^(UIAlertAction *action)
+                               {
+                                   [self orderReplaceProduct:receiptProductItem];
+                               }]];
+    }
+    
+    
    
    [alert addAction:
     [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Add/Edit Post"]
@@ -999,5 +1048,24 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     }
 }
 
+-(void)orderReplaceProduct:(ReceiptProductItem *)receiptProductItem
+{
+    [[SharedProductBuy sharedProductBuy].productBuyList removeAllObjects];
+    [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
+    [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem = [[ReceiptProductItem alloc]init];
+    
+    
+    ItemTrackingNo *itemTrackingNo = [self getItemTrackingNo:receiptProductItem.receiptProductItemID];
+    PostCustomer *postCustomer = [self getPostCustomer:itemTrackingNo.postCustomerID];
+    if(postCustomer)
+    {
+        [[SharedPostBuy sharedPostBuy].postBuyList addObject:postCustomer];
+    }
+    
+    Receipt *receipt = [self getReceipt:receiptProductItem.receiptID];
+    receiptProductItem.eventID = receipt.eventID;
+    [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem = receiptProductItem;
+    [self performSegueWithIdentifier:@"segProductDetail" sender:self];
+}
 
 @end

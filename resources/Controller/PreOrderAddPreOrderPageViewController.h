@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomeModel.h"
 
-@interface PreOrderAddPreOrderPageViewController : UIViewController<UIPageViewControllerDataSource>
+@interface PreOrderAddPreOrderPageViewController : UIViewController<UIPageViewControllerDataSource,HomeModelProtocol>
 @property (strong, nonatomic) UIPageViewController *pageController;
 
 @end

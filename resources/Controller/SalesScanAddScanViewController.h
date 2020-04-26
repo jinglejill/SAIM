@@ -16,10 +16,11 @@
 @property (strong, nonatomic) IBOutlet UIView *vwPreview;
 @property (strong, nonatomic) IBOutlet UILabel *lblStatus;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnStart;
+@property (strong, nonatomic) IBOutlet UILabel *lblLocation;
 
 - (IBAction)startStopReading:(id)sender;
 - (IBAction)unwindToSalesScan:(UIStoryboardSegue *)segue;
-@property (strong, nonatomic) IBOutlet UILabel *lblLocation;
+
 @property (strong, nonatomic) Product *product;
 
 @end

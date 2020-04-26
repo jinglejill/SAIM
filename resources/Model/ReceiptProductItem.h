@@ -53,6 +53,9 @@
 @property (nonatomic) NSInteger preOrder2ProductNameID;
 @property (retain, nonatomic) NSString * preOrder2Color;
 @property (retain, nonatomic) NSString * preOrder2Size;
+@property (nonatomic) NSInteger replaceReceiptProductItemID;
+
+
 +(ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID;
 +(ReceiptProductItem *)getReceiptProductItem:(NSString *)productID productType:(NSString *)productType;
 + (NSMutableArray *) getReceiptProductItemWithReceiptID:(NSInteger)receiptID receiptProductItemList:(NSMutableArray *)receiptProductItemList;//สำหรับแสดง ทุกใบเสร็จของ member คนนั้้น โดยแสดงทีละใบเสร็จ

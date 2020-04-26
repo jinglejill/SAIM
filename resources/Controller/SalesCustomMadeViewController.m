@@ -18,6 +18,7 @@
 #import "SharedProductSize.h"
 #import "ProductSize.h"
 #import "ProductSales.h"
+#import "SharedReplaceReceiptProductItem.h"
 
 
 @interface SalesCustomMadeViewController ()
@@ -374,6 +375,8 @@
     
     [[SharedProductBuy sharedProductBuy].productBuyList removeAllObjects];
     [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
+    [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem = [[ReceiptProductItem alloc]init];
+    
     
     float controlWidth = self.tableView.bounds.size.width - 40*2;//minus left, right margin
     float controlXOrigin = 15;

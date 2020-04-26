@@ -146,6 +146,28 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         cell.lblAfterDiscount.text = [Utility formatBaht:receipt.payPrice];
         
         
+        //redeemed value
+        if(receipt.redeemedValue > 0)
+        {
+            NSString *strRedeemedValue = [NSString stringWithFormat:@"%f",receipt.redeemedValue];
+            cell.lblRedeemedValue.text = [NSString stringWithFormat:@"-%@",[Utility formatBaht:strRedeemedValue]];
+            
+            cell.lblRedeemedValueTop.constant = 2;
+            cell.lblRedeemedValueHeight.constant = 17;
+            cell.lblRedeemedValueLabelHeight.constant = 17;
+        }
+        else
+        {
+            cell.lblRedeemedValueTop.constant = 0;
+            cell.lblRedeemedValueHeight.constant = 0;
+            cell.lblRedeemedValueLabelHeight.constant = 0;
+        }
+        
+        //after discount
+        cell.lblAfterDiscount.text = [Utility formatBaht:receipt.payPrice];
+        cell.lblEarnedPointDot.hidden = receipt.earnedPoints > 0?NO:YES;
+        
+        
         //discountReason
         NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
         NSString *strDiscountReason = @"";
@@ -299,7 +321,8 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
             discountReasonHeight = cell.lblDiscountReason.frame.size.height;
         }
         
-        return 176+[receiptProductItemList count]*30 -17+discountReasonHeight;
+        float redeemedValueHeight = receipt.redeemedValue > 0?19:0;
+        return 176+[receiptProductItemList count]*30 -17+discountReasonHeight+redeemedValueHeight;
     }
     else
     {

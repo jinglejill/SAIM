@@ -17,6 +17,9 @@
 #import "SharedProductSize.h"
 #import "ProductSize.h"
 #import "ProductSales.h"
+#import "SharedReplaceReceiptProductItem.h"
+#import "SharedProductSales.h"
+#import "SharedPostBuy.h"
 
 @interface SalesCustomMadeAddCustomMadeViewController ()
 {
@@ -35,7 +38,7 @@
 
 @implementation SalesCustomMadeAddCustomMadeViewController
 
-@synthesize btnCancel;
+//@synthesize btnCancel;
 @synthesize customMade;
 @synthesize txtPicker;
 
@@ -90,6 +93,12 @@
     return self.view.frame.size.width;
 }
 
+- (IBAction)cancelButtonClicked:(id)sender
+{
+    _customMade = nil;
+    [self performSegueWithIdentifier:@"segUnwindToProductDetail" sender:self];
+}
+
 - (IBAction)unwindToCustomMade:(UIStoryboardSegue *)segue
 {
     if([[segue sourceViewController] isMemberOfClass:[MasterListViewController class]])
@@ -132,6 +141,101 @@
                 }
             }
         }
+    }
+}
+
+- (IBAction)doneButtonClicked:(id)sender
+{
+    //validate
+    if(![self validateDataWithSeg:@"segUnwindToProductDetail"])
+    {
+        return;
+    }
+    
+    //prepare custom made
+    _customMade = [[CustomMade alloc]init];
+    _customMade.productCategory2 = _productCategory2;
+    _customMade.productCategory1 = _productCategory1;
+    _customMade.productName = @"00";
+    _customMade.size = txtSize.text;
+    _customMade.toe = txtToe.text;
+    _customMade.body = txtBody.text;
+    _customMade.accessory = txtAccessory.text;
+    _customMade.remark = txtRemark.text;
+    
+    
+    //check case replace product - add postCustomerID
+    ReceiptProductItem *replaceReceiptProductItem = [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem;
+    if(replaceReceiptProductItem.receiptProductItemID != 0)
+    {
+        //case replace product - add postCustomerID
+        NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
+        if([postBuyList count] > 0)
+        {
+            PostCustomer *postCustomer = postBuyList[0];
+            _customMade.postCustomerID = postCustomer.postCustomerID;
+        }
+        _customMade.replaceProduct = 1;
+        _customMade.discount = 2;
+        _customMade.discountValue = 0;
+        _customMade.discountPercent = 100;
+        _customMade.discountReason = @"replace";
+                            
+                            
+                            
+        NSMutableArray *_productSalesList = [SharedProductSales sharedProductSales].productSalesList;
+        for(ProductSales *item in _productSalesList)
+        {
+            ProductName *productName = [ProductName getProductName:item.productNameID];
+            item.productCategory2 = productName.productCategory2;
+            item.productCategory1 = productName.productCategory1;
+            item.productName = productName.code;
+        }
+        
+        NSString *pricePromotion;
+        Event *_event = [Event getEvent:[replaceReceiptProductItem.eventID integerValue]];
+        //productsalessetid = event.productsalessetid
+        {
+            NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productSalesSetID = %@ and _productCategory2 = %@ and _productCategory1 = %@ and _productName = %@",_event.productSalesSetID,_customMade.productCategory2,_customMade.productCategory1,@"00"];
+            
+            NSArray *productSalesCustomMadeFilter = [_productSalesList filteredArrayUsingPredicate:predicate1];
+            ProductSales *productSalesEvent = productSalesCustomMadeFilter[0];
+            pricePromotion = productSalesEvent.pricePromotion;
+        }
+        
+        
+        ProductSales *productSales;
+        //productsalessetid = 0
+        {
+            NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productSalesSetID = %@ and _productCategory2 = %@ and _productCategory1 = %@ and _productName = %@",@"0",_customMade.productCategory2,_customMade.productCategory1,@"00"];
+            
+            NSArray *productSalesCustomMadeFilter = [_productSalesList filteredArrayUsingPredicate:predicate1];
+            productSales  = productSalesCustomMadeFilter[0];
+        }
+       
+       
+        NSNumberFormatter *formatter = [NSNumberFormatter new];
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        
+        NSString *price = [formatter stringFromNumber:[NSNumber numberWithFloat:[productSales.price floatValue]]];
+        NSString *strPricePromotion = [formatter stringFromNumber:[NSNumber numberWithFloat:[pricePromotion floatValue]]];
+        price = [NSString stringWithFormat:@"%@ baht",price];
+        strPricePromotion = [NSString stringWithFormat:@"%@ baht",strPricePromotion];
+        
+        
+        
+        //custom made detail        
+        NSString *imageFileName = productSales.imageDefault;
+       
+       
+        //                enum enumProductBuy{productType,productDetail,image,price,pricePromotion};
+        NSMutableArray *_productBuyList = [SharedProductBuy sharedProductBuy].productBuyList;
+        [_productBuyList addObject:[NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%d",productCustomMade], _customMade,imageFileName,price,pricePromotion,[NSNull null],nil]];
+        [self performSegueWithIdentifier:@"segReceipt2" sender:self];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"segUnwindToProductDetail" sender:self];
     }
 }
 
@@ -275,48 +379,6 @@
     }
 }
 
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if([identifier isEqualToString:@"segProductDetailFromCustomMade"])
-    {
-        //validate
-        if(![self validateDataWithSeg:@"segProductDetailFromCustomMade"])
-        {
-            return NO;
-        }
-        
-        //prepare custom made
-        _customMade = [[CustomMade alloc]init];
-        _customMade.productCategory2 = _productCategory2;
-        _customMade.productCategory1 = _productCategory1;
-        _customMade.productName = @"00";
-        _customMade.size = txtSize.text;
-        _customMade.toe = txtToe.text;
-        _customMade.body = txtBody.text;
-        _customMade.accessory = txtAccessory.text;
-        _customMade.remark = txtRemark.text;
-    }
-    else if([identifier isEqualToString:@"segUnwindToProductDetail"])
-    {
-        //validate
-        if(![self validateDataWithSeg:@"segUnwindToProductDetail"])
-        {
-            return NO;
-        }
-        
-        //prepare custom made
-        _customMade = [[CustomMade alloc]init];
-        _customMade.productCategory2 = _productCategory2;
-        _customMade.productCategory1 = _productCategory1;
-        _customMade.productName = @"00";
-        _customMade.size = txtSize.text;
-        _customMade.toe = txtToe.text;
-        _customMade.body = txtBody.text;
-        _customMade.accessory = txtAccessory.text;
-        _customMade.remark = txtRemark.text;
-    }
-    return YES;
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([[segue identifier] isEqualToString:@"segProductCategory2"])
@@ -330,21 +392,11 @@
         vc.masterType = productCategory1;
         vc.strProductCategory2 = _productCategory2;
     }
-    
-    else if([[segue identifier] isEqualToString:@"segProductDetailFromCustomMade"])
-    {
-        ProductDetailViewController *vc = segue.destinationViewController;
-        vc.customMade = _customMade;
-        vc.productType = productCustomMade;
-    }
     else if([[segue identifier] isEqualToString:@"segUnwindToProductDetail"])
     {
         customMade = _customMade;
     }
-    else if(sender == btnCancel)
-    {
-        _customMade = nil;
-    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

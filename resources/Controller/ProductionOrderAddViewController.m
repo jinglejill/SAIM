@@ -51,6 +51,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 @synthesize txtMainCategory;
 @synthesize txtEvent;
 @synthesize txtPicker;
+@synthesize btnAddInventory;
 
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
@@ -140,7 +141,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
     
     
-    
+    btnAddInventory.enabled = NO;
     Event *event = _eventListNowAndFutureAsc[_selectedEvent];
     [_homeModel insertItems:dbProductionOrder withData:@[productionOrderList,event]];
 
@@ -148,6 +149,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 
 -(void)itemsInsertedWithReturnData:(NSArray *)data
 {
+    
     NSArray *messageList = data[0];
     InAppMessage *message = messageList[0];
     NSString *strMessage;
@@ -167,7 +169,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-                                                              
+                                                              btnAddInventory.enabled = YES;
                                                           }];
     
     [alert addAction:defaultAction];

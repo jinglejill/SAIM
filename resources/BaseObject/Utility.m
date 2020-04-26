@@ -271,10 +271,10 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMUserAccountEventDelete.php";
             break;
         case urlReceiptAndProductBuyInsert:
-            url = @"/SAIM/SAIMReceiptAndProductBuyInsert7.php";
+            url = @"/SAIM/SAIMReceiptAndProductBuyInsert8.php";
             break;
         case urlReceiptAndReceiptProductItemDelete:
-            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete3.php";
+            url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete4.php";
             break;
         case urlMasterGet:
             url = @"/SAIM/SAIMMasterGet.php?%@";
@@ -563,10 +563,7 @@ extern NSString *globalModifiedUser;
             break;
         case urlEmailQRCode:
             url = @"/SAIM/SAIMEmailQRCode.php";
-            break;
-        case urlPostDetailGet:
-            url = @"/SAIM/SAIMPostDetailGetList.php";
-            break;
+            break;        
         case urlPostDetailSearchGet:
             url = @"/SAIM/SAIMPostDetailSearchGetList3.php";
             break;
@@ -610,7 +607,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMProductSalesGetList.php";
             break;
         case urlPostCustomerSearchGetList:
-            url = @"/SAIM/SAIMPostCustomerSearchGetList.php";
+            url = @"/SAIM/SAIMPostCustomerSearchGetList2.php";
             break;
         case urlEventSalesSummaryGetList:
             url = @"/SAIM/SAIMEventSalesSummaryGetList.php";
@@ -659,6 +656,33 @@ extern NSString *globalModifiedUser;
             break;
         case urlReceiptReferenceOrderNoUpdate:
             url = @"/SAIM/SAIMReceiptReferenceOrderNoUpdate.php";
+            break;
+        case urlWordPressRegisterInsert:
+            url = @"/SAIM/SAIMWordPressRegisterInsert.php";
+            break;
+        case urlMainInventoryItemDelete:
+            url = @"/SAIM/SAIMMainInventoryItemDelete.php";
+            break;
+        case urlProductMoveToMainUpdate:
+            url = @"/SAIM/SAIMProductMoveToMainUpdate.php";
+            break;
+        case urlProductMoveToMainItemUpdate:
+            url = @"/SAIM/SAIMProductMoveToMainItemUpdate.php";
+            break;
+        case urlProductMoveToEventUpdate:
+            url = @"/SAIM/SAIMProductMoveToEventUpdate.php";
+            break;
+        case urlProductScanGet:
+            url = @"/SAIM/SAIMProductScanGet.php?%@";
+            break;
+        case urlPreOrderProductGetList:
+            url = @"/SAIM/SAIMPreOrderProductGetList.php?%@";
+            break;
+        case urlProductExcludeGet:
+            url = @"/SAIM/SAIMProductExcludeGet.php?%@";
+            break;
+        case urlMainInventorySummaryGetList:
+            url = @"/SAIM/SAIMMainInventorySummaryGetList.php?%@";
             break;
         default:
             break;

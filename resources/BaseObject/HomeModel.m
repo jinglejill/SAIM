@@ -60,6 +60,7 @@
 #import "ExpenseDaily.h"
 #import "ItemTrackingNo.h"
 #import "PreOrder2.h"
+#import "ProductItem.h"
 
 
 #import "SharedProductSales.h"
@@ -252,7 +253,7 @@
             break;
         case dbPostCustomerSearch:
         {
-            arrClassName = @[@"PostCustomer"];
+            arrClassName = @[@"PostCustomer",@"WordPressUser"];
         }
             break;
         case dbEventSalesSummary:
@@ -317,6 +318,18 @@
             arrClassName = @[@"TopSpender"];
         }
             break;
+        case dbProductScan:
+        case dbProductExclude:
+        {
+            arrClassName = @[@"Product"];
+        }
+            break;
+        case dbPreOrderProduct:
+        case dbMainInventorySummary:
+        {
+            arrClassName = @[@"ProductCategory2",@"ProductName",@"Product",@"Product",@"Product",@"Color",@"ProductSize"];
+        }
+            break;            
         default:
             break;
     }
@@ -440,6 +453,10 @@
         case dbReportTopSpenderDetail:
         case dbReceiptSearch:
         case dbSearchSalesTelephoneDetail:
+        case dbProductScan:
+        case dbPreOrderProduct:
+        case dbMainInventorySummary:
+        case dbProductExclude:
         {
             [_dataToDownload appendData:dataRaw];
             if([ _dataToDownload length ]/_downloadSize == 1.0f)
@@ -827,15 +844,6 @@
             noteDataString = [NSString stringWithFormat:@"receiptID=%ld",receipt.receiptID];
         }
             break;
-        case dbPostDetail:
-        {
-            NSArray *arrData = (NSArray *)object;
-            NSString *preOrderEventID = arrData[0];
-            NSString *page = arrData[1];
-            url = [NSString stringWithFormat:[Utility url:urlPostDetailGet],[Utility randomStringWithLength:6]];
-            noteDataString = [NSString stringWithFormat:@"preOrderEventID=%@&page=%@",preOrderEventID,page];
-        }
-            break;
         case dbPostDetailSearch:
         {
             NSArray *arrData = (NSArray *)object;
@@ -1004,6 +1012,44 @@
             noteDataString = [NSString stringWithFormat:@"telephone=%@&firstName=%@",telephone,firstName];
         }
             break;
+        case dbProductScan:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlProductScanGet],[Utility randomStringWithLength:6]];
+            noteDataString = [Utility getNoteDataString:object];
+        }
+            break;
+        case dbPreOrderProduct:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlPreOrderProductGetList],[Utility randomStringWithLength:6]];
+            noteDataString = [NSString stringWithFormat:@"eventID=%@",(NSString *)object];
+        }
+            break;
+        case dbProductExclude:
+        {
+            NSArray *dataList = (NSArray *)object;
+            NSArray *productIDList = dataList[0];
+            NSString *strEventID = dataList[1];
+            NSString *productIDGroup = dataList[2];
+            int i=0;
+            noteDataString = [NSString stringWithFormat:@"eventID=%@&productIDGroup=%@&countProduct=%ld",strEventID,productIDGroup,[productIDList count]];
+            for(NSString *strProductID in productIDList)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&productID%02d=%@",noteDataString,i,strProductID];
+                i++;
+            }
+            
+            url = [NSString stringWithFormat:[Utility url:urlProductExcludeGet],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbMainInventorySummary:
+        {
+            NSArray *dataList = (NSArray *)object;
+            NSString *strEventID = dataList[0];
+            NSString *strAll = dataList[1];
+            noteDataString = [NSString stringWithFormat:@"eventID=%@&all=%@",strEventID,strAll];
+            url = [NSString stringWithFormat:[Utility url:urlMainInventorySummaryGetList],[Utility randomStringWithLength:6]];
+        }
+            break;    
         default:
             break;
     }
@@ -1460,6 +1506,12 @@
             url = [NSURL URLWithString:[Utility url:urlItemTrackingNoPostCustomerAddInsert]];
         }
             break;
+        case dbWordPressRegister:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlWordPressRegisterInsert]];
+        }
+            break;
         default:
             break;
     }
@@ -1662,7 +1714,35 @@
                             }
                         }
                     }
-                    else if(propCurrentDB == dbAccountReceiptInsert || propCurrentDB == dbReceiptAndProductBuyInsert)
+                    else if(propCurrentDB == dbWordPressRegister)
+                    {
+                        if([status isEqual:@"1"] && [strTableName isEqualToString:@"WordPressRegister"])
+                        {
+                            NSArray *arrClassName = @[@"WordPressUser"];
+                            NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                            
+                            
+                            if(self.delegate)
+                            {
+                                [self.delegate itemsInsertedWithReturnData:items];
+                            }
+                        }
+                    }
+                    else if(propCurrentDB == dbReceiptAndProductBuyInsert)
+                    {
+                        if([status isEqual:@"1"] && [strTableName isEqualToString:@"ReceiptInsert"])
+                        {
+                            NSArray *arrClassName = @[@"InAppMessage"];
+                            NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                            
+                            
+                            if(self.delegate)
+                            {
+                                [self.delegate itemsInsertedWithReturnData:items];
+                            }
+                        }
+                    }
+                    else if(propCurrentDB == dbAccountReceiptInsert)
                     {
                         if (self.delegate)
                         {
@@ -1689,6 +1769,10 @@
                             else if([strTableName isEqualToString:@"ProductName"])
                             {
                                 arrClassName = @[@"ProductName"];
+                            }
+                            else if([strTableName isEqualToString:@"WordPressRegister"])
+                            {
+                                arrClassName = @[@"WordPressUser"];
                             }
                             
                             
@@ -2481,6 +2565,24 @@
             url = [NSURL URLWithString:[Utility url:urlReceiptReferenceOrderNoUpdate]];
         }
             break;
+        case dbProductMoveToMain:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlProductMoveToMainUpdate]];
+        }
+            break;
+        case dbProductMoveToMainItem:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlProductMoveToMainItemUpdate]];
+        }
+            break;
+        case dbProductMoveToEvent:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlProductMoveToEventUpdate]];
+        }
+            break;
         default:
             break;
     }
@@ -2574,6 +2676,17 @@
                 else if([function isEqualToString:@"ItemTrackingNo"])
                 {
                     NSArray *arrClassName = @[@"PostCustomer"];
+                    NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                    
+                    
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsUpdatedWithReturnData:items];
+                    }
+                }
+                else if([function isEqualToString:@"productMoveToMain"] || [function isEqualToString:@"productMoveToMainItem"] || [function isEqualToString:@"productMoveToEvent"])
+                {
+                    NSArray *arrClassName = @[@"InAppMessage"];
                     NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
                     
                     
@@ -2839,6 +2952,13 @@
             url = [NSURL URLWithString:[Utility url:urlExpenseDailyDelete]];
         }
             break;
+        case dbMainInventoryItem:
+        {
+            ProductItem *productItem = (ProductItem *)data;
+            noteDataString = [NSString stringWithFormat:@"productID=%@",productItem.productID];
+            url = [NSURL URLWithString:[Utility url:urlMainInventoryItemDelete]];
+        }
+            break;
         default:
             break;
     }
@@ -2873,7 +2993,18 @@
             NSString *status = json[@"status"];
             NSArray *dataJson = json[@"dataJson"];
             NSString *strTableName = json[@"tableName"];
-            if(propCurrentDB == dbReceiptAndReceiptProductItemDelete)
+            NSString *strID = json[@"id"];
+            if(propCurrentDB == dbMainInventoryItem)
+            {
+                if([status isEqual:@"1"] && [strTableName isEqualToString:@"MainInventoryItemDelete"])
+                {
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsDeletedWithReturnID:[strID integerValue]];
+                    }
+                }
+            }
+            else if(propCurrentDB == dbReceiptAndReceiptProductItemDelete)
             {
                 if([status isEqual:@"1"] && [strTableName isEqualToString:@"Receipt"])
                 {

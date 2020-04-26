@@ -20,9 +20,10 @@
     CustomUITextView *txtRemark;
 }
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnCancel;
+//@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnCancel;
 @property (strong, nonatomic) UIPickerView *txtPicker;
 @property (strong, nonatomic) CustomMade *customMade;
-
+- (IBAction)doneButtonClicked:(id)sender;
 - (IBAction)unwindToCustomMade:(UIStoryboardSegue *)segue;
+- (IBAction)cancelButtonClicked:(id)sender;
 @end

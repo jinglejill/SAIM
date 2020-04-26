@@ -111,21 +111,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 {
     [super loadView];
     
-//    // Create new HomeModel object and assign it to _homeModel variable
-//    _homeModel = [[HomeModel alloc] init];
-//    _homeModel.delegate = self;
-//
-//    {
-//        overlayView = [[UIView alloc] initWithFrame:self.view.frame];
-//        overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
-//
-//
-//        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
-//    }
-//
-    
-    
 }
 
 -(void)addToMutArrProductItem:(NSArray *)productItemList
@@ -226,7 +211,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     _productDelete = [[ProductDelete alloc]init];
     
 
-//    [self loadViewProcess];
     [self loadingOverlayView];
     _page = 1;
     NSString *strPage = [NSString stringWithFormat:@"%ld",_page];
@@ -255,13 +239,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
     _arrSectionDate = [[productItemSortDateList sortedArrayUsingDescriptors:sortDescriptors] copy];
     
-    
-//    for(int i=0; i<[productItemSortDateList count]; i++)
-//    {
-//        ProductItem *productItemModifiedDate = [[ProductItem alloc]init];
-//        productItemModifiedDate.modifiedDate = [Utility formatDate:productItemSortDateList[i] fromFormat:@"yyyy-MM-dd" toFormat:@"dd/MM/yyyy"] ;
-//        [_arrSectionDate addObject:productItemModifiedDate];
-//    }
+
     return [_arrSectionDate count];
 }
 
@@ -274,10 +252,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     NSArray *filterArray = [_productItemList filteredArrayUsingPredicate:predicate1];
     return ([filterArray count]+1)*countColumn;
     
-    
-//    NSInteger count = [_arrOfSubProductItemList[section] count];
-//    NSInteger countColumn = 6;
-//    return (count+1)*countColumn;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -378,7 +352,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     }
     else
     {
-//        ProductItem *productItem = (ProductItem *)_arrOfSubProductItemList[section][item/countColumn-1];
         ProductItem *productItemSection = _arrSectionDate[section];
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_modifiedDate = %@",productItemSection.modifiedDate];
         NSArray *filterArray = [_productItemList filteredArrayUsingPredicate:predicate1];
@@ -404,7 +377,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         switch (item%countColumn) {
         case 0:
             {
-//                [cell.buttonDetail setTitle:productItem.row forState:UIControlStateNormal];
                 [cell.buttonDetail setTitle:[NSString stringWithFormat:@"%ld", item/countColumn] forState:UIControlStateNormal];
                 [cell.buttonDetail setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 cell.buttonDetail.titleLabel.font = [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:13];
@@ -502,20 +474,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     _productCode = productItem.productCode;
     [self performSegueWithIdentifier:@"segQRCodeImage" sender:self];
     
-    
-//    NSInteger section = [[_selectedSectionAndItemColumn1 valueForKey:strProductID][0] integerValue];
-//    NSInteger item = [[_selectedSectionAndItemColumn1 valueForKey:strProductID][1] integerValue];
-    
-    
-//    NSInteger countColumn = 6;
-//    if(item/countColumn != 0 && item%countColumn == 1)
-//    {
-//        ProductItem *productItem = _arrOfSubProductItemList[section][item/countColumn-1];
-//        Product *product = [Product getProduct:productItem.productID];
-//        _productCode = [Utility getProductCode:product];
-        
-//        [self performSegueWithIdentifier:@"segQRCodeImage" sender:self];
-//    }
 }
 
 - (void) viewProductItemDetail:(id)sender
@@ -606,8 +564,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
                                
                                 //************
                                 _productDelete.productID = productItem.productID;
-                                NSString *scanProductIDGroup = [Utility getProductIDGroupWithProductCode:productItem.productCode];
-                                [self.homeModel updateItems:dbScanDelete withData:@[scanProductIDGroup,[Utility modifiedUser],[Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"],@(0),@"I"]];
+                                [self.homeModel deleteItems:dbMainInventoryItem withData:productItem];
                             }]];
     [alert addAction:
      [UIAlertAction actionWithTitle:@"Cancel"
@@ -634,7 +591,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)itemsUpdatedWithReturnID:(NSInteger)ID
+-(void)itemsDeletedWithReturnID:(NSInteger)ID
 {
     [self removeOverlayViews];
     if(ID == 0)
@@ -895,10 +852,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 }
 
 #pragma mark - search
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
-    NSPredicate *resultPredicate    = [NSPredicate predicateWithFormat:@"_productName contains[c] %@ || _color contains[c] %@ || _size contains[c] %@ || _modifiedDateText contains[c] %@", searchText,searchText,searchText,searchText];
-    self.dataSourceForSearchResult  = [_mutArrProductItemList filteredArrayUsingPredicate:resultPredicate];
-}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {

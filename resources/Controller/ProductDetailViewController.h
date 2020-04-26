@@ -10,6 +10,7 @@
 #import "HomeModel.h"
 #import "Product.h"
 #import "CustomMade.h"
+#import "PostCustomer.h"
 
 @interface ProductDetailViewController : UIViewController<HomeModelProtocol,UITextFieldDelegate>
 @property (strong, nonatomic) Product *product;
@@ -25,6 +26,9 @@
 @property (strong, nonatomic) CustomMade *customMade;
 @property (nonatomic) NSInteger productType; //0=productStock, 1=productCustomMade, 2=productBooking, 3=productWaitOrder
 @property (strong, nonatomic) NSString *productIDGroup;
+
+@property (strong, nonatomic) PostCustomer *postCustomer;
+@property (nonatomic) NSInteger replaceReceiptProductItemID;
 
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnDelete;

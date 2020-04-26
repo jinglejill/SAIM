@@ -14,7 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) IBOutlet UILabel *lblTotal;
 @property (strong, nonatomic) IBOutlet UILabel *lblShippingFee;
 @property (strong, nonatomic) IBOutlet UILabel *lblDiscount;
+@property (strong, nonatomic) IBOutlet UILabel *lblRedeemedPointValue;
 @property (strong, nonatomic) IBOutlet UILabel *lblAfterDiscount;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRedeemedPointValueLabelHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRedeemedPointValueHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRedeemedPointValueTop;
+@property (strong, nonatomic) IBOutlet UIButton *btnRemoveRedeemedValue;
+
 @end
 
 NS_ASSUME_NONNULL_END

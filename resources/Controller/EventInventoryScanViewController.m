@@ -20,6 +20,7 @@
 #import "SharedProductCategory2.h"
 #import "SharedProductCategory1.h"
 #import "SharedColor.h"
+#import "Message.h"
 
 
 #define orangeColor         [UIColor colorWithRed:253/255.0 green:182/255.0 blue:103/255.0 alpha:1]
@@ -43,6 +44,9 @@
     BOOL _scanBlank;
     BOOL _choosePhoto;
     Product *_productScan;
+    
+    
+    NSInteger _productScanSuccessCount;
 }
 
 @property (nonatomic) BOOL isReading;
@@ -119,23 +123,23 @@
     
 //    [self loadViewProcess];
     
-    [self loadingOverlayView];
-    [_homeModel downloadItems:dbMainInventory];
+//    [self loadingOverlayView];
+//    [_homeModel downloadItems:dbMainInventory];
 }
 
-- (void)itemsDownloaded:(NSArray *)items
-{
-    [self removeOverlayViews];
-    int i=0;
-    
-//    [self addToMutArrPostDetail:items[i++]];
-    [SharedProductName sharedProductName].productNameList = items[i++];
-    [SharedColor sharedColor].colorList = items[i++];
-    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
-    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
-    [SharedProductSize sharedProductSize].productSizeList = items[i++];
-    [SharedProduct sharedProduct].productList = items[i++];
-}
+//- (void)itemsDownloaded:(NSArray *)items
+//{
+//    [self removeOverlayViews];
+//    int i=0;
+//
+////    [self addToMutArrPostDetail:items[i++]];
+//    [SharedProductName sharedProductName].productNameList = items[i++];
+//    [SharedColor sharedColor].colorList = items[i++];
+//    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
+//    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
+//    [SharedProductSize sharedProductSize].productSizeList = items[i++];
+//    [SharedProduct sharedProduct].productList = items[i++];
+//}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -148,7 +152,8 @@
 //
 //}
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _isReading = NO;
@@ -250,24 +255,25 @@
             _previousProductIDGroup = currentProductIDGroup;
             _scanBlank = NO;
             _dateScan = [NSDate date];
+            _executeQR = YES;
             
             
-            productInMain = [self getProductInMainInventory:productQR];
-            if(productInMain)
-            {
-                _executeQR = YES;
-            }
-            else
-            {
-                dispatch_async(dispatch_get_main_queue(),^ {
-                    _lblStatus.textColor = [UIColor redColor];
-                    _lblStatus.text = [NSString stringWithFormat:@"Please add this product to main inventory first."];
-                } );
-                if (_audioPlayer)
-                {
-                    [_audioPlayer play];
-                }
-            }
+//            productInMain = [self getProductInMainInventory:productQR];
+//            if(productInMain)
+//            {
+//                _executeQR = YES;
+//            }
+//            else
+//            {
+//                dispatch_async(dispatch_get_main_queue(),^ {
+//                    _lblStatus.textColor = [UIColor redColor];
+//                    _lblStatus.text = [NSString stringWithFormat:@"Please add this product to main inventory first."];
+//                } );
+//                if (_audioPlayer)
+//                {
+//                    [_audioPlayer play];
+//                }
+//            }
         }
         else if([_previousProductIDGroup isEqualToString:currentProductIDGroup] && _scanBlank)
         {
@@ -277,24 +283,24 @@
             {
                 _scanBlank = NO;
                 _dateScan = [NSDate date];
+                _executeQR = YES;
                 
-                
-                productInMain = [self getProductInMainInventory:productQR];
-                if(productInMain)
-                {
-                    _executeQR = YES;
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(),^ {
-                        _lblStatus.textColor = [UIColor redColor];
-                        _lblStatus.text = [NSString stringWithFormat:@"Please add this product to main inventory first."];
-                    } );
-                    if (_audioPlayer)
-                    {
-                        [_audioPlayer play];
-                    }
-                }
+//                productInMain = [self getProductInMainInventory:productQR];
+//                if(productInMain)
+//                {
+//                    _executeQR = YES;
+//                }
+//                else
+//                {
+//                    dispatch_async(dispatch_get_main_queue(),^ {
+//                        _lblStatus.textColor = [UIColor redColor];
+//                        _lblStatus.text = [NSString stringWithFormat:@"Please add this product to main inventory first."];
+//                    } );
+//                    if (_audioPlayer)
+//                    {
+//                        [_audioPlayer play];
+//                    }
+//                }
             }
         }
         else if([_previousProductIDGroup isEqualToString:currentProductIDGroup] && !_scanBlank)
@@ -305,24 +311,25 @@
             {
                 _scanBlank = NO;
                 _dateScan = [NSDate date];
+                _executeQR = YES;
                 
                 
-                productInMain = [self getProductInMainInventory:productQR];
-                if(productInMain)
-                {
-                    _executeQR = YES;
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(),^ {
-                        _lblStatus.textColor = [UIColor redColor];
-                        _lblStatus.text = [NSString stringWithFormat:@"Please add this product to main inventory first."];
-                    } );
-                    if (_audioPlayer)
-                    {
-                        [_audioPlayer play];
-                    }
-                }
+//                productInMain = [self getProductInMainInventory:productQR];
+//                if(productInMain)
+//                {
+//                    _executeQR = YES;
+//                }
+//                else
+//                {
+//                    dispatch_async(dispatch_get_main_queue(),^ {
+//                        _lblStatus.textColor = [UIColor redColor];
+//                        _lblStatus.text = [NSString stringWithFormat:@"Please add this product to main inventory first."];
+//                    } );
+//                    if (_audioPlayer)
+//                    {
+//                        [_audioPlayer play];
+//                    }
+//                }
             }
         }
         
@@ -330,84 +337,14 @@
         if(_executeQR)
         {
             _executeQR = NO;
+            _productScan = productQR;
             
             
-            productInMain.eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
-            productInMain.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-            productInMain.modifiedUser = [Utility modifiedUser];
-            [_productScanList addObject:productInMain];
-            [_productExecuteTempList addObject:productInMain];
-            
-            
-            if([_productExecuteTempList count] == [Utility getNumberOfRowForExecuteSql])
-            {
-                _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
-                [_productExecuteTempList removeAllObjects];
-                
-                
-                NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
-                NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-                NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
-                [_homeModel updateItems:dbProduct withData:sortArray];
-            }
-            
-            
-            dispatch_async(dispatch_get_main_queue(),^ {
-                if(![productInMain.remark isEqualToString:@""])
-                {
-                    NSString *remark = [NSString stringWithFormat:@"move MFD:%@ instead of MFD:%@",[Utility formatDateForDisplay:productInMain.manufacturingDate],[Utility formatDateForDisplay:productQR.manufacturingDate]];
-                    _lblStatus.attributedText = [Utility getCountWithRemarkText:[_productScanList count] remark:remark];
-                }
-                else
-                {
-                    _lblStatus.textColor = tBlueColor;
-                    _lblStatus.text = [NSString stringWithFormat:@"%lu",(unsigned long)[_productScanList count]];
-                }
-                
-                
-                //show detail
-                dispatch_async(dispatch_get_main_queue(), ^
-                {
-                     [self loadingOverlayViewForImage];
-                });
-                ProductName *productName = [ProductName getProductNameWithProduct:productQR];
-                Color *color = [Color getColor:productQR.color];
-                ProductSize *productSize = [ProductSize getProductSize:productQR.size];
-                ProductSales *productSales = [ProductSales getProductSalesFromProductNameID:productName.productNameID color:productQR.color size:productQR.size  productSalesSetID:@"0"];
-                NSString *imageFileName = productSales.imageDefault;
-                [_homeModel downloadImageWithFileName:imageFileName completionBlock:^(BOOL succeeded, UIImage *image) {
-                    if (succeeded) {
-                        imgVwProduct.image = image;
-                        dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                             [self removeOverlayViewsForImage];
-                        });
-                        
-                        NSLog(@"download image successful");
-                    }else
-                    {
-                        NSLog(@"download image fail");
-                        dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                             [self removeOverlayViewsForImage];
-                        });
-                    }
-                }];
-                
-                lblProductName.text = productName.name;
-                lblColor.text = [NSString stringWithFormat:@"Color: %@",color.name];
-                lblSize.text = [NSString stringWithFormat:@"Size: %@",productSize.sizeLabel];
-                txtQuantity.text = @"1";
-                stepper.value = 1;
-                _productScan = productQR;
-                stepper.enabled = YES;
-                txtQuantity.enabled = YES;
-                btnAdd.enabled = YES;
-            } );
-            if (_audioPlayer)
-            {
-                [_audioPlayer play];
-            }
+            NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
+            productQR.eventID = eventID;
+            productQR.quantity = 1;
+            [self loadingOverlayView];
+            [_homeModel updateItems:dbProductMoveToEvent withData:productQR];
         }
     }
     else
@@ -457,46 +394,46 @@
     }
 }
 
--(Product *)getProductInMainInventory:(Product *)product
-{
-    //ถ้ามี mfd เดียวกัน return ไปเลย
-    //ถ้าไม่มี mfd เดียวกัน ให้ alert -> move product mfd:xx instead of mfd:xx โดยเลือก mfd ที่เก่าที่สุด
-    //ถ้าไม่มี product นี้เลย alert -> please add this product to main inventory first.
-    
-    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _manufacturingDate = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,product.manufacturingDate,0,@"I"];
-    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-   
-    if([filterArray count] > 0)
-    {
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-        NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-        
-        return sortArray[0];
-    }
-    else
-    {
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,0,@"I"];
-        NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-        
-        if([filterArray count] > 0)
-        {
-            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_manufacturingDate" ascending:YES];
-            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,nil];
-            NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-            Product *matchProduct = sortArray[0];
-            matchProduct.remark = [NSString stringWithFormat:@"Scan MFD:%@",[Utility formatDateForDisplay:product.manufacturingDate]];
-            
-            return matchProduct;
-        }
-        else
-        {
-            return nil;
-        }
-    }
-}
+//-(Product *)getProductInMainInventory:(Product *)product
+//{
+//    //ถ้ามี mfd เดียวกัน return ไปเลย
+//    //ถ้าไม่มี mfd เดียวกัน ให้ alert -> move product mfd:xx instead of mfd:xx โดยเลือก mfd ที่เก่าที่สุด
+//    //ถ้าไม่มี product นี้เลย alert -> please add this product to main inventory first.
+//
+//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _manufacturingDate = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,product.manufacturingDate,0,@"I"];
+//    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
+//
+//    if([filterArray count] > 0)
+//    {
+//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
+//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//        NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
+//
+//        return sortArray[0];
+//    }
+//    else
+//    {
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,0,@"I"];
+//        NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
+//
+//        if([filterArray count] > 0)
+//        {
+//            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_manufacturingDate" ascending:YES];
+//            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
+//            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,nil];
+//            NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
+//            Product *matchProduct = sortArray[0];
+//            matchProduct.remark = [NSString stringWithFormat:@"Scan MFD:%@",[Utility formatDateForDisplay:product.manufacturingDate]];
+//
+//            return matchProduct;
+//        }
+//        else
+//        {
+//            return nil;
+//        }
+//    }
+//}
 
 -(void)stopReading{
     [_captureSession stopRunning];
@@ -504,23 +441,25 @@
     
     [_videoPreviewLayer removeFromSuperlayer];
     
+    _productScanSuccessCount = 0;
     
-    if([_productScanList count]>0)
-    {
-        [_productScanList removeAllObjects];
-    }
     
-    if([_productExecuteTempList count]>0)
-    {
-        _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
-        [_productExecuteTempList removeAllObjects];
-        
-        
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-        NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
-        [_homeModel updateItems:dbProduct withData:sortArray];
-    }
+//    if([_productScanList count]>0)
+//    {
+//        [_productScanList removeAllObjects];
+//    }
+//
+//    if([_productExecuteTempList count]>0)
+//    {
+//        _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
+//        [_productExecuteTempList removeAllObjects];
+//
+//
+//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
+//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//        NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
+//        [_homeModel updateItems:dbProduct withData:sortArray];
+//    }
 }
 
 - (IBAction)startStopReading:(id)sender {
@@ -552,20 +491,6 @@
         [_audioPlayer prepareToPlay];
     }
 }
-//
-//-(void)itemsDownloaded:(NSArray *)items
-//{
-//    {
-//        PushSync *pushSync = [[PushSync alloc]init];
-//        pushSync.deviceToken = [Utility deviceToken];
-//        [_homeModel updateItems:dbPushSyncUpdateByDeviceToken withData:pushSync];
-//    }
-//    
-//    
-//    [Utility itemsDownloaded:items];
-//    [self removeOverlayViews];
-//    [self loadViewProcess];
-//}
 
 - (void)itemsFail
 {
@@ -575,8 +500,7 @@
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-//                                                              [self loadingOverlayView];
-//                                                              [_homeModel downloadItems:dbMaster];
+
                                                           }];
     
     [alert addAction:defaultAction];
@@ -585,21 +509,88 @@
     } );
 }
 
-- (void)itemsUpdated
+- (void)itemsUpdatedWithReturnData:(NSArray *)data
 {
+    [self removeOverlayViews];
+    NSMutableArray *messageList = data[0];
+    InAppMessage *message = messageList[0];
+    if (_audioPlayer)
+    {
+        [_audioPlayer play];
+    }
     
+    if([Utility isStringEmpty: message.message])
+    {
+        _productScanSuccessCount += _productScan.quantity;
+        dispatch_async(dispatch_get_main_queue(),^ {
+            _lblStatus.textColor = tBlueColor;
+            _lblStatus.text = [NSString stringWithFormat:@"%lu",(unsigned long)_productScanSuccessCount];
+        } );
+        
+        
+        
+        //show detail
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+             [self loadingOverlayViewForImage];
+        });
+        ProductName *productName = [ProductName getProductNameWithProduct:_productScan];
+        Color *color = [Color getColor:_productScan.color];
+        ProductSize *productSize = [ProductSize getProductSize:_productScan.size];
+        ProductSales *productSales = [ProductSales getProductSalesFromProductNameID:productName.productNameID color:_productScan.color size:_productScan.size  productSalesSetID:@"0"];
+        NSString *imageFileName = productSales.imageDefault;
+        [_homeModel downloadImageWithFileName:imageFileName completionBlock:^(BOOL succeeded, UIImage *image) {
+            if (succeeded) {
+                dispatch_async(dispatch_get_main_queue(), ^
+                {
+                    imgVwProduct.image = image;
+                     [self removeOverlayViewsForImage];
+                });
+                
+                NSLog(@"download image successful");
+            }else
+            {
+                NSLog(@"download image fail");
+                dispatch_async(dispatch_get_main_queue(), ^
+                {
+                     [self removeOverlayViewsForImage];
+                });
+            }
+        }];
+        
+        dispatch_async(dispatch_get_main_queue(),^ {
+            lblProductName.text = productName.name;
+            lblColor.text = [NSString stringWithFormat:@"Color: %@",color.name];
+            lblSize.text = [NSString stringWithFormat:@"Size: %@",productSize.sizeLabel];
+            txtQuantity.text = @"1";
+            stepper.value = 1;
+    //        _productScan = productQR;
+            stepper.enabled = YES;
+            txtQuantity.enabled = YES;
+            btnAdd.enabled = YES;
+        } );
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(),^ {
+            _lblStatus.textColor = [UIColor redColor];
+            _lblStatus.text = message.message;
+            _productScan = nil;
+        } );
+    }
 }
 
 -(void) loadingOverlayView
 {
-    [indicator startAnimating];
-    indicator.layer.zPosition = 1;
-    indicator.alpha = 1;
-    
-    
-    // and just add them to navigationbar view
-    [self.navigationController.view addSubview:overlayView];
-    [self.navigationController.view addSubview:indicator];
+    dispatch_async(dispatch_get_main_queue(),^ {
+        [indicator startAnimating];
+        indicator.layer.zPosition = 1;
+        indicator.alpha = 1;
+        
+        // and just add them to navigationbar view
+        [self.navigationController.view addSubview:overlayView];
+        [self.navigationController.view addSubview:indicator];
+    });        
 }
 
 -(void) removeOverlayViews{
@@ -670,56 +661,68 @@
 }
 
 
-- (IBAction)addProduct:(id)sender {
-    NSMutableArray *productListInMain = [Product getProductListInMainInventory:_productScan];
-    if([productListInMain count] < [txtQuantity.text integerValue])
-    {
-        dispatch_async(dispatch_get_main_queue(),^ {
-            _lblStatus.textColor = [UIColor redColor];
-            _lblStatus.text = [NSString stringWithFormat:@"No scan product/Scan product is not enough in main inventory"];
-        } );
-    }
-    else
-    {
-        [self addProductInMainInventory:productListInMain];
-    }
+- (IBAction)addProduct:(id)sender
+{
+    NSInteger count = [txtQuantity.text integerValue];
+    _productScan.quantity = count;
+    [self loadingOverlayView];
+    [_homeModel updateItems:dbProductMoveToEvent withData:_productScan];
+    
+    
+    
+//    NSMutableArray *productListInMain = [Product getProductListInMainInventory:_productScan];
+//    [self addProductInMainInventory:productListInMain];
+    
+    
+//    NSMutableArray *productListInMain = [Product getProductListInMainInventory:_productScan];
+//    if([productListInMain count] < [txtQuantity.text integerValue])
+//    {
+//        dispatch_async(dispatch_get_main_queue(),^ {
+//            _lblStatus.textColor = [UIColor redColor];
+//            _lblStatus.text = [NSString stringWithFormat:@"No scan product/Scan product is not enough in main inventory"];
+//        } );
+//    }
+//    else
+//    {
+//        [self addProductInMainInventory:productListInMain];
+//    }
     
 }
 
--(void) addProductInMainInventory:(NSMutableArray *)productListInMain
-{
-    NSInteger count = [txtQuantity.text integerValue];
-    for(Product *productInMain in productListInMain)
-    {
-        if(count == 0 ) break;
-        
-        productInMain.eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
-        productInMain.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-        productInMain.modifiedUser = [Utility modifiedUser];
-        [_productScanList addObject:productInMain];
-        [_productExecuteTempList addObject:productInMain];
-        
-        
-        if([_productExecuteTempList count] == [Utility getNumberOfRowForExecuteSql])
-        {
-            _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
-            [_productExecuteTempList removeAllObjects];
-            
-            
-            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-            NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
-            [_homeModel updateItems:dbProduct withData:sortArray];
-        }
-        
-        
-        dispatch_async(dispatch_get_main_queue(),^ {
-            _lblStatus.textColor = tBlueColor;
-            _lblStatus.text = [NSString stringWithFormat:@"%lu",(unsigned long)[_productScanList count]];
-        } );        
-        count--;
-    }
-}
+//-(void) addProductInMainInventory:(NSMutableArray *)productListInMain
+//{
+//    NSInteger count = [txtQuantity.text integerValue];
+//    for(Product *productInMain in productListInMain)
+//    {
+//        if(count == 0 ) break;
+//
+//        productInMain.eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
+//        productInMain.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        productInMain.modifiedUser = [Utility modifiedUser];
+//        [_productScanList addObject:productInMain];
+//        [_productExecuteTempList addObject:productInMain];
+//
+//
+//        if([_productExecuteTempList count] == [Utility getNumberOfRowForExecuteSql])
+//        {
+//            _productExecuteList = [NSMutableArray arrayWithArray:_productExecuteTempList];
+//            [_productExecuteTempList removeAllObjects];
+//
+//
+//            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
+//            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//            NSArray *sortArray = [_productExecuteList sortedArrayUsingDescriptors:sortDescriptors];
+//            [_homeModel updateItems:dbProduct withData:sortArray];
+//        }
+//
+//
+//        dispatch_async(dispatch_get_main_queue(),^ {
+//            _lblStatus.textColor = tBlueColor;
+//            _lblStatus.text = [NSString stringWithFormat:@"%lu",(unsigned long)[_productScanList count]];
+//        } );
+//        count--;
+//    }
+//}
 
 -(void)startButtonClicked
 {

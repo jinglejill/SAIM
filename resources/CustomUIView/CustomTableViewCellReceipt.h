@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *btnDeteteTrailing;
 @property (strong, nonatomic) IBOutlet UILabel *lblEventLabel;
 @property (strong, nonatomic) IBOutlet UILabel *lblEvent;
+@property (strong, nonatomic) IBOutlet UILabel *lblRedeemedValue;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRedeemedValueTop;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRedeemedValueHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRedeemedValueLabelHeight;
+@property (strong, nonatomic) IBOutlet UILabel *lblEarnedPointDot;
 
 @end
 

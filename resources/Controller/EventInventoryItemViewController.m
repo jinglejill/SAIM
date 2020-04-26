@@ -17,6 +17,7 @@
 #import "PushSync.h"
 #import "ProductItem.h"
 #import "ProductName.h"
+#import "Message.h"
 
 
 /* Macro for background colors */
@@ -473,33 +474,15 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
                               style:UIAlertActionStyleDestructive
                             handler:^(UIAlertAction *action) {
                                 [self loadingOverlayView];
+                                NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
+                                Product *product = [[Product alloc]init];
+                                product.productID = productID;
+                                product.eventID = eventID;
                                 
-                                NSMutableArray *arrProduct = [[NSMutableArray alloc]init];
-                                Product *productTemp = [Product getProduct:productID];
-                                productTemp.eventID = 0;
-                                productTemp.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                                productTemp.modifiedUser = [Utility modifiedUser];
-                                
-                                
-                                [arrProduct addObject:productTemp];
-                                [_homeModel updateItems:dbProduct withData:arrProduct];
+                                [self loadingOverlayView];
+                                [_homeModel updateItems:dbProductMoveToMainItem withData:product];
                             
 
-                                
-                
-//                                NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productID = %@",productID];
-//                                NSArray *filterArray = [_mutArrProductItemList filteredArrayUsingPredicate:predicate1];
-//
-//                                [_mutArrProductItemList removeObjectsInArray:filterArray];
-//                                if(self.searchBarActive)
-//                                {
-//                                    [self searchBar:self.searchBar textDidChange:self.searchBar.text];
-//                                }
-//                                else
-//                                {
-//                                    [self setData];
-//                                }
-////                                [self removeOverlayViews];
                             }]];
 
     [alert addAction:
@@ -524,25 +507,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     ///////////////
     [self presentViewController:alert animated:YES completion:nil];
 }
-
-- (void)updateSharedProduct:(Product*)product
-{
-    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-    if(productList != nil)
-    {
-        for(Product *item in productList)
-        {
-            if ([item.productID isEqualToString:product.productID])
-            {
-                item.eventID = 0;
-                item.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                item.modifiedUser = [Utility modifiedUser];
-                break;
-            }
-        }
-    }
-}
-
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -785,20 +749,6 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     self.searchBar.text  = @"";
 }
 
--(void)itemsDownloaded:(NSArray *)items
-{
-//    {
-//        PushSync *pushSync = [[PushSync alloc]init];
-//        pushSync.deviceToken = [Utility deviceToken];
-//        [_homeModel updateItems:dbPushSyncUpdateByDeviceToken withData:pushSync];
-//    }
-//
-//
-//    [Utility itemsDownloaded:items];
-//    [self removeOverlayViews];
-//    [self loadViewProcess];
-}
-
 - (void)itemsFail
 {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:[Utility getConnectionLostTitle]
@@ -807,8 +757,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-//                                                              [self loadingOverlayView];
-//                                                              [_homeModel downloadItems:dbMaster];
+
                                                           }];
     
     [alert addAction:defaultAction];
@@ -816,23 +765,31 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         [self presentViewController:alert animated:YES completion:nil];
     } );
 }
-- (void)itemsUpdated
+
+-(void)itemsUpdatedWithReturnData:(NSArray *)data
 {
     [self removeOverlayViews];
+    NSMutableArray *messageList = data[0];
+    InAppMessage *message = messageList[0];
     
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productID = %@",_productIDDelete];
-    NSArray *filterArray = [_mutArrProductItemList filteredArrayUsingPredicate:predicate1];
     
-    [_mutArrProductItemList removeObjectsInArray:filterArray];
-    if(self.searchBarActive)
+    if([Utility isStringEmpty: message.message])
     {
-        [self searchBar:self.searchBar textDidChange:self.searchBar.text];
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productID = %@",_productIDDelete];
+        NSArray *filterArray = [_mutArrProductItemList filteredArrayUsingPredicate:predicate1];
+        
+        [_mutArrProductItemList removeObjectsInArray:filterArray];
+        if(self.searchBarActive)
+        {
+            [self searchBar:self.searchBar textDidChange:self.searchBar.text];
+        }
+        else
+        {
+            [self setData];
+        }
     }
-    else
-    {
-        [self setData];
-    }                        
 }
+
 -(void) loadingOverlayView
 {
     [indicator startAnimating];

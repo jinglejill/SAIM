@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *txtMainCategory;
 @property (strong, nonatomic) IBOutlet UITextField *txtEvent;
 @property (strong, nonatomic) IBOutlet UIPickerView *txtPicker;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAddInventory;
 
 - (IBAction)datePickerChanged:(id)sender;
 - (IBAction)addInventory:(id)sender;

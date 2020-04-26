@@ -12,8 +12,7 @@
 #import "Product.h"
 #import "SharedProduct.h"
 #import "SharedSelectedEvent.h"
-#import "SharedProductBuy.h"
-#import "SharedPostBuy.h"
+
 
 #define orangeColor         [UIColor colorWithRed:253/255.0 green:182/255.0 blue:103/255.0 alpha:1]
 #define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]

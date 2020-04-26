@@ -10,7 +10,6 @@
 #import "GenerateQRCodePageViewController.h"
 #import "Utility.h"
 #import "Product.h"
-#import "ReceiptViewController.h"
 #import "CustomerReceipt.h"
 #import "SharedCustomerReceipt.h"
 #import "SharedSelectedEvent.h"
@@ -33,7 +32,7 @@
 enum enumAdminMenu
 {
     menuEventInventorySummary,
-    menuEventInventoryItem,
+//    menuEventInventoryItem,
     menuSalesScan,
     menuSalesCustomMade,
     menuSalesPreOrder,
@@ -90,7 +89,7 @@ enum enumAdminMenu
     self.navigationController.toolbarHidden = YES;
     
     _menuWithSales = @[@"Event inventory summary",
-                       @"Event inventory item",                       
+//                       @"Event inventory item",
                        @"Sales scan",
                        @"Sales custom-made",
                        @"Sales pre-order",
@@ -98,7 +97,7 @@ enum enumAdminMenu
                        @"Receipt summary"
                        ];
     _menuWithoutSales = @[@"Event inventory summary",
-                          @"Event inventory item",
+//                          @"Event inventory item",
                           @"Receipt summary"
                           ];
     _menuExtra = @[@"To post product",
@@ -114,24 +113,24 @@ enum enumAdminMenu
 {
     if(!menuExtra)
     {
-        [self loadingOverlayView];
-        [_homeModel downloadItems:dbMainInventory];
+//        [self loadingOverlayView];
+//        [_homeModel downloadItems:dbMainInventory];
     }
 }
 
-- (void)itemsDownloaded:(NSArray *)items
-{
-    [self removeOverlayViews];
-    int i=0;
-
-
-    [SharedProductName sharedProductName].productNameList = items[i++];
-    [SharedColor sharedColor].colorList = items[i++];
-    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
-    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
-    [SharedProductSize sharedProductSize].productSizeList = items[i++];
-    [SharedProduct sharedProduct].productList = items[i++];
-}
+//- (void)itemsDownloaded:(NSArray *)items
+//{
+//    [self removeOverlayViews];
+//    int i=0;
+//
+//
+//    [SharedProductName sharedProductName].productNameList = items[i++];
+//    [SharedColor sharedColor].colorList = items[i++];
+//    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
+//    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
+//    [SharedProductSize sharedProductSize].productSizeList = items[i++];
+//    [SharedProduct sharedProduct].productList = items[i++];
+//}
 
 - (void)viewDidLoad
 {
@@ -240,9 +239,9 @@ enum enumAdminMenu
                 case menuEventInventorySummary:
                     [self performSegueWithIdentifier:@"segEventInventorySummaryPage" sender:self];
                     break;
-                case menuEventInventoryItem:
-                    [self performSegueWithIdentifier:@"segEventInventoryItemUserPage" sender:self];
-                    break;
+//                case menuEventInventoryItem:
+//                    [self performSegueWithIdentifier:@"segEventInventoryItemUserPage" sender:self];
+//                    break;
                 case menuSalesScan:
                 {
                     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
@@ -277,9 +276,9 @@ enum enumAdminMenu
                     [self performSegueWithIdentifier:@"segEventInventorySummaryPage" sender:self];
                     break;
                 case 1:
-                    [self performSegueWithIdentifier:@"segEventInventoryItemUserPage" sender:self];
-                    break;
-                case 2:
+//                    [self performSegueWithIdentifier:@"segEventInventoryItemUserPage" sender:self];
+//                    break;
+//                case 2:
                 {
                     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
                     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];

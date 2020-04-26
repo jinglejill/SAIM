@@ -22,6 +22,11 @@
 @property (nonatomic) NSInteger replaceSelf;//ใช้เฉพาะตอน push type = 'd'
 @property (nonatomic) NSInteger idInserted;//ใช้ตอน update or delete
 
+@property (nonatomic) NSInteger colorCount;
+@property (nonatomic) NSInteger sizeCount;
+@property (nonatomic) NSInteger quantity;
+
+
 + (ProductName *)getProductNameWithProduct:(Product *)product;
 + (ProductName *)getProductName:(NSInteger)productNameID;
 + (NSString *)getProductCode:(NSInteger)productNameID;

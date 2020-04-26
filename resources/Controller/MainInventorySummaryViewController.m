@@ -33,15 +33,21 @@
     UIView *overlayView;
     NSArray *_productWithQuantity;
     NSMutableArray *_mutArrProductWithQuantity;
-//    NSMutableDictionary *_dicProductName;
     NSMutableDictionary *_dicProductNameGroup;
-//    NSArray *_sortedProductName;
-//    NSMutableDictionary *_countItemInProductName;
     NSMutableDictionary *_countItemInProductNameGroup;
     UIView *_viewUnderline;
     NSMutableDictionary *_dicColorAndSizeHead;
     
     NSMutableArray *_sortProductNameList;
+    
+    
+    NSMutableArray *productCategory2List;
+    NSMutableArray *productNameList;
+    NSMutableArray *productNameColorList;
+    NSMutableArray *productNameSizeList;
+    NSMutableArray *productList;
+    NSMutableArray *colorList;
+    NSMutableArray *productSizeList;
 }
 @end
 
@@ -65,7 +71,7 @@ static NSString * const reuseIdentifier = @"Cell";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -76,227 +82,245 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     [self loadingOverlayView];
-    [_homeModel downloadItems:dbMainInventory];
+    [_homeModel downloadItems:dbMainInventorySummary condition:@[@"0",@"0"]];
+//    [_homeModel downloadItems:dbMainInventory];
 }
 
 - (void)itemsDownloaded:(NSArray *)items
 {
     [self removeOverlayViews];
     int i=0;
-    
-    [SharedProductName sharedProductName].productNameList = items[i++];
-    [SharedColor sharedColor].colorList = items[i++];
-    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
-    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
-    [SharedProductSize sharedProductSize].productSizeList = items[i++];
-    [SharedProduct sharedProduct].productList = items[i++];
-    
+    productCategory2List = items[i++];
+    productNameList = items[i++];
+    productNameColorList = items[i++];
+    productNameSizeList = items[i++];
+    productList = items[i++];
+    colorList = items[i++];
+    productSizeList = items[i++];
     
     [self loadViewProcess];
 }
 
 - (void)loadViewProcess
 {
-    [self queryProductWithQuantityAll:NO];
-    [self prepareData];
+//    [self queryProductWithQuantityAll:NO];
+//    [self prepareData];
+    [colViewSummaryTable reloadData];
 }
 
--(void)queryProductWithQuantityAll:(BOOL)all
-{
-    //query data
-    //เปลี่บยน status p->i, เรียงลำดับ, สร้าง array ใส่ group กับ count
-    
-    [_mutArrProductWithQuantity removeAllObjects];
-    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-    NSMutableArray *productForQuantityList = [[NSMutableArray alloc]init];
-    if(all)
-    {
-        for(Product *item in productList)
-        {
-            Product *product = [item copy];
-            product.productIDGroup = [Utility getProductIDGroup:item];
-            product.productNameGroup = [Product getProductNameGroup:item];
-            if([item.status isEqualToString:@"P"])
-            {
-                product.status = @"I";
-            }
-            [productForQuantityList addObject:product];
-        }
-    }
-    else
-    {
-        productForQuantityList = productList;
-        for(Product *item in productList)
-        {
-            item.productIDGroup = [Utility getProductIDGroup:item];
-            item.productNameGroup = [Product getProductNameGroup:item];
-        }
-    }
-    
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_eventID" ascending:YES];
-    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_status" ascending:YES];
-    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_productIDGroup" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3, nil];
-    NSArray *productSort = [productForQuantityList sortedArrayUsingDescriptors:sortDescriptors];
-    
-    NSMutableArray *groupHead = [[NSMutableArray alloc]init];
-    NSMutableArray *groupCount = [[NSMutableArray alloc]init];
-    NSInteger countData = 0;
-    BOOL firstItem = YES;
-    Product *previousProduct = [[Product alloc]init];
-    for(Product *item in productSort)
-    {
-        if(!((item.eventID == previousProduct.eventID) &&
-             [item.status isEqualToString:previousProduct.status] &&
-             [item.productIDGroup isEqualToString:previousProduct.productIDGroup]))
-        {
-            previousProduct = item;
-            [groupHead addObject:item];
-            if(!firstItem)
-            {
-                [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
-            }
-            else
-            {
-                firstItem = NO;
-            }
-            
-            countData = 1;
-        }
-        else
-        {
-            countData += 1;
-        }
-    }
-    [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
-    
-    for(int i=0; i<[groupHead count]; i++)
-    {
-        Product *product = groupHead[i];
-        NSString *strEventID = [NSString stringWithFormat:@"%ld",product.eventID];
-        NSString *quantity = groupCount[i];
-        NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
-        ProductWithQuantity *productWithQuantity = [[ProductWithQuantity alloc]init];
-        productWithQuantity.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
-        productWithQuantity.color = [Utility getColorName:product.color];
-        productWithQuantity.size = product.size;
-        productWithQuantity.quantity = quantity;
-        productWithQuantity.productIDGroup = product.productIDGroup;
-        productWithQuantity.productNameGroup = product.productNameGroup;
-        productWithQuantity.eventID = strEventID;
-        productWithQuantity.status = product.status;
-        
-        [_mutArrProductWithQuantity addObject:productWithQuantity];
-    }
-}
-
--(void)prepareData
-{  
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@ and _status = %@",@"0",@"I"];
-    _productWithQuantity = [_mutArrProductWithQuantity filteredArrayUsingPredicate:predicate1];
-    
-    
-//    //product name
-//    _dicProductName = [[NSMutableDictionary alloc]init];
-//    NSString *previousProductName = @"";
+//-(void)queryProductWithQuantityAll:(BOOL)all
+//{
+//    //query data
+//    //เปลี่บยน status p->i, เรียงลำดับ, สร้าง array ใส่ group กับ count
+//
+//    [_mutArrProductWithQuantity removeAllObjects];
+//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
+//    NSMutableArray *productForQuantityList = [[NSMutableArray alloc]init];
+//    if(all)
+//    {
+//        for(Product *item in productList)
+//        {
+//            Product *product = [item copy];
+//            product.productIDGroup = [Utility getProductIDGroup:item];
+//            product.productNameGroup = [Product getProductNameGroup:item];
+//            if([item.status isEqualToString:@"P"])
+//            {
+//                product.status = @"I";
+//            }
+//            [productForQuantityList addObject:product];
+//        }
+//    }
+//    else
+//    {
+//        productForQuantityList = productList;
+//        for(Product *item in productList)
+//        {
+//            item.productIDGroup = [Utility getProductIDGroup:item];
+//            item.productNameGroup = [Product getProductNameGroup:item];
+//        }
+//    }
+//
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_eventID" ascending:YES];
+//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_status" ascending:YES];
+//    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_productIDGroup" ascending:YES];
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3, nil];
+//    NSArray *productSort = [productForQuantityList sortedArrayUsingDescriptors:sortDescriptors];
+//
+//    NSMutableArray *groupHead = [[NSMutableArray alloc]init];
+//    NSMutableArray *groupCount = [[NSMutableArray alloc]init];
+//    NSInteger countData = 0;
+//    BOOL firstItem = YES;
+//    Product *previousProduct = [[Product alloc]init];
+//    for(Product *item in productSort)
+//    {
+//        if(!((item.eventID == previousProduct.eventID) &&
+//             [item.status isEqualToString:previousProduct.status] &&
+//             [item.productIDGroup isEqualToString:previousProduct.productIDGroup]))
+//        {
+//            previousProduct = item;
+//            [groupHead addObject:item];
+//            if(!firstItem)
+//            {
+//                [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
+//            }
+//            else
+//            {
+//                firstItem = NO;
+//            }
+//
+//            countData = 1;
+//        }
+//        else
+//        {
+//            countData += 1;
+//        }
+//    }
+//    [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
+//
+//    for(int i=0; i<[groupHead count]; i++)
+//    {
+//        Product *product = groupHead[i];
+//        NSString *strEventID = [NSString stringWithFormat:@"%ld",product.eventID];
+//        NSString *quantity = groupCount[i];
+//        NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
+//        ProductWithQuantity *productWithQuantity = [[ProductWithQuantity alloc]init];
+//        productWithQuantity.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
+//        productWithQuantity.color = [Utility getColorName:product.color];
+//        productWithQuantity.size = product.size;
+//        productWithQuantity.quantity = quantity;
+//        productWithQuantity.productIDGroup = product.productIDGroup;
+//        productWithQuantity.productNameGroup = product.productNameGroup;
+//        productWithQuantity.eventID = strEventID;
+//        productWithQuantity.status = product.status;
+//
+//        [_mutArrProductWithQuantity addObject:productWithQuantity];
+//    }
+//}
+//
+//-(void)prepareData
+//{
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@ and _status = %@",@"0",@"I"];
+//    _productWithQuantity = [_mutArrProductWithQuantity filteredArrayUsingPredicate:predicate1];
+//
+//
+////    //product name
+////    _dicProductName = [[NSMutableDictionary alloc]init];
+////    NSString *previousProductName = @"";
+////    for(NSInteger i=0; i<_productWithQuantity.count; i++)
+////    {
+////        ProductWithQuantity *product = _productWithQuantity[i];
+////        if(![previousProductName isEqualToString:product.productName])
+////        {
+////            NSMutableDictionary *dicColor = [[NSMutableDictionary alloc]init];
+////            [_dicProductName setValue:dicColor forKey:product.productName];
+////            previousProductName = product.productName;
+////        }
+////    }
+//
+//
+//    //productNameGroup
+//    _dicProductNameGroup = [[NSMutableDictionary alloc]init];
+//    NSString *previousProductNameGroup = @"";
 //    for(NSInteger i=0; i<_productWithQuantity.count; i++)
 //    {
 //        ProductWithQuantity *product = _productWithQuantity[i];
-//        if(![previousProductName isEqualToString:product.productName])
+//        if(![previousProductNameGroup isEqualToString:product.productNameGroup])
 //        {
 //            NSMutableDictionary *dicColor = [[NSMutableDictionary alloc]init];
-//            [_dicProductName setValue:dicColor forKey:product.productName];
-//            previousProductName = product.productName;
+//            [_dicProductNameGroup setValue:dicColor forKey:product.productNameGroup];
+//            previousProductNameGroup = product.productNameGroup;
 //        }
 //    }
-    
-    
-    //productNameGroup
-    _dicProductNameGroup = [[NSMutableDictionary alloc]init];
-    NSString *previousProductNameGroup = @"";
-    for(NSInteger i=0; i<_productWithQuantity.count; i++)
-    {
-        ProductWithQuantity *product = _productWithQuantity[i];
-        if(![previousProductNameGroup isEqualToString:product.productNameGroup])
-        {
-            NSMutableDictionary *dicColor = [[NSMutableDictionary alloc]init];
-            [_dicProductNameGroup setValue:dicColor forKey:product.productNameGroup];
-            previousProductNameGroup = product.productNameGroup;
-        }
-    }
-
-    [self setSizeAndColorForEachProductNameGroup];
-    
-    
-    //color
-    for(NSInteger i=0; i<_productWithQuantity.count; i++)
-    {
-        ProductWithQuantity *product = _productWithQuantity[i];
-        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:product.productNameGroup];
-        
-        if(![dicColor objectForKey:product.color])
-        {
-            NSMutableDictionary *dicSize = [[NSMutableDictionary alloc]init];
-            [dicColor setValue:dicSize forKey:product.color];
-        }
-    }
-    
-    
-    //add color of not exist
-    for(id keyProductNameGroup in _dicProductNameGroup)
-    {
-        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:keyProductNameGroup];
-        NSArray *arrColor = [_dicColorAndSizeHead objectForKey:keyProductNameGroup][0];//0=color,1=size
-        
-        for(int i=0; i<[arrColor count]; i++)
-        {
-            if(![dicColor objectForKey:arrColor[i]])
-            {
-                NSMutableDictionary *dicSize = [[NSMutableDictionary alloc]init];
-                [dicColor setValue:dicSize forKey:arrColor[i]];
-            }
-        }
-    }
-    
-    
-    //size
-    for(NSInteger i=0; i<_productWithQuantity.count; i++)
-    {
-        ProductWithQuantity *product = _productWithQuantity[i];
-        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:product.productNameGroup];
-        NSMutableDictionary *dicSize = [dicColor objectForKey:product.color];
-        [dicSize setValue:product.quantity forKey:[Utility getSizeLabel:product.size]];
-    }
-    
-    
-    //add size of no exist
-    for(id keyProductNameGroup in _dicProductNameGroup)
-    {
-        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:keyProductNameGroup];
-        for(id keyColor in dicColor)
-        {
-            NSMutableDictionary *dicSize = [dicColor objectForKey:keyColor];
-            NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:keyProductNameGroup][1];//0=color,1=size
-            
-            for(int i=0; i<[arrProductSize count]; i++)
-            {
-                ProductSize *productSize = arrProductSize[i];
-                if(![dicSize objectForKey:productSize.sizeLabel])
-                {
-                    [dicSize setValue:@"0" forKey:productSize.sizeLabel];
-                }
-            }
-        }
-    }
-    
-    
-    
-    
-//    //count item in productname
+//
+//    [self setSizeAndColorForEachProductNameGroup];
+//
+//
+//    //color
+//    for(NSInteger i=0; i<_productWithQuantity.count; i++)
+//    {
+//        ProductWithQuantity *product = _productWithQuantity[i];
+//        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:product.productNameGroup];
+//
+//        if(![dicColor objectForKey:product.color])
+//        {
+//            NSMutableDictionary *dicSize = [[NSMutableDictionary alloc]init];
+//            [dicColor setValue:dicSize forKey:product.color];
+//        }
+//    }
+//
+//
+//    //add color of not exist
+//    for(id keyProductNameGroup in _dicProductNameGroup)
+//    {
+//        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:keyProductNameGroup];
+//        NSArray *arrColor = [_dicColorAndSizeHead objectForKey:keyProductNameGroup][0];//0=color,1=size
+//
+//        for(int i=0; i<[arrColor count]; i++)
+//        {
+//            if(![dicColor objectForKey:arrColor[i]])
+//            {
+//                NSMutableDictionary *dicSize = [[NSMutableDictionary alloc]init];
+//                [dicColor setValue:dicSize forKey:arrColor[i]];
+//            }
+//        }
+//    }
+//
+//
+//    //size
+//    for(NSInteger i=0; i<_productWithQuantity.count; i++)
+//    {
+//        ProductWithQuantity *product = _productWithQuantity[i];
+//        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:product.productNameGroup];
+//        NSMutableDictionary *dicSize = [dicColor objectForKey:product.color];
+//        [dicSize setValue:product.quantity forKey:[Utility getSizeLabel:product.size]];
+//    }
+//
+//
+//    //add size of no exist
+//    for(id keyProductNameGroup in _dicProductNameGroup)
+//    {
+//        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:keyProductNameGroup];
+//        for(id keyColor in dicColor)
+//        {
+//            NSMutableDictionary *dicSize = [dicColor objectForKey:keyColor];
+//            NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:keyProductNameGroup][1];//0=color,1=size
+//
+//            for(int i=0; i<[arrProductSize count]; i++)
+//            {
+//                ProductSize *productSize = arrProductSize[i];
+//                if(![dicSize objectForKey:productSize.sizeLabel])
+//                {
+//                    [dicSize setValue:@"0" forKey:productSize.sizeLabel];
+//                }
+//            }
+//        }
+//    }
+//
+//
+//
+//
+////    //count item in productname
+////    NSInteger count = 0;
+////    _countItemInProductName = [[NSMutableDictionary alloc]init];
+////    for(id keyProductName in _dicProductName){
+////        NSMutableDictionary *dicColor = [_dicProductName objectForKey:keyProductName];
+////        for(id keyColor in dicColor)
+////        {
+////            NSMutableDictionary *dicSize = [dicColor objectForKey:keyColor];
+////            for(id keySize in dicSize)
+////            {
+////                count = count + [[dicSize objectForKey:keySize] intValue];
+////            }
+////        }
+////        [_countItemInProductName setValue:[NSString stringWithFormat:@"%ld", (long)count] forKey:keyProductName];
+////        count = 0;
+////    }
+//
+//    //count item in productIDGroup
 //    NSInteger count = 0;
-//    _countItemInProductName = [[NSMutableDictionary alloc]init];
-//    for(id keyProductName in _dicProductName){
-//        NSMutableDictionary *dicColor = [_dicProductName objectForKey:keyProductName];
+//    _countItemInProductNameGroup = [[NSMutableDictionary alloc]init];
+//    for(id keyProductNameGroup in _dicProductNameGroup){
+//        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:keyProductNameGroup];
 //        for(id keyColor in dicColor)
 //        {
 //            NSMutableDictionary *dicSize = [dicColor objectForKey:keyColor];
@@ -305,43 +329,53 @@ static NSString * const reuseIdentifier = @"Cell";
 //                count = count + [[dicSize objectForKey:keySize] intValue];
 //            }
 //        }
-//        [_countItemInProductName setValue:[NSString stringWithFormat:@"%ld", (long)count] forKey:keyProductName];
+//        [_countItemInProductNameGroup setValue:[NSString stringWithFormat:@"%ld", (long)count] forKey:keyProductNameGroup];
 //        count = 0;
 //    }
-
-    //count item in productIDGroup
-    NSInteger count = 0;
-    _countItemInProductNameGroup = [[NSMutableDictionary alloc]init];
-    for(id keyProductNameGroup in _dicProductNameGroup){
-        NSMutableDictionary *dicColor = [_dicProductNameGroup objectForKey:keyProductNameGroup];
-        for(id keyColor in dicColor)
-        {
-            NSMutableDictionary *dicSize = [dicColor objectForKey:keyColor];
-            for(id keySize in dicSize)
-            {
-                count = count + [[dicSize objectForKey:keySize] intValue];
-            }
-        }
-        [_countItemInProductNameGroup setValue:[NSString stringWithFormat:@"%ld", (long)count] forKey:keyProductNameGroup];
-        count = 0;
-    }
-    
-    [colViewSummaryTable reloadData];
-}
-
-- (void)setSizeAndColorForEachProductNameGroup
-{
-    //put color and size label
-    NSMutableArray *productSalesList = [SharedProductSales sharedProductSales].productSalesList;
-    for(ProductSales *item in productSalesList)
-    {
-        item.colorText = [Utility getColorName:item.color];
-    }
-    
-//    //get color and size for each productname
-//    for(id keyProductName in _dicProductName)
+//
+//    [colViewSummaryTable reloadData];
+//}
+//
+//- (void)setSizeAndColorForEachProductNameGroup
+//{
+//    //put color and size label
+//    NSMutableArray *productSalesList = [SharedProductSales sharedProductSales].productSalesList;
+//    for(ProductSales *item in productSalesList)
 //    {
-//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productSalesSetID = %@ and _productNameID = %ld",@"0",[ProductName getProductNameIDWithName:keyProductName]];
+//        item.colorText = [Utility getColorName:item.color];
+//    }
+//
+////    //get color and size for each productname
+////    for(id keyProductName in _dicProductName)
+////    {
+////        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productSalesSetID = %@ and _productNameID = %ld",@"0",[ProductName getProductNameIDWithName:keyProductName]];
+////        NSArray *filterArray = [productSalesList filteredArrayUsingPredicate:predicate1];
+////        NSSet *uniqueColor = [NSSet setWithArray:[filterArray valueForKey:@"colorText"]];
+////        NSSet *uniqueSize = [NSSet setWithArray:[filterArray valueForKey:@"size"]];
+////        NSArray *arrColor = [uniqueColor allObjects];
+////        NSArray *arrSize = [uniqueSize allObjects];
+////
+////
+////        NSMutableArray *mutArrSize = [[NSMutableArray alloc]init];
+////        for(NSString *item in arrSize)
+////        {
+////            ProductSize *productSize = [[ProductSize alloc]init];
+////            productSize.code = item;
+////            productSize.sizeOrder = [NSString stringWithFormat:@"%ld",(long)[Utility getSizeOrder:item]];
+////            productSize.intSizeOrder = [Utility getSizeOrder:item];
+////            productSize.sizeLabel = [Utility getSizeLabel:item];
+////            [mutArrSize addObject:productSize];
+////        }
+////
+////
+////        [_dicColorAndSizeHead setObject:@[arrColor,mutArrSize] forKey:keyProductName];
+////    }
+//
+//    //get color and size for each productIDGroup
+//    for(id keyProductNameGroup in _dicProductNameGroup)
+//    {
+//        ProductName *productName = [ProductName getProductNameWithProductNameGroup:keyProductNameGroup];
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productSalesSetID = %@ and _productNameID = %ld",@"0",productName.productNameID];
 //        NSArray *filterArray = [productSalesList filteredArrayUsingPredicate:predicate1];
 //        NSSet *uniqueColor = [NSSet setWithArray:[filterArray valueForKey:@"colorText"]];
 //        NSSet *uniqueSize = [NSSet setWithArray:[filterArray valueForKey:@"size"]];
@@ -361,36 +395,9 @@ static NSString * const reuseIdentifier = @"Cell";
 //        }
 //
 //
-//        [_dicColorAndSizeHead setObject:@[arrColor,mutArrSize] forKey:keyProductName];
+//        [_dicColorAndSizeHead setObject:@[arrColor,mutArrSize] forKey:keyProductNameGroup];
 //    }
-
-    //get color and size for each productIDGroup
-    for(id keyProductNameGroup in _dicProductNameGroup)
-    {
-        ProductName *productName = [ProductName getProductNameWithProductNameGroup:keyProductNameGroup];
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productSalesSetID = %@ and _productNameID = %ld",@"0",productName.productNameID];
-        NSArray *filterArray = [productSalesList filteredArrayUsingPredicate:predicate1];
-        NSSet *uniqueColor = [NSSet setWithArray:[filterArray valueForKey:@"colorText"]];
-        NSSet *uniqueSize = [NSSet setWithArray:[filterArray valueForKey:@"size"]];
-        NSArray *arrColor = [uniqueColor allObjects];
-        NSArray *arrSize = [uniqueSize allObjects];
-        
-        
-        NSMutableArray *mutArrSize = [[NSMutableArray alloc]init];
-        for(NSString *item in arrSize)
-        {
-            ProductSize *productSize = [[ProductSize alloc]init];
-            productSize.code = item;
-            productSize.sizeOrder = [NSString stringWithFormat:@"%ld",(long)[Utility getSizeOrder:item]];
-            productSize.intSizeOrder = [Utility getSizeOrder:item];
-            productSize.sizeLabel = [Utility getSizeLabel:item];
-            [mutArrSize addObject:productSize];
-        }
-        
-        
-        [_dicColorAndSizeHead setObject:@[arrColor,mutArrSize] forKey:keyProductNameGroup];
-    }
-}
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -404,47 +411,58 @@ static NSString * const reuseIdentifier = @"Cell";
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return [_dicProductNameGroup count];
+//    return [_dicProductNameGroup count];
+//    ProductCategory2 *productCategory2 = productCategory2List[index];
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+//    NSArray *filterArray = [productNameList filteredArrayUsingPredicate:predicate1];
+//
+    
+    return [productNameList count];
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    NSMutableArray *productNameList = [[NSMutableArray alloc]init];
-    for(id keyProductNameGroup in _dicProductNameGroup)
-    {
-        ProductName *productName = [ProductName getProductNameWithProductNameGroup:keyProductNameGroup];
-        [productNameList addObject:productName];
-    }
+//    NSMutableArray *productNameList = [[NSMutableArray alloc]init];
+//    for(id keyProductNameGroup in _dicProductNameGroup)
+//    {
+//        ProductName *productName = [ProductName getProductNameWithProductNameGroup:keyProductNameGroup];
+//        [productNameList addObject:productName];
+//    }
+//
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//    NSArray *sortArray = [productNameList sortedArrayUsingDescriptors:sortDescriptors];
+//    _sortProductNameList = [sortArray mutableCopy];
+//
+//
+//    ProductName *productName = sortArray[section];
+//    NSString *productNameGroup = [ProductName getProductNameGroupWithProductName:productName];
+//
+//    NSArray *arrColor = [_dicColorAndSizeHead objectForKey:productNameGroup][0];
+//    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:productNameGroup][1];
+//
+//
+////    NSArray *keys = [_dicProductNameGroup allKeys];
+////    _sortedProductName = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+////
+////    NSArray *arrColor = [_dicColorAndSizeHead objectForKey:_sortedProductName[section]][0];
+////    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:_sortedProductName[section]][1];
+//
+//    return ([arrColor count]+1)*([arrProductSize count]+1);
+//    ProductCategory2 *productCategory2 = productCategory2List[index];
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+//    NSArray *filterArray = [productNameList filteredArrayUsingPredicate:predicate1];
     
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
     NSArray *sortArray = [productNameList sortedArrayUsingDescriptors:sortDescriptors];
-    _sortProductNameList = [sortArray mutableCopy];
-    
-    
     ProductName *productName = sortArray[section];
-    NSString *productNameGroup = [ProductName getProductNameGroupWithProductName:productName];
-    
-    NSArray *arrColor = [_dicColorAndSizeHead objectForKey:productNameGroup][0];
-    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:productNameGroup][1];
-    
-    
-//    NSArray *keys = [_dicProductNameGroup allKeys];
-//    _sortedProductName = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-//
-//    NSArray *arrColor = [_dicColorAndSizeHead objectForKey:_sortedProductName[section]][0];
-//    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:_sortedProductName[section]][1];
-    
-    return ([arrColor count]+1)*([arrProductSize count]+1);
+        
+    return (productName.colorCount + 1)*(productName.sizeCount + 1);
 }
 
 
@@ -489,18 +507,58 @@ static NSString * const reuseIdentifier = @"Cell";
     NSInteger section = indexPath.section;
     NSInteger item = indexPath.item;
     
-    ProductName *productName = _sortProductNameList[section];
-    NSString *productNameGroup = [ProductName getProductNameGroupWithProductName:productName];
     
-    NSDictionary *dicColor = [_dicProductNameGroup objectForKey:productNameGroup];
+//    ProductCategory2 *productCategory2 = productCategory2List[index];
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+//    NSArray *filterArray = [productNameList filteredArrayUsingPredicate:predicate1];
     
-    NSArray *keys = [dicColor allKeys];
-    NSArray *sortedColor = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:productNameGroup][1];//0=color,1=size
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-    NSArray *sortedProductSize = [arrProductSize sortedArrayUsingDescriptors:sortDescriptors];
-    NSInteger sizeNum = [arrProductSize count];
+    NSArray *sortArray = [productNameList sortedArrayUsingDescriptors:sortDescriptors];
+    ProductName *productName = sortArray[section];
+    
+    NSMutableArray *showProductSizeList = [[NSMutableArray alloc]init];
+    {
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productNameID = %ld",productName.productNameID];
+        NSArray *filterArray = [productNameSizeList filteredArrayUsingPredicate:predicate1];
+        
+        for(Product *item in filterArray)
+        {
+            ProductSize *productSize = [self getProductSize:item.size];
+            if(productSize)
+            {
+                [showProductSizeList addObject:productSize];
+            }
+        }
+        
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeLabel" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+        NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
+        showProductSizeList = [sortArray mutableCopy];
+    }
+    
+    
+    NSMutableArray *showColorList = [[NSMutableArray alloc]init];
+    {
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productNameID = %ld",productName.productNameID];
+        NSArray *filterArray = [productNameColorList filteredArrayUsingPredicate:predicate1];
+        
+        for(Product *item in filterArray)
+        {
+            Color *color = [self getColor:item.color];
+            if(color)
+            {
+                [showColorList addObject:color];
+            }
+        }
+        
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+        NSArray *sortArray = [showColorList sortedArrayUsingDescriptors:sortDescriptors];
+        showColorList = [sortArray mutableCopy];
+    }
+    
+    NSInteger sizeNum = [showProductSizeList count];
     
     //color label
     if(item == 0)
@@ -510,7 +568,8 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else if(item >=1 && item <=sizeNum)
     {
-        ProductSize *productSize = sortedProductSize[item-1];
+//        ProductSize *productSize = sortedProductSize[item-1];
+        ProductSize *productSize = showProductSizeList[item-1];
         cell.label.text = [NSString stringWithFormat:@"%@", productSize.sizeLabel];
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
         cell.label.textColor= [UIColor whiteColor];
@@ -519,7 +578,9 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else if(item !=0 && item%(sizeNum+1) == 0)
     {
-        cell.label.text = sortedColor[(item/(sizeNum+1))-1];
+//        cell.label.text = sortedColor[(item/(sizeNum+1))-1];
+        Color *color = showColorList[(item/(sizeNum+1))-1];
+        cell.label.text = color.name;
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
         cell.label.adjustsFontSizeToFitWidth = YES;
         cell.label.textColor= [UIColor blackColor];
@@ -533,12 +594,15 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else if(item >=(sizeNum+1) && item%(sizeNum+1) != 0)
     {
-        NSDictionary *dicSize = [dicColor objectForKey:sortedColor[(item/(sizeNum+1))-1]];
-        
-        //9-15
-        ProductSize *productSize = sortedProductSize[item%(sizeNum+1)-1];
-        NSString *quantity = [dicSize objectForKey:productSize.sizeLabel];
-        cell.label.text = quantity;
+//        NSDictionary *dicSize = [dicColor objectForKey:sortedColor[(item/(sizeNum+1))-1]];
+//
+//        //9-15
+//        ProductSize *productSize = sortedProductSize[item%(sizeNum+1)-1];
+//        NSString *quantity = [dicSize objectForKey:productSize.sizeLabel];
+        Color *color = showColorList[(item/(sizeNum+1))-1];
+        ProductSize *productSize = showProductSizeList[item%(sizeNum+1)-1];
+        NSInteger quantity = [self getSkuQuantityWithProductNameID:productName.productNameID color:color.code size:productSize.code];
+        cell.label.text = [NSString stringWithFormat:@"%ld", quantity];
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         cell.label.textColor= [UIColor blackColor];
         cell.label.backgroundColor = [UIColor clearColor];
@@ -560,13 +624,37 @@ static NSString * const reuseIdentifier = @"Cell";
     
     CGFloat width;
     NSString *cellSize;
-    ProductName *productName = _sortProductNameList[indexPath.section];
-    NSString *productNameGroup = [ProductName getProductNameGroupWithProductName:productName];
+//    ProductCategory2 *productCategory2 = productCategory2List[index];
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+//    NSArray *filterArray = [productNameList filteredArrayUsingPredicate:predicate1];
     
-    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:productNameGroup][1];//0=color,1=size
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+    NSArray *sortArray = [productNameList sortedArrayUsingDescriptors:sortDescriptors];
+    ProductName *productName = sortArray[indexPath.section];
+    
+    NSMutableArray *showProductSizeList = [[NSMutableArray alloc]init];
+    {
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productNameID = %ld",productName.productNameID];
+        NSArray *filterArray = [productNameSizeList filteredArrayUsingPredicate:predicate1];
+        
+        for(Product *item in filterArray)
+        {
+            ProductSize *productSize = [self getProductSize:item.size];
+            if(productSize)
+            {
+                [showProductSizeList addObject:productSize];
+            }
+        }
+        
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeLabel" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+        NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
+        showProductSizeList = [sortArray mutableCopy];
+    }
     
     
-    NSInteger sizeNum = [arrProductSize count];
+    NSInteger sizeNum = [showProductSizeList count];
     cellSize = [NSString stringWithFormat:@"%f",(colViewSummaryTable.bounds.size.width-40-70)/sizeNum];
     
     NSMutableArray *arrSize = [[NSMutableArray alloc]init];
@@ -624,8 +712,14 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     if (kind == UICollectionElementKindSectionHeader) {
         CustomUICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseHeaderViewIdentifier forIndexPath:indexPath];
         
-        ProductName *productName = _sortProductNameList[indexPath.section];
-        NSString *productNameGroup = [ProductName getProductNameGroupWithProductName:productName];
+//        ProductName *productName = _sortProductNameList[indexPath.section];
+        
+        
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+        NSArray *sortArray = [productNameList sortedArrayUsingDescriptors:sortDescriptors];
+        ProductName *productName = sortArray[indexPath.section];
+//        NSString *productNameGroup = [ProductName getProductNameGroupWithProductName:productName];
         
         headerView.label.text = productName.name;
         CGRect frame = headerView.bounds;
@@ -638,9 +732,9 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         frame2.size.width = frame2.size.width - 20;
         headerView.labelAlignRight.frame = frame2;
         headerView.labelAlignRight.textAlignment = NSTextAlignmentRight;
-        NSString *strCountItemInProductName = [_countItemInProductNameGroup objectForKey:productNameGroup];
-        strCountItemInProductName = [Utility formatBaht:strCountItemInProductName];
-        NSString *strCountItem = [NSString stringWithFormat:@"%@/%@",strCountItemInProductName,[self countAllItem]];
+//        NSString *strCountItemInProductName = [_countItemInProductNameGroup objectForKey:productNameGroup];
+//        strCountItemInProductName = [Utility formatBaht:strCountItemInProductName];
+        NSString *strCountItem = [NSString stringWithFormat:@"%ld/%ld",productName.quantity,[self countAllItem]];
         headerView.labelAlignRight.text = strCountItem;
         [headerView addSubview:headerView.labelAlignRight];
         [self setLabelUnderline:headerView.labelAlignRight underline:headerView.viewUnderline];
@@ -657,18 +751,25 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     return reusableview;
 }
 
--(NSString *)countAllItem
+-(NSInteger)countAllItem
 {
     //count all item
-    NSInteger countAllItem = 0;
-    for(id keyProductNameGroup in _countItemInProductNameGroup)
+//    NSInteger countAllItem = 0;
+//    for(id keyProductNameGroup in _countItemInProductNameGroup)
+//    {
+//        NSString *countItem = [_countItemInProductNameGroup objectForKey:keyProductNameGroup];
+//        countAllItem = countAllItem + [countItem intValue];
+//    }
+//    NSString *strCountItem = [NSString stringWithFormat:@"%ld",(long)countAllItem];
+//    strCountItem = [Utility formatBaht:strCountItem];
+//    return strCountItem;
+    NSInteger allQuantity = 0;
+    for(ProductName *item in productNameList)
     {
-        NSString *countItem = [_countItemInProductNameGroup objectForKey:keyProductNameGroup];
-        countAllItem = countAllItem + [countItem intValue];
+        allQuantity += item.quantity;
     }
-    NSString *strCountItem = [NSString stringWithFormat:@"%ld",(long)countAllItem];
-    strCountItem = [Utility formatBaht:strCountItem];
-    return strCountItem;
+    
+    return allQuantity;
 }
 
 -(UILabel *)setLabelUnderline:(UILabel *)label underline:(UIView *)viewUnderline
@@ -758,18 +859,54 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     if([btnAllOrRemaining.title isEqualToString:@"All"])
     {
         btnAllOrRemaining.title = @"Remaining";
-        
-        [self queryProductWithQuantityAll:YES];
-        [self prepareData];
+        [self loadingOverlayView];
+        [_homeModel downloadItems:dbMainInventorySummary condition:@[@"0",@"1"]];
+    
+//        [self queryProductWithQuantityAll:YES];
+//        [self prepareData];
     }
     else if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
     {
         btnAllOrRemaining.title = @"All";
+        [self loadingOverlayView];
+        [_homeModel downloadItems:dbMainInventorySummary condition:@[@"0",@"0"]];
         
-        [self queryProductWithQuantityAll:NO];
-        [self prepareData];
+//        [self queryProductWithQuantityAll:NO];
+//        [self prepareData];
     }
+}
 
-    
+-(ProductSize *)getProductSize:(NSString *)code
+{
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_code = %@",code];
+    NSArray *filterArray = [productSizeList filteredArrayUsingPredicate:predicate1];
+    if([filterArray count] > 0)
+    {
+        return filterArray[0];
+    }
+    return nil;
+}
+
+-(Color *)getColor:(NSString *)code
+{
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_code = %@",code];
+    NSArray *filterArray = [colorList filteredArrayUsingPredicate:predicate1];
+    if([filterArray count] > 0)
+    {
+        return filterArray[0];
+    }
+    return nil;
+}
+
+-(NSInteger)getSkuQuantityWithProductNameID:(NSInteger)productNameID color:(NSString *)color size:(NSString *)size
+{
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productNameID = %ld and _color = %@ and _size = %@",productNameID,color,size];
+    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
+    if([filterArray count] > 0)
+    {
+        Product *product = filterArray[0];
+        return product.quantity;
+    }
+    return 0;
 }
 @end

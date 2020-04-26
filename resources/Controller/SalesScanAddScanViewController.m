@@ -13,12 +13,16 @@
 #import "SharedProduct.h"
 #import "SharedSelectedEvent.h"
 #import "SharedProductBuy.h"
+#import "SharedReplaceReceiptProductItem.h"
+#import "ProductDetail.h"
+#import "SharedPostBuy.h"
 
 #define orangeColor         [UIColor colorWithRed:253/255.0 green:182/255.0 blue:103/255.0 alpha:1]
 #define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]
 
 @interface SalesScanAddScanViewController ()
 {
+    HomeModel *_homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
     Product *_product;
@@ -53,6 +57,11 @@
 {
     [super loadView];
     
+    // Create new HomeModel object and assign it to _homeModel variable
+    _homeModel = [[HomeModel alloc] init];
+    _homeModel.delegate = self;
+    
+    
     {
         overlayView = [[UIView alloc] initWithFrame:self.view.frame];
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
@@ -64,7 +73,17 @@
     
     self.navigationController.toolbarHidden = NO;
     self.navigationItem.title = [NSString stringWithFormat:@"Event - Sales Scan"];
-    lblLocation.text = [NSString stringWithFormat:@"Location: %@",[SharedSelectedEvent sharedSelectedEvent].event.location];
+    
+    ReceiptProductItem *replaceReceiptProductItem = [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem;
+    if(replaceReceiptProductItem.receiptProductItemID > 0)
+    {
+        Event *event = [Event getEvent:[replaceReceiptProductItem.eventID integerValue]];
+        lblLocation.text = [NSString stringWithFormat:@"Location: %@",event.location];
+    }
+    else
+    {
+        lblLocation.text = [NSString stringWithFormat:@"Location: %@",[SharedSelectedEvent sharedSelectedEvent].event.location];
+    }
     lblLocation.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
     
     
@@ -161,31 +180,32 @@
             if([lines count]==3 && [lines[0] isEqualToString:line0Format] && [lines[1] length] == 24 && [lines[2] isEqualToString:@"End"] && [Utility isValidProduct:[Utility getProductWithProductCode:lines[1]] error:&error])
             {
                 Product *productQR = [Utility getProductWithProductCode:lines[1]];
-                Product *productInEvent;
+//                Product *productInEvent;
                 NSString *currentProductIDGroup = [Utility getProductIDGroup:productQR];
                 if(![_previousProductIDGroup isEqualToString:currentProductIDGroup])
                 {
                     _previousProductIDGroup = currentProductIDGroup;
                     _scanBlank = NO;
                     _dateScan = [NSDate date];
+                    _executeQR = YES;
                     
                     
-                    productInEvent = [self getProductInEventInventory:productQR];
-                    if(productInEvent)
-                    {
-                        _executeQR = YES;
-                    }
-                    else
-                    {
-                        dispatch_async(dispatch_get_main_queue(),^ {
-                            _lblStatus.textColor = [UIColor redColor];
-                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product in this event."];
-                        } );
-                        if (_audioPlayer)
-                        {
-                            [_audioPlayer play];
-                        }
-                    }
+//                    productInEvent = [self getProductInEventInventory:productQR];
+//                    if(productInEvent)
+//                    {
+//                        _executeQR = YES;
+//                    }
+//                    else
+//                    {
+//                        dispatch_async(dispatch_get_main_queue(),^ {
+//                            _lblStatus.textColor = [UIColor redColor];
+//                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product in this event."];
+//                        } );
+//                        if (_audioPlayer)
+//                        {
+//                            [_audioPlayer play];
+//                        }
+//                    }
                 }
                 else if([_previousProductIDGroup isEqualToString:currentProductIDGroup] && _scanBlank)
                 {
@@ -195,24 +215,25 @@
                     {
                         _scanBlank = NO;
                         _dateScan = [NSDate date];
+                        _executeQR = YES;
                         
                         
-                        productInEvent = [self getProductInEventInventory:productQR];
-                        if(productInEvent)
-                        {
-                            _executeQR = YES;
-                        }
-                    }
-                    else
-                    {
-                        dispatch_async(dispatch_get_main_queue(),^ {
-                            _lblStatus.textColor = [UIColor redColor];
-                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product in this event."];
-                        } );
-                        if (_audioPlayer)
-                        {
-                            [_audioPlayer play];
-                        }
+//                        productInEvent = [self getProductInEventInventory:productQR];
+//                        if(productInEvent)
+//                        {
+//                            _executeQR = YES;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        dispatch_async(dispatch_get_main_queue(),^ {
+//                            _lblStatus.textColor = [UIColor redColor];
+//                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product in this event."];
+//                        } );
+//                        if (_audioPlayer)
+//                        {
+//                            [_audioPlayer play];
+//                        }
                     }
                 }
                 else if([_previousProductIDGroup isEqualToString:currentProductIDGroup] && !_scanBlank)
@@ -223,24 +244,25 @@
                     {
                         _scanBlank = NO;
                         _dateScan = [NSDate date];
-                
+                        _executeQR = YES;
                         
-                        productInEvent = [self getProductInEventInventory:productQR];
-                        if(productInEvent)
-                        {
-                            _executeQR = YES;
-                        }
-                    }
-                    else
-                    {
-                        dispatch_async(dispatch_get_main_queue(),^ {
-                            _lblStatus.textColor = [UIColor redColor];
-                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product in this event."];
-                        } );
-                        if (_audioPlayer)
-                        {
-                            [_audioPlayer play];
-                        }
+                        
+//                        productInEvent = [self getProductInEventInventory:productQR];
+//                        if(productInEvent)
+//                        {
+//                            _executeQR = YES;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        dispatch_async(dispatch_get_main_queue(),^ {
+//                            _lblStatus.textColor = [UIColor redColor];
+//                            _lblStatus.text = [NSString stringWithFormat:@"No scan-product in this event."];
+//                        } );
+//                        if (_audioPlayer)
+//                        {
+//                            [_audioPlayer play];
+//                        }
                     }
                 }
                 
@@ -248,35 +270,25 @@
                 if(_executeQR)
                 {
                     _executeQR = NO;
-                    _product = productInEvent;
-                    
-                    
-                    if (_audioPlayer)
+                    ReceiptProductItem *replaceReceiptProductItem = [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem;
+                    if(replaceReceiptProductItem.receiptProductItemID > 0)
                     {
-                        [_audioPlayer play];
+                        productQR.eventID = [replaceReceiptProductItem.eventID integerValue];
                     }
-                    dispatch_async(dispatch_get_main_queue(),^ {
+                    else
+                    {
+                        productQR.eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
+                    }
+                    
+//                    _product = productInEvent;
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue(),^
+                    {
                         [self stopReading];
-                        if(![productInEvent.remark isEqualToString:@""])
-                        {
-                            NSString *remark = [NSString stringWithFormat:@"use MFD:%@ instead of MFD:%@",[Utility formatDateForDisplay:productInEvent.manufacturingDate],[Utility formatDateForDisplay:productQR.manufacturingDate]];
-                            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
-                                                                                           message:remark
-                                                                                    preferredStyle:UIAlertControllerStyleAlert];
-                            
-                            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                                  handler:^(UIAlertAction * action) {
-                                                                                      [self performSegueWithIdentifier:@"segUnwindToProductDetail" sender:self];
-                                                                                  }];
-                            
-                            [alert addAction:defaultAction];
-                            [self presentViewController:alert animated:YES completion:nil];
-                        }
-                        else
-                        {
-                            [self performSegueWithIdentifier:@"segUnwindToProductDetail" sender:self];
-                        }
-                    } );
+                        [self loadingOverlayView];
+                    });       
+                    [_homeModel downloadItems:dbProductScan condition:productQR];                    
                 }
             }
             else
@@ -332,48 +344,160 @@
     }
 }
 
--(Product *)getProductInEventInventory:(Product *)product
+-(void)itemsDownloaded:(NSArray *)items
 {
-    //ถ้ามี mfd เดียวกัน return เลย
-    //ถ้าไม่มี mfd เดียวกัน ให้ alert -> use product mfd: instead of mfd: โดยเลือกอันที่เก่าที่สุด
-    //ถ้าไม่มี product ให้ alert -> no scan-product in this event
-    
-    NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
-    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _manufacturingDate = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,product.manufacturingDate,eventID,@"I"];
-    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-    
-    if([filterArray count] > 0)
+    dispatch_async(dispatch_get_main_queue(),^
     {
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-        NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-        
-        return sortArray[0];
+        [self removeOverlayViews];
+    });
+    
+    
+    
+    if (_audioPlayer)
+    {
+        [_audioPlayer play];
+    }
+    
+    NSMutableArray *productList = items[0];    
+    if([productList count] > 0)
+    {
+        dispatch_async(dispatch_get_main_queue(),^
+        {
+            
+            Product *productInEvent = productList[0];
+            _product = productInEvent;
+            
+            
+            //check case replace product - add postCustomerID
+            ReceiptProductItem *replaceReceiptProductItem = [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem;
+            if(replaceReceiptProductItem.receiptProductItemID != 0)
+            {
+                ProductName *productName = [ProductName getProductNameWithProduct:productInEvent];
+                
+                //ราคาขายตาม event, ส่วน รูปและdetail ตาม event = 0
+                //productsalessetid = event.productsalessetid
+                Event *_event = [Event getEvent:[replaceReceiptProductItem.eventID integerValue]];
+                ProductSales *productSalesEvent = [Utility getProductSales:productName.productNameID color:productInEvent.color size:productInEvent.size  productSalesSetID:_event.productSalesSetID];
+                NSString *pricePromotion = productSalesEvent.pricePromotion;
+                
+                
+                
+                //productsalessetid = 0
+                ProductSales *productSales = [Utility getProductSales:productName.productNameID color:productInEvent.color size:productInEvent.size productSalesSetID:@"0"];
+             
+                
+                ProductDetail *productDetail = [[ProductDetail alloc]init];
+                productDetail.productID = productInEvent.productID;
+                productDetail.productName = productName.name;
+                productDetail.color = [Utility getColorName:productInEvent.color];
+                productDetail.size = productInEvent.size;
+                productDetail.price = productSales.price;
+                productDetail.pricePromotion = pricePromotion;
+                productDetail.detail = productSales.detail;
+                productDetail.imageDefault = productSales.imageDefault;
+    //            productDetail.status = product.status;
+                productDetail.productIDGroup = [NSString stringWithFormat:@"%@%@%@%@%@",productInEvent.productCategory2,productInEvent.productCategory1,productInEvent.productName,productInEvent.color,productInEvent.size];
+    //            productDetail.manufacturingDate = product.manufacturingDate;
+                
+                
+                //case replace product - add postCustomerID
+                NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
+                if([postBuyList count] > 0)
+                {
+                    PostCustomer *postCustomer = postBuyList[0];
+                    productDetail.postCustomerID = postCustomer.postCustomerID;
+                }
+                productDetail.replaceProduct = 1;
+                productDetail.discount = 2;
+                productDetail.discountValue = 0;
+                productDetail.discountPercent = 100;
+                productDetail.discountReason = @"replace";
+                
+                
+                
+                
+                NSNumberFormatter *formatter = [NSNumberFormatter new];
+                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                
+                NSString *price = [formatter stringFromNumber:[NSNumber numberWithFloat:[productDetail.price floatValue]]];
+                NSString *strPricePromotion = [formatter stringFromNumber:[NSNumber numberWithFloat:[productDetail.pricePromotion floatValue]]];
+                price = [NSString stringWithFormat:@"%@ baht",price];
+                strPricePromotion = [NSString stringWithFormat:@"%@ baht",strPricePromotion];
+                NSString *imageFileName = productSales.imageDefault;
+
+                
+                //                enum enumProductBuy{productType,productDetail,image,price,pricePromotion};
+                NSMutableArray  *_productBuyList = [SharedProductBuy sharedProductBuy].productBuyList;
+                [_productBuyList addObject:[NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%d",productInventory], productDetail,imageFileName,price,productDetail.pricePromotion,[NSNull null],nil]];
+                [self performSegueWithIdentifier:@"segReceipt2" sender:self];
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"segUnwindToProductDetail" sender:self];
+            }
+        } );
     }
     else
     {
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,eventID,@"I"];
-        NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
-        
-        if([filterArray count] > 0)
-        {
-            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_manufacturingDate" ascending:YES];
-            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,nil];
-            NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
-            
-            Product *matchProduct = sortArray[0];
-            matchProduct.remark = [NSString stringWithFormat:@"Scan MFD:%@",[Utility formatDateForDisplay:product.manufacturingDate]];
-            
-            return matchProduct;
-        }
-        else
-        {
-            return nil;
-        }
+        dispatch_async(dispatch_get_main_queue(),^ {
+            _lblStatus.textColor = [UIColor redColor];
+            _lblStatus.text = [NSString stringWithFormat:@"No scan-product found in this event."];
+            [self startReading];
+        });
     }
 }
+
+//-(Product *)getProductInEventInventory:(Product *)product
+//{
+//    //ถ้ามี mfd เดียวกัน return เลย
+//    //ถ้าไม่มี mfd เดียวกัน ให้ alert -> use product mfd: instead of mfd: โดยเลือกอันที่เก่าที่สุด
+//    //ถ้าไม่มี product ให้ alert -> no scan-product in this event
+//    NSInteger eventID;
+//    ReceiptProductItem *replaceReceiptProductItem = [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem;
+//    if(replaceReceiptProductItem.receiptProductItemID > 0)
+//    {
+//        eventID = [replaceReceiptProductItem.eventID integerValue];
+//    }
+//    else
+//    {
+//        eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
+//    }
+//
+//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _manufacturingDate = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,product.manufacturingDate,eventID,@"I"];
+//    NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
+//
+//    if([filterArray count] > 0)
+//    {
+//        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
+//        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//        NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
+//
+//        return sortArray[0];
+//    }
+//    else
+//    {
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _productCategory1 = %@ and _productName = %@ and _color = %@ and _size = %@ and _eventID = %ld and _status = %@",product.productCategory2,product.productCategory1,product.productName,product.color,product.size,eventID,@"I"];
+//        NSArray *filterArray = [productList filteredArrayUsingPredicate:predicate1];
+//
+//        if([filterArray count] > 0)
+//        {
+//            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_manufacturingDate" ascending:YES];
+//            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_modifiedDate" ascending:YES];
+//            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,nil];
+//            NSArray *sortArray = [filterArray sortedArrayUsingDescriptors:sortDescriptors];
+//
+//            Product *matchProduct = sortArray[0];
+//            matchProduct.remark = [NSString stringWithFormat:@"Scan MFD:%@",[Utility formatDateForDisplay:product.manufacturingDate]];
+//
+//            return matchProduct;
+//        }
+//        else
+//        {
+//            return nil;
+//        }
+//    }
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

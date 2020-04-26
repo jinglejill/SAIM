@@ -33,6 +33,8 @@
 @property (nonatomic) NSInteger replaceSelf;//ใช้เฉพาะตอน push type = 'd'
 @property (nonatomic) NSInteger idInserted;//ใช้ตอน update or delete
 
+@property (nonatomic) NSInteger quantity;
+
 - (id)init;
 + (NSMutableArray *)getProductListInMainInventory:(Product *)product;
 + (Product *)getProduct:(NSString *)productID;

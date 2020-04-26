@@ -76,6 +76,10 @@
 		EF799BCE1D16C18000473F5F /* customMadeIn.png in Resources */ = {isa = PBXBuildFile; fileRef = EF799BCD1D16C18000473F5F /* customMadeIn.png */; };
 		EF799BD01D16CB0600473F5F /* PrinterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF799BCF1D16CB0600473F5F /* PrinterView.xib */; };
 		EF799BD61D18F5FB00473F5F /* CustomMadeOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF799BD41D18F5FB00473F5F /* CustomMadeOutViewController.m */; };
+		EF83DB2C244ACF5B0043B24E /* CustomTableViewCellReward.m in Sources */ = {isa = PBXBuildFile; fileRef = EF83DB2A244ACF5B0043B24E /* CustomTableViewCellReward.m */; };
+		EF83DB2D244ACF5B0043B24E /* CustomTableViewCellReward.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */; };
+		EF83DB30244B05600043B24E /* WordPressUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EF83DB2F244B05600043B24E /* WordPressUser.m */; };
+		EF83DB382451A9FF0043B24E /* SharedReplaceReceiptProductItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EF83DB372451A9FF0043B24E /* SharedReplaceReceiptProductItem.m */; };
 		EF878BC11D9BF28300B4076C /* SharedGenerateQRCodePage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF878BC01D9BF28300B4076C /* SharedGenerateQRCodePage.m */; };
 		EF878BC61D9BF2AD00B4076C /* GenerateQRCodePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF878BC21D9BF2AD00B4076C /* GenerateQRCodePageViewController.m */; };
 		EF878BC71D9BF2AD00B4076C /* ProductCategorySelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF878BC51D9BF2AD00B4076C /* ProductCategorySelectionViewController.m */; };
@@ -148,7 +152,6 @@
 		EFB460D62446C00600C5100E /* PreOrderAddPreOrder2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460D52446C00600C5100E /* PreOrderAddPreOrder2ViewController.m */; };
 		EFB460D92446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */; };
 		EFB460DC2446F3EC00C5100E /* PreOrder2.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460DB2446F3EC00C5100E /* PreOrder2.m */; };
-		EFB460DE2447264700C5100E /* sewingMachine.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460DD2447264600C5100E /* sewingMachine.png */; };
 		EFB460E0244841FC00C5100E /* sewingMachine2.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460DF244841FB00C5100E /* sewingMachine2.png */; };
 		EFB8719B20C0E6020011AF78 /* BRPtouchPrinterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */; };
 		EFB8719C20C0E6020011AF78 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */; };
@@ -412,7 +415,6 @@
 		EFF0846A1CAFA811003E74D6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF084691CAFA811003E74D6 /* QuartzCore.framework */; };
 		EFF0846C1CAFA816003E74D6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF0846B1CAFA816003E74D6 /* Security.framework */; };
 		EFF0846F1CAFA87E003E74D6 /* ProductSalesSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF0846E1CAFA87E003E74D6 /* ProductSalesSetViewController.m */; };
-		EFF084721CAFA8F8003E74D6 /* ReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF084711CAFA8F8003E74D6 /* ReceiptViewController.m */; };
 		EFF0E01A240FBF8F00776023 /* CustomTableViewCellReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF0E018240FBF8E00776023 /* CustomTableViewCellReceipt.m */; };
 		EFF0E01B240FBF8F00776023 /* CustomTableViewCellReceipt.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF0E019240FBF8E00776023 /* CustomTableViewCellReceipt.xib */; };
 		EFF0E01D240FC43200776023 /* postCustomerNo2.png in Resources */ = {isa = PBXBuildFile; fileRef = EFF0E01C240FC43200776023 /* postCustomerNo2.png */; };
@@ -561,6 +563,13 @@
 		EF799BCF1D16CB0600473F5F /* PrinterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrinterView.xib; sourceTree = "<group>"; };
 		EF799BD41D18F5FB00473F5F /* CustomMadeOutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMadeOutViewController.m; sourceTree = "<group>"; };
 		EF799BD51D18F5FB00473F5F /* CustomMadeOutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMadeOutViewController.h; sourceTree = "<group>"; };
+		EF83DB29244ACF5B0043B24E /* CustomTableViewCellReward.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellReward.h; sourceTree = "<group>"; };
+		EF83DB2A244ACF5B0043B24E /* CustomTableViewCellReward.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellReward.m; sourceTree = "<group>"; };
+		EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellReward.xib; sourceTree = "<group>"; };
+		EF83DB2E244B05600043B24E /* WordPressUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WordPressUser.h; sourceTree = "<group>"; };
+		EF83DB2F244B05600043B24E /* WordPressUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WordPressUser.m; sourceTree = "<group>"; };
+		EF83DB362451A9FF0043B24E /* SharedReplaceReceiptProductItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedReplaceReceiptProductItem.h; sourceTree = "<group>"; };
+		EF83DB372451A9FF0043B24E /* SharedReplaceReceiptProductItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharedReplaceReceiptProductItem.m; sourceTree = "<group>"; };
 		EF878BBF1D9BF28300B4076C /* SharedGenerateQRCodePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedGenerateQRCodePage.h; sourceTree = "<group>"; };
 		EF878BC01D9BF28300B4076C /* SharedGenerateQRCodePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedGenerateQRCodePage.m; sourceTree = "<group>"; };
 		EF878BC21D9BF2AD00B4076C /* GenerateQRCodePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateQRCodePageViewController.m; sourceTree = "<group>"; };
@@ -674,7 +683,6 @@
 		EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrderAddPreOrderPage2ViewController.m; sourceTree = "<group>"; };
 		EFB460DA2446F3EC00C5100E /* PreOrder2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrder2.h; sourceTree = "<group>"; };
 		EFB460DB2446F3EC00C5100E /* PreOrder2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreOrder2.m; sourceTree = "<group>"; };
-		EFB460DD2447264600C5100E /* sewingMachine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sewingMachine.png; sourceTree = "<group>"; };
 		EFB460DF244841FB00C5100E /* sewingMachine2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sewingMachine2.png; sourceTree = "<group>"; };
 		EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRPtouchPrinterKit.framework; sourceTree = "<group>"; };
 		EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
@@ -1214,8 +1222,6 @@
 		EFF0846B1CAFA816003E74D6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		EFF0846D1CAFA87E003E74D6 /* ProductSalesSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductSalesSetViewController.h; sourceTree = "<group>"; };
 		EFF0846E1CAFA87E003E74D6 /* ProductSalesSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductSalesSetViewController.m; sourceTree = "<group>"; };
-		EFF084701CAFA8F8003E74D6 /* ReceiptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiptViewController.h; sourceTree = "<group>"; };
-		EFF084711CAFA8F8003E74D6 /* ReceiptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiptViewController.m; sourceTree = "<group>"; };
 		EFF0E017240FBF8E00776023 /* CustomTableViewCellReceipt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellReceipt.h; sourceTree = "<group>"; };
 		EFF0E018240FBF8E00776023 /* CustomTableViewCellReceipt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellReceipt.m; sourceTree = "<group>"; };
 		EFF0E019240FBF8E00776023 /* CustomTableViewCellReceipt.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellReceipt.xib; sourceTree = "<group>"; };
@@ -1670,8 +1676,6 @@
 				EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */,
 				EFF081E81CAFA7E0003E74D6 /* QRCodeImageViewController.h */,
 				EFF081E91CAFA7E0003E74D6 /* QRCodeImageViewController.m */,
-				EFF084701CAFA8F8003E74D6 /* ReceiptViewController.h */,
-				EFF084711CAFA8F8003E74D6 /* ReceiptViewController.m */,
 				EFA239171EAA0C00009CE51A /* RewardProgramCollectAddViewController.h */,
 				EFA239181EAA0C00009CE51A /* RewardProgramCollectAddViewController.m */,
 				EFA2391A1EAA0C00009CE51A /* RewardProgramSetupViewController.h */,
@@ -1918,6 +1922,9 @@
 				EF8B8A422432DC40005F6E91 /* CustomTableViewCellTopSpender.h */,
 				EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */,
 				EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */,
+				EF83DB29244ACF5B0043B24E /* CustomTableViewCellReward.h */,
+				EF83DB2A244ACF5B0043B24E /* CustomTableViewCellReward.m */,
+				EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1938,7 +1945,6 @@
 			isa = PBXGroup;
 			children = (
 				EFB460DF244841FB00C5100E /* sewingMachine2.png */,
-				EFB460DD2447264600C5100E /* sewingMachine.png */,
 				EFB460BA243A731F00C5100E /* blankSignature2.png */,
 				EF59831524399C9E00775677 /* oneSignature3.png */,
 				EFF082821CAFA7E0003E74D6 /* add active3.png */,
@@ -2169,6 +2175,8 @@
 				EF7074BE1F3869CF00D1EA2E /* SharedMainEvent.m */,
 				EFF083161CAFA7E0003E74D6 /* SharedPostBuy.h */,
 				EFF083171CAFA7E0003E74D6 /* SharedPostBuy.m */,
+				EF83DB362451A9FF0043B24E /* SharedReplaceReceiptProductItem.h */,
+				EF83DB372451A9FF0043B24E /* SharedReplaceReceiptProductItem.m */,
 				EF795DCE1DA9FD2B00191CDA /* SharedPostCode.h */,
 				EF795DCF1DA9FD2B00191CDA /* SharedPostCode.m */,
 				EFF083181CAFA7E0003E74D6 /* SharedPostCustomer.h */,
@@ -2239,6 +2247,8 @@
 				EF8B8A482432E13A005F6E91 /* TopSpender.m */,
 				EFB460DA2446F3EC00C5100E /* PreOrder2.h */,
 				EFB460DB2446F3EC00C5100E /* PreOrder2.m */,
+				EF83DB2E244B05600043B24E /* WordPressUser.h */,
+				EF83DB2F244B05600043B24E /* WordPressUser.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2428,7 +2438,6 @@
 				EF77B7B1241A26B200834B8D /* CustomTableViewCellExpenseAmount.xib in Resources */,
 				EFF083FE1CAFA7E0003E74D6 /* show.png in Resources */,
 				EFF0837E1CAFA7E0003E74D6 /* bsq72wad.ptd in Resources */,
-				EFB460DE2447264700C5100E /* sewingMachine.png in Resources */,
 				EF8B8A822433A2AA005F6E91 /* miniLogo.png in Resources */,
 				EF77B7A7241A130800834B8D /* CustomTableViewCellExpenseDaily.xib in Resources */,
 				EFF083EE1CAFA7E0003E74D6 /* clearButton.png in Resources */,
@@ -2440,6 +2449,7 @@
 				EFF083771CAFA7E0003E74D6 /* PrinterList.plist in Resources */,
 				EFF083F51CAFA7E0003E74D6 /* info active3.png in Resources */,
 				EFF083FA1CAFA7E0003E74D6 /* postCustomerNo.png in Resources */,
+				EF83DB2D244ACF5B0043B24E /* CustomTableViewCellReward.xib in Resources */,
 				EFF0836E1CAFA7E0003E74D6 /* 58_0_700.bin in Resources */,
 				EFF0E01B240FBF8F00776023 /* CustomTableViewCellReceipt.xib in Resources */,
 				EFF083EF1CAFA7E0003E74D6 /* cross.png in Resources */,
@@ -2570,6 +2580,7 @@
 				EFF084281CAFA7E0003E74D6 /* ProductSource.m in Sources */,
 				EFF083A61CAFA7E0003E74D6 /* PasscodeViewController.m in Sources */,
 				EFB460CD243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m in Sources */,
+				EF83DB2C244ACF5B0043B24E /* CustomTableViewCellReward.m in Sources */,
 				EFF084351CAFA7E0003E74D6 /* SharedCompareInventoryHistory.m in Sources */,
 				EFF083A71CAFA7E0003E74D6 /* PreOrderAddPreOrderViewController.m in Sources */,
 				EFF083AA1CAFA7E0003E74D6 /* PreOrderScanViewController.m in Sources */,
@@ -2632,6 +2643,7 @@
 				EFF0843A1CAFA7E0003E74D6 /* SharedEvent.m in Sources */,
 				EFF083A31CAFA7E0003E74D6 /* MainInventoryScanViewController.m in Sources */,
 				EFF084451CAFA7E0003E74D6 /* SharedProductBuy.m in Sources */,
+				EF83DB382451A9FF0043B24E /* SharedReplaceReceiptProductItem.m in Sources */,
 				EFF084641CAFA7E0003E74D6 /* CPDConstants.m in Sources */,
 				EF0C10E21CC35744001A23E6 /* EventInventoryItemUserPageViewController.m in Sources */,
 				EFA239251EAA0C00009CE51A /* RewardProgramCollectAddViewController.m in Sources */,
@@ -2757,7 +2769,7 @@
 				EFECE9A71CD5DD6B003A0190 /* ChangePasscodeViewController.m in Sources */,
 				EFF0845B1CAFA7E0003E74D6 /* UserAccountEvent.m in Sources */,
 				EFF083BC1CAFA7E0003E74D6 /* ProductSalesViewController.m in Sources */,
-				EFF084721CAFA8F8003E74D6 /* ReceiptViewController.m in Sources */,
+				EF83DB30244B05600043B24E /* WordPressUser.m in Sources */,
 				EF7074B61F3869C100D1EA2E /* TransferUndoView.m in Sources */,
 				EFF084531CAFA7E0003E74D6 /* SharedSalesByColorData.m in Sources */,
 				EFCAD5E71E5EEB630013393D /* AccountInventory.m in Sources */,
@@ -2976,7 +2988,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3010,7 +3022,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

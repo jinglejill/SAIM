@@ -22,6 +22,7 @@
 #import "SharedProductSales.h"
 #import "ProductName.h"
 #import "SharedProductName.h"
+#import "SharedReplaceReceiptProductItem.h"
 
 @interface ProductDetailViewController ()
 {
@@ -50,6 +51,16 @@
 @synthesize btnDelete;
 @synthesize productIDGroup;
 
+-(void)clearProductDetail
+{
+    imvProduct.image = nil;
+    lblModel.text = [NSString stringWithFormat:@"Model"];
+    lblColor.text = [NSString stringWithFormat:@"Color"];
+    lblSize.text = [NSString stringWithFormat:@"Size"];
+    lblPrice.text = [NSString stringWithFormat:@"Price"];
+    lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
+    txvDetail.text = [NSString stringWithFormat:@""];
+}
 
 - (IBAction)unwindToProductDetail:(UIStoryboardSegue *)segue
 {
@@ -61,13 +72,7 @@
         if(customMade)
         {
             //clear data before set new
-            imvProduct.image = nil;
-            lblModel.text = [NSString stringWithFormat:@"Model"];
-            lblColor.text = [NSString stringWithFormat:@"Color"];
-            lblSize.text = [NSString stringWithFormat:@"Size"];
-            lblPrice.text = [NSString stringWithFormat:@"Price"];
-            lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
-            txvDetail.text = [NSString stringWithFormat:@""];
+            [self clearProductDetail];
             
             
             productType = productCustomMade;
@@ -87,13 +92,7 @@
         if(product)
         {
             //clear data before set new
-            imvProduct.image = nil;
-            lblModel.text = [NSString stringWithFormat:@"Model"];
-            lblColor.text = [NSString stringWithFormat:@"Color"];
-            lblSize.text = [NSString stringWithFormat:@"Size"];
-            lblPrice.text = [NSString stringWithFormat:@"Price"];
-            lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
-            txvDetail.text = [NSString stringWithFormat:@""];
+            [self clearProductDetail];
             
             
             productType = productInventory;
@@ -113,13 +112,7 @@
         if(product)
         {
             //clear data before set new
-            imvProduct.image = nil;
-            lblModel.text = [NSString stringWithFormat:@"Model"];
-            lblColor.text = [NSString stringWithFormat:@"Color"];
-            lblSize.text = [NSString stringWithFormat:@"Size"];
-            lblPrice.text = [NSString stringWithFormat:@"Price"];
-            lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
-            txvDetail.text = [NSString stringWithFormat:@""];
+            [self clearProductDetail];
             
             
             productType = productPreOrder;
@@ -135,19 +128,12 @@
         self.navigationController.toolbarHidden = YES;
         PreOrderAddPreOrder2ViewController *source = [segue sourceViewController];
         productIDGroup = source.productIDGroup;
-//        product = source.product;
-        
-//        if(product)
+
+
         if(![Utility isStringEmpty:productIDGroup])
         {
             //clear data before set new
-            imvProduct.image = nil;
-            lblModel.text = [NSString stringWithFormat:@"Model"];
-            lblColor.text = [NSString stringWithFormat:@"Color"];
-            lblSize.text = [NSString stringWithFormat:@"Size"];
-            lblPrice.text = [NSString stringWithFormat:@"Price"];
-            lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
-            txvDetail.text = [NSString stringWithFormat:@""];
+            [self clearProductDetail];
             
             
             productType = productPreOrder2;
@@ -183,14 +169,13 @@
     btnViewReceipt.enabled = NO;
     btnDelete.enabled = NO;
     _event = [Event getSelectedEvent];
+    [self clearProductDetail];
     
     
-    [self loadViewProcess];
-}
-
-- (void)loadViewProcess
-{
-    [self setData];
+    if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID == 0)
+    {
+        [self setData];
+    }
 }
 
 -(void)setData
@@ -223,6 +208,7 @@
         productDetail.imageDefault = productSales.imageDefault;
         productDetail.status = product.status;
         productDetail.productIDGroup = [Utility getProductIDGroup:product];
+        productDetail.productNameID = productName.productNameID;
         productDetail.manufacturingDate = product.manufacturingDate;
         
   
@@ -488,13 +474,7 @@
 
     
     //clear detail
-    imvProduct.image = nil;
-    lblModel.text = [NSString stringWithFormat:@"Model"];
-    lblColor.text = [NSString stringWithFormat:@"Color"];
-    lblSize.text = [NSString stringWithFormat:@"Size"];
-    lblPrice.text = [NSString stringWithFormat:@"Price"];
-    lblPromotionPrice.text = [NSString stringWithFormat:@"Price offer"];
-    txvDetail.text = [NSString stringWithFormat:@""];
+    [self clearProductDetail];
     
     //disable view receipt button
     
@@ -517,7 +497,6 @@
 }
 
 - (IBAction)viewReceipt:(id)sender {
-//    [self performSegueWithIdentifier:@"segReceipt" sender:self];
     [self performSegueWithIdentifier:@"segReceipt2" sender:self];
 }
 

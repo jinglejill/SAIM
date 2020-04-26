@@ -87,6 +87,10 @@ enum enumDB
     dbSetting,
     dbEvent,
     dbProduct,
+    dbProductScan,
+    dbProductMoveToEvent,
+    dbProductMoveToMainItem,
+    dbProductMoveToMain,
     dbCashAllocationByEventIDAndInputDate,
     dbProductCategory2,
     dbProductCategory1,
@@ -196,7 +200,11 @@ enum enumDB
     dbItemTrackingNoTrackingNoUpdate,
     dbReceiptSearch,
     dbSearchSalesTelephoneDetail,
-    dbReceiptReferenceOrderNo
+    dbReceiptReferenceOrderNo,
+    dbWordPressRegister,
+    dbPreOrderProduct,
+    dbProductExclude,
+    dbMainInventorySummary
 };
 enum enumUrl
 {
@@ -324,7 +332,6 @@ enum enumUrl
     urlReceiptProductItemPreOrderEventID,
     urlWriteLog,
     urlEmailQRCode,
-    urlPostDetailGet,
     urlPostDetailSearchGet,
     urlPostDetailToPostGet,
     urlMainInventoryGet,
@@ -355,7 +362,16 @@ enum enumUrl
     urlReportTopSpenderDetailGetList,
     urlItemTrackingNoTrackingNoUpdate,
     urlSearchSalesTelephoneDetailGetList,
-    urlReceiptReferenceOrderNoUpdate
+    urlReceiptReferenceOrderNoUpdate,
+    urlWordPressRegisterInsert,
+    urlMainInventoryItemDelete,
+    urlProductMoveToMainUpdate,
+    urlProductMoveToMainItemUpdate,
+    urlProductMoveToEventUpdate,
+    urlProductScanGet,
+    urlPreOrderProductGetList,
+    urlProductExcludeGet,
+    urlMainInventorySummaryGetList
     
 };
 enum enumTableName
