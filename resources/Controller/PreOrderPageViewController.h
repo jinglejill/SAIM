@@ -11,5 +11,5 @@
 
 @interface PreOrderPageViewController : UIViewController<UIPageViewControllerDataSource,HomeModelProtocol>
 @property (strong, nonatomic) UIPageViewController *pageController;
-
+-(void)loadData:(NSString *)strEventID;
 @end

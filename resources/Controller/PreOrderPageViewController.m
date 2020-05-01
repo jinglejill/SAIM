@@ -31,6 +31,7 @@
     NSMutableArray *productList;
     NSMutableArray *colorList;
     NSMutableArray *productSizeList;
+    BOOL secondLoad;
 }
 @end
 
@@ -70,6 +71,9 @@
     initialViewController.productList = productList;
     initialViewController.colorList = colorList;
     initialViewController.productSizeList = productSizeList;
+    initialViewController.pageVc = self;
+//    NSString *strEventID = [Utility getUserDefaultPreOrderEventID];
+    [initialViewController setLocation];//:strEventID];
 //    initialViewController.arrProductCategory2 = _arrProductCategory2;
 //    initialViewController.mutArrProductWithQuantity = _mutArrProductWithQuantity;
     
@@ -259,6 +263,7 @@
     initialViewController.productList = productList;
     initialViewController.colorList = colorList;
     initialViewController.productSizeList = productSizeList;
+    initialViewController.pageVc = self;
     
     
     NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
@@ -266,6 +271,10 @@
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     [self addChildViewController:self.pageController];
+    if(secondLoad)
+    {
+        [self.view.subviews[[self.view.subviews count]-1] removeFromSuperview];
+    }
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
 }
@@ -298,5 +307,12 @@
                          } );
                      }
      ];
+}
+
+-(void)loadData:(NSString *)strEventID
+{
+    secondLoad = YES;
+    [self loadingOverlayView];
+    [homeModel downloadItems:dbPreOrderProduct condition:strEventID];
 }
 @end

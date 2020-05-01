@@ -16,6 +16,9 @@
 #import "SharedReplaceReceiptProductItem.h"
 #import "SharedPostBuy.h"
 #import "SharedProductBuy.h"
+#import "SharedRewardPoint.h"
+#import "RewardPoint.h"
+#import "Message.h"
 
 #define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]
 
@@ -33,6 +36,8 @@
     NSMutableArray *_receiptProductItemList;
     NSMutableArray *_selectedReceiptProductItemList;
     PostCustomer *_selectedPostCustomer;
+    
+    NSString *_selectedReceiptID;
 }
 @end
 
@@ -155,7 +160,7 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         Receipt *receipt = _receiptListForDate[indexPath.section];
-        NSString *receiptTime = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd HH:mm"];
+        NSString *receiptTime = [Utility formatDate:receipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yy-MM-dd HH:mm"];
         cell.lblReceiptLabel.text = [NSString stringWithFormat:@"%ld. Receipt",indexPath.section+1];
         [cell.lblReceiptLabel sizeToFit];
         cell.lblReceiptLabelWidth.constant = cell.lblReceiptLabel.frame.size.width;
@@ -286,10 +291,10 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
 
         
         //button delete
-        cell.btnDeleteWidth.constant = 0;
-        cell.btnDeteteTrailing.constant = 0;
-    //    cell.btnDelete.tag = receipt.receiptID;
-    //    [cell.btnDelete addTarget:self action:@selector(deleteReceiptTapped:) forControlEvents:UIControlEventTouchUpInside];
+//        cell.btnDeleteWidth.constant = 0;
+//        cell.btnDeteteTrailing.constant = 0;
+        cell.btnDelete.tag = receipt.receiptID;
+        [cell.btnDelete addTarget:self action:@selector(deleteReceiptTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         
         //event
@@ -1068,4 +1073,142 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     [self performSegueWithIdentifier:@"segProductDetail" sender:self];
 }
 
+-(void)deleteReceiptTapped:(id)sender
+{
+    UIButton *deleteButton = (UIButton *)sender;
+    NSInteger receiptID = deleteButton.tag;
+
+    
+    
+    {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:nil
+                                    preferredStyle:UIAlertControllerStyleActionSheet];
+        [alert addAction:
+         [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Delete sales"]
+                                  style:UIAlertActionStyleDestructive
+                                handler:^(UIAlertAction *action) {
+                                    //delete Receipt
+                                    //delete customerreceipt
+                                    //delete receiptproductitem
+                                    //delete custommade
+                                    //update product set status = I
+                                    //postcustomer คงไว้ เป็นฐานรายชื่อลูกค้า แต่เราลบตัว link postcustomer ใน customerreceipt ไปแล้ว
+                                    _selectedReceiptID = [NSString stringWithFormat:@"%ld", receiptID];
+                                    Receipt *receipt = [self getReceipt:receiptID];
+                                    NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
+                                    NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
+                                    NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
+                                    NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
+                                    NSMutableArray *arrRewardPoint = [RewardPoint getRewardPointWithReceiptID:receiptID];
+                                    [[SharedRewardPoint sharedRewardPoint].rewardPointList removeObjectsInArray:arrRewardPoint];
+                                    
+
+                                    NSMutableArray *updateProductList = [[NSMutableArray alloc]init];
+                                    for(Product *item in arrProduct)
+                                    {
+                                        Product *updateProduct = [[Product alloc]init];
+                                        updateProduct.productID = item.productID;
+                                        updateProduct.status = @"I";
+                                        updateProduct.remark = @"";
+                                        updateProduct.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+                                        updateProduct.modifiedUser = [Utility modifiedUser];
+                                        [updateProductList addObject:updateProduct];
+                                    }
+                                    {
+                                        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_receiptProductItemID" ascending:YES];
+                                        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+                                        NSArray *sortArray = [arrReceiptProductItem sortedArrayUsingDescriptors:sortDescriptors];
+                                        arrReceiptProductItem = sortArray;
+                                    }
+                                    {
+                                        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_customMadeID" ascending:YES];
+                                        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+                                        NSArray *sortArray = [arrCustomMade sortedArrayUsingDescriptors:sortDescriptors];
+                                        arrCustomMade = sortArray;
+                                    }
+                                    {
+                                        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_productID" ascending:YES];
+                                        NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+                                        NSArray *sortArray = [updateProductList sortedArrayUsingDescriptors:sortDescriptors];
+                                        updateProductList = [sortArray mutableCopy];
+                                    }
+                                    
+                                    NSArray *arrData = @[receipt,arrItemTrackingNo,arrReceiptProductItem,arrCustomMade,updateProductList];
+                                    [self loadingOverlayView];
+                                    [self.homeModel deleteItems:dbReceiptAndReceiptProductItemDelete withData:arrData];
+                                                                        
+                                }]];
+        [alert addAction:
+         [UIAlertAction actionWithTitle:@"Cancel"
+                                  style:UIAlertActionStyleCancel
+                                handler:^(UIAlertAction *action) {}]];
+        
+        //////////////ipad
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            [alert setModalPresentationStyle:UIModalPresentationPopover];
+            
+            UIPopoverPresentationController *popPresenter = [alert
+                                                             popoverPresentationController];
+            CGRect frame = deleteButton.imageView.bounds;
+            frame.origin.y = frame.origin.y-15;
+            popPresenter.sourceView = deleteButton.imageView;
+            popPresenter.sourceRect = frame;
+            //        popPresenter.barButtonItem = _barButtonIpad;
+        }
+        ///////////////
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+-(void)itemsDeletedWithReturnData:(NSArray *)data
+{
+    [self removeOverlayViews];
+    if(self.homeModel.propCurrentDB == dbReceiptAndReceiptProductItemDelete)
+    {
+        NSInteger receiptID = [_selectedReceiptID integerValue];
+        Receipt *receipt = [self getReceipt:receiptID];
+        NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
+        NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
+        NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
+        NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
+       
+       
+        
+        [_receiptListForDate removeObject:receipt];
+        [_itemTrackingNoListForDate removeObjectsInArray:arrItemTrackingNo];
+        [_receiptProductItemListForDate removeObjectsInArray:arrReceiptProductItem];
+        [_customMadeListForDate removeObjectsInArray:arrCustomMade];
+        for(Product *item in arrProduct)
+        {
+            item.status = @"I";
+            item.remark = @"";
+            item.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+            item.modifiedUser = [Utility modifiedUser];
+        }
+        
+        [self setData];
+        
+        
+        NSArray *messageList = data[0];
+        InAppMessage *message = messageList[0];
+        NSString *strMessage = message.message;
+        if(![Utility isStringEmpty:message.message])
+        {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
+                                                                   message:strMessage
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+}
 @end

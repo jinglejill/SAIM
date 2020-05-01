@@ -252,7 +252,7 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -1356,10 +1356,23 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
                 discountValue = [receipt.discountPercent floatValue]*[receipt.total floatValue]/100;
                 strDiscountLabel = [NSString stringWithFormat:@"Disc (%@\uFF05)",receipt.discountPercent];
             }
-            strDiscountValue = [NSString stringWithFormat:@"%f",discountValue];
             
-            NSString *minusSign = discountValue > 0?@"-":@"";            
-            cell.lblDiscount.text = [NSString stringWithFormat:@"%@%@",minusSign,[Utility formatBaht:strDiscountValue]];
+            strDiscountValue = discountValue==0?@"0":[NSString stringWithFormat:@"%f",discountValue*-1];
+            if(discountValue*-1 > 0)
+            {
+                strDiscountLabel = @"Refund";
+            }
+//            else if(discountValue*-1 < 0)
+//            {
+//                if(receipt.channel == 6)//shopee
+//                {
+//                    strDiscountLabel = @"Fee";
+//                }
+//            }
+//            NSString *minusSign = discountValue > 0?@"-":@"";
+//            cell.lblDiscount.text = [NSString stringWithFormat:@"%@%@",minusSign,[Utility formatBaht:strDiscountValue]];
+            cell.lblDiscountLabel.text = strDiscountLabel;
+            cell.lblDiscount.text = [Utility formatBaht:strDiscountValue];
             
             
             //redeemed value
@@ -2473,7 +2486,11 @@ static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellRecei
     NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_receiptProductItemID = %ld",receiptProductItemID];
     NSArray *filterArray  = [itemTrackingNoList filteredArrayUsingPredicate:predicate1];
     
-    return filterArray[0];
+    if([filterArray count]>0)
+    {
+        return filterArray[0];
+    }
+    return nil;
 }
 
 - (NSArray *)getItemTrackingNoList:(NSInteger)receiptID

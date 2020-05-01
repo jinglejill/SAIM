@@ -27,9 +27,18 @@
     HomeModel *_homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
-    NSArray *_productWithQuantity;
-    NSMutableArray *_mutArrProductWithQuantity;
-    NSMutableArray *_arrProductCategory2;
+//    NSArray *_productWithQuantity;
+//    NSMutableArray *_mutArrProductWithQuantity;
+//    NSMutableArray *_arrProductCategory2;
+    
+    NSMutableArray *productCategory2List;
+    NSMutableArray *productNameList;
+    NSMutableArray *productNameColorList;
+    NSMutableArray *productNameSizeList;
+    NSMutableArray *productList;
+    NSMutableArray *colorList;
+    NSMutableArray *productSizeList;
+    BOOL secondLoad;
 }
 @end
 
@@ -46,18 +55,12 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);        
     }
     btnAllOrRemaining.title = @"All";
-    
-    
-    [self loadViewProcess];
 }
 
-- (void)loadViewProcess
-{
-}
 - (EventInventorySummaryViewController *)viewControllerAtIndex:(NSUInteger)index {
     
     
@@ -65,9 +68,13 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
     EventInventorySummaryViewController * initialViewController = [storyboard instantiateViewControllerWithIdentifier:@"EventInventorySummaryViewController"];
     initialViewController.index = index;
-    initialViewController.arrProductCategory2 = _arrProductCategory2;
-    initialViewController.mutArrProductWithQuantity = _mutArrProductWithQuantity;
-    
+    initialViewController.productCategory2List = productCategory2List;
+    initialViewController.productNameList = productNameList;
+    initialViewController.productNameColorList = productNameColorList;
+    initialViewController.productNameSizeList = productNameSizeList;
+    initialViewController.productList = productList;
+    initialViewController.colorList = colorList;
+    initialViewController.productSizeList = productSizeList;
     
     return initialViewController;
     
@@ -93,7 +100,7 @@
     
     index++;
     
-    if (index == [_arrProductCategory2 count]) {
+    if (index == [productCategory2List count]) {
         return nil;
     }
     
@@ -102,7 +109,8 @@
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     // The number of items reflected in the page indicator.
-    return [_arrProductCategory2 count];
+    NSLog(@"number of item in page indicator:%ld",[productCategory2List count]);
+    return [productCategory2List count];
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
@@ -110,97 +118,97 @@
     return 0;
 }
 
--(void)queryProductWithQuantity
-{
-    //query data
-    //    _productWithQuantity = [SharedProductWithQuantity sharedProductWithQuantity].productWithQuantityList;
-    //เปลี่บยน status p->i, เรียงลำดับ, สร้าง dictionary ใส่ value คือจำนวน key คือ productidgroup
-    
-    
-    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-    NSMutableArray *productForQuantityList = [[NSMutableArray alloc]init];
-    if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
-    {
-        for(Product *item in productList)
-        {
-            Product *product = [item copy];
-            product.productIDGroup = [Utility getProductIDGroup:item];
-            
-            if([item.status isEqualToString:@"P"])
-            {
-                product.status = @"I";
-            }
-            [productForQuantityList addObject:product];
-        }
-    }
-    else if([btnAllOrRemaining.title isEqualToString:@"All"])
-    {
-        for(Product *item in productList)
-        {
-            item.productIDGroup = [Utility getProductIDGroup:item];
-        }
-        productForQuantityList = productList;
-    }
-    
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_eventID" ascending:YES];
-    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_status" ascending:YES];
-    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_productIDGroup" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3, nil];
-    NSArray *productSort = [productForQuantityList sortedArrayUsingDescriptors:sortDescriptors];
-    
-    NSMutableArray *groupHead = [[NSMutableArray alloc]init];
-    NSMutableArray *groupCount = [[NSMutableArray alloc]init];
-    NSInteger countData = 0;
-    BOOL firstItem = YES;
-    Product *previousProduct = [[Product alloc]init];
-    for(Product *item in productSort)
-    {
-        if(!((item.eventID == previousProduct.eventID) &&
-             [item.status isEqualToString:previousProduct.status] &&
-             [item.productIDGroup isEqualToString:previousProduct.productIDGroup]))
-        {
-            previousProduct = item;
-            [groupHead addObject:item];
-            if(!firstItem)
-            {
-                [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
-            }
-            else
-            {
-                firstItem = NO;
-            }
-            
-            countData = 1;
-        }
-        else
-        {
-            countData += 1;
-        }
-    }
-    [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
-    
-    
-    _mutArrProductWithQuantity = [[NSMutableArray alloc]init];
-    for(int i=0; i<[groupHead count]; i++)
-    {
-        Product *product = groupHead[i];
-        NSString *strEventID = [NSString stringWithFormat:@"%ld",product.eventID];
-        
-        NSString *quantity = groupCount[i];
-        NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
-        ProductWithQuantity *productWithQuantity = [[ProductWithQuantity alloc]init];
-        productWithQuantity.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
-        productWithQuantity.color = [Utility getColorName:product.color];
-        productWithQuantity.size = product.size;
-        productWithQuantity.quantity = quantity;
-        productWithQuantity.productIDGroup = product.productIDGroup;
-        productWithQuantity.eventID = strEventID;
-        productWithQuantity.status = product.status;
-        productWithQuantity.productCategory2 = product.productCategory2;
-        
-        [_mutArrProductWithQuantity addObject:productWithQuantity];
-    }
-}
+//-(void)queryProductWithQuantity
+//{
+//    //query data
+//    //    _productWithQuantity = [SharedProductWithQuantity sharedProductWithQuantity].productWithQuantityList;
+//    //เปลี่บยน status p->i, เรียงลำดับ, สร้าง dictionary ใส่ value คือจำนวน key คือ productidgroup
+//    
+//    
+//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
+//    NSMutableArray *productForQuantityList = [[NSMutableArray alloc]init];
+//    if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
+//    {
+//        for(Product *item in productList)
+//        {
+//            Product *product = [item copy];
+//            product.productIDGroup = [Utility getProductIDGroup:item];
+//            
+//            if([item.status isEqualToString:@"P"])
+//            {
+//                product.status = @"I";
+//            }
+//            [productForQuantityList addObject:product];
+//        }
+//    }
+//    else if([btnAllOrRemaining.title isEqualToString:@"All"])
+//    {
+//        for(Product *item in productList)
+//        {
+//            item.productIDGroup = [Utility getProductIDGroup:item];
+//        }
+//        productForQuantityList = productList;
+//    }
+//    
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_eventID" ascending:YES];
+//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"_status" ascending:YES];
+//    NSSortDescriptor *sortDescriptor3 = [[NSSortDescriptor alloc] initWithKey:@"_productIDGroup" ascending:YES];
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1,sortDescriptor2,sortDescriptor3, nil];
+//    NSArray *productSort = [productForQuantityList sortedArrayUsingDescriptors:sortDescriptors];
+//    
+//    NSMutableArray *groupHead = [[NSMutableArray alloc]init];
+//    NSMutableArray *groupCount = [[NSMutableArray alloc]init];
+//    NSInteger countData = 0;
+//    BOOL firstItem = YES;
+//    Product *previousProduct = [[Product alloc]init];
+//    for(Product *item in productSort)
+//    {
+//        if(!((item.eventID == previousProduct.eventID) &&
+//             [item.status isEqualToString:previousProduct.status] &&
+//             [item.productIDGroup isEqualToString:previousProduct.productIDGroup]))
+//        {
+//            previousProduct = item;
+//            [groupHead addObject:item];
+//            if(!firstItem)
+//            {
+//                [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
+//            }
+//            else
+//            {
+//                firstItem = NO;
+//            }
+//            
+//            countData = 1;
+//        }
+//        else
+//        {
+//            countData += 1;
+//        }
+//    }
+//    [groupCount addObject:[NSString stringWithFormat:@"%ld",(long)countData]];
+//    
+//    
+//    _mutArrProductWithQuantity = [[NSMutableArray alloc]init];
+//    for(int i=0; i<[groupHead count]; i++)
+//    {
+//        Product *product = groupHead[i];
+//        NSString *strEventID = [NSString stringWithFormat:@"%ld",product.eventID];
+//        
+//        NSString *quantity = groupCount[i];
+//        NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",product.productCategory2,product.productCategory1,product.productName];
+//        ProductWithQuantity *productWithQuantity = [[ProductWithQuantity alloc]init];
+//        productWithQuantity.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
+//        productWithQuantity.color = [Utility getColorName:product.color];
+//        productWithQuantity.size = product.size;
+//        productWithQuantity.quantity = quantity;
+//        productWithQuantity.productIDGroup = product.productIDGroup;
+//        productWithQuantity.eventID = strEventID;
+//        productWithQuantity.status = product.status;
+//        productWithQuantity.productCategory2 = product.productCategory2;
+//        
+//        [_mutArrProductWithQuantity addObject:productWithQuantity];
+//    }
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -215,42 +223,43 @@
     [self loadingOverlayView];
     _homeModel = [[HomeModel alloc] init];
     _homeModel.delegate = self;
-    [_homeModel downloadItems:dbMainInventory];
+    
+    NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+    [_homeModel downloadItems:dbMainInventorySummary condition:@[strEventID,@"0"]];
 }
 
 - (void)itemsDownloaded:(NSArray *)items
 {
     [self removeOverlayViews];
     int i=0;
-    
-//    [self addToMutArrPostDetail:items[i++]];
-    [SharedProductName sharedProductName].productNameList = items[i++];
-    [SharedColor sharedColor].colorList = items[i++];
-    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
-    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
-    [SharedProductSize sharedProductSize].productSizeList = items[i++];
-    [SharedProduct sharedProduct].productList = items[i++];
+    productCategory2List = items[i++];
+    productNameList = items[i++];
+    productNameColorList = items[i++];
+    productNameSizeList = items[i++];
+    productList = items[i++];
+    colorList = items[i++];
+    productSizeList = items[i++];
 
     [self pagingProcess];
 }
 
 - (void)pagingProcess
 {
-    [self queryProductWithQuantity];
-    NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@ and _status = %@",strEventID,@"I"];
-    _productWithQuantity = [_mutArrProductWithQuantity filteredArrayUsingPredicate:predicate1];
-    
-    
-    NSSet *uniqueProductCategory2 = [NSSet setWithArray:[_productWithQuantity valueForKey:@"productCategory2"]];
-    NSArray *arrProductCategory2 = [uniqueProductCategory2 allObjects];
-    _arrProductCategory2 = [arrProductCategory2 mutableCopy];
-    
-    
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];//order by productcategory2 code
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-    NSArray *sortArray = [_arrProductCategory2 sortedArrayUsingDescriptors:sortDescriptors];
-    _arrProductCategory2 = [sortArray mutableCopy];
+//    [self queryProductWithQuantity];
+//    NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %@ and _status = %@",strEventID,@"I"];
+//    _productWithQuantity = [_mutArrProductWithQuantity filteredArrayUsingPredicate:predicate1];
+//    
+//    
+//    NSSet *uniqueProductCategory2 = [NSSet setWithArray:[_productWithQuantity valueForKey:@"productCategory2"]];
+//    NSArray *arrProductCategory2 = [uniqueProductCategory2 allObjects];
+//    _arrProductCategory2 = [arrProductCategory2 mutableCopy];
+//    
+//    
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];//order by productcategory2 code
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//    NSArray *sortArray = [_arrProductCategory2 sortedArrayUsingDescriptors:sortDescriptors];
+//    _arrProductCategory2 = [sortArray mutableCopy];
     
     
     
@@ -275,8 +284,13 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
     EventInventorySummaryViewController * initialViewController = [storyboard instantiateViewControllerWithIdentifier:@"EventInventorySummaryViewController"];
     initialViewController.index = 0;
-    initialViewController.arrProductCategory2 = _arrProductCategory2;
-    initialViewController.mutArrProductWithQuantity = _mutArrProductWithQuantity;
+    initialViewController.productCategory2List = productCategory2List;
+    initialViewController.productNameList = productNameList;
+    initialViewController.productNameColorList = productNameColorList;
+    initialViewController.productNameSizeList = productNameSizeList;
+    initialViewController.productList = productList;
+    initialViewController.colorList = colorList;
+    initialViewController.productSizeList = productSizeList;
     
     
     NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
@@ -284,7 +298,13 @@
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     [self addChildViewController:self.pageController];
+//    NSLog(@"subview before add count:%ld",[self.view.subviews count]);
+    if(secondLoad)
+    {
+        [self.view.subviews[[self.view.subviews count]-1] removeFromSuperview];
+    }
     [[self view] addSubview:[self.pageController view]];
+//    NSLog(@"subview after add count:%ld",[self.view.subviews count]);
     [self.pageController didMoveToParentViewController:self];
 }
 
@@ -295,15 +315,33 @@
 
 - (IBAction)allOrRemaining:(id)sender
 {
+//    if([btnAllOrRemaining.title isEqualToString:@"All"])
+//    {
+//        btnAllOrRemaining.title = @"Remaining";
+//        [self pagingProcess];
+//    }
+//    else if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
+//    {
+//        btnAllOrRemaining.title = @"All";
+//        [self pagingProcess];
+//    }
     if([btnAllOrRemaining.title isEqualToString:@"All"])
     {
+        secondLoad = YES;
         btnAllOrRemaining.title = @"Remaining";
-        [self pagingProcess];
+        [self loadingOverlayView];
+        NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+        [_homeModel downloadItems:dbMainInventorySummary condition:@[strEventID,@"1"]];
+    
     }
     else if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
     {
+        secondLoad = YES;
         btnAllOrRemaining.title = @"All";
-        [self pagingProcess];        
+        [self loadingOverlayView];
+        NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+        [_homeModel downloadItems:dbMainInventorySummary condition:@[strEventID,@"0"]];
+        
     }
 }
 

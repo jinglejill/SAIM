@@ -12,6 +12,8 @@
 @interface MainInventorySummaryViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,HomeModelProtocol>
 @property (strong, nonatomic) IBOutlet UICollectionView *colViewSummaryTable;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAllOrRemaining;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segConInitial;
 - (IBAction)allOrRemaining:(id)sender;
+- (IBAction)segConInitialDidChanged:(id)sender;
 
 @end

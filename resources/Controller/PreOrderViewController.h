@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
+#import "PreOrderPageViewController.h"
 
 @interface PreOrderViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,HomeModelProtocol,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UICollectionView *colViewSummaryTable;
@@ -16,8 +17,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *txtLocation;
 @property (strong, nonatomic) IBOutlet UIPickerView *txtPicker;
 @property (assign, nonatomic) NSInteger index;
-//@property (strong, nonatomic) NSMutableArray *arrProductCategory2;
-//@property (strong, nonatomic) NSMutableArray *mutArrProductWithQuantity;
 
 @property (strong, nonatomic) NSMutableArray *productCategory2List;
 @property (strong, nonatomic) NSMutableArray *productNameList;
@@ -26,4 +25,8 @@
 @property (strong, nonatomic) NSMutableArray *productList;
 @property (strong, nonatomic) NSMutableArray *colorList;
 @property (strong, nonatomic) NSMutableArray *productSizeList;
+@property (strong, nonatomic) PreOrderPageViewController *pageVc;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segConInitial;
+- (IBAction)segConInitialDidChanged:(id)sender;
+-(void)setLocation;//:(NSString *)strEventID;
 @end

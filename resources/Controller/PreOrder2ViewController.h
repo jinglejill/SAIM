@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 //@property (strong, nonatomic) NSMutableArray *arrProductCategory2;
 //@property (strong, nonatomic) NSMutableArray *mutArrProductWithQuantity;
 
+
 @property (strong, nonatomic) NSMutableArray *productCategory2List;
 @property (strong, nonatomic) NSMutableArray *productNameList;
 @property (strong, nonatomic) NSMutableArray *productNameColorList;
@@ -27,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableArray *productList;
 @property (strong, nonatomic) NSMutableArray *colorList;
 @property (strong, nonatomic) NSMutableArray *productSizeList;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segConInitial;
+- (IBAction)segConInitialDidChanged:(id)sender;
 @end
 
 NS_ASSUME_NONNULL_END

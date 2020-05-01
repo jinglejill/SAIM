@@ -313,7 +313,8 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         NSInteger channelForUserValue = [[NSUserDefaults standardUserDefaults] integerForKey:channelForUserKey];
         
         
-        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Event",@"Web",@"Line",@"FB",@"Shop",@"Other"]];
+//        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Event",@"Web",@"Line",@"FB",@"Shop",@"Other"]];
+        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Ev",@"Wb",@"Li",@"FB",@"St",@"Sh",@"Lz",@"JD",@"KP",@"Ot"]];
         _segConChannel.tintColor = [UIColor blackColor];
         _segConChannel.frame = CGRectMake(channelXOrigin, channelYOrigin, channelWidth, channelHeight);
         [_segConChannel setSelectedSegmentIndex:channelForUserValue];
@@ -678,7 +679,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             }
             else if(productDetail.discount == 2)//percent
             {
-                discountValue += roundf(productDetail.discountPercent*[Utility floatValue:productDetail.pricePromotion]/100);
+                discountValue += roundf(productDetail.discountPercent*[Utility floatValue:productDetail.pricePromotion])/100;
             }
         }
         else
@@ -689,7 +690,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             }
             else if(productDetail.discount == 2)//percent
             {
-                discountValue += roundf(customMade.discountPercent*[Utility floatValue:_productBuyList[i][productBuyPricePromotion]]/100);
+                discountValue += roundf(customMade.discountPercent*[Utility floatValue:_productBuyList[i][productBuyPricePromotion]])/100;
             }
         }
     }
@@ -1011,7 +1012,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        [cell.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
         if(indexPath.section == 0)
         {
             CustomTableViewCellOrder *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierOrder];
@@ -1178,7 +1179,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
                 }
                 else if(productDetail.discount == 2)//percent
                 {
-                    discountValue = roundf(productDetail.discountPercent*[Utility floatValue:productDetail.pricePromotion]/100);
+                    discountValue = roundf(productDetail.discountPercent*[Utility floatValue:productDetail.pricePromotion])/100;
                 }
                 
                 if(discountValue == 0)
@@ -1199,7 +1200,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
                 }
                 else if(customMade.discount == 2)//percent
                 {
-                    discountValue = roundf(customMade.discountPercent*[Utility floatValue:_productBuyList[indexPath.item][productBuyPricePromotion]]/100);
+                    discountValue = roundf(customMade.discountPercent*[Utility floatValue:_productBuyList[indexPath.item][productBuyPricePromotion]])/100;
                 }
                 
                 if(discountValue == 0)
@@ -1999,7 +2000,9 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         vc.paid = NO;
         if(_selectedProductBuyIndex == -1)
         {
-            vc.telephoneNoSearch = [Utility removeDashAndSpaceAndParenthesis:_telephoneNoInput];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:1];
+            CustomTableViewCellReward *cell = [tbvPay cellForRowAtIndexPath:indexPath];
+            vc.telephoneNoSearch = [Utility removeDashAndSpaceAndParenthesis:cell.txtTelephoneNo.text];
         }
         else
         {
@@ -2357,7 +2360,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     Receipt *receipt = [[Receipt alloc]init];
     receipt.receiptID = receiptID;
     receipt.eventID = strEventID;
-    receipt.channel = _segConChannel.selectedSegmentIndex;//[self getChannel];
+    receipt.channel = [self getChannel];
     receipt.referenceOrderNo = [Utility trimString:_txtReferenceOrderNo.text];
     receipt.payPrice = [Utility removeComma:[self getStrFmtAfterDiscountValue]];
     receipt.paymentMethod = @"";//[_txtCreditAmount.text isEqualToString:@""]?@"CA":[_txtCashReceive.text isEqualToString:@""]?@"CC":@"BO";
@@ -2556,24 +2559,51 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     return [Utility removeComma:strCashAmount];
 }
 
-//-(NSInteger)getChannel
-//{
-//    NSInteger channel = _segConChannel.selectedSegmentIndex;
-//    if(channel >= 5 && channel <= 8)
-//    {
-//        channel += 1;
-//    }
-//    else if(channel == 9)
-//    {
-//        channel = 5;
-//    }
-//    return channel;
-//}
+-(NSInteger)getChannel
+{
+    NSInteger channel = _segConChannel.selectedSegmentIndex;
+    if(channel >= 5 && channel <= 8)
+    {
+        channel += 1;
+    }
+    else if(channel == 9)
+    {
+        channel = 5;
+    }
+    return channel;
+}
 
 -(void)registerWordPressUser:(id)sender
 {
     _wordPressEmail = @"";
     _wordPressPhone = @"";
+    for(int i=0; i<[_productBuyList count]; i++)
+    {
+        CustomMade *customMade = (CustomMade *)_productBuyList[i][productBuyDetail];
+        ProductDetail *productDetail = (ProductDetail *)_productBuyList[i][productBuyDetail];
+        if([self isProductInventoryOrPreOrder:i])
+        {
+            if(productDetail.postCustomerID > 0)
+            {
+                PostCustomer *postCustomer = [self getPostCustomer:productDetail.postCustomerID];
+                _wordPressEmail = postCustomer.emailAddress;
+                _wordPressPhone = postCustomer.telephone;
+                break;
+            }
+        }
+        else
+        {
+            if(customMade.postCustomerID > 0)
+            {
+                PostCustomer *postCustomer = [self getPostCustomer:customMade.postCustomerID];
+                _wordPressEmail = postCustomer.emailAddress;
+                _wordPressPhone = postCustomer.telephone;
+                break;
+            }
+        }
+    }
+                   
+    
     [_tbvWordPressRegister reloadData];
     
     
@@ -2586,7 +2616,24 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
 }
 
 -(void)saveWordPressRegister:(id)sender
-{    
+{
+    //validate
+    if([Utility isStringEmpty:_wordPressEmail])
+    {
+        [self alertMessage:@"Please input email" title:@"Warning"];
+        return;
+    }
+    if(![Utility validateEmailWithString:_wordPressEmail])
+    {
+        [self alertMessage:@"Email is not in a correct format" title:@"Warning"];
+        return;
+    }
+    if([Utility isStringEmpty:_wordPressPhone])
+    {
+        [self alertMessage:@"Please input phone number" title:@"Warning"];
+        return;
+    }
+    
     WordPressUser *wordPressUser = [[WordPressUser alloc]init];
     wordPressUser.user_email = [Utility trimString:_wordPressEmail];
     wordPressUser.phone = [Utility removeDashAndSpaceAndParenthesis:_wordPressPhone];
@@ -2656,6 +2703,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     _redeemPoints = @"";
     [tbvPay reloadData];
 }
+
 - (IBAction)backButtonClicked:(id)sender
 {
     if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID > 0)

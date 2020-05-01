@@ -24,6 +24,7 @@
 #import "PrintAddressViewController.h"
 #import "MovePreOrderEventIDViewController.h"
 #import "ProductName.h"
+#import "SalesByChannel.h"
 
 
 #define orangeColor         [UIColor colorWithRed:253/255.0 green:182/255.0 blue:103/255.0 alpha:1]
@@ -558,29 +559,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
                 break;
             case 4:
             {
-                NSString *strChannel = @"";
-                switch (postDetail.channel) {
-                    case 0:
-                        strChannel = @"Ev";
-                        break;
-                    case 1:
-                        strChannel = @"Wb";
-                        break;
-                    case 2:
-                        strChannel = @"Li";
-                        break;
-                    case 3:
-                        strChannel = @"FB";
-                        break;
-                    case 4:
-                        strChannel = @"Sh";
-                        break;
-                    case 5:
-                        strChannel = @"Ot";
-                        break;
-                    default:
-                        break;
-                }
+                NSString *strChannel = [SalesByChannel getChannel:postDetail.channel];                
                 [cell.buttonDetail setTitle:strChannel forState:UIControlStateNormal];
                 [cell.buttonDetail setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 cell.buttonDetail.titleLabel.font = [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:13];

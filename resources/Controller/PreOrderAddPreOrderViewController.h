@@ -18,10 +18,7 @@
 
 
 @property (assign, nonatomic) NSInteger index;
-//@property (strong, nonatomic) NSMutableArray *arrProductCategory2;
-//@property (strong, nonatomic) NSMutableArray *mutArrProductWithQuantity;
 @property (strong, nonatomic) Product *product;
-
 @property (strong, nonatomic) NSMutableArray *productCategory2List;
 @property (strong, nonatomic) NSMutableArray *productNameList;
 @property (strong, nonatomic) NSMutableArray *productNameColorList;
@@ -29,4 +26,6 @@
 @property (strong, nonatomic) NSMutableArray *productList;
 @property (strong, nonatomic) NSMutableArray *colorList;
 @property (strong, nonatomic) NSMutableArray *productSizeList;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segConInitial;
+- (IBAction)segConInitialDidChanged:(id)sender;
 @end

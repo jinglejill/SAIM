@@ -20,9 +20,6 @@
     HomeModel *homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
-//    NSArray *_arrProductWithQuantity;
-//    NSMutableArray *_mutArrProductWithQuantity;
-//    NSMutableArray *_arrProductCategory2;
 
 
     NSMutableArray *productCategory2List;
@@ -48,13 +45,6 @@
         indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
-        
-    
-    [self loadViewProcess];
-}
-
-- (void)loadViewProcess
-{
 }
 
 - (PreOrder2ViewController *)viewControllerAtIndex:(NSUInteger)index {
