@@ -27,6 +27,16 @@
     NSArray *_arrProductEvent;
     NSMutableArray *_arrProductCategory2;
     NSInteger _currentPage;
+    
+    
+    NSMutableArray *productCategory2List;
+    NSMutableArray *productNameList;
+    NSMutableArray *productNameColorList;
+    NSMutableArray *productNameSizeList;
+    NSMutableArray *productList;
+    NSMutableArray *colorList;
+    NSMutableArray *productSizeList;
+    BOOL secondLoad;
 }
 @end
 
@@ -45,27 +55,24 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);        
     }
     btnAllOrRemaining.title = @"All";
         
-    
-    [self loadViewProcess];
 }
 
--(void)loadViewProcess
-{
-    
-}
 - (EventInventoryItemViewController *)viewControllerAtIndex:(NSUInteger)index
 {
     NSString * storyboardName = @"Main";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
     EventInventoryItemViewController * initialViewController = [storyboard instantiateViewControllerWithIdentifier:@"EventInventoryItemViewController"];
     initialViewController.index = index;
-    initialViewController.arrProductCategory2 = _arrProductCategory2;
-    initialViewController.arrProductEvent = _arrProductEvent;
+//    initialViewController.arrProductCategory2 = _arrProductCategory2;
+//    initialViewController.arrProductEvent = _arrProductEvent;
+    initialViewController.productCategory2List = productCategory2List;
+    initialViewController.productList = productList;
+
     _currentPage = index;
 
     
@@ -89,7 +96,7 @@
     
     NSUInteger index = [(EventInventoryItemViewController *)viewController index];
     index++;
-    if (index == [_arrProductCategory2 count]) {
+    if (index == [productCategory2List count]) {
         return nil;
     }
     
@@ -98,7 +105,7 @@
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     // The number of items reflected in the page indicator.
-    return [_arrProductCategory2 count];
+    return [productCategory2List count];
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
@@ -112,67 +119,84 @@
     // Do any additional setup after loading the view.
     
 //    [self pagingProcess:0];
+//    [self loadingOverlayView];
+//    [_homeModel downloadItems:dbMainInventory];
     [self loadingOverlayView];
-    [_homeModel downloadItems:dbMainInventory];
+    _homeModel = [[HomeModel alloc] init];
+    _homeModel.delegate = self;
+    
+    NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+    [_homeModel downloadItems:dbEventInventory condition:@[strEventID,@"0"]];
 }
 
 - (void)itemsDownloaded:(NSArray *)items
 {
     [self removeOverlayViews];
     int i=0;
-    
+    productCategory2List = items[i++];
+    productList = items[i++];
 
-    [SharedProductName sharedProductName].productNameList = items[i++];
-    [SharedColor sharedColor].colorList = items[i++];
-    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
-    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
-    [SharedProductSize sharedProductSize].productSizeList = items[i++];
-    [SharedProduct sharedProduct].productList = items[i++];
 
     [self pagingProcess:0];
 }
 
+//- (void)itemsDownloaded:(NSArray *)items
+//{
+//    [self removeOverlayViews];
+//    int i=0;
+//    
+//
+//    [SharedProductName sharedProductName].productNameList = items[i++];
+//    [SharedColor sharedColor].colorList = items[i++];
+//    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
+//    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
+//    [SharedProductSize sharedProductSize].productSizeList = items[i++];
+//    [SharedProduct sharedProduct].productList = items[i++];
+//
+//    [self pagingProcess:0];
+//}
+
 -(void)pagingProcess:(NSInteger)currentPage
 {
-    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
-    NSMutableArray *productAllOrRemainingList = [[NSMutableArray alloc]init];
-    if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
-    {
-        for(Product *item in productList)
-        {
-            Product *product = [item copy];
-            product.productIDGroup = [Utility getProductIDGroup:item];
-            
-            if([item.status isEqualToString:@"P"])
-            {
-                product.status = @"I";
-            }
-            [productAllOrRemainingList addObject:product];
-        }
-    }
-    else if([btnAllOrRemaining.title isEqualToString:@"All"])
-    {
-        for(Product *item in productList)
-        {
-            item.productIDGroup = [Utility getProductIDGroup:item];
-        }
-        productAllOrRemainingList = productList;
-    }
-    
-    NSInteger eventID = [Event getSelectedEvent].eventID;
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %ld and _status = %@",eventID,@"I"];
-    _arrProductEvent = [productAllOrRemainingList filteredArrayUsingPredicate:predicate1];
-    
-    
-    NSSet *uniqueProductCategory2 = [NSSet setWithArray:[_arrProductEvent valueForKey:@"productCategory2"]];
-    NSArray *arrProductCategory2 = [uniqueProductCategory2 allObjects];
-    _arrProductCategory2 = [arrProductCategory2 mutableCopy];
-    
-    
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];//order by productcategory2 code
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-    NSArray *sortArray = [_arrProductCategory2 sortedArrayUsingDescriptors:sortDescriptors];
-    _arrProductCategory2 = [sortArray mutableCopy];
+//    NSMutableArray *productList = [SharedProduct sharedProduct].productList;
+//    NSMutableArray *productAllOrRemainingList = [[NSMutableArray alloc]init];
+//    if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
+//    {
+//        for(Product *item in productList)
+//        {
+//            Product *product = [item copy];
+//            product.productIDGroup = [Utility getProductIDGroup:item];
+//
+//            if([item.status isEqualToString:@"P"])
+//            {
+//                product.status = @"I";
+//            }
+//            [productAllOrRemainingList addObject:product];
+//        }
+//    }
+//    else if([btnAllOrRemaining.title isEqualToString:@"All"])
+//    {
+//        for(Product *item in productList)
+//        {
+//            item.productIDGroup = [Utility getProductIDGroup:item];
+//        }
+//        productAllOrRemainingList = productList;
+//    }
+//
+//    NSInteger eventID = [Event getSelectedEvent].eventID;
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %ld and _status = %@",eventID,@"I"];
+//    _arrProductEvent = [productAllOrRemainingList filteredArrayUsingPredicate:predicate1];
+//
+//
+//    NSSet *uniqueProductCategory2 = [NSSet setWithArray:[_arrProductEvent valueForKey:@"productCategory2"]];
+//    NSArray *arrProductCategory2 = [uniqueProductCategory2 allObjects];
+//    _arrProductCategory2 = [arrProductCategory2 mutableCopy];
+//
+//
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"" ascending:YES];//order by productcategory2 code
+//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
+//    NSArray *sortArray = [_arrProductCategory2 sortedArrayUsingDescriptors:sortDescriptors];
+//    _arrProductCategory2 = [sortArray mutableCopy];
     
     
     
@@ -199,8 +223,11 @@
     EventInventoryItemViewController * initialViewController = [storyboard instantiateViewControllerWithIdentifier:@"EventInventoryItemViewController"];
     initialViewController.index = currentPage;
     _currentPage = currentPage;
-    initialViewController.arrProductCategory2 = _arrProductCategory2;
-    initialViewController.arrProductEvent = _arrProductEvent;
+//    initialViewController.arrProductCategory2 = _arrProductCategory2;
+//    initialViewController.arrProductEvent = _arrProductEvent;
+    initialViewController.productCategory2List = productCategory2List;
+    initialViewController.productList = productList;
+    
     
     
     NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
@@ -208,6 +235,10 @@
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     [self addChildViewController:self.pageController];
+    if(secondLoad)
+    {
+        [self.view.subviews[[self.view.subviews count]-1] removeFromSuperview];
+    }
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
 
@@ -319,15 +350,33 @@
 
 - (IBAction)allOrRemaining:(id)sender
 {
+//    if([btnAllOrRemaining.title isEqualToString:@"All"])
+//    {
+//        btnAllOrRemaining.title = @"Remaining";
+//        [self pagingProcess:_currentPage];
+//    }
+//    else if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
+//    {
+//        btnAllOrRemaining.title = @"All";
+//        [self pagingProcess:_currentPage];
+//    }
     if([btnAllOrRemaining.title isEqualToString:@"All"])
     {
+        secondLoad = YES;
         btnAllOrRemaining.title = @"Remaining";
-        [self pagingProcess:_currentPage];
+        [self loadingOverlayView];
+        NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+        [_homeModel downloadItems:dbMainInventorySummary condition:@[strEventID,@"1"]];
+    
     }
     else if([btnAllOrRemaining.title isEqualToString:@"Remaining"])
     {
+        secondLoad = YES;
         btnAllOrRemaining.title = @"All";
-        [self pagingProcess:_currentPage];
+        [self loadingOverlayView];
+        NSString *strEventID = [NSString stringWithFormat:@"%ld",[SharedSelectedEvent sharedSelectedEvent].event.eventID];
+        [_homeModel downloadItems:dbMainInventorySummary condition:@[strEventID,@"0"]];
+        
     }
 }
 @end

@@ -12,7 +12,7 @@
 #import "SignInViewController.h"
 #import <objc/runtime.h>
 #import "FirstPageViewController.h"
-#import <DropboxSDK/DropboxSDK.h>
+//#import <DropboxSDK/DropboxSDK.h>
 #import "PasscodeViewController.h"
 #import "EventViewController.h"
 #import "PushSync.h"
@@ -225,12 +225,12 @@ void myExceptionHandler(NSException *exception)
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        if ([[DBSession sharedSession] isLinked]) {
-            NSLog(@"link successful");
-        }
-        return YES;
-    }
+//    if ([[DBSession sharedSession] handleOpenURL:url]) {
+//        if ([[DBSession sharedSession] isLinked]) {
+//            NSLog(@"link successful");
+//        }
+//        return YES;
+//    }
     return NO;
 }
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler

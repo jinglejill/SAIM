@@ -57,7 +57,7 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -355,21 +355,21 @@
 //    self.PDFCreator = [NDHTMLtoPDF createPDFWithHTML:htmlContentList[0] pathForPDF:pdfFileName delegate:self pageSize:kPaperSizeA4 margins:UIEdgeInsetsMake(10, 5, 10, 5)];
 }
 
-#pragma mark NDHTMLtoPDFDelegate
+//#pragma mark NDHTMLtoPDFDelegate
 
-- (void)HTMLtoPDFDidSucceed:(NDHTMLtoPDF*)htmlToPDF
-{
-    NSString *result = [NSString stringWithFormat:@"HTMLtoPDF did succeed (%@ / %@)", htmlToPDF, htmlToPDF.PDFpath];
-    NSLog(@"%@",result);
-//    self.resultLabel.text = result;
-}
-
-- (void)HTMLtoPDFDidFail:(NDHTMLtoPDF*)htmlToPDF
-{
-    NSString *result = [NSString stringWithFormat:@"HTMLtoPDF did fail (%@)", htmlToPDF];
-    NSLog(@"%@",result);
-//    self.resultLabel.text = result;
-}
+//- (void)HTMLtoPDFDidSucceed:(NDHTMLtoPDF*)htmlToPDF
+//{
+//    NSString *result = [NSString stringWithFormat:@"HTMLtoPDF did succeed (%@ / %@)", htmlToPDF, htmlToPDF.PDFpath];
+//    NSLog(@"%@",result);
+////    self.resultLabel.text = result;
+//}
+//
+//- (void)HTMLtoPDFDidFail:(NDHTMLtoPDF*)htmlToPDF
+//{
+//    NSString *result = [NSString stringWithFormat:@"HTMLtoPDF did fail (%@)", htmlToPDF];
+//    NSLog(@"%@",result);
+////    self.resultLabel.text = result;
+//}
 
 - (void) mail: (NSString*) filePath
 {

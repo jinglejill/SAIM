@@ -80,7 +80,7 @@ enum enumAdminMenu
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -103,34 +103,9 @@ enum enumAdminMenu
     _menuExtra = @[@"To post product",
                    @"Posted product",
                    @"Create QR Code File",
-                   @"Search Receipt"];
-
-    
-    [self loadViewProcess];
+                   @"Search Receipt",
+                   @"Lazada fetch orders"];
 }
-
-- (void)loadViewProcess
-{
-    if(!menuExtra)
-    {
-//        [self loadingOverlayView];
-//        [_homeModel downloadItems:dbMainInventory];
-    }
-}
-
-//- (void)itemsDownloaded:(NSArray *)items
-//{
-//    [self removeOverlayViews];
-//    int i=0;
-//
-//
-//    [SharedProductName sharedProductName].productNameList = items[i++];
-//    [SharedColor sharedColor].colorList = items[i++];
-//    [SharedProductCategory2 sharedProductCategory2].productCategory2List = items[i++];
-//    [SharedProductCategory1 sharedProductCategory1].productCategory1List = items[i++];
-//    [SharedProductSize sharedProductSize].productSizeList = items[i++];
-//    [SharedProduct sharedProduct].productList = items[i++];
-//}
 
 - (void)viewDidLoad
 {
@@ -228,6 +203,9 @@ enum enumAdminMenu
                 break;
             case 3:
                 [self performSegueWithIdentifier:@"segSearchReceipt" sender:self];
+                break;
+            case 4:
+                [self performSegueWithIdentifier:@"segFetchOrdersLazada" sender:self];
                 break;
         }
     }

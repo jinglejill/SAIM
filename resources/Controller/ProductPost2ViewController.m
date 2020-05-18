@@ -72,7 +72,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 @synthesize lblLocation;
 @synthesize txtPicker;
 @synthesize txtLocation;
-
+@synthesize lblNotifyMessage;
 
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
@@ -176,7 +176,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
         
@@ -209,7 +209,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     txtLocation.inputView = txtPicker;
     txtPicker.delegate = self;
     txtPicker.dataSource = self;
-    txtPicker.showsSelectionIndicator = YES;
+//    txtPicker.showsSelectionIndicator = YES;
     
     
     _eventListNowAndFutureAsc = [Event getEventListNowAndFutureAsc];
@@ -250,6 +250,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     [self removeOverlayViews];
     int i=0;
     [self addToMutArrPostDetail:items[i++]];
+    NSMutableArray *otherEventToPostList = items[i++];
     
     
     if(self.searchBarActive)
@@ -285,12 +286,21 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     {
         _page += 1;
     }
+    
+    
+    //notify there are to post product in other event
+    lblNotifyMessage.text = @"";
+    if([otherEventToPostList count] > 0)
+    {
+        Event *event = otherEventToPostList[0];
+        lblNotifyMessage.text = [NSString stringWithFormat:@"There are more products to post in event: %@",event.location];
+        for(i=1; i<[otherEventToPostList count]; i++)
+        {
+            Event *event = otherEventToPostList[i];
+            lblNotifyMessage.text = [NSString stringWithFormat:@"%@, %@",lblNotifyMessage.text,event.location];
+        }
+    }
 }
-
-//- (void)loadViewProcess
-//{
-//    [self queryData:YES];
-//}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];

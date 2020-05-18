@@ -301,9 +301,12 @@
             arrClassName = @[@"AccountReceipt"];
         }
         break;
-        case dbPostDetail:
-        case dbPostDetailSearch:
         case dbPostDetailToPost:
+        {
+            arrClassName = @[@"PostDetail",@"Event"];
+        }
+        break;
+        case dbPostDetailSearch:
         {
             arrClassName = @[@"PostDetail"];
         }
@@ -329,7 +332,18 @@
         {
             arrClassName = @[@"ProductCategory2",@"ProductName",@"Product",@"Product",@"Product",@"Color",@"ProductSize"];
         }
-            break;            
+            break;
+        case dbEventInventory:
+        {
+            arrClassName = @[@"ProductCategory2",@"ProductItem"];
+        }
+            break;
+        case dbLazadaPendingOrders:
+        case dbLazadaFetchOrders:
+        {
+            arrClassName = @[@"LazadaOrder"];
+        }
+            break;
         default:
             break;
     }
@@ -457,6 +471,9 @@
         case dbPreOrderProduct:
         case dbMainInventorySummary:
         case dbProductExclude:
+        case dbEventInventory:
+        case dbLazadaPendingOrders:
+        case dbLazadaFetchOrders:
         {
             [_dataToDownload appendData:dataRaw];
             if([ _dataToDownload length ]/_downloadSize == 1.0f)
@@ -631,6 +648,16 @@
         case dbPostCustomer:
         {
             url = [NSString stringWithFormat:[Utility url:urlPostCustomerGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbLazadaPendingOrders:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlLazadaPendingOrdersGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbLazadaFetchOrders:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlLazadaFetchOrdersGetList],[Utility randomStringWithLength:6]];
         }
             break;
         default:
@@ -1049,7 +1076,16 @@
             noteDataString = [NSString stringWithFormat:@"eventID=%@&all=%@",strEventID,strAll];
             url = [NSString stringWithFormat:[Utility url:urlMainInventorySummaryGetList],[Utility randomStringWithLength:6]];
         }
-            break;    
+            break;
+        case dbEventInventory:
+        {
+            NSArray *dataList = (NSArray *)object;
+            NSString *strEventID = dataList[0];
+            NSString *strAll = dataList[1];
+            noteDataString = [NSString stringWithFormat:@"eventID=%@&all=%@",strEventID,strAll];
+            url = [NSString stringWithFormat:[Utility url:urlEventInventoryGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
         default:
             break;
     }

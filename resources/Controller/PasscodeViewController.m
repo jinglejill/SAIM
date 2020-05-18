@@ -47,7 +47,7 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -104,14 +104,14 @@
         
         //check device token ในระบบ ว่าตรงกับตัวเองมั๊ย ถ้าไม่ตรงให้ไป alert ที่อีกเครื่องหนึ่ง
         [Utility setModifiedUser:@"admin"];
-        if(![[Utility setting:vAdminDeviceToken] isEqualToString:[Utility deviceToken]])
-        {
-            Setting *setting = [Utility getSetting:vAdminDeviceToken];
-            setting.value = [Utility deviceToken];
-            setting.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-            setting.modifiedUser = [Utility modifiedUser];
-            [_homeModel updateItems:dbSettingDeviceToken withData:setting];
-        }
+//        if(![[Utility setting:vAdminDeviceToken] isEqualToString:[Utility deviceToken]])
+//        {
+//            Setting *setting = [Utility getSetting:vAdminDeviceToken];
+//            setting.value = [Utility deviceToken];
+//            setting.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//            setting.modifiedUser = [Utility modifiedUser];
+//            [_homeModel updateItems:dbSettingDeviceToken withData:setting];
+//        }
         
         
         Login *login = [[Login alloc]init]; //ไม่มี model sharedLogin เก็บเป็น Log ไว้ดูเท่านั้น

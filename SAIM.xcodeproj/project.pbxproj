@@ -144,7 +144,6 @@
 		EFA9308423832090001C9517 /* ProductPosted2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA9308323832090001C9517 /* ProductPosted2ViewController.m */; };
 		EFA9308923952068001C9517 /* ProductPost2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA9308823952068001C9517 /* ProductPost2ViewController.m */; };
 		EFB460BB243A731F00C5100E /* blankSignature2.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460BA243A731F00C5100E /* blankSignature2.png */; };
-		EFB460C5243A889700C5100E /* NDHTMLtoPDF.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */; };
 		EFB460CA243C838000C5100E /* SearchReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460C9243C838000C5100E /* SearchReceiptViewController.m */; };
 		EFB460CD243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460CC243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.m */; };
 		EFB460D02445DD6B00C5100E /* PreOrderPage2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB460CF2445DD6B00C5100E /* PreOrderPage2ViewController.m */; };
@@ -155,7 +154,6 @@
 		EFB460E0244841FC00C5100E /* sewingMachine2.png in Resources */ = {isa = PBXBuildFile; fileRef = EFB460DF244841FB00C5100E /* sewingMachine2.png */; };
 		EFB8719B20C0E6020011AF78 /* BRPtouchPrinterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */; };
 		EFB8719C20C0E6020011AF78 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */; };
-		EFB8719D20C0E6020011AF78 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB8719820C0E6020011AF78 /* DropboxSDK.framework */; };
 		EFC91FE41D54969C007345F1 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC91FE31D54969C007345F1 /* KeychainWrapper.m */; };
 		EFC91FEB1D5496C6007345F1 /* Credentials.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC91FE61D5496C6007345F1 /* Credentials.m */; };
 		EFC91FEC1D5496C6007345F1 /* QRCodeQuantity.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC91FE81D5496C6007345F1 /* QRCodeQuantity.m */; };
@@ -183,6 +181,8 @@
 		EFCAD5F81E5FEADB0013393D /* last_item.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F51E5FEADB0013393D /* last_item.html */; };
 		EFCAD5F91E5FEADB0013393D /* receipt.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F61E5FEADB0013393D /* receipt.html */; };
 		EFCAD5FA1E5FEADB0013393D /* single_item.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F71E5FEADB0013393D /* single_item.html */; };
+		EFD5AEC02471F04000591DA3 /* FetchOrdersLazadaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */; };
+		EFD5AEC32471F1C600591DA3 /* LazadaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */; };
 		EFDB57011CF143FF0082E91D /* SharedPushSync.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB56FA1CF143FF0082E91D /* SharedPushSync.m */; };
 		EFDB57031CF143FF0082E91D /* PushSync.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB56FF1CF143FF0082E91D /* PushSync.m */; };
 		EFDB57041CF143FF0082E91D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB57001CF143FF0082E91D /* Login.m */; };
@@ -305,9 +305,6 @@
 		EFF083DD1CAFA7E0003E74D6 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF082751CAFA7E0003E74D6 /* MGSwipeButton.m */; };
 		EFF083DE1CAFA7E0003E74D6 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF082771CAFA7E0003E74D6 /* MGSwipeTableCell.m */; };
 		EFF083DF1CAFA7E0003E74D6 /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF082781CAFA7E0003E74D6 /* SectionHeaderView.xib */; };
-		EFF083E01CAFA7E0003E74D6 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF0827B1CAFA7E0003E74D6 /* CustomIOSAlertView.m */; };
-		EFF083E11CAFA7E0003E74D6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF0827D1CAFA7E0003E74D6 /* RootViewController.m */; };
-		EFF083E21CAFA7E0003E74D6 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF0827E1CAFA7E0003E74D6 /* RootViewController.xib */; };
 		EFF083E41CAFA7E0003E74D6 /* add active3.png in Resources */ = {isa = PBXBuildFile; fileRef = EFF082821CAFA7E0003E74D6 /* add active3.png */; };
 		EFF083E51CAFA7E0003E74D6 /* add inactive3.png in Resources */ = {isa = PBXBuildFile; fileRef = EFF082831CAFA7E0003E74D6 /* add inactive3.png */; };
 		EFF083E61CAFA7E0003E74D6 /* addImage.png in Resources */ = {isa = PBXBuildFile; fileRef = EFF082841CAFA7E0003E74D6 /* addImage.png */; };
@@ -667,8 +664,6 @@
 		EFA9308723952067001C9517 /* ProductPost2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductPost2ViewController.h; sourceTree = "<group>"; };
 		EFA9308823952068001C9517 /* ProductPost2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductPost2ViewController.m; sourceTree = "<group>"; };
 		EFB460BA243A731F00C5100E /* blankSignature2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankSignature2.png; sourceTree = "<group>"; };
-		EFB460C3243A889700C5100E /* NDHTMLtoPDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDHTMLtoPDF.h; sourceTree = "<group>"; };
-		EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDHTMLtoPDF.m; sourceTree = "<group>"; };
 		EFB460C8243C838000C5100E /* SearchReceiptViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchReceiptViewController.h; sourceTree = "<group>"; };
 		EFB460C9243C838000C5100E /* SearchReceiptViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchReceiptViewController.m; sourceTree = "<group>"; };
 		EFB460CB243D5D4600C5100E /* SearchSalesTelephoneDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchSalesTelephoneDetailViewController.h; sourceTree = "<group>"; };
@@ -686,7 +681,6 @@
 		EFB460DF244841FB00C5100E /* sewingMachine2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sewingMachine2.png; sourceTree = "<group>"; };
 		EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRPtouchPrinterKit.framework; sourceTree = "<group>"; };
 		EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
-		EFB8719820C0E6020011AF78 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		EFC91FE11D54969C007345F1 /* ChristmasConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChristmasConstants.h; sourceTree = "<group>"; };
 		EFC91FE21D54969C007345F1 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
 		EFC91FE31D54969C007345F1 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
@@ -739,6 +733,10 @@
 		EFCAD5F51E5FEADB0013393D /* last_item.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = last_item.html; sourceTree = "<group>"; };
 		EFCAD5F61E5FEADB0013393D /* receipt.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = receipt.html; sourceTree = "<group>"; };
 		EFCAD5F71E5FEADB0013393D /* single_item.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = single_item.html; sourceTree = "<group>"; };
+		EFD5AEBE2471F04000591DA3 /* FetchOrdersLazadaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchOrdersLazadaViewController.h; sourceTree = "<group>"; };
+		EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersLazadaViewController.m; sourceTree = "<group>"; };
+		EFD5AEC12471F1C600591DA3 /* LazadaOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazadaOrder.h; sourceTree = "<group>"; };
+		EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LazadaOrder.m; sourceTree = "<group>"; };
 		EFDB56F91CF143FF0082E91D /* SharedPushSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPushSync.h; sourceTree = "<group>"; };
 		EFDB56FA1CF143FF0082E91D /* SharedPushSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedPushSync.m; sourceTree = "<group>"; };
 		EFDB56FD1CF143FF0082E91D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
@@ -1038,11 +1036,6 @@
 		EFF082761CAFA7E0003E74D6 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
 		EFF082771CAFA7E0003E74D6 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		EFF082781CAFA7E0003E74D6 /* SectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
-		EFF0827A1CAFA7E0003E74D6 /* CustomIOSAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOSAlertView.h; sourceTree = "<group>"; };
-		EFF0827B1CAFA7E0003E74D6 /* CustomIOSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOSAlertView.m; sourceTree = "<group>"; };
-		EFF0827C1CAFA7E0003E74D6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		EFF0827D1CAFA7E0003E74D6 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		EFF0827E1CAFA7E0003E74D6 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		EFF082821CAFA7E0003E74D6 /* add active3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add active3.png"; sourceTree = "<group>"; };
 		EFF082831CAFA7E0003E74D6 /* add inactive3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add inactive3.png"; sourceTree = "<group>"; };
 		EFF082841CAFA7E0003E74D6 /* addImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addImage.png; sourceTree = "<group>"; };
@@ -1240,7 +1233,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFB8719D20C0E6020011AF78 /* DropboxSDK.framework in Frameworks */,
 				EFF0846C1CAFA816003E74D6 /* Security.framework in Frameworks */,
 				EFF0846A1CAFA811003E74D6 /* QuartzCore.framework in Frameworks */,
 				EFF084681CAFA80B003E74D6 /* CoreText.framework in Frameworks */,
@@ -1298,22 +1290,11 @@
 			path = Voice;
 			sourceTree = "<group>";
 		};
-		EFB460C2243A883800C5100E /* NDHTMLtoPDF */ = {
-			isa = PBXGroup;
-			children = (
-				EFB460C3243A889700C5100E /* NDHTMLtoPDF.h */,
-				EFB460C4243A889700C5100E /* NDHTMLtoPDF.m */,
-			);
-			path = NDHTMLtoPDF;
-			sourceTree = "<group>";
-		};
 		EFB8719220C0E6020011AF78 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				EFB460C2243A883800C5100E /* NDHTMLtoPDF */,
 				EFB8719620C0E6020011AF78 /* BRPtouchPrinterKit.framework */,
 				EFB8719720C0E6020011AF78 /* libCorePlot-CocoaTouch.a */,
-				EFB8719820C0E6020011AF78 /* DropboxSDK.framework */,
 				EF5983172439D0F500775677 /* ExportManager.h */,
 				EF5983182439D0F500775677 /* ExportManager.m */,
 			);
@@ -1415,7 +1396,6 @@
 				EFF081751CAFA7E0003E74D6 /* Controller */,
 				EFF082041CAFA7E0003E74D6 /* CorePlotHeaders */,
 				EFF082531CAFA7E0003E74D6 /* CustomUIView */,
-				EFF082791CAFA7E0003E74D6 /* Dropbox */,
 				EFF082811CAFA7E0003E74D6 /* Icon */,
 				EFF082A21CAFA7E0003E74D6 /* Image */,
 				EFF082AB1CAFA7E0003E74D6 /* Model */,
@@ -1736,6 +1716,8 @@
 				EFB460D52446C00600C5100E /* PreOrderAddPreOrder2ViewController.m */,
 				EFB460D72446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.h */,
 				EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */,
+				EFD5AEBE2471F04000591DA3 /* FetchOrdersLazadaViewController.h */,
+				EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1927,18 +1909,6 @@
 				EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */,
 			);
 			path = CustomUIView;
-			sourceTree = "<group>";
-		};
-		EFF082791CAFA7E0003E74D6 /* Dropbox */ = {
-			isa = PBXGroup;
-			children = (
-				EFF0827A1CAFA7E0003E74D6 /* CustomIOSAlertView.h */,
-				EFF0827B1CAFA7E0003E74D6 /* CustomIOSAlertView.m */,
-				EFF0827C1CAFA7E0003E74D6 /* RootViewController.h */,
-				EFF0827D1CAFA7E0003E74D6 /* RootViewController.m */,
-				EFF0827E1CAFA7E0003E74D6 /* RootViewController.xib */,
-			);
-			path = Dropbox;
 			sourceTree = "<group>";
 		};
 		EFF082811CAFA7E0003E74D6 /* Icon */ = {
@@ -2249,6 +2219,8 @@
 				EFB460DB2446F3EC00C5100E /* PreOrder2.m */,
 				EF83DB2E244B05600043B24E /* WordPressUser.h */,
 				EF83DB2F244B05600043B24E /* WordPressUser.m */,
+				EFD5AEC12471F1C600591DA3 /* LazadaOrder.h */,
+				EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2494,7 +2466,6 @@
 				EF8B8A702433A100005F6E91 /* Icon-Spotlight-40@3x.png in Resources */,
 				EF799BCE1D16C18000473F5F /* customMadeIn.png in Resources */,
 				EF01F1901FF8457B00FD5A89 /* minimalistLogo.png in Resources */,
-				EFF083E21CAFA7E0003E74D6 /* RootViewController.xib in Resources */,
 				EFF083E81CAFA7E0003E74D6 /* carat-open.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2543,6 +2514,7 @@
 				EFCAD5C61E5EEB3A0013393D /* AccountInventorySummaryViewController.m in Sources */,
 				EFF0839B1CAFA7E0003E74D6 /* EventSelectionViewController.m in Sources */,
 				EFF083AB1CAFA7E0003E74D6 /* PreOrderViewController.m in Sources */,
+				EFD5AEC02471F04000591DA3 /* FetchOrdersLazadaViewController.m in Sources */,
 				EF77B7A6241A130800834B8D /* CustomTableViewCellExpenseDaily.m in Sources */,
 				EFCAD5C51E5EEB3A0013393D /* AccountReceiptPDFViewController.m in Sources */,
 				EFCAD5E81E5EEB630013393D /* AccountMapping.m in Sources */,
@@ -2597,7 +2569,6 @@
 				EF7074C21F3869CF00D1EA2E /* SharedMainEvent.m in Sources */,
 				EFF084321CAFA7E0003E74D6 /* SharedCashAllocation.m in Sources */,
 				EFF083D31CAFA7E0003E74D6 /* CustomUICollectionViewCell.m in Sources */,
-				EFB460C5243A889700C5100E /* NDHTMLtoPDF.m in Sources */,
 				EFCAD5C91E5EEB3A0013393D /* AccountInventoryAddedListViewController.m in Sources */,
 				EFF084231CAFA7E0003E74D6 /* ProductItem.m in Sources */,
 				EFF0843B1CAFA7E0003E74D6 /* SharedEventCost.m in Sources */,
@@ -2636,7 +2607,6 @@
 				EFCAD5F01E5EEB630013393D /* SharedRewardProgram.m in Sources */,
 				EFF083D41CAFA7E0003E74D6 /* CustomUICollectionViewCellButton.m in Sources */,
 				EF77B7962410C14E00834B8D /* CustomTableViewCellReceiptShort.m in Sources */,
-				EFF083E01CAFA7E0003E74D6 /* CustomIOSAlertView.m in Sources */,
 				EFA239231EAA0C00009CE51A /* RewardProgramUseAddViewController.m in Sources */,
 				EFF084131CAFA7E0003E74D6 /* EventCost.m in Sources */,
 				EF795DD51DA9FD2B00191CDA /* PostCode.m in Sources */,
@@ -2700,6 +2670,7 @@
 				EFF0841F1CAFA7E0003E74D6 /* ProductCategory1.m in Sources */,
 				EFF083911CAFA7E0003E74D6 /* CompareInventoryBySetViewController.m in Sources */,
 				EFF084211CAFA7E0003E74D6 /* ProductCost.m in Sources */,
+				EFD5AEC32471F1C600591DA3 /* LazadaOrder.m in Sources */,
 				EFF0840D1CAFA7E0003E74D6 /* CompareInventory.m in Sources */,
 				EF799BD61D18F5FB00473F5F /* CustomMadeOutViewController.m in Sources */,
 				EFF084161CAFA7E0003E74D6 /* EventSalesSummaryByDate.m in Sources */,
@@ -2823,7 +2794,6 @@
 				EFCAD5C81E5EEB3A0013393D /* AccountReceiptHistoryViewController.m in Sources */,
 				EFF084221CAFA7E0003E74D6 /* ProductDetail.m in Sources */,
 				EFF083D61CAFA7E0003E74D6 /* CustomUICollectionViewCellButton3.m in Sources */,
-				EFF083E11CAFA7E0003E74D6 /* RootViewController.m in Sources */,
 				EFCAD5EE1E5EEB630013393D /* MemberAndPoint.m in Sources */,
 				EFF083CC1CAFA7E0003E74D6 /* UserMenuViewController.m in Sources */,
 				EFF0839E1CAFA7E0003E74D6 /* FirstPageViewController.m in Sources */,
@@ -2988,7 +2958,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3022,7 +2992,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

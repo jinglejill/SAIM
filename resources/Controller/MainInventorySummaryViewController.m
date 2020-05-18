@@ -31,15 +31,7 @@
     HomeModel *_homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
-    NSArray *_productWithQuantity;
-    NSMutableArray *_mutArrProductWithQuantity;
-    NSMutableDictionary *_dicProductNameGroup;
-    NSMutableDictionary *_countItemInProductNameGroup;
     UIView *_viewUnderline;
-    NSMutableDictionary *_dicColorAndSizeHead;
-    
-    NSMutableArray *_sortProductNameList;
-    
     
     NSMutableArray *productCategory2List;
     NSMutableArray *productNameList;
@@ -78,14 +70,11 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     
-    _mutArrProductWithQuantity = [[NSMutableArray alloc]init];
-    _dicColorAndSizeHead = [[NSMutableDictionary alloc]init];
     btnAllOrRemaining.title = @"All";
     
     
     [self loadingOverlayView];
     [_homeModel downloadItems:dbMainInventorySummary condition:@[@"0",@"0"]];
-//    [_homeModel downloadItems:dbMainInventory];
 }
 
 - (void)itemsDownloaded:(NSArray *)items
@@ -194,7 +183,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }
         }
         
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
         NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
         showProductSizeList = [sortArray mutableCopy];
@@ -297,7 +286,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }
         }
         
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
         NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
         showProductSizeList = [sortArray mutableCopy];

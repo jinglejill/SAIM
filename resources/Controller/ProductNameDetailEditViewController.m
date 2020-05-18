@@ -181,7 +181,7 @@
         
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(imgVwProductImage.frame.origin.x+imgVwProductImage.bounds.size.width/2-indicator.frame.size.width/2,64+44+132+imgVwProductImage.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     

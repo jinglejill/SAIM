@@ -28,7 +28,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblLocation;
 @property (strong, nonatomic) IBOutlet UITextField *txtLocation;
 @property (strong, nonatomic) IBOutlet UIPickerView *txtPicker;
-
+@property (strong, nonatomic) IBOutlet UILabel *lblNotifyMessage;
 
 - (IBAction)selectAllAction:(id)sender;
 - (IBAction)doAction:(id)sender;

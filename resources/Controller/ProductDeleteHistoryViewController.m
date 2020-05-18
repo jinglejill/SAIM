@@ -65,7 +65,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -112,26 +112,6 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         _page += 1;
     }
 }
-
-//- (void)loadViewProcess
-//{
-//        
-//    
-//    
-//    _mutArrProductDeleteList = [SharedProductDelete sharedProductDelete].productDeleteList;
-//    for(ProductDelete *item in _mutArrProductDeleteList)
-//    {
-//        NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",item.productCategory2,item.productCategory1,item.productName];
-//        
-//        item.productNameText = [ProductName getNameWithProductNameGroup:productNameGroup];
-//        item.colorText = [Utility getColorName:item.color];
-//        item.sizeText = [Utility getSizeLabel:item.size];
-//        item.sizeOrder = [Utility getSizeOrder:item.size];
-//        item.modifiedDateText = [Utility formatDate:item.modifiedDate fromFormat:[Utility setting:vFormatDateTimeDB] toFormat:@"dd/MM/yyyy HH:mm"];
-//    }
-//    
-//    [self setData];
-//}
 
 -(void)setData
 {
@@ -293,6 +273,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
             case 2:
             {
                 cell.label.text = productDelete.colorText;
+                cell.label.adjustsFontSizeToFitWidth = YES;
             }
                 break;
             case 3:

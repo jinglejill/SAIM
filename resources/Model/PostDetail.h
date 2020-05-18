@@ -32,6 +32,7 @@
 @property (retain, nonatomic) NSString * street1;
 @property (retain, nonatomic) NSString * postcode;
 @property (retain, nonatomic) NSString * country;
+@property (retain, nonatomic) NSString * location;
 
 
 @end

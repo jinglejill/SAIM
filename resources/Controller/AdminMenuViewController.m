@@ -14,7 +14,7 @@
 #import "APLSectionInfo.h"
 #import "APLSectionHeaderView.h"
 #import "ProductCategory2SelectionViewController.h"
-#import "RootViewController.h"
+//#import "RootViewController.h"
 #import "Login.h"
 #import <stdlib.h>
 #import "Product.h"
@@ -94,8 +94,8 @@ enum enumAdminMenu
     menuEventSalesSummary,
     menuEventExportSales,
     
-    //setting
-    menuDropbox
+//    //setting
+//    menuDropbox
 };
 
 @interface AdminMenuViewController ()
@@ -117,7 +117,7 @@ enum enumAdminMenu
     HomeModel *_homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
-    RootViewController *rootViewController;
+//    RootViewController *rootViewController;
     NSString *relinkUserId;
     NSString *_generateSalesfileName;
     int _countRetry;
@@ -179,7 +179,7 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -279,8 +279,8 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
     self.sectionInfoArray = infoArray;
     
     
-    //communicate dropbox
-    [self communicateDropbox];
+//    //communicate dropbox
+//    [self communicateDropbox];
     [self loadViewProcess];
 }
 
@@ -301,10 +301,10 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:8];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
-    if ([[DBSession sharedSession] isLinked]) {
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ [Log out]",_menuSectionSetting[indexPath.item]];
-    }
-    else
+//    if ([[DBSession sharedSession] isLinked]) {
+//        cell.textLabel.text = [NSString stringWithFormat:@"%@ [Log out]",_menuSectionSetting[indexPath.item]];
+//    }
+//    else
     {
         cell.textLabel.text = [NSString stringWithFormat:@"%@ [Log in]",_menuSectionSetting[indexPath.item]];
     }
@@ -397,10 +397,10 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.detailTextLabel.text = @"";
         
-        if ([[DBSession sharedSession] isLinked]) {
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ [Log out]",_menuSectionSetting[item]];
-        }
-        else
+//        if ([[DBSession sharedSession] isLinked]) {
+//            cell.textLabel.text = [NSString stringWithFormat:@"%@ [Log out]",_menuSectionSetting[item]];
+//        }
+//        else
         {
             cell.textLabel.text = [NSString stringWithFormat:@"%@ [Log in]",_menuSectionSetting[item]];
         }
@@ -843,182 +843,182 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
             }
         }
     }
-    else if(section == 8)
-    {
-        switch (item+[_menuSectionProductSetup count]+[_menuSectionUserAndEvent count]+[_menuSectionInventory count]+[_menuSectionPost count]+[_menuSectionSales count]+[_menuSectionAccount count]+[_menuSectionProduction count]+[_menuSectionEvent count]-1) {// -1 due to section 6 have menu-1 (first row not menu)
-            case menuDropbox:
-            {
-                if ([[DBSession sharedSession] isLinked]) {
-                    //do log out from dropbox
-                    [[DBSession sharedSession] unlinkAll];
-                    NSLog(@"unlink dropbox");
-                    
-                    //refresh dropbox menu
-                    [self refreshDropboxMenu];
-                }
-                else
-                {
-                    [self.navigationController pushViewController:[[RootViewController alloc] initWithNibName: @"RootViewController" bundle: nil] animated:YES];
-                }
-            }
-                break;
-            default:
-                break;
-        }
-    }
+//    else if(section == 8)
+//    {
+//        switch (item+[_menuSectionProductSetup count]+[_menuSectionUserAndEvent count]+[_menuSectionInventory count]+[_menuSectionPost count]+[_menuSectionSales count]+[_menuSectionAccount count]+[_menuSectionProduction count]+[_menuSectionEvent count]-1) {// -1 due to section 6 have menu-1 (first row not menu)
+//            case menuDropbox:
+//            {
+//                if ([[DBSession sharedSession] isLinked]) {
+//                    //do log out from dropbox
+//                    [[DBSession sharedSession] unlinkAll];
+//                    NSLog(@"unlink dropbox");
+//
+//                    //refresh dropbox menu
+//                    [self refreshDropboxMenu];
+//                }
+//                else
+//                {
+//                    [self.navigationController pushViewController:[[RootViewController alloc] initWithNibName: @"RootViewController" bundle: nil] animated:YES];
+//                }
+//            }
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 }
 
-- (void)communicateDropbox
-{
-    // Set these variables before launching the app
-    NSString *appKey = [Utility getAppKey];
-    NSString *appSecret = [Utility getAppSecret];
-    NSString *root = kDBRootAppFolder; // Should be set to either kDBRootAppFolder or kDBRootDropbox
-    // You can determine if you have App folder access or Full Dropbox along with your consumer key/secret
-    // from https://dropbox.com/developers/apps
-    
-    // Look below where the DBSession is created to understand how to use DBSession in your app
-    
-    NSString* errorMsg = nil;
-    if ([appKey rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]].location != NSNotFound) {
-        errorMsg = @"Make sure you set the app key correctly in DBRouletteAppDelegate.m";
-    } else if ([appSecret rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]].location != NSNotFound) {
-        errorMsg = @"Make sure you set the app secret correctly in DBRouletteAppDelegate.m";
-    } else if ([root length] == 0) {
-        errorMsg = @"Set your root to use either App Folder of full Dropbox";
-    } else {
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
-        NSData *plistData = [NSData dataWithContentsOfFile:plistPath];
-        
-        
-        
-        NSDictionary *loadedPlist = (NSDictionary *)[NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListMutableContainersAndLeaves format:NULL error:NULL];
-        
-        
-        NSString *scheme = [[[[loadedPlist objectForKey:@"CFBundleURLTypes"] objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"] objectAtIndex:0];
-        if ([scheme isEqual:@"db-APP_KEY"]) {
-            errorMsg = @"Set your URL scheme correctly in DBRoulette-Info.plist";
-        }
-    }
-    
-    DBSession *session =
-    [[DBSession alloc] initWithAppKey:appKey appSecret:appSecret root:root];
-    session.delegate = self; // DBSessionDelegate methods allow you to handle re-authenticating
-    [DBSession setSharedSession:session];
-    
-    
-    [DBRequest setNetworkRequestDelegate:self];
-    
-    if (errorMsg != nil) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error Configuring Session"
-                                                                       message:errorMsg
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                              }];
-        
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
-
-
-#pragma mark -
-#pragma mark DBSessionDelegate methods
-
-- (void)sessionDidReceiveAuthorizationFailure:(DBSession*)session userId:(NSString *)userId {
-    relinkUserId = userId;
-  
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Dropbox Session Ended"
-                                                                   message:@"Do you want to relink?"
-                                                            preferredStyle:UIAlertControllerStyleActionSheet];
-    [alert addAction:
-     [UIAlertAction actionWithTitle:@"Relink"
-                              style:UIAlertActionStyleDestructive
-                            handler:^(UIAlertAction *action) {
-                                [[DBSession sharedSession] linkUserId:relinkUserId fromController:rootViewController];
-                                relinkUserId = nil;
-                            }]];
-    [alert addAction:
-     [UIAlertAction actionWithTitle:@"Cancel"
-                              style:UIAlertActionStyleCancel
-                            handler:^(UIAlertAction *action) {
-                                relinkUserId = nil;
-                            }]];
-
-    
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-#pragma mark -
-#pragma mark DBNetworkRequestDelegate methods
-
-static int outstandingRequests;
-
-- (void)networkRequestStarted {
-    outstandingRequests++;
-    if (outstandingRequests == 1) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    }
-}
-
-- (void)networkRequestStopped {
-    outstandingRequests--;
-    if (outstandingRequests == 0) {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    }
-}
-
-
-- (void)setWorking:(BOOL)isWorking {
-    if (working == isWorking) return;
-    working = isWorking;
-    
-    if (working) {
-        [activityIndicator startAnimating];
-    } else {
-        [activityIndicator stopAnimating];
-    }
-    nextButton.enabled = !working;
-}
-
-
-#pragma mark DBRestClientDelegate methods
-
-- (DBRestClient*)restClient {
-    if (restClient == nil) {
-        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        restClient.delegate = self;
-    }
-    return restClient;
-}
-
-- (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath
-          metadata:(DBMetadata*)metadata
-{
-    NSLog(@"upload to dropbox successful");
-}
-- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error
-{
-    //parse the error data for the file name
-    NSString *fullErrorData = [NSString stringWithFormat:@"%@",error];
-    NSString *answer;
-    NSString *message;
-    
-    if ([fullErrorData containsString:@"FileBase"]) {
-        NSRange range = [fullErrorData rangeOfString:@"FileBase"];
-        NSRange newRange = {range.location,21};//the known length
-        answer = [fullErrorData substringWithRange:newRange];
-        
-        message = [NSString stringWithFormat: @"The upload for file %@ failed. The remnants will be automatically deleted. You may receive an error message about the deletion - dismiss it.", answer];
-    } else {
-        message = @"Could not determine the file upload that failed.";
-    }
-    [self setWorking:NO];
-    
-}
+//- (void)communicateDropbox
+//{
+//    // Set these variables before launching the app
+//    NSString *appKey = [Utility getAppKey];
+//    NSString *appSecret = [Utility getAppSecret];
+//    NSString *root = kDBRootAppFolder; // Should be set to either kDBRootAppFolder or kDBRootDropbox
+//    // You can determine if you have App folder access or Full Dropbox along with your consumer key/secret
+//    // from https://dropbox.com/developers/apps
+//    
+//    // Look below where the DBSession is created to understand how to use DBSession in your app
+//    
+//    NSString* errorMsg = nil;
+//    if ([appKey rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]].location != NSNotFound) {
+//        errorMsg = @"Make sure you set the app key correctly in DBRouletteAppDelegate.m";
+//    } else if ([appSecret rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]].location != NSNotFound) {
+//        errorMsg = @"Make sure you set the app secret correctly in DBRouletteAppDelegate.m";
+//    } else if ([root length] == 0) {
+//        errorMsg = @"Set your root to use either App Folder of full Dropbox";
+//    } else {
+//        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+//        NSData *plistData = [NSData dataWithContentsOfFile:plistPath];
+//        
+//        
+//        
+//        NSDictionary *loadedPlist = (NSDictionary *)[NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListMutableContainersAndLeaves format:NULL error:NULL];
+//        
+//        
+//        NSString *scheme = [[[[loadedPlist objectForKey:@"CFBundleURLTypes"] objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"] objectAtIndex:0];
+//        if ([scheme isEqual:@"db-APP_KEY"]) {
+//            errorMsg = @"Set your URL scheme correctly in DBRoulette-Info.plist";
+//        }
+//    }
+//    
+//    DBSession *session =
+//    [[DBSession alloc] initWithAppKey:appKey appSecret:appSecret root:root];
+//    session.delegate = self; // DBSessionDelegate methods allow you to handle re-authenticating
+//    [DBSession setSharedSession:session];
+//    
+//    
+//    [DBRequest setNetworkRequestDelegate:self];
+//    
+//    if (errorMsg != nil) {
+//        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error Configuring Session"
+//                                                                       message:errorMsg
+//                                                                preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+//                                                              handler:^(UIAlertAction * action) {
+//                                                              }];
+//        
+//        [alert addAction:defaultAction];
+//        [self presentViewController:alert animated:YES completion:nil];
+//    }
+//}
+//
+//
+//#pragma mark -
+//#pragma mark DBSessionDelegate methods
+//
+//- (void)sessionDidReceiveAuthorizationFailure:(DBSession*)session userId:(NSString *)userId {
+//    relinkUserId = userId;
+//  
+//    
+//    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Dropbox Session Ended"
+//                                                                   message:@"Do you want to relink?"
+//                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+//    [alert addAction:
+//     [UIAlertAction actionWithTitle:@"Relink"
+//                              style:UIAlertActionStyleDestructive
+//                            handler:^(UIAlertAction *action) {
+//                                [[DBSession sharedSession] linkUserId:relinkUserId fromController:rootViewController];
+//                                relinkUserId = nil;
+//                            }]];
+//    [alert addAction:
+//     [UIAlertAction actionWithTitle:@"Cancel"
+//                              style:UIAlertActionStyleCancel
+//                            handler:^(UIAlertAction *action) {
+//                                relinkUserId = nil;
+//                            }]];
+//
+//    
+//    [self presentViewController:alert animated:YES completion:nil];
+//}
+//
+//#pragma mark -
+//#pragma mark DBNetworkRequestDelegate methods
+//
+//static int outstandingRequests;
+//
+//- (void)networkRequestStarted {
+//    outstandingRequests++;
+//    if (outstandingRequests == 1) {
+//        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+//    }
+//}
+//
+//- (void)networkRequestStopped {
+//    outstandingRequests--;
+//    if (outstandingRequests == 0) {
+//        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+//    }
+//}
+//
+//
+//- (void)setWorking:(BOOL)isWorking {
+//    if (working == isWorking) return;
+//    working = isWorking;
+//    
+//    if (working) {
+//        [activityIndicator startAnimating];
+//    } else {
+//        [activityIndicator stopAnimating];
+//    }
+//    nextButton.enabled = !working;
+//}
+//
+//
+//#pragma mark DBRestClientDelegate methods
+//
+//- (DBRestClient*)restClient {
+//    if (restClient == nil) {
+//        restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//        restClient.delegate = self;
+//    }
+//    return restClient;
+//}
+//
+//- (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath
+//          metadata:(DBMetadata*)metadata
+//{
+//    NSLog(@"upload to dropbox successful");
+//}
+//- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error
+//{
+//    //parse the error data for the file name
+//    NSString *fullErrorData = [NSString stringWithFormat:@"%@",error];
+//    NSString *answer;
+//    NSString *message;
+//    
+//    if ([fullErrorData containsString:@"FileBase"]) {
+//        NSRange range = [fullErrorData rangeOfString:@"FileBase"];
+//        NSRange newRange = {range.location,21};//the known length
+//        answer = [fullErrorData substringWithRange:newRange];
+//        
+//        message = [NSString stringWithFormat: @"The upload for file %@ failed. The remnants will be automatically deleted. You may receive an error message about the deletion - dismiss it.", answer];
+//    } else {
+//        message = @"Could not determine the file upload that failed.";
+//    }
+//    [self setWorking:NO];
+//    
+//}
 
 -(void)itemsDownloaded:(NSArray *)items
 {

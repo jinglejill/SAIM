@@ -204,7 +204,10 @@ enum enumDB
     dbWordPressRegister,
     dbPreOrderProduct,
     dbProductExclude,
-    dbMainInventorySummary
+    dbMainInventorySummary,
+    dbEventInventory,
+    dbLazadaPendingOrders,
+    dbLazadaFetchOrders
 };
 enum enumUrl
 {
@@ -371,7 +374,10 @@ enum enumUrl
     urlProductScanGet,
     urlPreOrderProductGetList,
     urlProductExcludeGet,
-    urlMainInventorySummaryGetList
+    urlMainInventorySummaryGetList,
+    urlEventInventoryGetList,
+    urlLazadaPendingOrdersGetList,
+    urlLazadaFetchOrdersGetList
     
 };
 enum enumTableName

@@ -271,7 +271,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMUserAccountEventDelete.php";
             break;
         case urlReceiptAndProductBuyInsert:
-            url = @"/SAIM/SAIMReceiptAndProductBuyInsert8.php";
+            url = @"/SAIM/SAIMReceiptAndProductBuyInsert9.php";
             break;
         case urlReceiptAndReceiptProductItemDelete:
             url = @"/SAIM/SAIMReceiptAndReceiptProductItemDelete4.php";
@@ -568,7 +568,7 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMPostDetailSearchGetList3.php";
             break;
         case urlPostDetailToPostGet:
-            url = @"/SAIM/SAIMPostDetailToPostGetList3.php";
+            url = @"/SAIM/SAIMPostDetailToPostGetList4.php";
             break;
         case urlMainInventoryGet:
             url = @"/SAIM/SAIMMainInventoryGet.php";
@@ -683,6 +683,15 @@ extern NSString *globalModifiedUser;
             break;
         case urlMainInventorySummaryGetList:
             url = @"/SAIM/SAIMMainInventorySummaryGetList.php?%@";
+            break;
+        case urlEventInventoryGetList:
+            url = @"/SAIM/SAIMEventInventoryGetList.php?%@";
+            break;
+        case urlLazadaPendingOrdersGetList:
+            url = @"/SAIM/SAIMLazadaPendingOrdersGetList.php?%@";
+            break;
+        case urlLazadaFetchOrdersGetList:
+            url = @"/SAIM/SAIMLazadaFetchOrdersGetList.php?%@";
             break;
         default:
             break;

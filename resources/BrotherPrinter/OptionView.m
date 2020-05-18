@@ -623,7 +623,7 @@
 	CGFloat pickerHeight = 216.0f;
 	UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, screenSize.size.height-pickerHeight, screenSize.size.width, pickerHeight)];
 	pickerView.delegate = self;
-	pickerView.showsSelectionIndicator = YES;
+//	pickerView.showsSelectionIndicator = YES;
     [pickerView setBackgroundColor:[UIColor whiteColor]];
     if (pickerType == 0) /* PaperSize */
     {

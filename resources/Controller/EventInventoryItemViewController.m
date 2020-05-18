@@ -88,9 +88,13 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 @synthesize colViewProductItem;
 @synthesize lblLocation;
 @synthesize index;
-@synthesize arrProductEvent;
-@synthesize arrProductCategory2;
+//@synthesize arrProductEvent;
+//@synthesize arrProductCategory2;
 @synthesize lblProductCategory2;
+@synthesize productCategory2List;
+@synthesize productList;
+
+
 
 - (void)loadView
 {
@@ -103,7 +107,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);        
     }
         
@@ -127,9 +131,9 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 - (void)loadViewProcess
 {
     NSString *strProductCategory2 = @"-";
-    if([arrProductCategory2 count]>0)
+    if([productCategory2List count]>0)
     {
-        ProductCategory2 *productCategory2 = [Utility getProductCategory2:arrProductCategory2[index]];
+        ProductCategory2 *productCategory2 = productCategory2List[index];
         strProductCategory2 = productCategory2.name;
     }
     
@@ -138,32 +142,37 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     lblProductCategory2.textColor = [UIColor purpleColor];
     
     
-    if([arrProductCategory2 count]>0)
+    if([productCategory2List count]>0)
     {
-        NSString *productCategory2 = arrProductCategory2[index];
-        NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
-        NSString *strEventID = [NSString stringWithFormat:@"%ld",eventID];
-        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %ld and _status = %@ and _productCategory2 = %@",eventID,@"I",productCategory2];
-        NSArray *filterArray = [arrProductEvent filteredArrayUsingPredicate:predicate1];
+//        NSString *productCategory2 = arrProductCategory2[index];
+//        NSInteger eventID = [SharedSelectedEvent sharedSelectedEvent].event.eventID;
+//        NSString *strEventID = [NSString stringWithFormat:@"%ld",eventID];
+//        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_eventID = %ld and _status = %@ and _productCategory2 = %@",eventID,@"I",productCategory2];
+//        NSArray *filterArray = [arrProductEvent filteredArrayUsingPredicate:predicate1];
         
         
         _mutArrProductItemList = [[NSMutableArray alloc]init];
-        for(Product *item in filterArray)
-        {
-            NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",item.productCategory2,item.productCategory1,item.productName];
-            ProductItem *productItem = [[ProductItem alloc]init];
-            productItem.productID = item.productID;
-            productItem.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
-            productItem.color = [Utility getColorName:item.color];
-            productItem.size = [Utility getSizeLabel:item.size];
-            productItem.sizeOrder = [Utility getSizeOrder:item.size];
-            productItem.modifiedDate = item.modifiedDate;
-            productItem.modifiedDateNoTime = [Utility formatDate:item.modifiedDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd"];
-            productItem.modifiedDateText = [Utility formatDate:productItem.modifiedDate fromFormat:[Utility setting:vFormatDateTimeDB] toFormat:@"dd/MM/yyyy HH:mm:ss"];
-            productItem.eventID = strEventID;
-            productItem.status = item.status;
-            [_mutArrProductItemList addObject:productItem];
-        }
+        ProductCategory2 *productCategory2 = productCategory2List[index];
+        NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+        _mutArrProductItemList = [[productList filteredArrayUsingPredicate:predicate1] mutableCopy];
+        
+        
+//        for(Product *item in productList)
+//        {
+//            NSString *productNameGroup = [NSString stringWithFormat:@"%@%@%@",item.productCategory2,item.productCategory1,item.productName];
+//            ProductItem *productItem = [[ProductItem alloc]init];
+//            productItem.productID = item.productID;
+//            productItem.productName = [ProductName getNameWithProductNameGroup:productNameGroup];
+//            productItem.color = [Utility getColorName:item.color];
+//            productItem.size = [Utility getSizeLabel:item.size];
+//            productItem.sizeOrder = [Utility getSizeOrder:item.size];
+//            productItem.modifiedDate = item.modifiedDate;
+//            productItem.modifiedDateNoTime = [Utility formatDate:item.modifiedDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd"];
+//            productItem.modifiedDateText = [Utility formatDate:productItem.modifiedDate fromFormat:[Utility setting:vFormatDateTimeDB] toFormat:@"dd/MM/yyyy HH:mm:ss"];
+//            productItem.eventID = strEventID;
+//            productItem.status = item.status;
+//            [_mutArrProductItemList addObject:productItem];
+//        }
     }
     
     [self setData];

@@ -35,6 +35,8 @@
     NSInteger _tagTextFieldQuantity;
     NSMutableDictionary *_dicGenerateQRCode;
     NSMutableArray *_eventListNowAndFutureAsc;
+    
+    NSArray *_initial;
 }
 @end
 
@@ -52,7 +54,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
 @synthesize txtEvent;
 @synthesize txtPicker;
 @synthesize btnAddInventory;
-
+@synthesize segConInitial;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 {
@@ -204,7 +206,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     txtEvent.inputView = txtPicker;
     txtPicker.delegate = self;
     txtPicker.dataSource = self;
-    txtPicker.showsSelectionIndicator = YES;
+//    txtPicker.showsSelectionIndicator = YES;
     
     
     [dtPicker removeFromSuperview];
@@ -282,14 +284,18 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
             [sizeList addObject:[Utility getSize:size]];
         }
         
+        for(ProductSize *item in sizeList)
         {
-            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+            item.intSizeOrder = [item.sizeOrder integerValue];
+        }
+        {
+            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
             NSArray *sortArray = [colorList sortedArrayUsingDescriptors:sortDescriptors];
             colorList = [sortArray mutableCopy];
         }
         {
-            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"sizeOrder" ascending:YES];
+            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
             NSArray *sortArray = [sizeList sortedArrayUsingDescriptors:sortDescriptors];
             sizeList = [sortArray mutableCopy];
@@ -381,6 +387,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         Color *color = colorList[item/(sizeNum+1)-1];
         cell.label.text = color.name;
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
+        cell.label.adjustsFontSizeToFitWidth = YES;
         cell.label.textColor= [UIColor blackColor];
         cell.label.backgroundColor = [UIColor clearColor];
         cell.label.textAlignment = NSTextAlignmentLeft;
@@ -603,6 +610,9 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     colViewData.dataSource = self;
     
     
+    _initial = @[@"ABCD",@"EFGH",@"IJKL",@"MNOPQ",@"RSTU",@"VWXYZ"];
+    
+    
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
 }
 
@@ -700,5 +710,44 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
     
+}
+
+- (IBAction)segConInitialDidChanged:(id)sender
+{
+    NSString *initialLetter = _initial[segConInitial.selectedSegmentIndex];
+    NSInteger section = [self getSection:initialLetter];
+
+    [self scrollToSectionHeader:(int)section];
+}
+
+-(void) scrollToSectionHeader:(int)section {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
+    UICollectionViewLayoutAttributes *attribs = [colViewData layoutAttributesForSupplementaryElementOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
+    CGPoint topOfHeader = CGPointMake(0, attribs.frame.origin.y - colViewData.contentInset.top);
+    [colViewData setContentOffset:topOfHeader animated:YES];
+}
+
+-(NSInteger)getSection:(NSString *)initialLetter
+{
+    for(int j=0; j<[initialLetter length]; j++)
+    {
+        NSRange needleRange = NSMakeRange(j,1);
+        NSString *initial = [initialLetter substringWithRange:needleRange];
+        
+        for(int i=0; i<[_productNameTableList count]; i++)
+        {
+            NSArray *productNameTable = _productNameTableList[i];
+            ProductName *productName = productNameTable[0];
+//            ProductName *productName = _productNameTableList[i];
+            NSRange needleRange = NSMakeRange(0,1);
+            NSString *productNameInitial = [productName.name substringWithRange:needleRange];
+            if([productNameInitial isEqualToString:initial])
+            {
+                return i;
+            }
+        }
+    }
+    
+    return 0;
 }
 @end

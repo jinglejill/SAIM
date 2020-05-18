@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "APLSectionHeaderView.h"
 #import "Homemodel.h"
-#import <DropboxSDK/DropboxSDK.h>
+//#import <DropboxSDK/DropboxSDK.h>
 
 
-@interface AdminMenuViewController : UITableViewController<SectionHeaderViewDelegate,HomeModelProtocol,DBSessionDelegate,DBNetworkRequestDelegate,DBRestClientDelegate>
+@interface AdminMenuViewController : UITableViewController<SectionHeaderViewDelegate,HomeModelProtocol>//,DBSessionDelegate,DBNetworkRequestDelegate,DBRestClientDelegate
 {
     UIImageView* imageView;
     UIButton* nextButton;
@@ -20,7 +20,7 @@
     
     
     BOOL working;
-    DBRestClient* restClient;
+//    DBRestClient* restClient;
 }
 
 
@@ -31,8 +31,8 @@
 @property (nonatomic) NSMutableArray *sectionInfoArray;
 
 
-- (void)setWorking:(BOOL)isWorking;
+//- (void)setWorking:(BOOL)isWorking;
 
-@property (nonatomic, readonly) DBRestClient* restClient;
+//@property (nonatomic, readonly) DBRestClient* restClient;
 
 @end

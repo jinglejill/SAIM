@@ -270,7 +270,7 @@ static NSString * const reuseIdentifier = @"Cell";
 {
 //    return [_dicProductName count];
     ProductCategory2 *productCategory2 = productCategory2List[index];
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _quantity > 0",productCategory2.code];
     NSArray *filterArray = [productNameList filteredArrayUsingPredicate:predicate1];
     
     
@@ -289,7 +289,7 @@ static NSString * const reuseIdentifier = @"Cell";
 //
 //    return ([arrColor count]+1)*([arrProductSize count]+1);
     ProductCategory2 *productCategory2 = productCategory2List[index];
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2.code];
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@ and _quantity > 0",productCategory2.code];
     NSArray *filterArray = [productNameList filteredArrayUsingPredicate:predicate1];
     
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_name" ascending:YES];
@@ -339,22 +339,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [cell addSubview:cell.label];
     cell.label.frame = cell.bounds;
     
-//    NSInteger section = indexPath.section;
-//    NSInteger item = indexPath.item;
-//
-//
-//    NSDictionary *dicColor = [_dicProductName objectForKey:_sortedProductName[section]];
-//    NSArray *keys = [dicColor allKeys];
-//    NSArray *sortedColor = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-//
-//
-//    NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:_sortedProductName[section]][1];//0=color,1=size
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
-//    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
-//    NSArray *sortedProductSize = [arrProductSize sortedArrayUsingDescriptors:sortDescriptors];
-//
-//
-//    NSInteger sizeNum = [arrProductSize count];
+
     NSInteger section = indexPath.section;
     NSInteger item = indexPath.item;
     
@@ -374,7 +359,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }
         }
         
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
         NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
         showProductSizeList = [sortArray mutableCopy];
@@ -411,7 +396,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else if(item >=1 && item <=sizeNum)
     {
-//        ProductSize *productSize = sortedProductSize[item-1];
         ProductSize *productSize = showProductSizeList[item-1];
         cell.label.text = productSize.sizeLabel;
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
@@ -421,7 +405,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else if(item !=0 && item%(sizeNum+1) == 0)
     {
-//        cell.label.text = sortedColor[(item/(sizeNum+1))-1];
         Color *color = showColorList[(item/(sizeNum+1))-1];
         cell.label.text = color.name;
         cell.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13];
@@ -437,13 +420,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else if(item >=(sizeNum+1) && item%(sizeNum+1) != 0)
     {
-//        NSDictionary *dicSize = [dicColor objectForKey:sortedColor[(item/(sizeNum+1))-1]];
-//
-//        //9-15
-//        ProductSize *productSize = sortedProductSize[item%(sizeNum+1)-1];
-//        NSString *quantity = [dicSize objectForKey:productSize.sizeLabel];
-//
-//        cell.label.text = quantity;
         Color *color = showColorList[(item/(sizeNum+1))-1];
         ProductSize *productSize = showProductSizeList[item%(sizeNum+1)-1];
         NSInteger quantity = [self getSkuQuantityWithProductNameID:productName.productNameID color:color.code size:productSize.code];
@@ -469,6 +445,11 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     ProductName *productName = productNameList[indexPath.section];
+//    if(productName.quantity == 0)
+//    {
+//        CGSize size = CGSizeMake(0, 0);
+//        return size;
+//    }
     NSMutableArray *showProductSizeList = [[NSMutableArray alloc]init];
     {
         NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productNameID = %ld",productName.productNameID];
@@ -483,7 +464,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }
         }
         
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
         NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
         showProductSizeList = [sortArray mutableCopy];
@@ -561,9 +542,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         frame2.size.width = frame2.size.width - 20;
         headerView.labelAlignRight.frame = frame2;
         headerView.labelAlignRight.textAlignment = NSTextAlignmentRight;
-//        NSString *strCountItemInProductName = [_countItemInProductName objectForKey:_sortedProductName[indexPath.section]];
-//        strCountItemInProductName = [Utility formatBaht:strCountItemInProductName];
-//        NSString *strCountItem = [NSString stringWithFormat:@"%@/%@",strCountItemInProductName,[self countAllItem]];
+
         NSString *strCountItem = [NSString stringWithFormat:@"%ld/%ld",productName.quantity,[self countAllItem]];
         headerView.labelAlignRight.text = strCountItem;
         [headerView addSubview:headerView.labelAlignRight];
@@ -635,6 +614,12 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section;
 {
+    ProductName *productName = productNameList[section];
+//    if(productName.quantity == 0)
+//    {
+//        CGSize headerSize = CGSizeMake(collectionView.bounds.size.width, 0);
+//        return headerSize;
+//    }
     CGSize headerSize = CGSizeMake(collectionView.bounds.size.width, 20);
     return headerSize;
 }

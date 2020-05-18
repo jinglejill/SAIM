@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
-#import <DropboxSDK/DropboxSDK.h>
+//#import <DropboxSDK/DropboxSDK.h>
 
-@interface ExportSalesViewController : UITableViewController<HomeModelProtocol,UITextFieldDelegate,DBSessionDelegate,DBNetworkRequestDelegate,DBRestClientDelegate>
+@interface ExportSalesViewController : UITableViewController<HomeModelProtocol,UITextFieldDelegate>//,DBSessionDelegate,DBNetworkRequestDelegate,DBRestClientDelegate
 {
-    DBRestClient* restClient;
+//    DBRestClient* restClient;
 }
 @property (strong, nonatomic) IBOutlet UITableView *tbv;
 - (IBAction)unwindToExportSales:(UIStoryboardSegue *)segue;

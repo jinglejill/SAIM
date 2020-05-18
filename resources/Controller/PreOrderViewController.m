@@ -133,7 +133,7 @@ static NSString * const reuseIdentifier = @"testCell";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -155,7 +155,7 @@ static NSString * const reuseIdentifier = @"testCell";
     txtLocation.inputView = txtPicker;
     txtPicker.delegate = self;
     txtPicker.dataSource = self;
-    txtPicker.showsSelectionIndicator = YES;
+//    txtPicker.showsSelectionIndicator = YES;
     
     
     
@@ -293,7 +293,7 @@ static NSString * const reuseIdentifier = @"testCell";
             }
         }
         
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
         NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
         showProductSizeList = [sortArray mutableCopy];
@@ -419,7 +419,7 @@ static NSString * const reuseIdentifier = @"testCell";
                 }
             }
             
-            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
             NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
             showProductSizeList = [sortArray mutableCopy];
@@ -549,7 +549,7 @@ static NSString * const reuseIdentifier = @"testCell";
             }
         }
         
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
         NSArray *sortArray = [showProductSizeList sortedArrayUsingDescriptors:sortDescriptors];
         showProductSizeList = [sortArray mutableCopy];

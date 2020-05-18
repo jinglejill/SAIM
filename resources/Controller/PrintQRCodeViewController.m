@@ -9,7 +9,7 @@
 #import "PrintQRCodeViewController.h"
 #import "CustomUITableViewCell4.h"
 #import "Utility.h"
-#import "CustomIOSAlertView.h"
+//#import "CustomIOSAlertView.h"
 #import "coretext/coretext.h"
 #import "ReachabilityBrother.h"
 #import "PrinterView.h"
@@ -335,7 +335,7 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     

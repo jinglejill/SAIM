@@ -111,7 +111,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -126,7 +126,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     txtMainCategory.inputView = txtPicker;
     txtPicker.delegate = self;
     txtPicker.dataSource = self;
-    txtPicker.showsSelectionIndicator = YES;
+//    txtPicker.showsSelectionIndicator = YES;
     
 
     
@@ -345,6 +345,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         {
             ProductSize *productSize = [[ProductSize alloc]init];
             productSize.code = item;
+            productSize.intSizeOrder = [Utility getSizeOrder:item];
             productSize.sizeOrder = [NSString stringWithFormat:@"%ld",(long)[Utility getSizeOrder:item]];
             productSize.sizeLabel = [Utility getSizeLabel:item];
             [mutArrSize addObject:productSize];
@@ -441,7 +442,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     
     
     NSArray *arrProductSize = [_dicColorAndSizeHead objectForKey:_sortedProductName[section]][1];//0=color,1=size
-    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_sizeOrder" ascending:YES];
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_intSizeOrder" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
     NSArray *sortedProductSize = [arrProductSize sortedArrayUsingDescriptors:sortDescriptors];
     

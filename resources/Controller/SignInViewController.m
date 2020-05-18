@@ -63,7 +63,7 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -145,15 +145,15 @@
 - (void)doLoginProcess
 {
     //check device token ในระบบ ว่าตรงกับตัวเองมั๊ย ถ้าไม่ตรงให้ไป alert ที่อีกเครื่องหนึ่ง
-    if(![[Utility getDeviceTokenFromUsername:[Utility modifiedUser]] isEqualToString:[Utility deviceToken]])
-    {
-        UserAccount *userAccount = [UserAccount getUserAccountByUsername:[Utility modifiedUser]];
-        userAccount.deviceToken = [Utility deviceToken];
-        userAccount.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-        userAccount.modifiedUser = [Utility modifiedUser];
-        
-        [_homeModel updateItems:dbUserAccountDeviceToken withData:userAccount];
-    }
+//    if(![[Utility getDeviceTokenFromUsername:[Utility modifiedUser]] isEqualToString:[Utility deviceToken]])
+//    {
+//        UserAccount *userAccount = [UserAccount getUserAccountByUsername:[Utility modifiedUser]];
+//        userAccount.deviceToken = [Utility deviceToken];
+//        userAccount.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        userAccount.modifiedUser = [Utility modifiedUser];
+//        
+//        [_homeModel updateItems:dbUserAccountDeviceToken withData:userAccount];
+//    }
     
     Login *login = [[Login alloc]init];
     login.username = [Utility modifiedUser];

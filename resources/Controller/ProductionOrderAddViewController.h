@@ -18,7 +18,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *txtEvent;
 @property (strong, nonatomic) IBOutlet UIPickerView *txtPicker;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnAddInventory;
-
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segConInitial;
+- (IBAction)segConInitialDidChanged:(id)sender;
 - (IBAction)datePickerChanged:(id)sender;
 - (IBAction)addInventory:(id)sender;
 @end
