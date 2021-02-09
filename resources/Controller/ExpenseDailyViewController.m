@@ -241,7 +241,8 @@ static NSString * const reuseIdentifierExpenseAmount = @"CustomTableViewCellExpe
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            
+
+            cell.contentView.userInteractionEnabled = false;
             [cell addSubview:_btnSave];
             [cell addSubview:_btnCancel];
             return cell;
@@ -251,6 +252,8 @@ static NSString * const reuseIdentifierExpenseAmount = @"CustomTableViewCellExpe
     {
         CustomTableViewCellExpenseDaily *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierExpenseDaily];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
         
         ExpenseDaily *expenseDaily = expenseDailyList[indexPath.item];
         

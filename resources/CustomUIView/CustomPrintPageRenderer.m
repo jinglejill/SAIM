@@ -29,15 +29,13 @@
 
 - (NSString *)exportHTMLContentToPDFWIthPrintFormatterList:(NSMutableArray *)printFormatterList fileName:(NSString *)fileName
 {
-    NSMutableArray *printPageRendererList = [[NSMutableArray alloc]init];
     CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
     for(int i=0; i<[printFormatterList count]; i++)
     {
         [printPageRenderer addPrintFormatter:printFormatterList[i] startingAtPageAtIndex:i];
-        [printPageRendererList addObject:printPageRenderer];
     }
         
-    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRendererList];
+    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRenderer];
     
     
     NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
@@ -48,20 +46,39 @@
     
     return pdfFileName;
 }
+
+- (NSString *)exportHTMLContentToPDFWIthPrintFormatter:(UIPrintFormatter *)printFormatter fileName:(NSString *)fileName
+{
+    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+//    for(int i=0; i<[printFormatterList count]; i++)
+    {
+        [printPageRenderer addPrintFormatter:printFormatter startingAtPageAtIndex:0];
+    }
+        
+    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRenderer];
+    
+    
+    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
+    
+    
+    [pdfData writeToFile:pdfFileName atomically:YES];
+    NSLog(@"pdf filename: %@",pdfFileName);
+    
+    return pdfFileName;
+}
+
 
 - (NSString *)exportHTMLContentToPDF:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName
 {
-    NSMutableArray *printPageRendererList = [[NSMutableArray alloc]init];
+    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
     for(int i=0; i<[htmlContentList count]; i++)
     {
-        NSString *htmlContent = htmlContentList[i];
-        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+        NSString *htmlContent = htmlContentList[i];        
         UIMarkupTextPrintFormatter *printFormatter = [[UIMarkupTextPrintFormatter alloc]initWithMarkupText:htmlContent];
         [printPageRenderer addPrintFormatter:printFormatter startingAtPageAtIndex:i];
-        [printPageRendererList addObject:printPageRenderer];
     }
     
-    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRendererList];
+    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRenderer];
     
     
     NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
@@ -71,30 +88,6 @@
     NSLog(@"pdf filename: %@",pdfFileName);
     
     return pdfFileName;
-}
-
-- (NSData *)exportHTMLContentToPDFNSData:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName
-{
-    NSMutableArray *printPageRendererList = [[NSMutableArray alloc]init];
-    for(int i=0; i<[htmlContentList count]; i++)
-    {
-        NSString *htmlContent = htmlContentList[i];
-        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
-        UIMarkupTextPrintFormatter *printFormatter = [[UIMarkupTextPrintFormatter alloc]initWithMarkupText:htmlContent];
-        [printPageRenderer addPrintFormatter:printFormatter startingAtPageAtIndex:i];
-        [printPageRendererList addObject:printPageRenderer];
-    }
-    
-    NSData *pdfData = [self drawPDFUsingPrintPageRendererList:printPageRendererList];
-    return pdfData;
-    
-//    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],fileName];
-//    
-//    
-//    [pdfData writeToFile:pdfFileName atomically:YES];
-//    NSLog(@"pdf filename: %@",pdfFileName);
-//    
-//    return pdfFileName;
 }
 
 - (NSData *)drawPDFUsingPrintPageRenderer:(CustomPrintPageRenderer *)printPageRenderer
@@ -112,41 +105,26 @@
     
     UIGraphicsEndPDFContext();
     
-    
-//    //test
-//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:@"2020-04-06 00:00:00" fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
-//    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],strFileName];
-//
-//
-//    [data writeToFile:pdfFileName atomically:YES];
-//    NSLog(@"pdf filename: %@",pdfFileName);
+
             
     return data;
 }
 
-- (NSData *)drawPDFUsingPrintPageRendererList:(NSMutableArray *)printPageRendererList
+- (NSData *)drawPDFUsingPrintPageRendererList:(CustomPrintPageRenderer *)printPageRenderer
 {
     NSMutableData *data = [[NSMutableData alloc]init];
     UIGraphicsBeginPDFContextToData(data, CGRectZero, nil);
     
     
-    for(int i=0; i<[printPageRendererList count]; i++)
+    for(int i=0; i<[printPageRenderer numberOfPages]; i++)
     {
         UIGraphicsBeginPDFPage();
         
-        [printPageRendererList[i] drawPageAtIndex:i inRect:UIGraphicsGetPDFContextBounds()];
+        [printPageRenderer drawPageAtIndex:i inRect:UIGraphicsGetPDFContextBounds()];
     }
     
     UIGraphicsEndPDFContext();
-    
-    
-//    //test
-//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:@"2020-04-06 00:00:00" fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
-//    NSString *pdfFileName = [NSString stringWithFormat:@"%@/%@.pdf",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],strFileName];
-//
-//
-//    [data writeToFile:pdfFileName atomically:YES];
-//    NSLog(@"pdf filename: %@",pdfFileName);
+
             
     return data;
 }

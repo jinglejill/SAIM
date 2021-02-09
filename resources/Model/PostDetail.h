@@ -25,6 +25,7 @@
 @property (retain, nonatomic) NSString * editType;//0=edit,1=unselect,2=select
 @property (retain, nonatomic) NSString * receiptDateSort;
 @property (nonatomic) NSInteger channel;
+@property (retain, nonatomic) NSString * eventChannel;
 @property (retain, nonatomic) NSString * channelUserID;
 
 @property (nonatomic) NSInteger hasPostCustomer;

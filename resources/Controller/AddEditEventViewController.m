@@ -33,6 +33,9 @@
 @synthesize event;
 @synthesize currentAction;
 @synthesize txtProductSalesSet;
+@synthesize btnLocked;
+@synthesize remarkWidth;
+
 - (IBAction)unwindToAddEditEvent:(UIStoryboardSegue *)segue
 {
     ProductSalesSetViewController *vc = segue.sourceViewController;
@@ -78,6 +81,16 @@
     txtPeriodFrom.delegate = self;
     txtPeriodTo.delegate = self;
     txtProductSalesSet.delegate = self;
+    [btnLocked setTitle:@"Lock" forState:UIControlStateNormal];
+    [btnLocked addTarget:self action:@selector(lockStock:) forControlEvents:UIControlEventTouchUpInside];
+//    if(event != nil)
+    {
+        remarkWidth.constant = (self.view.frame.size.width-16*2-8)/2;
+    }
+//    else
+//    {
+//        remarkWidth.constant = (self.view.frame.size.width-16*2);
+//    }
     
     
     [self loadViewProcess];
@@ -96,6 +109,14 @@
         _productSalesSetID = event.productSalesSetID;
         currentAction = edit;
         
+        if([[event.remark lowercaseString] isEqualToString:@"locked"])
+        {
+            [btnLocked setTitle:@"Unlock" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [btnLocked setTitle:@"Lock" forState:UIControlStateNormal];
+        }
     }
 }
 
@@ -118,7 +139,6 @@
         return NO;
     }
     //period from-to not empty
-//    txtPeriodFrom.text = [Utility trimString:txtPeriodFrom.text];
     if([txtPeriodFrom.text isEqualToString:@""])
     {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Invalid data"
@@ -133,7 +153,6 @@
         
         return NO;
     }
-//    txtPeriodTo.text = [Utility trimString:txtPeriodTo.text];
     if([txtPeriodTo.text isEqualToString:@""])
     {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Invalid data"
@@ -280,6 +299,22 @@
     }
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if([textField isEqual:txtRemark])
+    {
+        if([[Utility trimString:[txtRemark.text lowercaseString]] isEqual:@"locked"])
+        {
+            txtRemark.text = @"locked";
+            [btnLocked setTitle:@"Unlock" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [btnLocked setTitle:@"Lock" forState:UIControlStateNormal];
+        }
+    }
+}
+
 - (IBAction)dateAction:(id)sender {
     [self setPeriodValue];
 }
@@ -297,6 +332,7 @@
         txtPeriodTo.text = formatedDate;
     }
 }
+
 -(void) loadingOverlayView
 {
     [indicator startAnimating];
@@ -328,4 +364,17 @@
      ];
 }
 
+-(void)lockStock:(id)button
+{
+    if([[btnLocked.titleLabel.text lowercaseString] isEqualToString:@"lock"])
+    {
+        txtRemark.text = @"locked";
+        [btnLocked setTitle:@"Unlock" forState:UIControlStateNormal];
+    }
+    else
+    {
+        txtRemark.text = @"";
+        [btnLocked setTitle:@"Lock" forState:UIControlStateNormal];
+    }
+}
 @end

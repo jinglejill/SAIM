@@ -476,7 +476,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
         PostDetail *postDetail;
         postDetail = _postDetailList[item/countColumn-1];
         
-        switch (item%countColumn) {
+        switch (item%countColumn)
+        {
             case 0:
             {
                 cell.imageView.userInteractionEnabled = YES;
@@ -595,6 +596,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
             default:
                 break;
         }
+        
+        cell.backgroundColor = [SalesByChannel getColor:postDetail.channel];
     }
 
     return cell;
@@ -607,7 +610,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
     return arrFilter[0];
 }
 
-- (void) viewChannelUserID:(id)sender
+- (void)viewChannelUserID:(id)sender
 {
     if([_txvDetail isDescendantOfView:self.view])
     {

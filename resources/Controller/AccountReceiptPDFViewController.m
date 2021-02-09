@@ -166,6 +166,7 @@
     NSMutableArray *items = [[NSMutableArray alloc]init];
     NSInteger previousReceiptID = 0;
     float grandTotalAmount = 0;
+    float receiptDiscountFromItem = 0;
     for(SalesProductAndPrice *salesProductAndPrice in salesProductAndPriceBillingsOnlySumQuantityList)
     {
         if(previousReceiptID != salesProductAndPrice.receiptID)
@@ -193,7 +194,8 @@
                 float discount = 0;
 //                if(![postCustomer.taxCustomerName isEqualToString:@""])//เปลี่ยนเป็นออกทุกบิล เอา discount ตามจริง
                 {
-                    discount = roundf(previousSalesProductAndPrice.receiptDiscount*100)/100;
+//                    discount = roundf(previousSalesProductAndPrice.receiptDiscount*100)/100;
+                    discount = roundf(receiptDiscountFromItem*100)/100;
                 }
                 float totalAmountIncludeVat = grandTotalAmount - discount;
                 float vat = roundf(totalAmountIncludeVat*7/107*100)/100;
@@ -220,6 +222,7 @@
                 
                 
                 grandTotalAmount = 0;
+                receiptDiscountFromItem = 0;
                 items = [[NSMutableArray alloc]init];
             }
             
@@ -258,23 +261,59 @@
         NSString *strItemNo = [ProductName getProductCode:salesProductAndPrice.productNameID];
         NSString *strQuantity = [NSString stringWithFormat:@"%f",salesProductAndPrice.quantity];
         NSString *strAmountPerUnit = [NSString stringWithFormat:@"%f",salesProductAndPrice.amountPerUnit];
+        NSString *strItemDiscount = [NSString stringWithFormat:@"%f",salesProductAndPrice.itemDiscount];
         NSString *strTotalAmount = [NSString stringWithFormat:@"%f",salesProductAndPrice.quantity*salesProductAndPrice.amountPerUnit];
-        NSString *strProductName = [NSString stringWithFormat:@"รองเท้ารุ่น %@",salesProductAndPrice.productName];
+//        NSString *strProductName = [NSString stringWithFormat:@"รองเท้ารุ่น %@",salesProductAndPrice.productName];
+        ProductName *productName = [ProductName getProductName:salesProductAndPrice.productNameID];
+        NSString *strProductName;
+        if([productName.productCategory2 isEqualToString:@"01"])
+        {
+            strProductName = [NSString stringWithFormat:@"รองเท้ารุ่น %@",productName.name];
+        }
+        else if([productName.productCategory2 isEqualToString:@"02"])
+        {
+            strProductName = [NSString stringWithFormat:@"เครื่องประดับรุ่น %@",productName.name];
+        }
+        else if([productName.productCategory2 isEqualToString:@"03"])
+        {
+            if([productName.name isEqualToString:@"Pearl strap"] || [productName.name isEqualToString:@"Gold chain"])
+            {
+                strProductName = [NSString stringWithFormat:@"กระเป๋ารุ่น %@",@"Accessories"];
+            }
+            else
+            {
+                strProductName = [NSString stringWithFormat:@"กระเป๋ารุ่น %@",productName.name];
+            }        
+        }
+        else
+        {
+            strProductName = [NSString stringWithFormat:@"สินค้ารุ่น %@",productName.name];
+        }
+        
         strQuantity = [Utility formatBaht:strQuantity withMinFraction:2 andMaxFraction:2];
         strAmountPerUnit = [Utility formatBaht:strAmountPerUnit withMinFraction:2 andMaxFraction:2];
+        strItemDiscount = [Utility formatBaht:strItemDiscount withMinFraction:2 andMaxFraction:2];
         strTotalAmount = [Utility formatBaht:strTotalAmount withMinFraction:2 andMaxFraction:2];
+        
+        
+        if([strProductName isEqualToString:@"รองเท้ารุ่น Sock U"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock V"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock O"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock Taylor"])
+        {
+            strProductName = @"รองเท้ารุ่น Sock";
+        }
         
         
         [item setValue:strItemNo forKey:@"itemNo"];///*************
         [item setValue:strProductName forKey:@"itemDesc"];
         [item setValue:strQuantity forKey:@"quantity"];
         [item setValue:strAmountPerUnit forKey:@"amountPerUnit"];
+        [item setValue:strItemDiscount forKey:@"itemDiscount"];
         [item setValue:strTotalAmount forKey:@"totalAmount"];
         [item setValue:strProductNameID forKey:@"productNameID"];
         
         
         [items addObject:item];
         grandTotalAmount += salesProductAndPrice.quantity*salesProductAndPrice.amountPerUnit;
+        receiptDiscountFromItem += salesProductAndPrice.itemDiscount;
     }
     //last receiptid
     {
@@ -286,6 +325,7 @@
             [item setValue:@"" forKey:@"itemDesc"];
             [item setValue:@"" forKey:@"quantity"];
             [item setValue:@"" forKey:@"amountPerUnit"];
+            [item setValue:@"" forKey:@"itemDiscount"];
             [item setValue:@"" forKey:@"totalAmount"];
             
             [items addObject:item];
@@ -295,7 +335,8 @@
         
         
         SalesProductAndPrice *previousSalesProductAndPrice = [SalesProductAndPrice getSalesProductAndPriceWithReceiptID:previousReceiptID salesProductAndPriceList:salesProductAndPriceBillingsOnlySumQuantityList];
-        float discount = roundf(previousSalesProductAndPrice.receiptDiscount*100)/100;
+//        float discount = roundf(previousSalesProductAndPrice.receiptDiscount*100)/100;
+        float discount = receiptDiscountFromItem;
         float totalAmountIncludeVat = grandTotalAmount - discount;
         float vat = roundf(totalAmountIncludeVat*7/107*100)/100;
         NSString *strGrandTotalAmount = [NSString stringWithFormat:@"%f",grandTotalAmount];
@@ -411,7 +452,8 @@
             NSInteger productNameID = [[item valueForKey:@"productNameID"] integerValue];
             float quantity = [Utility floatValue:[item valueForKey:@"quantity"]];
             float amountPerUnit = [Utility floatValue:[item valueForKey:@"amountPerUnit"]];
-            AccountReceiptProductItem *accountReceiptProductItem = [[AccountReceiptProductItem alloc]initWithAccountReceiptProductItemID:++maxAccountReceiptProductItemID accountReceiptID:maxAccountReceiptID productNameID:productNameID quantity:quantity amountPerUnit:amountPerUnit];
+            float itemDiscount = [Utility floatValue:[item valueForKey:@"itemDiscount"]];
+            AccountReceiptProductItem *accountReceiptProductItem = [[AccountReceiptProductItem alloc]initWithAccountReceiptProductItemID:++maxAccountReceiptProductItemID accountReceiptID:maxAccountReceiptID productNameID:productNameID quantity:quantity amountPerUnit:amountPerUnit itemDiscount:itemDiscount];
             [accountReceiptProductItemList addObject:accountReceiptProductItem];
         }
     }

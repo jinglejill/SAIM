@@ -131,16 +131,16 @@
     
     switch (indexPath.row) {
         case 0:
-            [cell addSubview:txtDateStart];
+            [cell.contentView addSubview:txtDateStart];
             break;
         case 1:
-            [cell addSubview:txtDateEnd];
+            [cell.contentView addSubview:txtDateEnd];
             break;
         case 2:
-            [cell addSubview:txtPointSpent];
+            [cell.contentView addSubview:txtPointSpent];
             break;
         case 3:
-            [cell addSubview:txtDiscountAmount];
+            [cell.contentView addSubview:txtDiscountAmount];
             [cell addSubview:segConBahtPercent];
             break;
     }

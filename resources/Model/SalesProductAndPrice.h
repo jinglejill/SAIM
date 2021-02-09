@@ -20,6 +20,7 @@
 @property (retain, nonatomic) NSString *taxCustomerName;
 @property (nonatomic) NSInteger isCredit;
 @property (nonatomic) float receiptDiscount;
+@property (nonatomic) float itemDiscount;
 
 @property (nonatomic) float quantity;
 @property (nonatomic) float amountPerUnit;

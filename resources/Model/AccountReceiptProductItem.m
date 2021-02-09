@@ -17,11 +17,12 @@
         [self valueForKey:@"accountReceiptID"]?[self valueForKey:@"accountReceiptID"]:[NSNull null],@"accountReceiptID",
         [self valueForKey:@"productNameID"]?[self valueForKey:@"productNameID"]:[NSNull null],@"productNameID",
         [self valueForKey:@"quantity"]?[self valueForKey:@"quantity"]:[NSNull null],@"quantity",
-        [self valueForKey:@"amountPerUnit"]?[self valueForKey:@"amountPerUnit"]:[NSNull null],@"amountPerUnit",        
+        [self valueForKey:@"amountPerUnit"]?[self valueForKey:@"amountPerUnit"]:[NSNull null],@"amountPerUnit",
+        [self valueForKey:@"itemDiscount"]?[self valueForKey:@"itemDiscount"]:[NSNull null],@"itemDiscount",
         nil];
 }
 
--(AccountReceiptProductItem *)initWithAccountReceiptProductItemID:(NSInteger)accountReceiptProductItemID accountReceiptID:(NSInteger)accountReceiptID productNameID:(NSInteger)productNameID quantity:(float)quantity amountPerUnit:(float)amountPerUnit
+-(AccountReceiptProductItem *)initWithAccountReceiptProductItemID:(NSInteger)accountReceiptProductItemID accountReceiptID:(NSInteger)accountReceiptID productNameID:(NSInteger)productNameID quantity:(float)quantity amountPerUnit:(float)amountPerUnit itemDiscount:(float)itemDiscount
 {
     self = [super init];
     if(self)
@@ -31,6 +32,7 @@
         self.productNameID = productNameID;
         self.quantity = quantity;
         self.amountPerUnit = amountPerUnit;
+        self.itemDiscount = itemDiscount;
     }
     return self;
 }

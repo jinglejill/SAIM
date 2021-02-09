@@ -495,6 +495,7 @@
         ((SalesProductAndPrice *)copy).hilight = self.hilight;
         ((SalesProductAndPrice *)copy).quantity = self.quantity;
         ((SalesProductAndPrice *)copy).amountPerUnit = self.amountPerUnit;
+        ((SalesProductAndPrice *)copy).itemDiscount = self.itemDiscount;
         
     }
     

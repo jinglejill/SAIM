@@ -857,6 +857,16 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
                                }]];
     }
     
+    //delete product
+    [alert addAction:
+    [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Delete Product"]
+                             style:UIAlertActionStyleDestructive
+                           handler:^(UIAlertAction *action)
+                           {
+                               [self deleteProduct:receiptProductItemID];
+                           }]];
+    
+    
     //replace product
     if([receiptProductItem.productType isEqualToString:@"A"]
     || [receiptProductItem.productType isEqualToString:@"B"]
@@ -1025,6 +1035,77 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (void) deleteProduct:(NSInteger)receiptProductItemID
+{
+    ReceiptProductItem *receiptProductItem = [self getReceiptProductItem:receiptProductItemID];
+    
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:nil
+                            preferredStyle:UIAlertControllerStyleActionSheet];
+                            
+                            
+    [alert addAction:
+     [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Delete product (No.%@)",receiptProductItem.row]
+                              style:UIAlertActionStyleDestructive
+                            handler:^(UIAlertAction *action) {
+                                //update receiptproductitem producttype=xx,productID=customMadeEdit
+                                //update product status = 'I'
+                                    //customerreceipt trackingno คงไว้
+                                
+                                NSMutableArray *arrProduct = [[NSMutableArray alloc]init];
+                                NSMutableArray *arrCustomMade = [[NSMutableArray alloc]init];;
+                                NSMutableArray *arrReceiptProductItem = [[NSMutableArray alloc]init];;
+                                if([receiptProductItem.productType isEqualToString:@"I"] || [receiptProductItem.productType isEqualToString:@"P"] || [receiptProductItem.productType isEqualToString:@"R"] || [receiptProductItem.productType isEqualToString:@"S"])
+                                {
+                                    Product *product = [[Product alloc]init];
+                                    product.productID = receiptProductItem.productID;
+                                    product.status = @"I";
+                                    product.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+                                    product.modifiedUser = [Utility modifiedUser];
+                                    [arrProduct addObject:product];
+                                }
+                                ReceiptProductItem *receiptProductItemUpdate = [[ReceiptProductItem alloc]init];
+                                receiptProductItemUpdate.receiptProductItemID = receiptProductItem.receiptProductItemID;
+                                receiptProductItemUpdate.productID = receiptProductItem.productID;
+                               
+        if([receiptProductItem.productType isEqualToString:@"C"] || [receiptProductItem.productType isEqualToString:@"B"] || [receiptProductItem.productType isEqualToString:@"E"])
+        {
+            CustomMade *customMade = [self getCustomMade:[receiptProductItem.productID integerValue]];
+            [arrCustomMade addObject:customMade];
+        }
+        
+                                if([receiptProductItem.productType isEqualToString:@"R"])
+                                {
+                                    if(!receiptProductItem.isPreOrder2)
+                                    {
+                                        CustomMade *customMade = [self getCustomMadeFromProductIDPost:receiptProductItem.productID];
+                                        [arrCustomMade addObject:customMade];
+                                    }
+                                }
+                                    
+        
+                                receiptProductItemUpdate.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+                                receiptProductItemUpdate.modifiedUser = [Utility modifiedUser];
+                                [arrReceiptProductItem addObject:receiptProductItemUpdate];
+                                
+                                
+                                
+                                NSArray *arrData = @[arrProduct,arrCustomMade,arrReceiptProductItem];
+                                [self loadingOverlayView];
+                                [self.homeModel updateItems:dbReceiptProductItemDelete withData:arrData];
+                                
+//                                [self fetchData];
+                            }]];
+    [alert addAction:
+     [UIAlertAction actionWithTitle:@"Cancel"
+                              style:UIAlertActionStyleCancel
+                            handler:^(UIAlertAction *action) {}]];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 -(void)itemsUpdatedWithReturnData:(NSArray *)data
 {
     if(self.homeModel.propCurrentDB == dbReceiptProductItemAndProductUpdate)
@@ -1050,6 +1131,59 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
         updateReceiptProductItem.productType = returnReceiptProductItem.productType;
         updateReceiptProductItem.productID = returnReceiptProductItem.productID;
         [self setData];
+    }
+    else if(self.homeModel.propCurrentDB == dbReceiptProductItemDelete)
+    {
+        [self removeOverlayViews];
+        NSMutableArray *returnProductList = data[0];
+        NSMutableArray *returnCustomMadeList = data[1];
+        NSMutableArray *returnReceiptProductItemList = data[2];
+        NSMutableArray *returnReceiptList = data[3];
+        NSArray *messageList = data[4];
+        InAppMessage *message = messageList[0];
+                
+        if(![Utility isStringEmpty:message.message])
+        {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
+                                                                   message:message.message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            return;;
+        }
+        
+        if([returnProductList count]>0)
+        {
+            Product *returnProduct = returnProductList[0];
+            Product *updateProduct = [self getProduct:returnProduct.productID];
+            updateProduct.status = returnProduct.status;
+        }
+        if([returnCustomMadeList count] > 0)
+        {
+            CustomMade *returnCustomMade = returnCustomMadeList[0];
+            CustomMade *updateCustomMade = [self getCustomMade:returnCustomMade.customMadeID];
+            updateCustomMade.productIDPost = @"";
+        }
+        Receipt *returnReceipt = returnReceiptList[0];
+        Receipt *updateReceipt = [self getReceipt:returnReceipt.receiptID];
+        updateReceipt.payPrice = returnReceipt.payPrice;
+        updateReceipt.cashAmount = returnReceipt.cashAmount;
+        updateReceipt.creditAmount = returnReceipt.creditAmount;
+        updateReceipt.transferAmount = returnReceipt.transferAmount;
+        updateReceipt.total = returnReceipt.total;
+        
+        
+        ReceiptProductItem *returnReceiptProductItem = returnReceiptProductItemList[0];
+        ReceiptProductItem *updateReceiptProductItem = [self getReceiptProductItem:returnReceiptProductItem.receiptProductItemID];
+        [self removeReceiptProductItem:updateReceiptProductItem];
+        [self setData];
+        
     }
 }
 
@@ -1210,5 +1344,11 @@ static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCel
             [self presentViewController:alert animated:YES completion:nil];
         }
     }
+}
+
+
+-(void)removeReceiptProductItem:(ReceiptProductItem *)receiptProductItem
+{
+    [_receiptProductItemListForDate removeObject:receiptProductItem];
 }
 @end

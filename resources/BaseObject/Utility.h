@@ -109,6 +109,7 @@ enum enumDB
     dbMaster,
     dbMasterWithProgressBar,
     dbReceiptProductItemAndProductUpdate,
+    dbReceiptProductItemDelete,
     dbCompareInventory,
     dbCompareInventoryNotMatchInsert,
     dbProductSalesSet,
@@ -207,7 +208,11 @@ enum enumDB
     dbMainInventorySummary,
     dbEventInventory,
     dbLazadaPendingOrders,
-    dbLazadaFetchOrders
+    dbLazadaFetchOrders,
+    dbJDPendingOrders,
+    dbJDFetchOrders,
+    dbMiraklPendingOrders,
+    dbMiraklFetchOrders
 };
 enum enumUrl
 {
@@ -241,6 +246,7 @@ enum enumUrl
     urlMasterNewGet,
     urlMasterProductOnlyGet,
     urlReceiptProductItemAndProductUpdate,
+    urlReceiptProductItemDelete,
     urlCompareInventoryInsert,
     urlCompareInventoryUpdate,
     urlCompareInventoryNotMatchInsert,
@@ -377,7 +383,11 @@ enum enumUrl
     urlMainInventorySummaryGetList,
     urlEventInventoryGetList,
     urlLazadaPendingOrdersGetList,
-    urlLazadaFetchOrdersGetList
+    urlLazadaFetchOrdersGetList,
+    urlJDPendingOrdersGetList,
+    urlJDFetchOrdersGetList,
+    urlMiraklPendingOrdersGetList,
+    urlMiraklFetchOrdersGetList
     
 };
 enum enumTableName

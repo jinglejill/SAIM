@@ -485,7 +485,7 @@ typedef struct MGSwipeAnimationData {
             textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             textField.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
             [textField setKeyboardType:UIKeyboardTypeDecimalPad];
-            [self addSubview:textField];
+            [self.contentView addSubview:textField];
             
             
             textNewLabel = [[UITextField alloc] initWithFrame:CGRectMake(10.0f, controlYOrigin, 90.0f, 25.0f)];
@@ -503,7 +503,7 @@ typedef struct MGSwipeAnimationData {
             
 
             float controlYOrigin = (44 - 25)/2;//table row height minus control height and set vertical center            
-            textNewLabel = [[UITextField alloc] initWithFrame:CGRectMake(10.0f, controlYOrigin, self.frame.size.width-10, 25.0f)];
+            textNewLabel = [[UITextField alloc] initWithFrame:CGRectMake(10.0f, controlYOrigin,300, 25.0f)];
             textNewLabel.clearButtonMode = UITextFieldViewModeWhileEditing;
             textNewLabel.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
             [textNewLabel setKeyboardType:UIKeyboardTypeDefault];

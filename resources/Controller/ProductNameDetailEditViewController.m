@@ -85,7 +85,7 @@
         if(indexPath.row == 0)
         {
             txtPrice.text = productSales.price;
-            [cell addSubview:txtPrice];
+            [cell.contentView addSubview:txtPrice];
             
             if(![productSales.price isEqualToString:@"0"])
             {
@@ -137,7 +137,7 @@
         if(indexPath.row == 0)
         {
             txtPrice.text = @"";
-            [cell addSubview:txtPrice];
+            [cell.contentView addSubview:txtPrice];
         }
         else if(indexPath.row == 1)
         {

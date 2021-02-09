@@ -344,6 +344,18 @@
             arrClassName = @[@"LazadaOrder"];
         }
             break;
+        case dbJDPendingOrders:
+        case dbJDFetchOrders:
+        {
+            arrClassName = @[@"JDOrder"];
+        }
+            break;
+        case dbMiraklPendingOrders:
+        case dbMiraklFetchOrders:
+        {
+            arrClassName = @[@"MiraklOrder"];
+        }
+            break;
         default:
             break;
     }
@@ -474,6 +486,10 @@
         case dbEventInventory:
         case dbLazadaPendingOrders:
         case dbLazadaFetchOrders:
+        case dbJDPendingOrders:
+        case dbJDFetchOrders:
+        case dbMiraklPendingOrders:
+        case dbMiraklFetchOrders:
         {
             [_dataToDownload appendData:dataRaw];
             if([ _dataToDownload length ]/_downloadSize == 1.0f)
@@ -658,6 +674,26 @@
         case dbLazadaFetchOrders:
         {
             url = [NSString stringWithFormat:[Utility url:urlLazadaFetchOrdersGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbJDPendingOrders:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlJDPendingOrdersGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbJDFetchOrders:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlJDFetchOrdersGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbMiraklPendingOrders:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlMiraklPendingOrdersGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbMiraklFetchOrders:
+        {
+            url = [NSString stringWithFormat:[Utility url:urlMiraklFetchOrdersGetList],[Utility randomStringWithLength:6]];
         }
             break;
         default:
@@ -1754,7 +1790,7 @@
                     {
                         if([status isEqual:@"1"] && [strTableName isEqualToString:@"WordPressRegister"])
                         {
-                            NSArray *arrClassName = @[@"WordPressUser"];
+                            NSArray *arrClassName = @[@"PostCustomer",@"WordPressUser"];
                             NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
                             
                             
@@ -2619,6 +2655,37 @@
             url = [NSURL URLWithString:[Utility url:urlProductMoveToEventUpdate]];
         }
             break;
+        case dbReceiptProductItemDelete:
+        {
+            NSArray *arrData = (NSArray *)data;
+            NSArray *arrProduct = arrData[0];
+            NSArray *arrCustomMade = arrData[1];
+            NSArray *arrReceiptProductItem = arrData[2];
+            
+            NSInteger countProduct = 0;
+            NSInteger countCustomMade = 0;
+            NSInteger countReceiptProductItem = 0;
+            noteDataString = [NSString stringWithFormat:@"countProduct=%ld&countCustomMade=%ld&countReceiptProductItem=%ld",[arrProduct count],[arrCustomMade count],[arrReceiptProductItem count]];
+            
+            for(Product *item in arrProduct)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&productIDMain%02ld=%@",noteDataString,countProduct,item.productID];
+                countProduct++;
+            }
+            for(CustomMade *item in arrCustomMade)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&customMadeID%02ld=%ld",noteDataString,countCustomMade,item.customMadeID];
+                countCustomMade++;
+            }
+            for(ReceiptProductItem *item in arrReceiptProductItem)
+            {
+                noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:item withRunningNo:countReceiptProductItem]];
+                countReceiptProductItem++;
+            }
+            
+            url = [NSURL URLWithString:[Utility url:urlReceiptProductItemDelete]];
+        }
+            break;
         default:
             break;
     }
@@ -2656,7 +2723,7 @@
             {
                 NSLog(@"update success");
                 NSString *function = json[@"function"];
-                NSString *strID = json[@"id"];
+                NSString *strID = json[@"id"];                
                 NSArray *dataJson = json[@"dataJson"];
                 if([function isEqualToString:@"scanUnpostCM"] || [function isEqualToString:@"scanUnpost"] || [function isEqualToString:@"scanPost"] || [function isEqualToString:@"CustomerReceiptUpdatePostCustomerID"] || [function isEqualToString:@"scanDelete"])
                 {
@@ -2668,6 +2735,17 @@
                 else if([function isEqualToString:@"changeProduct"])
                 {
                     NSArray *arrClassName = @[@"Product",@"CustomMade",@"ReceiptProductItem",@"InAppMessage"];
+                    NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                    
+                    
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsUpdatedWithReturnData:items];
+                    }
+                }
+                else if([function isEqualToString:@"ReceiptProductItemDelete"])
+                {
+                    NSArray *arrClassName = @[@"Product",@"CustomMade",@"ReceiptProductItem",@"Receipt",@"InAppMessage"];
                     NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
                     
                     

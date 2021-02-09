@@ -123,7 +123,7 @@
     {
         ProductCategory2 *productCategory2 = _defaultList[row];
         cell.textNewLabel.text = productCategory2.name;
-        [cell addSubview:cell.textNewLabel];
+        [cell.contentView addSubview:cell.textNewLabel];
         cell.rightButtons = [self createRightButtons:1 indexPath:indexPath];
     }
     else if(section == 1)
@@ -131,7 +131,7 @@
         ProductCategory2 *productCategory2 = _newList[row];
         cell.textNewLabel.text = productCategory2.name;
         cell.textNewLabel.placeholder = @"New item";
-        [cell addSubview:cell.textNewLabel];
+        [cell.contentView addSubview:cell.textNewLabel];
         cell.rightButtons = [self createRightButtons:1 indexPath:indexPath];
     }
     

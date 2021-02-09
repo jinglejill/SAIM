@@ -237,7 +237,7 @@ enum enumFixedCost
         
         cell.textNewLabel.text = eventCost.costLabel;
         cell.textNewLabel.placeholder = @"New label";
-        [cell addSubview:cell.textNewLabel];
+        [cell.contentView addSubview:cell.textNewLabel];
         [cell.textNewLabel setTextColor:tBlueColor];
         
         //data from load or edit

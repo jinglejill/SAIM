@@ -23,6 +23,8 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnBack;
 @property (strong, nonatomic) IBOutlet UITextField *txtProductSalesSet;
 @property (strong, nonatomic) IBOutlet UILabel *lblStatus;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *remarkWidth;
+@property (weak, nonatomic) IBOutlet UIButton *btnLocked;
 
 @property (strong,nonatomic) Event *event;
 @property (nonatomic) enum enumAction currentAction;

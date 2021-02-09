@@ -50,6 +50,9 @@
     htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#ONE_SIGNATURE#" withString:imgTag];
     
     
+    NSString *base64Image = [self getBase64Image];
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:@"#BASE64IMAGE#" withString:base64Image];
+    
     NSString *allItems = @"";
     for(int i=0; i<[items count]; i++)
     {
@@ -107,4 +110,20 @@
     return tag;
 }
 
+-(NSString *) getBase64Image
+{
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"oneSignature3.png"]);
+    NSString * base64String = [imageData base64EncodedStringWithOptions:0];
+    return [NSString stringWithFormat:@"data:image/png;base64,%@",base64String];
+//
+//    let paths = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+//    let documentsURL = paths[0]
+//    let imageFileURL = documentsURL.URLByAppendingPathComponent(fileName)
+//    if let imageData = NSData(contentsOfURL: imageFileURL) {
+//        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+//        print(strBase64)
+//        return "data:image/gif;base64,\(strBase64)"
+//    }
+//    return ""
+}
 @end

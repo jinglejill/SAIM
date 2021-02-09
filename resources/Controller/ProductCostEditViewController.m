@@ -57,7 +57,7 @@
     
     
     
-    [cell addSubview:txtCost];
+    [cell.contentView addSubview:txtCost];
     CGRect frame = cell.frame;
     frame.origin.x = 15;
     frame.size.width = frame.size.width-15;

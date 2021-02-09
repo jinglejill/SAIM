@@ -19,6 +19,11 @@
 		EF3EF4301D54D4A900F36F93 /* CustomUITableViewCell4.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3EF42C1D54D4A900F36F93 /* CustomUITableViewCell4.m */; };
 		EF3EF4311D54D4A900F36F93 /* QRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3EF42D1D54D4A900F36F93 /* QRCodeView.m */; };
 		EF3EF4871D5C82E500F36F93 /* CredentialsDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3EF4861D5C82E500F36F93 /* CredentialsDevice.m */; };
+		EF45EDA225C435BC00358806 /* ReplaceReason.m in Sources */ = {isa = PBXBuildFile; fileRef = EF45EDA125C435BC00358806 /* ReplaceReason.m */; };
+		EF45EDA625C438E700358806 /* CustomTableViewCellReplaceReasonCode.m in Sources */ = {isa = PBXBuildFile; fileRef = EF45EDA425C438E700358806 /* CustomTableViewCellReplaceReasonCode.m */; };
+		EF45EDA725C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF45EDA525C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib */; };
+		EF45EDAB25C44A7B00358806 /* CustomTableViewCellReplaceReason.m in Sources */ = {isa = PBXBuildFile; fileRef = EF45EDA925C44A7B00358806 /* CustomTableViewCellReplaceReason.m */; };
+		EF45EDAC25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF45EDAA25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib */; };
 		EF4CB2571E71711C008A93FC /* AccountReceiptHistorySummaryByDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CB2531E71711C008A93FC /* AccountReceiptHistorySummaryByDateViewController.m */; };
 		EF4CB2581E71711C008A93FC /* AccountReceiptHistorySummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CB2541E71711C008A93FC /* AccountReceiptHistorySummaryViewController.m */; };
 		EF4CB25A1E717128008A93FC /* pdfDoc.png in Resources */ = {isa = PBXBuildFile; fileRef = EF4CB2591E717128008A93FC /* pdfDoc.png */; };
@@ -29,6 +34,8 @@
 		EF5983192439D0F500775677 /* ExportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5983182439D0F500775677 /* ExportManager.m */; };
 		EF5E04CE1D7A80DD005CC8DE /* EventInventoryItemPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5E04CA1D7A80DD005CC8DE /* EventInventoryItemPageViewController.m */; };
 		EF5E04CF1D7A80DD005CC8DE /* ProductStatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */; };
+		EF6392E625CD532D007005C1 /* FetchOrdersMiraklViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6392E525CD532D007005C1 /* FetchOrdersMiraklViewController.m */; };
+		EF6392E925CD536D007005C1 /* MiraklOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6392E825CD536D007005C1 /* MiraklOrder.m */; };
 		EF67EF091E79581A005D20F9 /* ProductionOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF061E79581A005D20F9 /* ProductionOrder.m */; };
 		EF67EF0A1E79581A005D20F9 /* SalesByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF081E79581A005D20F9 /* SalesByChannel.m */; };
 		EF67EF131E795833005D20F9 /* ProductionOrderAddedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF0B1E795832005D20F9 /* ProductionOrderAddedListViewController.m */; };
@@ -116,7 +123,6 @@
 		EF8B8A7C2433A100005F6E91 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A682433A0FF005F6E91 /* Icon-72@2x.png */; };
 		EF8B8A7D2433A100005F6E91 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A692433A100005F6E91 /* Icon-72.png */; };
 		EF8B8A7E2433A100005F6E91 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A6A2433A100005F6E91 /* Icon-60@3x.png */; };
-		EF8B8A802433A26E005F6E91 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A7F2433A26D005F6E91 /* Icon.png */; };
 		EF8B8A822433A2AA005F6E91 /* miniLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A812433A2AA005F6E91 /* miniLogo.png */; };
 		EF8B8A842433A2B8005F6E91 /* Icon-20.png in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A832433A2B7005F6E91 /* Icon-20.png */; };
 		EF8C520A239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8C5209239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.m */; };
@@ -183,6 +189,8 @@
 		EFCAD5FA1E5FEADB0013393D /* single_item.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F71E5FEADB0013393D /* single_item.html */; };
 		EFD5AEC02471F04000591DA3 /* FetchOrdersLazadaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */; };
 		EFD5AEC32471F1C600591DA3 /* LazadaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */; };
+		EFD78CE1255D180E0024C368 /* FetchOrdersJDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD78CE0255D180E0024C368 /* FetchOrdersJDViewController.m */; };
+		EFD78CE4255D35440024C368 /* JDOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD78CE3255D35440024C368 /* JDOrder.m */; };
 		EFDB57011CF143FF0082E91D /* SharedPushSync.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB56FA1CF143FF0082E91D /* SharedPushSync.m */; };
 		EFDB57031CF143FF0082E91D /* PushSync.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB56FF1CF143FF0082E91D /* PushSync.m */; };
 		EFDB57041CF143FF0082E91D /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB57001CF143FF0082E91D /* Login.m */; };
@@ -419,6 +427,8 @@
 		EFF0E02324109CE300776023 /* CustomTableViewCellReceiptProductItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF0E02124109CE300776023 /* CustomTableViewCellReceiptProductItem.m */; };
 		EFF0E02424109CE300776023 /* CustomTableViewCellReceiptProductItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF0E02224109CE300776023 /* CustomTableViewCellReceiptProductItem.xib */; };
 		EFFCAA381D30C31600017DC5 /* ItemRunningID.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFCAA371D30C31600017DC5 /* ItemRunningID.m */; };
+		EFFE1B3625403FFE004308EF /* CustomTableHeaderFooterViewDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE1B3525403FFE004308EF /* CustomTableHeaderFooterViewDelete.m */; };
+		EFFE1B382540400C004308EF /* CustomTableHeaderFooterViewDelete.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFFE1B372540400C004308EF /* CustomTableHeaderFooterViewDelete.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -462,6 +472,14 @@
 		EF3EF42F1D54D4A900F36F93 /* CustomUITableViewCell4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUITableViewCell4.h; sourceTree = "<group>"; };
 		EF3EF4851D5C82E500F36F93 /* CredentialsDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CredentialsDevice.h; sourceTree = "<group>"; };
 		EF3EF4861D5C82E500F36F93 /* CredentialsDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CredentialsDevice.m; sourceTree = "<group>"; };
+		EF45EDA025C435BC00358806 /* ReplaceReason.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReplaceReason.h; sourceTree = "<group>"; };
+		EF45EDA125C435BC00358806 /* ReplaceReason.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReplaceReason.m; sourceTree = "<group>"; };
+		EF45EDA325C438E700358806 /* CustomTableViewCellReplaceReasonCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellReplaceReasonCode.h; sourceTree = "<group>"; };
+		EF45EDA425C438E700358806 /* CustomTableViewCellReplaceReasonCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellReplaceReasonCode.m; sourceTree = "<group>"; };
+		EF45EDA525C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellReplaceReasonCode.xib; sourceTree = "<group>"; };
+		EF45EDA825C44A7B00358806 /* CustomTableViewCellReplaceReason.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellReplaceReason.h; sourceTree = "<group>"; };
+		EF45EDA925C44A7B00358806 /* CustomTableViewCellReplaceReason.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellReplaceReason.m; sourceTree = "<group>"; };
+		EF45EDAA25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellReplaceReason.xib; sourceTree = "<group>"; };
 		EF4CB2531E71711C008A93FC /* AccountReceiptHistorySummaryByDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountReceiptHistorySummaryByDateViewController.m; sourceTree = "<group>"; };
 		EF4CB2541E71711C008A93FC /* AccountReceiptHistorySummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountReceiptHistorySummaryViewController.m; sourceTree = "<group>"; };
 		EF4CB2551E71711C008A93FC /* AccountReceiptHistorySummaryByDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountReceiptHistorySummaryByDateViewController.h; sourceTree = "<group>"; };
@@ -478,6 +496,10 @@
 		EF5E04CB1D7A80DD005CC8DE /* EventInventoryItemPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventInventoryItemPageViewController.h; sourceTree = "<group>"; };
 		EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductStatusDetailViewController.m; sourceTree = "<group>"; };
 		EF5E04CD1D7A80DD005CC8DE /* ProductStatusDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductStatusDetailViewController.h; sourceTree = "<group>"; };
+		EF6392E425CD532D007005C1 /* FetchOrdersMiraklViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchOrdersMiraklViewController.h; sourceTree = "<group>"; };
+		EF6392E525CD532D007005C1 /* FetchOrdersMiraklViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersMiraklViewController.m; sourceTree = "<group>"; };
+		EF6392E725CD536D007005C1 /* MiraklOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiraklOrder.h; sourceTree = "<group>"; };
+		EF6392E825CD536D007005C1 /* MiraklOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MiraklOrder.m; sourceTree = "<group>"; };
 		EF67EF051E79581A005D20F9 /* ProductionOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductionOrder.h; sourceTree = "<group>"; };
 		EF67EF061E79581A005D20F9 /* ProductionOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductionOrder.m; sourceTree = "<group>"; };
 		EF67EF071E79581A005D20F9 /* SalesByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesByChannel.h; sourceTree = "<group>"; };
@@ -615,7 +637,6 @@
 		EF8B8A682433A0FF005F6E91 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		EF8B8A692433A100005F6E91 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		EF8B8A6A2433A100005F6E91 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
-		EF8B8A7F2433A26D005F6E91 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../../../mini2020Logo/Icon.png; sourceTree = "<group>"; };
 		EF8B8A812433A2AA005F6E91 /* miniLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = miniLogo.png; sourceTree = "<group>"; };
 		EF8B8A832433A2B7005F6E91 /* Icon-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-20.png"; sourceTree = "<group>"; };
 		EF8C5208239DE62F00AC2987 /* PreOrderScanUnpost2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreOrderScanUnpost2ViewController.h; sourceTree = "<group>"; };
@@ -737,6 +758,11 @@
 		EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersLazadaViewController.m; sourceTree = "<group>"; };
 		EFD5AEC12471F1C600591DA3 /* LazadaOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazadaOrder.h; sourceTree = "<group>"; };
 		EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LazadaOrder.m; sourceTree = "<group>"; };
+		EFD78CDF255D180E0024C368 /* FetchOrdersJDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchOrdersJDViewController.h; sourceTree = "<group>"; };
+		EFD78CE0255D180E0024C368 /* FetchOrdersJDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersJDViewController.m; sourceTree = "<group>"; };
+		EFD78CE2255D35440024C368 /* JDOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JDOrder.h; sourceTree = "<group>"; };
+		EFD78CE3255D35440024C368 /* JDOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JDOrder.m; sourceTree = "<group>"; };
+		EFD9360825B0430E00C5A1F6 /* SAIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SAIM.entitlements; sourceTree = "<group>"; };
 		EFDB56F91CF143FF0082E91D /* SharedPushSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPushSync.h; sourceTree = "<group>"; };
 		EFDB56FA1CF143FF0082E91D /* SharedPushSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedPushSync.m; sourceTree = "<group>"; };
 		EFDB56FD1CF143FF0082E91D /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
@@ -1225,7 +1251,9 @@
 		EFF0E02224109CE300776023 /* CustomTableViewCellReceiptProductItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellReceiptProductItem.xib; sourceTree = "<group>"; };
 		EFFCAA361D30C31600017DC5 /* ItemRunningID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemRunningID.h; sourceTree = "<group>"; };
 		EFFCAA371D30C31600017DC5 /* ItemRunningID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemRunningID.m; sourceTree = "<group>"; };
-		EFFFA3C11E21D04000119352 /* SAIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SAIM.entitlements; sourceTree = "<group>"; };
+		EFFE1B3425403FFE004308EF /* CustomTableHeaderFooterViewDelete.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableHeaderFooterViewDelete.h; sourceTree = "<group>"; };
+		EFFE1B3525403FFE004308EF /* CustomTableHeaderFooterViewDelete.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderFooterViewDelete.m; sourceTree = "<group>"; };
+		EFFE1B372540400C004308EF /* CustomTableHeaderFooterViewDelete.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableHeaderFooterViewDelete.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1349,7 +1377,7 @@
 		EFF081171CAF52C5003E74D6 /* SAIM */ = {
 			isa = PBXGroup;
 			children = (
-				EFFFA3C11E21D04000119352 /* SAIM.entitlements */,
+				EFD9360825B0430E00C5A1F6 /* SAIM.entitlements */,
 				EFF081241CAF52C5003E74D6 /* Assets.xcassets */,
 				EFF081261CAF52C5003E74D6 /* LaunchScreen.storyboard */,
 				EFF081291CAF52C5003E74D6 /* Info.plist */,
@@ -1718,6 +1746,10 @@
 				EFB460D82446E9DE00C5100E /* PreOrderAddPreOrderPage2ViewController.m */,
 				EFD5AEBE2471F04000591DA3 /* FetchOrdersLazadaViewController.h */,
 				EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */,
+				EFD78CDF255D180E0024C368 /* FetchOrdersJDViewController.h */,
+				EFD78CE0255D180E0024C368 /* FetchOrdersJDViewController.m */,
+				EF6392E425CD532D007005C1 /* FetchOrdersMiraklViewController.h */,
+				EF6392E525CD532D007005C1 /* FetchOrdersMiraklViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1866,6 +1898,12 @@
 				EF7074B01F3869C100D1EA2E /* TransferUndoView.h */,
 				EF7074B11F3869C100D1EA2E /* TransferUndoView.m */,
 				EF7074B21F3869C100D1EA2E /* TransferUndoView.xib */,
+				EF45EDA325C438E700358806 /* CustomTableViewCellReplaceReasonCode.h */,
+				EF45EDA425C438E700358806 /* CustomTableViewCellReplaceReasonCode.m */,
+				EF45EDA525C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib */,
+				EF45EDA825C44A7B00358806 /* CustomTableViewCellReplaceReason.h */,
+				EF45EDA925C44A7B00358806 /* CustomTableViewCellReplaceReason.m */,
+				EF45EDAA25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib */,
 				EFF0E017240FBF8E00776023 /* CustomTableViewCellReceipt.h */,
 				EFF0E018240FBF8E00776023 /* CustomTableViewCellReceipt.m */,
 				EFF0E019240FBF8E00776023 /* CustomTableViewCellReceipt.xib */,
@@ -1907,6 +1945,9 @@
 				EF83DB29244ACF5B0043B24E /* CustomTableViewCellReward.h */,
 				EF83DB2A244ACF5B0043B24E /* CustomTableViewCellReward.m */,
 				EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */,
+				EFFE1B372540400C004308EF /* CustomTableHeaderFooterViewDelete.xib */,
+				EFFE1B3425403FFE004308EF /* CustomTableHeaderFooterViewDelete.h */,
+				EFFE1B3525403FFE004308EF /* CustomTableHeaderFooterViewDelete.m */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1954,7 +1995,6 @@
 				EF8B8A5B2433A0FD005F6E91 /* Icon-Spotlight-40@2x.png */,
 				EF8B8A5C2433A0FD005F6E91 /* Icon-Spotlight-40@3x.png */,
 				EF8B8A622433A0FE005F6E91 /* Icon.png */,
-				EF8B8A7F2433A26D005F6E91 /* Icon.png */,
 				EF8B8A5D2433A0FE005F6E91 /* Icon@2x.png */,
 				EFF082931CAFA7E0003E74D6 /* info active3.png */,
 				EFF082941CAFA7E0003E74D6 /* info inactive3.png */,
@@ -2221,6 +2261,12 @@
 				EF83DB2F244B05600043B24E /* WordPressUser.m */,
 				EFD5AEC12471F1C600591DA3 /* LazadaOrder.h */,
 				EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */,
+				EFD78CE2255D35440024C368 /* JDOrder.h */,
+				EFD78CE3255D35440024C368 /* JDOrder.m */,
+				EF6392E725CD536D007005C1 /* MiraklOrder.h */,
+				EF6392E825CD536D007005C1 /* MiraklOrder.m */,
+				EF45EDA025C435BC00358806 /* ReplaceReason.h */,
+				EF45EDA125C435BC00358806 /* ReplaceReason.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2246,7 +2292,7 @@
 				EFF081111CAF52C5003E74D6 /* Sources */,
 				EFF081121CAF52C5003E74D6 /* Frameworks */,
 				EFF081131CAF52C5003E74D6 /* Resources */,
-				EF733D9B242CCE4500750577 /* ShellScript */,
+				EF8B53072574AB850026A9B9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2361,6 +2407,7 @@
 				EFF084001CAFA7E0003E74D6 /* trackingNoEmpty.png in Resources */,
 				EFB460BB243A731F00C5100E /* blankSignature2.png in Resources */,
 				EFF083FC1CAFA7E0003E74D6 /* qrcode icon.png in Resources */,
+				EFFE1B382540400C004308EF /* CustomTableHeaderFooterViewDelete.xib in Resources */,
 				EF77B7AC241A22E700834B8D /* CustomTableViewCellExpenseItem.xib in Resources */,
 				EF8B8A6D2433A100005F6E91 /* Icon-Small.png in Resources */,
 				EF8B8A712433A100005F6E91 /* Icon@2x.png in Resources */,
@@ -2381,6 +2428,7 @@
 				EFF0837C1CAFA7E0003E74D6 /* bspp75ad.ptd in Resources */,
 				EFF083801CAFA7E0003E74D6 /* bsr315ad.ptd in Resources */,
 				EF8B8A7D2433A100005F6E91 /* Icon-72.png in Resources */,
+				EF45EDAC25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib in Resources */,
 				EF8B8A732433A100005F6E91 /* Icon-Small@2x.png in Resources */,
 				EF8B8A7A2433A100005F6E91 /* Icon-60@2x.png in Resources */,
 				EF880635241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib in Resources */,
@@ -2417,6 +2465,7 @@
 				EFF083821CAFA7E0003E74D6 /* bst212ad.ptd in Resources */,
 				EFF083E51CAFA7E0003E74D6 /* add inactive3.png in Resources */,
 				EFF083F81CAFA7E0003E74D6 /* order2.png in Resources */,
+				EF45EDA725C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib in Resources */,
 				EFF084031CAFA7E0003E74D6 /* unselect.png in Resources */,
 				EFF083771CAFA7E0003E74D6 /* PrinterList.plist in Resources */,
 				EFF083F51CAFA7E0003E74D6 /* info active3.png in Resources */,
@@ -2454,7 +2503,6 @@
 				EFF083ED1CAFA7E0003E74D6 /* check.png in Resources */,
 				EFF083FD1CAFA7E0003E74D6 /* select.png in Resources */,
 				EFF0837A1CAFA7E0003E74D6 /* bsj673ad.ptd in Resources */,
-				EF8B8A802433A26E005F6E91 /* Icon.png in Resources */,
 				EF8B8A6B2433A100005F6E91 /* Icon-76@2x.png in Resources */,
 				EF8B8A6C2433A100005F6E91 /* Icon-60.png in Resources */,
 				EFF083F21CAFA7E0003E74D6 /* edit white.png in Resources */,
@@ -2487,7 +2535,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EF733D9B242CCE4500750577 /* ShellScript */ = {
+		EF8B53072574AB850026A9B9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2547,6 +2595,7 @@
 				EFF0842C1CAFA7E0003E74D6 /* SalesByColorData.m in Sources */,
 				EFF0844D1CAFA7E0003E74D6 /* SharedProductSalesSet.m in Sources */,
 				EFF083B41CAFA7E0003E74D6 /* ProductDetailViewController.m in Sources */,
+				EF6392E625CD532D007005C1 /* FetchOrdersMiraklViewController.m in Sources */,
 				EFF0840E1CAFA7E0003E74D6 /* CompareInventoryHistory.m in Sources */,
 				EFA2392F1EAA0C10009CE51A /* TransferHistory.m in Sources */,
 				EFF084281CAFA7E0003E74D6 /* ProductSource.m in Sources */,
@@ -2606,6 +2655,7 @@
 				EF67EF161E795833005D20F9 /* ChartSalesByChannelViewController.m in Sources */,
 				EFCAD5F01E5EEB630013393D /* SharedRewardProgram.m in Sources */,
 				EFF083D41CAFA7E0003E74D6 /* CustomUICollectionViewCellButton.m in Sources */,
+				EF6392E925CD536D007005C1 /* MiraklOrder.m in Sources */,
 				EF77B7962410C14E00834B8D /* CustomTableViewCellReceiptShort.m in Sources */,
 				EFA239231EAA0C00009CE51A /* RewardProgramUseAddViewController.m in Sources */,
 				EFF084131CAFA7E0003E74D6 /* EventCost.m in Sources */,
@@ -2658,6 +2708,7 @@
 				EFF084241CAFA7E0003E74D6 /* ProductName.m in Sources */,
 				EFF083B81CAFA7E0003E74D6 /* ProductNameDetailViewController.m in Sources */,
 				EF878BC71D9BF2AD00B4076C /* ProductCategorySelectionViewController.m in Sources */,
+				EFFE1B3625403FFE004308EF /* CustomTableHeaderFooterViewDelete.m in Sources */,
 				EF795DD41DA9FD2B00191CDA /* SharedPostCode.m in Sources */,
 				EFDB57011CF143FF0082E91D /* SharedPushSync.m in Sources */,
 				EFF084461CAFA7E0003E74D6 /* SharedProductCategory1.m in Sources */,
@@ -2690,6 +2741,7 @@
 				EFB460D32445DE1C00C5100E /* PreOrder2ViewController.m in Sources */,
 				EFF0838F1CAFA7E0003E74D6 /* ChartTabBarController.m in Sources */,
 				EFF083DD1CAFA7E0003E74D6 /* MGSwipeButton.m in Sources */,
+				EF45EDAB25C44A7B00358806 /* CustomTableViewCellReplaceReason.m in Sources */,
 				EFF083841CAFA7E0003E74D6 /* ReachabilityBrother.m in Sources */,
 				EFF083BD1CAFA7E0003E74D6 /* ProductSettingColorAndSizeViewController.m in Sources */,
 				EFF0840B1CAFA7E0003E74D6 /* CashAllocation.m in Sources */,
@@ -2744,6 +2796,7 @@
 				EF7074B61F3869C100D1EA2E /* TransferUndoView.m in Sources */,
 				EFF084531CAFA7E0003E74D6 /* SharedSalesByColorData.m in Sources */,
 				EFCAD5E71E5EEB630013393D /* AccountInventory.m in Sources */,
+				EFD78CE4255D35440024C368 /* JDOrder.m in Sources */,
 				EF3EF4871D5C82E500F36F93 /* CredentialsDevice.m in Sources */,
 				EFDB57041CF143FF0082E91D /* Login.m in Sources */,
 				EFF083B31CAFA7E0003E74D6 /* ProductCostViewController.m in Sources */,
@@ -2752,6 +2805,7 @@
 				EF01F1891FF7159400FD5A89 /* EmailQRCode.m in Sources */,
 				EF77B7B4241A30C100834B8D /* OftenUse.m in Sources */,
 				EFF084391CAFA7E0003E74D6 /* SharedCustomMade.m in Sources */,
+				EFD78CE1255D180E0024C368 /* FetchOrdersJDViewController.m in Sources */,
 				EFCAD5EB1E5EEB630013393D /* AccountInventorySummary.m in Sources */,
 				EF9DC7D51CCF5EC5004ABAB6 /* SharedProductDelete.m in Sources */,
 				EFF083871CAFA7E0003E74D6 /* AddEditPostCustomerViewController.m in Sources */,
@@ -2768,6 +2822,7 @@
 				EF8B8A452432DC40005F6E91 /* CustomTableViewCellTopSpender.m in Sources */,
 				EFCAD5C41E5EEB3A0013393D /* AccountReceiptHistoryPDFViewController.m in Sources */,
 				EF7074C01F3869CF00D1EA2E /* PreOrderEventIDHistory.m in Sources */,
+				EF45EDA625C438E700358806 /* CustomTableViewCellReplaceReasonCode.m in Sources */,
 				EFF084201CAFA7E0003E74D6 /* ProductCategory2.m in Sources */,
 				EFA239291EAA0C00009CE51A /* TransferProductDetailViewController.m in Sources */,
 				EFF083C31CAFA7E0003E74D6 /* SalesScanAddScanViewController.m in Sources */,
@@ -2776,6 +2831,7 @@
 				EF3EF4311D54D4A900F36F93 /* QRCodeView.m in Sources */,
 				EFF083901CAFA7E0003E74D6 /* ColorViewController.m in Sources */,
 				EF795DD61DA9FD2B00191CDA /* SharedEventSales.m in Sources */,
+				EF45EDA225C435BC00358806 /* ReplaceReason.m in Sources */,
 				EFCAD5F21E5EEB630013393D /* InvoiceComposer.m in Sources */,
 				EFF084561CAFA7E0003E74D6 /* SharedSalesBySizeData.m in Sources */,
 				EFF083C21CAFA7E0003E74D6 /* SalesCustomMadeViewController.m in Sources */,
@@ -2886,7 +2942,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2928,7 +2984,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2941,9 +2997,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SAIM/SAIM.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 11;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 992;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2952,13 +3009,13 @@
 					"$(PROJECT_DIR)/resources/Lib/test",
 				);
 				INFOPLIST_FILE = SAIM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.6.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2975,9 +3032,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SAIM/SAIM.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 11;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 992;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2986,13 +3044,13 @@
 					"$(PROJECT_DIR)/resources/Lib/test",
 				);
 				INFOPLIST_FILE = SAIM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.6.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -564,6 +564,15 @@
             [self startReading];
         } );
     }
+    else if(ID == -1)
+    {
+        dispatch_async(dispatch_get_main_queue(),^
+        {
+            _lblStatus.textColor = [UIColor redColor];
+            _lblStatus.text = @"No product in inventory";
+            [self startReading];
+        } );
+    }
     else
     {
         PostDetail *postDetail = [self getPostDetailFromReceiptProductItemID:ID];

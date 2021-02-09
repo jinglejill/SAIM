@@ -8,6 +8,8 @@
 
 #import "UserMenuViewController.h"
 #import "GenerateQRCodePageViewController.h"
+#import "CustomMadeInViewController.h"
+#import "CustomMadeOutViewController.h"
 #import "Utility.h"
 #import "Product.h"
 #import "CustomerReceipt.h"
@@ -102,9 +104,13 @@ enum enumAdminMenu
                           ];
     _menuExtra = @[@"To post product",
                    @"Posted product",
+                   @"Preorder2 in",
+                   @"Preorder2 out",
                    @"Create QR Code File",
                    @"Search Receipt",
-                   @"Lazada fetch orders"];
+                   @"Lazada fetch orders",
+                   @"JD fetch orders",
+                   @"Mirakl fetch orders"];
 }
 
 - (void)viewDidLoad
@@ -199,13 +205,25 @@ enum enumAdminMenu
                 [self performSegueWithIdentifier:@"segProductPosted2" sender:self];
                 break;
             case 2:
-                [self performSegueWithIdentifier:@"segGenerateQRCodePage" sender:self];
+                [self performSegueWithIdentifier:@"segCustomMadeIn" sender:self];
                 break;
             case 3:
-                [self performSegueWithIdentifier:@"segSearchReceipt" sender:self];
+                [self performSegueWithIdentifier:@"segCustomMadeOut" sender:self];
                 break;
             case 4:
+                [self performSegueWithIdentifier:@"segGenerateQRCodePage" sender:self];
+                break;
+            case 5:
+                [self performSegueWithIdentifier:@"segSearchReceipt" sender:self];
+                break;
+            case 6:
                 [self performSegueWithIdentifier:@"segFetchOrdersLazada" sender:self];
+                break;
+            case 7:
+                [self performSegueWithIdentifier:@"segFetchOrdersJD" sender:self];
+                break;
+            case 8:
+                [self performSegueWithIdentifier:@"segFetchOrdersMirakl" sender:self];
                 break;
         }
     }
@@ -281,6 +299,16 @@ enum enumAdminMenu
         GenerateQRCodePageViewController *vc = [segue destinationViewController];
         vc.fromUserMenu = YES;
     }
+//    else if([[segue identifier] isEqualToString:@"segCustomMadeIn"])
+//    {
+//        CustomMadeInViewController *vc = [segue destinationViewController];
+//        vc.fromUserMenu = YES;
+//    }
+//    else if([[segue identifier] isEqualToString:@"segCustomMadeOut"])
+//    {
+//        CustomMadeOutViewController *vc = [segue destinationViewController];
+//        vc.fromUserMenu = YES;
+//    }
 }
 
 -(void) loadingOverlayView

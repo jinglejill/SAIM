@@ -16,6 +16,7 @@
 @property (nonatomic) NSInteger productNameID;
 @property (nonatomic) float quantity;
 @property (nonatomic) float amountPerUnit;
+@property (nonatomic) float itemDiscount;
 @property (retain, nonatomic) NSString *modifiedDate;
 
 @property (nonatomic) NSInteger maxAccountReceiptProductItemID;
@@ -25,6 +26,6 @@
 
 
 - (NSDictionary *)dictionary;
--(AccountReceiptProductItem *)initWithAccountReceiptProductItemID:(NSInteger)accountReceiptProductItemID accountReceiptID:(NSInteger)accountReceiptID productNameID:(NSInteger)productNameID quantity:(float)quantity amountPerUnit:(float)amountPerUnit;
+-(AccountReceiptProductItem *)initWithAccountReceiptProductItemID:(NSInteger)accountReceiptProductItemID accountReceiptID:(NSInteger)accountReceiptID productNameID:(NSInteger)productNameID quantity:(float)quantity amountPerUnit:(float)amountPerUnit itemDiscount:(float)itemDiscount;
 +(NSMutableArray *)getAccountReceiptProductItem:(NSMutableArray *)accountReceiptProductItemList accountReceiptID:(NSInteger)accountReceiptID;
 @end

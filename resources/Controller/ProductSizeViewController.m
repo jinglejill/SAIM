@@ -151,7 +151,7 @@
         {
             ProductSize *productSize = _defaultList[row];
             cell.textNewLabel.text = productSize.sizeLabel;
-            [cell addSubview:cell.textNewLabel];
+            [cell.contentView addSubview:cell.textNewLabel];
             cell.rightButtons = [self createRightButtons:1 indexPath:indexPath];
         }
         else if(section == 1)
@@ -159,7 +159,7 @@
             ProductSize *productSize = _newList[row];
             cell.textNewLabel.text = productSize.sizeLabel;
             cell.textNewLabel.placeholder = @"New item";
-            [cell addSubview:cell.textNewLabel];
+            [cell.contentView addSubview:cell.textNewLabel];
             cell.rightButtons = [self createRightButtons:1 indexPath:indexPath];
         }
     }

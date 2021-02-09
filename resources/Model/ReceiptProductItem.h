@@ -54,6 +54,8 @@
 @property (retain, nonatomic) NSString * preOrder2Color;
 @property (retain, nonatomic) NSString * preOrder2Size;
 @property (nonatomic) NSInteger replaceReceiptProductItemID;
+@property (nonatomic) NSInteger replaceReasonCode;
+@property (retain, nonatomic) NSString * replaceReason;
 
 
 +(ReceiptProductItem *)getReceiptProductItem:(NSInteger)receiptProductItemID;

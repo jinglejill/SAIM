@@ -12,8 +12,9 @@
 #import "CustomerReceipt.h"
 #import "PostCustomer.h"
 #import "ItemTrackingNo.h"
+#import "CustomViewController.h"
 
-@interface AddEditPostCustomerViewController : UITableViewController<HomeModelProtocol,UITextFieldDelegate,UITextViewDelegate>
+@interface AddEditPostCustomerViewController : CustomViewController<HomeModelProtocol,UITextFieldDelegate,UITextViewDelegate>
 {
     UITextField *txtFirstName;
     UITextField *txtPostCode;
@@ -33,10 +34,11 @@
     CustomUITextView *txtVwTaxCustomerAddress;
     UITextField *txtTaxNo;
 }
-
+@property (strong, nonatomic) IBOutlet UITableView *tbvData;
 @property (nonatomic) BOOL paid;
 @property (strong, nonatomic) NSString *telephoneNoSearch;
 @property (nonatomic) NSInteger productBuyIndex;
+@property (strong, nonatomic) NSString *email;
 
 @property (strong, nonatomic) ItemTrackingNo *selectedItemTrackingNo;
 @property (strong, nonatomic) NSArray *receiptProductItemList;
@@ -54,7 +56,6 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnNextCustomer;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnPreviousCustomer;
 - (IBAction)savePost:(id)sender;
-- (IBAction)CancelPost:(id)sender;
 - (IBAction)deletePost:(id)sender;
 - (IBAction)nextButtonClicked:(id)sender;
 - (IBAction)previousButtonClicked:(id)sender;

@@ -569,7 +569,7 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
                 break;
             case 4:
             {
-                NSString *strChannel = [SalesByChannel getChannel:postDetail.channel];                
+                NSString *strChannel = [SalesByChannel getChannel:postDetail.channel];
                 [cell.buttonDetail setTitle:strChannel forState:UIControlStateNormal];
                 [cell.buttonDetail setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 cell.buttonDetail.titleLabel.font = [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:13];
@@ -592,6 +592,8 @@ static NSString * const reuseFooterViewIdentifier = @"FooterView";
             default:
                 break;
         }
+        
+        cell.backgroundColor = [SalesByChannel getColor:postDetail.channel];
     }
     
     return cell;

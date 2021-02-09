@@ -62,7 +62,7 @@
         txtPricePromotion.text = @"";
     }
     
-    [cell addSubview:txtPricePromotion];
+    [cell.contentView addSubview:txtPricePromotion];
     
     
     return cell;

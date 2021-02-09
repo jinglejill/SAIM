@@ -10,10 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Receipt2ViewController : CustomViewController
+@interface Receipt2ViewController : CustomViewController<UIPickerViewDelegate, UIPickerViewDataSource>
 - (IBAction)unwindToReceipt2:(UIStoryboardSegue *)segue;
 @property (strong, nonatomic) IBOutlet UITableView *tbvPay;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *btnBack;
+@property (strong, nonatomic) IBOutlet UIPickerView *pvReplaceReasonCode;
+
+
 - (IBAction)backButtonClicked:(id)sender;
 @end
 

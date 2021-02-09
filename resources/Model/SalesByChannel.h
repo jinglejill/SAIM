@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface SalesByChannel : NSObject
 @property (nonatomic) NSInteger channel;
 @property (nonatomic) float sales;
 
 +(NSString *)getChannel:(NSInteger)channelID;
++(UIColor *)getColor:(NSInteger)channelID;
 @end

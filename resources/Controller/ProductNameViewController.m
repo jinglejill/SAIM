@@ -150,17 +150,17 @@
     if ([cell.textNewLabel isDescendantOfView:cell]) {
         [cell.textNewLabel removeFromSuperview];
     }
+    
     CGRect frame = cell.textNewLabel.frame;
-    frame.size.width = frame.size.width - 40;
+    frame.size.width = self.view.frame.size.width - 100;
     cell.textNewLabel.frame = frame;
     cell.textNewLabel.delegate = self;
-    
     
     if(section == 0)
     {
         ProductName *productName = _defaultList[row];
         cell.textNewLabel.text = productName.name;
-        [cell addSubview:cell.textNewLabel];
+        [cell.contentView addSubview:cell.textNewLabel];
         
         
         if([productName.code isEqualToString:@"00"])
@@ -187,7 +187,8 @@
         ProductName *productName = _newList[row];
         cell.textNewLabel.text = productName.name;
         cell.textNewLabel.placeholder = @"New item";
-        [cell addSubview:cell.textNewLabel];
+        [cell.contentView addSubview:cell.textNewLabel];
+        
         cell.rightButtons = [self createRightButtons:2 indexPath:indexPath startButton:0];
     }
     

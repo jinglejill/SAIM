@@ -14,6 +14,7 @@
 
 - (id)init;
 - (NSString *)exportHTMLContentToPDFWIthPrintFormatterList:(NSMutableArray *)printFormatterList fileName:(NSString *)fileName;
+- (NSString *)exportHTMLContentToPDFWIthPrintFormatter:(UIPrintFormatter *)printFormatter fileName:(NSString *)fileName;
 - (NSString *)exportHTMLContentToPDF:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName;
 - (NSData *)exportHTMLContentToPDFNSData:(NSMutableArray *)htmlContentList fileName:(NSString *)fileName;
 @end

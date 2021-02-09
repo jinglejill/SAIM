@@ -26,6 +26,9 @@
 #import "WordPressUser.h"
 #import "Message.h"
 #import "SharedReplaceReceiptProductItem.h"
+#import "ReplaceReason.h"
+#import "CustomTableViewCellReplaceReasonCode.h"
+#import "CustomTableViewCellReplaceReason.h"
 
 
 
@@ -61,7 +64,7 @@
     NSMutableArray *_selectedProductBuy;
     Event *_event;
     NSString *_strDiscount;
-    NSString *_strDiscountValuePercent;
+//    NSString *_strDiscountValuePercent;
     
     RewardProgram *_rewardProgramCollect;
     RewardProgram *_rewardProgramUse;
@@ -86,6 +89,9 @@
     UITableView *_tbvRedeem;
     NSString *_redeemPoints;
     NSString *_redeemPointsCache;
+    
+    ReplaceReason *_replaceReason;
+    NSString *_replaceReasonText;
 }
 @end
 static NSString * const reuseIdentifierOrder = @"CustomTableViewCellOrder";
@@ -94,11 +100,14 @@ static NSString * const reuseIdentifierDiscount = @"CustomTableViewCellDiscount"
 static NSString * const reuseIdentifierDiscountReason = @"CustomTableViewCellDiscountReason";
 static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCancel";
 static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
+static NSString * const reuseIdentifierReplaceReasonCode = @"CustomTableViewCellReplaceReasonCode";
+static NSString * const reuseIdentifierReplaceReason = @"CustomTableViewCellReplaceReason";
 
 
 @implementation Receipt2ViewController
 @synthesize tbvPay;
 @synthesize btnBack;
+@synthesize pvReplaceReasonCode;
 
 - (IBAction)unwindToReceipt2:(UIStoryboardSegue *)segue
 {
@@ -233,7 +242,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     //xxxxxx
     _event = [Event getSelectedEvent];
     _strDiscount = @"1";
-    _strDiscountValuePercent = @"";
+//    _strDiscountValuePercent = @"";
     
     
     _formatter = [[NSNumberFormatter alloc] init];
@@ -294,7 +303,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         _txtSalesRemark = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, controlHeight)];
         _txtSalesRemark.placeholder = @"Sales remark";
         _txtSalesRemark.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _txtSalesRemark.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+//        _txtSalesRemark.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
         [_txtSalesRemark  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
         
     
@@ -314,7 +323,8 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         
         
 //        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Event",@"Web",@"Line",@"FB",@"Shop",@"Other"]];
-        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Ev",@"Wb",@"Li",@"FB",@"St",@"Sh",@"Lz",@"JD",@"KP",@"Ot"]];
+//        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Ev",@"Wb",@"Li",@"FB",@"St",@"Sh",@"Lz",@"JD",@"KP",@"Ot"]];
+        _segConChannel = [[UISegmentedControl alloc]initWithItems:@[@"Ev",@"Wb",@"Li",@"FB",@"Ig",@"St",@"Ot"]];
         _segConChannel.tintColor = [UIColor blackColor];
         _segConChannel.frame = CGRectMake(channelXOrigin, channelYOrigin, channelWidth, channelHeight);
         [_segConChannel setSelectedSegmentIndex:channelForUserValue];
@@ -381,7 +391,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         _txtDiscountValuePercent = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, controlHeight)];
         _txtDiscountValuePercent.placeholder = @"Discount value";
         _txtDiscountValuePercent.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _txtDiscountValuePercent.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+//        _txtDiscountValuePercent.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
         _txtDiscountValuePercent.keyboardType = UIKeyboardTypeDecimalPad;
         [_txtDiscountValuePercent  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
 //        _txtDiscountValuePercent.delegate = self;
@@ -398,7 +408,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         _txtDiscountReason = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, discountReasonControlWidth, controlHeight)];
         _txtDiscountReason.placeholder = @"Discount reason";
         _txtDiscountReason.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _txtDiscountReason.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+//        _txtDiscountReason.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
         [_txtDiscountReason  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
         _txtDiscountReason.delegate = self;
     }
@@ -412,7 +422,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         _txtCreditAmount = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth/2-30, controlHeight)];
         _txtCreditAmount.placeholder = @"Credit";
         _txtCreditAmount.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _txtCreditAmount.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+//        _txtCreditAmount.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
         _txtCreditAmount.keyboardType = UIKeyboardTypeDecimalPad;
         [_txtCreditAmount  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
         [_txtCreditAmount addTarget:self action:@selector(txtCreditAmountDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -421,7 +431,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         _txtCashReceive = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin+controlWidth/2, controlYOrigin, controlWidth/2, controlHeight)];
         _txtCashReceive.placeholder = @"Cash";
         _txtCashReceive.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _txtCashReceive.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+//        _txtCashReceive.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
         _txtCashReceive.keyboardType = UIKeyboardTypeDecimalPad;
         [_txtCashReceive  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
         [_txtCashReceive addTarget:self action:@selector(txtCashReceiveDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -430,7 +440,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         _txtTransferAmount = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth/2-30, controlHeight)];
         _txtTransferAmount.placeholder = @"Transfer";
         _txtTransferAmount.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _txtTransferAmount.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
+//        _txtTransferAmount.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
         _txtTransferAmount.keyboardType = UIKeyboardTypeDecimalPad;
         [_txtTransferAmount  setFont: [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14]];
         [_txtTransferAmount addTarget:self action:@selector(txtTransferAmountDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -438,7 +448,6 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         
         _lblChanges = [ [UILabel alloc] initWithFrame:CGRectMake(controlXOrigin+6, controlYOrigin, controlWidth-6, controlHeight)];
         _lblChanges.font = [UIFont fontWithName:@".HelveticaNeueInterface-Light" size:14];
-//        _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
         
         
         _btnPay = [[UIButton alloc]initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, controlHeight)];
@@ -506,6 +515,22 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         }
     }
     [self searchPostCustomerAndReward];
+    
+    
+    
+    _replaceReason = [[ReplaceReason alloc]init];
+    _replaceReasonText = @"";
+    [pvReplaceReasonCode removeFromSuperview];
+    pvReplaceReasonCode.delegate = self;
+    pvReplaceReasonCode.dataSource = self;
+    {
+        UINib *nib = [UINib nibWithNibName:reuseIdentifierReplaceReasonCode bundle:nil];
+        [tbvPay registerNib:nib forCellReuseIdentifier:reuseIdentifierReplaceReasonCode];
+    }
+    {
+        UINib *nib = [UINib nibWithNibName:reuseIdentifierReplaceReason bundle:nil];
+        [tbvPay registerNib:nib forCellReuseIdentifier:reuseIdentifierReplaceReason];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -562,6 +587,11 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
 {
     NSArray *postCustomerList = items[0];
     _wordPressUserList = items[1];
+    [self setPostCustomerAndWordPressUser:postCustomerList];
+}
+
+-(void)setPostCustomerAndWordPressUser:(NSArray *)postCustomerList
+{
     if([postCustomerList count]>0)
     {
         //input into sharedPostBuy
@@ -684,11 +714,11 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         }
         else
         {
-            if(productDetail.discount == 1)//baht
+            if(customMade.discount == 1)//baht
             {
                 discountValue += customMade.discountValue;
             }
-            else if(productDetail.discount == 2)//percent
+            else if(customMade.discount == 2)//percent
             {
                 discountValue += roundf(customMade.discountPercent*[Utility floatValue:_productBuyList[i][productBuyPricePromotion]])/100;
             }
@@ -786,7 +816,6 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         }
     }
     
-//    _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
     [tbvPay reloadData];
 }
 
@@ -850,37 +879,39 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     return strAfterDiscountValue;
 }
 
--(NSString *)getDiscountLabel
-{
-    NSString *discountLabel = @"Discount";
-    if(_time == 0)
-    {
-        if([_strDiscount intValue] == 2)
-        {
-            discountLabel = [NSString stringWithFormat:@"Disc (%@\uFF05)",_strDiscountValuePercent];
-        }
-        else
-        {
-            discountLabel = [NSString stringWithFormat:@"Discount"];
-        }
-    }
-    else
-    {
-        if([_strDiscount intValue] == 2)
-        {
-            discountLabel = [NSString stringWithFormat:@"Use %ld point for disc (%@\uFF05)",_pointSpentActual,_strDiscountValuePercent];
-        }
-        else
-        {
-            discountLabel = [NSString stringWithFormat:@"Use %ld point for discount",_pointSpentActual];
-        }
-    }
-    
-    return discountLabel;
-}
+//-(NSString *)getDiscountLabel
+//{
+//    NSString *discountLabel = @"Discount";
+//    if(_time == 0)
+//    {
+//        if([_strDiscount intValue] == 2)
+//        {
+//            discountLabel = [NSString stringWithFormat:@"Disc (%@\uFF05)",_strDiscountValuePercent];
+//        }
+//        else
+//        {
+//            discountLabel = [NSString stringWithFormat:@"Discount"];
+//        }
+//    }
+//    else
+//    {
+//        if([_strDiscount intValue] == 2)
+//        {
+//            discountLabel = [NSString stringWithFormat:@"Use %ld point for disc (%@\uFF05)",_pointSpentActual,_strDiscountValuePercent];
+//        }
+//        else
+//        {
+//            discountLabel = [NSString stringWithFormat:@"Use %ld point for discount",_pointSpentActual];
+//        }
+//    }
+//
+//    return discountLabel;
+//}
 
 -(void)txtDiscountValuePercentDidChange:(UITextField *)textField{
-    _strDiscountValuePercent = [Utility removeComma:[Utility trimString:textField.text]];
+//    _strDiscountValuePercent = [Utility removeComma:[Utility trimString:textField.text]];
+    float discount = roundf([Utility floatValue:textField.text]*100)/100;
+    float discountByItem = round(discount/[_productBuyList count]);
     
     for(int i=0; i<[_productBuyList count]; i++)
     {
@@ -891,17 +922,50 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             if([self isProductInventoryOrPreOrder:i])
             {
                 productDetail.discount = _segConBahtPercent.selectedSegmentIndex == 0?1:2;
-                productDetail.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?[Utility floatValue:textField.text]:0;
+                if(i == [_productBuyList count]-1)
+                {
+                    float lastItemDiscount = discount-discountByItem*([_productBuyList count]-1);
+                    productDetail.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?lastItemDiscount:0;
+                }
+                else
+                {
+                    productDetail.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?discountByItem:0;
+                }
+                
                 productDetail.discountPercent = _segConBahtPercent.selectedSegmentIndex == 1?[Utility floatValue:textField.text]:0;
             }
             else
             {
                 customMade.discount = _segConBahtPercent.selectedSegmentIndex == 0?1:2;
-                customMade.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?[Utility floatValue:textField.text]:0;
+                if(i == [_productBuyList count]-1)
+                {
+                    float lastItemDiscount = discount-discountByItem*([_productBuyList count]-1);
+                    customMade.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?lastItemDiscount:0;
+                }
+                else
+                {
+                    customMade.discountValue = _segConBahtPercent.selectedSegmentIndex == 0?discountByItem:0;
+                }
                 customMade.discountPercent = _segConBahtPercent.selectedSegmentIndex == 1?[Utility floatValue:textField.text]:0;
             }
         }
+        else
+        {
+            if([self isProductInventoryOrPreOrder:i])
+            {
+                productDetail.discount = 0;
+                productDetail.discountValue = 0;
+                productDetail.discountPercent = 0;
+            }
+            else
+            {
+                customMade.discount = 0;
+                customMade.discountValue = 0;
+                customMade.discountPercent = 0;
+            }
+        }
     }
+    
     [tbvPay reloadSections:[[NSIndexSet alloc] initWithIndex:0] withRowAnimation:NO];
     _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
     
@@ -945,7 +1009,14 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     // Return the number of sections.
     if(tableView == tbvPay)
     {
-        return 4;
+        if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID > 0)
+        {
+            return 5;
+        }
+        else
+        {
+            return 4;
+        }
     }
     else if(tableView == _tbvDiscount)
     {
@@ -982,6 +1053,17 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         }
         else if(section == 3)
         {
+            if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID > 0)
+            {
+                row = 2;
+            }
+            else
+            {
+                row = 4;
+            }
+        }
+        else if(section == 4)
+        {
             row = 4;
         }
     }
@@ -1012,7 +1094,8 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
+        [[cell subviews] makeObjectsPerformSelector: @selector(removeFromSuperview)];
+        cell.contentView.userInteractionEnabled = false;
         if(indexPath.section == 0)
         {
             CustomTableViewCellOrder *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierOrder];
@@ -1261,9 +1344,6 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
                     
                     
                     
-                    
-                    
-//                    [cell.txtTelephoneNo addTarget:self action:@selector(txtTelephoneNoDidChange:) forControlEvents:UIControlEventEditingChanged];
                     cell.txtTelephoneNo.delegate = self;
                     cell.txtTelephoneNo.tag = 20;
                     
@@ -1337,6 +1417,55 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             }
         }
         else if(indexPath.section == 3)
+        {
+            if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID == 0)
+            {
+                switch (indexPath.row) {
+                    case 0:
+                    {
+                        [cell addSubview:_txtCreditAmount];
+                        [cell addSubview:_txtCashReceive];
+                    }
+                        break;
+                    case 1:
+                    {
+                        [cell addSubview:_txtTransferAmount];
+                    }
+                        break;
+                    case 2:
+                    {
+                        _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
+                        [cell addSubview:_lblChanges];
+                    }
+                        break;
+                    case 3:
+                    {
+                        [cell addSubview:_btnPay];
+                    }
+                        break;
+                }
+            }
+            else
+            {
+                switch (indexPath.row) {
+                    case 0:
+                    {
+                        CustomTableViewCellReplaceReasonCode *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReplaceReasonCode];
+                        cell.txtValue.text = _replaceReason.reason;
+                        cell.txtValue.delegate = self;
+                        cell.txtValue.inputView = pvReplaceReasonCode;
+                        return  cell;
+                    }
+                    case 1:
+                    {
+                        CustomTableViewCellReplaceReason *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReplaceReason];
+                        cell.txtValue.text = _replaceReasonText;
+                        return  cell;
+                    }                     
+                }
+            }
+        }
+        else if(indexPath.section == 4)
         {
             switch (indexPath.row) {
                 case 0:
@@ -1514,9 +1643,21 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
                 sectionName = NSLocalizedString(@"Discount", @"Discount");
                 break;
             case 3:
-                sectionName = NSLocalizedString(@"Pay", @"Pay");
+            {                
+                if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID > 0)
+                {
+                    sectionName = NSLocalizedString(@"Replace", @"Replace");
+                }
+                else
+                {
+                    sectionName = NSLocalizedString(@"Pay", @"Pay");
+                }
+            }
                 break;
                 // ...
+            case 4:
+                sectionName = NSLocalizedString(@"Pay", @"Pay");
+                break;
             default:
                 sectionName = @"";
                 break;
@@ -1616,34 +1757,34 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             message:nil preferredStyle:UIAlertControllerStyleActionSheet];
             
             
-        //option1 - replace
-        NSString *strReplace = @"Replace product";
-        if(productDetail.replaceProduct)
-        {
-            strReplace = @"Buy product";
-        }
-        
-        [alert addAction:
-        [UIAlertAction actionWithTitle:strReplace style:UIAlertActionStyleDestructive
-        handler:^(UIAlertAction *action)
-        {
-           if(productDetail.replaceProduct)
-           {
-                //buy
-                productDetail.replaceProduct = 0;
-                productDetail.discount = 0;
-                productDetail.discountValue = 0;
-                productDetail.discountPercent = 0;
-                productDetail.discountReason = @"";
-                [tbvPay reloadData];
-           }
-           else
-           {
-                //show discount view
-                _booReplaceProduct = YES;
-                [self showDiscountView:productBuyIndex discountText:@"100" bahtPercentIndex:1 discountReason:@""];
-           }
-        }]];
+//        //option1 - replace
+//        NSString *strReplace = @"Replace product";
+//        if(productDetail.replaceProduct)
+//        {
+//            strReplace = @"Buy product";
+//        }
+//
+//        [alert addAction:
+//        [UIAlertAction actionWithTitle:strReplace style:UIAlertActionStyleDestructive
+//        handler:^(UIAlertAction *action)
+//        {
+//           if(productDetail.replaceProduct)
+//           {
+//                //buy
+//                productDetail.replaceProduct = 0;
+//                productDetail.discount = 0;
+//                productDetail.discountValue = 0;
+//                productDetail.discountPercent = 0;
+//                productDetail.discountReason = @"";
+//                [tbvPay reloadData];
+//           }
+//           else
+//           {
+//                //show discount view
+//                _booReplaceProduct = YES;
+//                [self showDiscountView:productBuyIndex discountText:@"100" bahtPercentIndex:1 discountReason:@""];
+//           }
+//        }]];
                     
                    
         //option2 - discount
@@ -1729,33 +1870,33 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
              message:nil preferredStyle:UIAlertControllerStyleActionSheet];
              
              
-         //option1 - replace
-         NSString *strReplace = @"Replace product";
-         if(customMade.replaceProduct)
-         {
-             strReplace = @"Buy product";
-         }
-         
-         [alert addAction:
-         [UIAlertAction actionWithTitle:strReplace style:UIAlertActionStyleDestructive
-         handler:^(UIAlertAction *action)
-         {
-            if(customMade.replaceProduct)
-            {
-                 //buy
-                 customMade.replaceProduct = 0;
-                 productDetail.discount = 0;
-                 productDetail.discountValue = 0;
-                 productDetail.discountPercent = 0;
-                 productDetail.discountReason = @"";
-                 [tbvPay reloadData];
-            }
-            else
-            {
-                 //show discount view
-                 [self showDiscountView:productBuyIndex discountText:@"100" bahtPercentIndex:1 discountReason:@""];
-            }
-         }]];
+//         //option1 - replace
+//         NSString *strReplace = @"Replace product";
+//         if(customMade.replaceProduct)
+//         {
+//             strReplace = @"Buy product";
+//         }
+//
+//         [alert addAction:
+//         [UIAlertAction actionWithTitle:strReplace style:UIAlertActionStyleDestructive
+//         handler:^(UIAlertAction *action)
+//         {
+//            if(customMade.replaceProduct)
+//            {
+//                 //buy
+//                 customMade.replaceProduct = 0;
+//                 productDetail.discount = 0;
+//                 productDetail.discountValue = 0;
+//                 productDetail.discountPercent = 0;
+//                 productDetail.discountReason = @"";
+//                 [tbvPay reloadData];
+//            }
+//            else
+//            {
+//                 //show discount view
+//                 [self showDiscountView:productBuyIndex discountText:@"100" bahtPercentIndex:1 discountReason:@""];
+//            }
+//         }]];
                      
                     
          //option2 - discount
@@ -1943,7 +2084,6 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         customMade.replaceProduct = _booReplaceProduct;
     }
     
-//    _lblChanges.text = [NSString stringWithFormat:@"Changes: %@ Baht",[self getStrChanges]];
     _booReplaceProduct = NO;
     [tbvPay reloadData];
     [_tbvDiscount removeFromSuperview];
@@ -2034,6 +2174,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             }
         }
         vc.productBuyIndex = _selectedProductBuyIndex;
+        vc.email = _wordPressEmail;
     }
 }
 
@@ -2081,6 +2222,10 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     else if(textField.tag == 50)//redeem points
     {
         _redeemPoints = textField.text;
+    }
+    else if(textField.tag == 100)
+    {
+        _replaceReasonText = textField.text;
     }
 }
 
@@ -2146,6 +2291,8 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             receiptProductItem.discountPercent = productDetail.discountPercent;
             receiptProductItem.discountReason = productDetail.discountReason;
             receiptProductItem.replaceReceiptProductItemID = replaceReceiptProductItem.receiptProductItemID;
+            receiptProductItem.replaceReasonCode = _replaceReason.code;
+            receiptProductItem.replaceReason = _replaceReasonText;
             [ReceiptProductItem addObject:receiptProductItem];
             [arrReceiptProductItem addObject:receiptProductItem];
             
@@ -2194,6 +2341,8 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             receiptProductItem.discountPercent = productDetail.discountPercent;
             receiptProductItem.discountReason = productDetail.discountReason;
             receiptProductItem.replaceReceiptProductItemID = replaceReceiptProductItem.receiptProductItemID;
+            receiptProductItem.replaceReasonCode = _replaceReason.code;
+            receiptProductItem.replaceReason = _replaceReasonText;
             
             //replaceReceiptProductItemID
             ReceiptProductItem *replaceReceiptProductItem = [SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem;
@@ -2242,6 +2391,9 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             receiptProductItem.discountPercent = productDetail.discountPercent;
             receiptProductItem.discountReason = productDetail.discountReason;
             receiptProductItem.replaceReceiptProductItemID = replaceReceiptProductItem.receiptProductItemID;
+            receiptProductItem.replaceReasonCode = _replaceReason.code;
+            receiptProductItem.replaceReason = _replaceReasonText;
+            
             [ReceiptProductItem addObject:receiptProductItem];
             [arrReceiptProductItem addObject:receiptProductItem];
             
@@ -2307,6 +2459,9 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             receiptProductItem.discountPercent = customMade.discountPercent;
             receiptProductItem.discountReason = customMade.discountReason;
             receiptProductItem.replaceReceiptProductItemID = replaceReceiptProductItem.receiptProductItemID;
+            receiptProductItem.replaceReasonCode = _replaceReason.code;
+            receiptProductItem.replaceReason = _replaceReasonText;
+            
             [ReceiptProductItem addObject:receiptProductItem];
             [arrReceiptProductItem addObject:receiptProductItem];
             
@@ -2441,9 +2596,10 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     [self removeOverlayViews];
     
     if(self.homeModel.propCurrentDB == dbWordPressRegister)
-    {
-        NSArray *wordPressUserList = data[0];
-        if([wordPressUserList count] > 0)
+    {        
+        NSArray *postCustomerList = data[0];
+        _wordPressUserList = data[1];
+        if([_wordPressUserList count] > 0)
         {
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Success"
                                                                        message:@"Register successful" preferredStyle:UIAlertControllerStyleAlert];
@@ -2451,6 +2607,7 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                 handler:^(UIAlertAction * action)
                 {
+                    [self setPostCustomerAndWordPressUser:postCustomerList];
                     [_tbvWordPressRegister removeFromSuperview];
                     [_vwDimBackground removeFromSuperview];
                 }];
@@ -2512,6 +2669,22 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
         return NO;
     }
     
+    if([SharedReplaceReceiptProductItem sharedReplaceReceiptProductItem].replaceReceiptProductItem.receiptProductItemID > 0)
+    {
+        if(_replaceReason.code == 0)
+        {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
+                                                                           message:@"Please choose replace reason" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action){}];
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            return NO;
+        }
+    }
+    
+    
     return YES;
 }
 
@@ -2562,21 +2735,34 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
 -(NSInteger)getChannel
 {
     NSInteger channel = _segConChannel.selectedSegmentIndex;
-    if(channel >= 5 && channel <= 8)
+    if(channel == 4)
     {
-        channel += 1;
+        channel = 12;
     }
-    else if(channel == 9)
+    else if(channel == 5)
+    {
+        channel = 4;
+    }
+    else if(channel == 6)
     {
         channel = 5;
     }
+//    if(channel >= 5 && channel <= 8)
+//    {
+//        channel += 1;
+//    }
+//    else if(channel == 9)
+//    {
+//        channel = 5;
+//    }
     return channel;
 }
 
 -(void)registerWordPressUser:(id)sender
 {
+    
     _wordPressEmail = @"";
-    _wordPressPhone = @"";
+    _wordPressPhone = _telephoneNoInput;
     for(int i=0; i<[_productBuyList count]; i++)
     {
         CustomMade *customMade = (CustomMade *)_productBuyList[i][productBuyDetail];
@@ -2714,5 +2900,45 @@ static NSString * const reuseIdentifierReward = @"CustomTableViewCellReward";
     {
         [self performSegueWithIdentifier:@"segUnwindToProductDetail" sender:self];
     }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+    // Handle the selection
+    NSArray *replaceReasonList = [ReplaceReason getReplaceReasonList];
+    ReplaceReason *replaceReason = replaceReasonList[row];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
+    CustomTableViewCellReplaceReasonCode *cell = [tbvPay cellForRowAtIndexPath:indexPath];
+    cell.txtValue.text = replaceReason.reason;
+    _replaceReason = replaceReason;
+}
+
+// tell the picker how many rows are available for a given component
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    NSArray *replaceReasonList = [ReplaceReason getReplaceReasonList];
+    return [replaceReasonList count];
+}
+
+// tell the picker how many components it will have
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+// tell the picker the title for a given component
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSArray *replaceReasonList = [ReplaceReason getReplaceReasonList];
+    ReplaceReason *replaceReason = replaceReasonList[row];
+    return replaceReason.reason;
+}
+
+// tell the picker the width of each row for a given component
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    //    int sectionWidth = 300;
+    
+    return self.view.frame.size.width;
+}
+
+- (void)itemsFail
+{
+    [self removeOverlayViews];
 }
 @end

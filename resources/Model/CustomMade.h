@@ -35,4 +35,5 @@
 
 
 +(CustomMade*)getCustomMade:(NSInteger)custommMadeID;
++(CustomMade*)getCustomMadeFromProductIDPost:(NSString *)productIDPost;
 @end

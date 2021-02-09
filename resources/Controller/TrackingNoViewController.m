@@ -61,7 +61,7 @@
     }
     
     txtTrackingNo.text = strTrackingNo;
-    [cell addSubview:txtTrackingNo];
+    [cell.contentView addSubview:txtTrackingNo];
     
     
     return cell;

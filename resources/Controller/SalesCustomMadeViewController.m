@@ -200,7 +200,7 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
 //            [cell addSubview:lblSize];
-            [cell addSubview:txtSize];
+            [cell.contentView addSubview:txtSize];
         }
             break;
         case 4:
@@ -208,7 +208,7 @@
             cell.textLabel.text = @"";
             cell.detailTextLabel.text = @"";
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [cell addSubview:txtToe];
+            [cell.contentView addSubview:txtToe];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
@@ -217,7 +217,7 @@
             cell.textLabel.text = @"";
             cell.detailTextLabel.text = @"";
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [cell addSubview:txtBody];
+            [cell.contentView addSubview:txtBody];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
@@ -226,7 +226,7 @@
             cell.textLabel.text = @"";
             cell.detailTextLabel.text = @"";
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [cell addSubview:txtAccessory];
+            [cell.contentView addSubview:txtAccessory];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
@@ -235,7 +235,7 @@
             cell.textLabel.text = @"";
             cell.detailTextLabel.text = @"";
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [cell addSubview:txtRemark];
+            [cell.contentView addSubview:txtRemark];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;

@@ -127,7 +127,10 @@
 //        {
 //            continue;
 //        }
-        //option1
+        
+        
+        
+//        option1
         if(i == 300)
         {
             break;
@@ -145,7 +148,7 @@
 //        {
 //            i++;
 //        }
-        
+
         
         NSString *strReceiptDate = [Utility formatDate:accountReceipt.receiptDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"dd/MM/yyyy"];
         NSString *taxCustomerName = [accountReceipt.taxCustomerName isEqualToString:@""]?@"สด":accountReceipt.taxCustomerName;
@@ -162,6 +165,7 @@
         
         
         float grandTotalAmount = 0;
+        float receiptDiscountFromItem = 0;
         NSMutableArray *items = [[NSMutableArray alloc]init];
         NSMutableArray *accountReceiptProductItemList = [AccountReceiptProductItem getAccountReceiptProductItem:_accountReceiptProductItemList accountReceiptID:accountReceipt.accountReceiptID];
         for(AccountReceiptProductItem *accountReceiptProductItem in accountReceiptProductItemList)
@@ -189,25 +193,64 @@
             }
             NSString *strQuantity = [NSString stringWithFormat:@"%f",accountReceiptProductItem.quantity];
             NSString *strAmountPerUnit = [NSString stringWithFormat:@"%f",accountReceiptProductItem.amountPerUnit];
+            NSString *strItemDiscount = [NSString stringWithFormat:@"%f",accountReceiptProductItem.itemDiscount];
             float totalAmount = accountReceiptProductItem.quantity*accountReceiptProductItem.amountPerUnit;
+            float itemDiscount = accountReceiptProductItem.quantity*accountReceiptProductItem.itemDiscount;
 
             NSString *strTotalAmount = [NSString stringWithFormat:@"%f",totalAmount];
-            NSString *strProductName = [NSString stringWithFormat:@"รองเท้ารุ่น %@",productName.name];
+            NSString *strProductName;
+            if([productName.productCategory2 isEqualToString:@"01"])
+            {
+                strProductName = [NSString stringWithFormat:@"รองเท้ารุ่น %@",productName.name];
+            }
+            else if([productName.productCategory2 isEqualToString:@"02"])
+            {
+                strProductName = [NSString stringWithFormat:@"เครื่องประดับรุ่น %@",productName.name];
+            }
+            else if([productName.productCategory2 isEqualToString:@"03"])
+            {
+                if([productName.name isEqualToString:@"Pearl strap"] || [productName.name isEqualToString:@"Gold chain"])
+                {
+                    strProductName = [NSString stringWithFormat:@"กระเป๋ารุ่น %@",@"Accessories"];
+                }
+                else
+                {
+                    strProductName = [NSString stringWithFormat:@"กระเป๋ารุ่น %@",productName.name];
+                }
+            }
+            else
+            {
+                strProductName = [NSString stringWithFormat:@"สินค้ารุ่น %@",productName.name];
+            }
+//            NSString *strProductName = [NSString stringWithFormat:@"รองเท้ารุ่น %@",productName.name];
             strQuantity = [Utility formatBaht:strQuantity withMinFraction:2 andMaxFraction:2];
             strAmountPerUnit = [Utility formatBaht:strAmountPerUnit withMinFraction:2 andMaxFraction:2];
+            strItemDiscount = [Utility formatBaht:strItemDiscount withMinFraction:2 andMaxFraction:2];
+//            strAmountPerUnit = @"1,618.505";//test
             strTotalAmount = [Utility formatBaht:strTotalAmount withMinFraction:2 andMaxFraction:2];
+//            strTotalAmount = @"3,237.01";//test
+            
 
+            //temp
+            if([strProductName isEqualToString:@"รองเท้ารุ่น Sock U"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock V"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock O"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock Taylor"])
+            {
+                strProductName = @"รองเท้ารุ่น Sock";
+            }
+            
 
+            
             [item setValue:strItemNo forKey:@"itemNo"];
             [item setValue:strProductName forKey:@"itemDesc"];
             [item setValue:strQuantity forKey:@"quantity"];
             [item setValue:strAmountPerUnit forKey:@"amountPerUnit"];
+            [item setValue:strItemDiscount forKey:@"itemDiscount"];
             [item setValue:strTotalAmount forKey:@"totalAmount"];
 
 
 
             [items addObject:item];
             grandTotalAmount += totalAmount;
+            receiptDiscountFromItem += itemDiscount;
         }
 
 //        //test
@@ -243,6 +286,7 @@
             [item setValue:@"" forKey:@"itemDesc"];
             [item setValue:@"" forKey:@"quantity"];
             [item setValue:@"" forKey:@"amountPerUnit"];
+            [item setValue:@"" forKey:@"itemDiscount"];
             [item setValue:@"" forKey:@"totalAmount"];
             
             [items addObject:item];
@@ -250,7 +294,8 @@
         [receiptInfo setValue:items forKey:@"items"];
         
         
-        float discount = roundf(accountReceipt.receiptDiscount*100)/100;
+//        float discount = roundf(accountReceipt.receiptDiscount*100)/100;
+        float discount = roundf(receiptDiscountFromItem*100)/100;
         float totalAmountIncludeVat = grandTotalAmount - discount;
         float vat = roundf(totalAmountIncludeVat*7/107*100)/100;
         NSString *strGrandTotalAmount = [NSString stringWithFormat:@"%f",grandTotalAmount];
@@ -263,6 +308,7 @@
         strVat = [Utility formatBaht:strVat withMinFraction:2 andMaxFraction:2];
         strTotalAmountBeforeVat = [Utility formatBaht:strTotalAmountBeforeVat withMinFraction:2 andMaxFraction:2];
         strTotalAmountIncludeVat = [Utility formatBaht:strTotalAmountIncludeVat withMinFraction:2 andMaxFraction:2];
+    
         
                 
         [receiptInfo setValue:strGrandTotalAmount forKey:@"totalAmount"];
@@ -274,47 +320,129 @@
 
 
 //        //test
-//        [receiptInfo setValue:@"4,226.50" forKey:@"totalAmount"];
+//        [receiptInfo setValue:@"3,237.01" forKey:@"totalAmount"];
 //        [receiptInfo setValue:@"0.00" forKey:@"discount"];
-//        [receiptInfo setValue:@"3,950.00" forKey:@"totalAmountBeforeVat"];
+//        [receiptInfo setValue:@"3025.24" forKey:@"totalAmountBeforeVat"];
 //        [receiptInfo setValue:@"276.50" forKey:@"vat"];
-//        [receiptInfo setValue:@"4,226.50" forKey:@"totalAmountIncludeVat"];
+//        [receiptInfo setValue:@"3,237.01" forKey:@"totalAmountIncludeVat"];
 //        [receiptInfoList addObject:receiptInfo];
     }
     
-    
+    runningPage = 0;
     htmlContent = @"";
     htmlContentList = [[NSMutableArray alloc]init];
+//    NSMutableArray *webViewList = [[NSMutableArray alloc]init];
     for(int i=0; i<[receiptInfoList count]; i++)
     {
+//        WKWebView *webPreview = [[WKWebView alloc] initWithFrame:self.webPreview.frame];
+//        webPreview.navigationDelegate = self;
         NSMutableDictionary *receiptInfo = receiptInfoList[i];
         invoiceComposer = [[InvoiceComposer alloc]init];
         NSString *invoiceHtml = [invoiceComposer renderInvoice:receiptInfo[@"receiptNo"] invoiceDate:receiptInfo[@"receiptDate"] customerName:receiptInfo[@"customerName"] customerAddress:receiptInfo[@"customerAddress"] customerTaxNo:receiptInfo[@"customerTaxNo"] items:receiptInfo[@"items"] totalAmount:receiptInfo[@"totalAmount"] discount:receiptInfo[@"discount"] totalAmountBeforeVat:receiptInfo[@"totalAmountBeforeVat"] vat:receiptInfo[@"vat"] totalAmountIncludeVat:receiptInfo[@"totalAmountIncludeVat"]];
         
+//        webPreview.tag = i;
+//        [webPreview loadHTMLString:invoiceHtml baseURL:[NSURL URLWithString:@""]];
+
+
+//        //for individual receipt//test
+//        if([receiptInfo[@"receiptNo"] isEqualToString: @"10-20/092"])
+//        {
+//            [webPreview loadHTMLString:invoiceHtml baseURL:[NSURL URLWithString:@""]];
+//        }
+//////
+   
+        NSString *runningReceiptNo = [ receiptInfo[@"receiptNo"] stringByReplacingOccurrencesOfString:@"01-21/" withString:@""];
         htmlContent = [NSString stringWithFormat:@"%@%@",htmlContent,invoiceHtml];
-        [htmlContentList addObject:invoiceHtml];
+//        if(![receiptInfo[@"customerName"] isEqualToString:@"สด"])
+        {
+            [htmlContentList addObject:invoiceHtml];
+        }
     }
     
     //load one by one
-    [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];
 //    [webPreview loadHTMLString:htmlContent baseURL:[NSURL URLWithString:@""]];
+    [webPreview loadHTMLString:htmlContentList[0] baseURL:[NSURL URLWithString:@""]];
+//    [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];//test
 }
 
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
+    NSLog(@"didFinishNavigation");
+    
     [_viewPrintFormatterList addObject: webView.viewPrintFormatter];
-    if(runningPage == [htmlContentList count]-1)
+    
+    if(_viewPrintFormatterList.count < htmlContentList.count)
     {
-        NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
-        
-        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
-        pdfFileName = [printPageRenderer exportHTMLContentToPDFWIthPrintFormatterList:_viewPrintFormatterList fileName:strFileName];
+        WKWebView *webPreview = [[WKWebView alloc] initWithFrame:self.view.frame];
+        webPreview.navigationDelegate = self;
+        [self.view addSubview:webPreview];
+        [webPreview loadHTMLString:htmlContentList[_viewPrintFormatterList.count] baseURL:[NSURL URLWithString:@""]];
     }
     else
     {
-        runningPage++;
-        [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];
+        NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+        pdfFileName = [printPageRenderer exportHTMLContentToPDFWIthPrintFormatterList:_viewPrintFormatterList fileName:strFileName];
     }
+    
+    
+//    [_viewPrintFormatterList addObject: [webView.viewPrintFormatter copyWithZone:NULL]];
+    
+    
+//    //******test********
+//    NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%ld_%@",runningPage,[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+//    pdfFileName = [printPageRenderer exportHTMLContentToPDFWIthPrintFormatter:webView.viewPrintFormatter fileName:strFileName];
+//    //******test********
+//
+//    return;
+    
+//    
+//    if([receiptInfoList count] == [_viewPrintFormatterList count])//test
+//    {
+//        NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+//        pdfFileName = [printPageRenderer exportHTMLContentToPDFWIthPrintFormatterList:_viewPrintFormatterList fileName:strFileName];
+////        pdfFileName = [printPageRenderer exportHTMLContentToPDF:htmlContentList fileName:strFileName];
+//
+//    }
+//    else//test
+//    {
+//        runningPage++;
+//        [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];//test
+//    }
+    
+    
+    
+//    if(runningPage == [htmlContentList count]-1)
+//    {
+//        NSString *strFileName = [NSString stringWithFormat:@"Tax_Invoice_%@",[Utility formatDate:_strAccountReceiptHistoryDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd_HH:mm:ss"]];
+//
+//        CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
+//        pdfFileName = [printPageRenderer exportHTMLContentToPDF:htmlContentList fileName:strFileName];
+//    }
+//    else
+//    {
+//        runningPage++;
+//        [webPreview loadHTMLString:htmlContentList[runningPage] baseURL:[NSURL URLWithString:@""]];
+//    }
+}
+
+-(NSString *) convertImageAtPathToBase64String:(NSString *)fileName
+{
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"oneSignature3.png"]);
+    NSString * base64String = [imageData base64EncodedStringWithOptions:0];
+    return [NSString stringWithFormat:@"data:image/png;base64,%@",base64String];
+//
+//    let paths = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+//    let documentsURL = paths[0]
+//    let imageFileURL = documentsURL.URLByAppendingPathComponent(fileName)
+//    if let imageData = NSData(contentsOfURL: imageFileURL) {
+//        let strBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+//        print(strBase64)
+//        return "data:image/gif;base64,\(strBase64)"
+//    }
+//    return ""
 }
 
 - (IBAction)emailPDF:(id)sender
@@ -343,7 +471,7 @@
 //    CustomPrintPageRenderer *printPageRenderer = [[CustomPrintPageRenderer alloc]init];
 //    pdfFileName = [printPageRenderer exportHTMLContentToPDF:htmlContentList fileName:strFileName];
 //
-//    [self performSelectorOnMainThread: @selector(mail:) withObject:pdfFileName waitUntilDone:NO];
+    [self performSelectorOnMainThread: @selector(mail:) withObject:pdfFileName waitUntilDone:NO];
 ////*********
 
 
