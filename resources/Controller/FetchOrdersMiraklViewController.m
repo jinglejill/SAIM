@@ -55,7 +55,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,6 +70,16 @@
     {
         cell.textLabel.text = @"Pending order";
         cell.detailTextLabel.text = [NSString stringWithFormat:@"#%ld",_miraklOrder.pendingOrderCount];
+    }
+    else if(indexPath.item == 1)
+    {
+        cell.textLabel.text = @"Waiting debit order";
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"#%ld",_miraklOrder.waitingDebitOrderCount];
+    }
+    else if(indexPath.item == 2)
+    {
+        cell.textLabel.text = @"Shipping order";
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"#%ld",_miraklOrder.shippingOrderCount];
     }
     
     return cell;

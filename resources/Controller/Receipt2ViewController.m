@@ -119,7 +119,7 @@ static NSString * const reuseIdentifierReplaceReason = @"CustomTableViewCellRepl
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-
+    _telephoneNoInput = @"";
     _redeemPoints = @"";
     _wordPressUserList = [[NSMutableArray alloc]init];
     _vwDimBackground = [[UIView alloc]initWithFrame:self.view.frame];
@@ -514,7 +514,7 @@ static NSString * const reuseIdentifierReplaceReason = @"CustomTableViewCellRepl
             }
         }
     }
-    [self searchPostCustomerAndReward];
+//    [self searchPostCustomerAndReward];
     
     
     
@@ -1459,6 +1459,7 @@ static NSString * const reuseIdentifierReplaceReason = @"CustomTableViewCellRepl
                     case 1:
                     {
                         CustomTableViewCellReplaceReason *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierReplaceReason];
+                        cell.txtValue.tag = 100;
                         cell.txtValue.text = _replaceReasonText;
                         return  cell;
                     }                     
@@ -2576,8 +2577,17 @@ static NSString * const reuseIdentifierReplaceReason = @"CustomTableViewCellRepl
     
     //insert post customer
     NSMutableArray *arrPostCustomer = [[NSMutableArray alloc]init];
-    NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
-    [arrPostCustomer addObjectsFromArray:postBuyList];
+//    NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
+//    [arrPostCustomer addObjectsFromArray:postBuyList];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:1];
+    CustomTableViewCellReward *cell = [tbvPay cellForRowAtIndexPath:indexPath];    
+    PostCustomer *postCustomer = [self getPostCustomerFromTelephone:cell.txtTelephoneNo.text];
+    if(postCustomer)
+    {
+        [arrPostCustomer addObject:postCustomer];
+    }
+    
     [data addObject:arrPostCustomer];
     
 
@@ -2940,5 +2950,18 @@ static NSString * const reuseIdentifierReplaceReason = @"CustomTableViewCellRepl
 - (void)itemsFail
 {
     [self removeOverlayViews];
+}
+
+-(PostCustomer *)getPostCustomerFromTelephone:(NSString *)telephone
+{
+    NSArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
+    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_telephone = %@",[Utility removeDashAndSpaceAndParenthesis:telephone]];
+    NSArray *filterArray = [postBuyList filteredArrayUsingPredicate:predicate1];
+    
+    if([filterArray count]>0)
+    {
+        return filterArray[0];
+    }
+    return nil;
 }
 @end

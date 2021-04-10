@@ -42,7 +42,9 @@
 #import "ItemTrackingNo.h"
 #import "Message.h"
 #import "PreOrder2.h"
-
+#import "CustomTableViewCellSaveCancel.h"
+#import "CustomTableViewCellText.h"
+#import "DeleteReason.h"
 
 /* Macro for background colors */
 #define tYellow          [UIColor colorWithRed:251/255.0 green:188/255.0 blue:5/255.0 alpha:1]
@@ -163,7 +165,13 @@
     
     UITextField *_txtReferenceOrderNo;
 //    UITapGestureRecognizer *_singleTap;
+    
+    
+    UITableView *_tbvDeleteReason;
+    DeleteReason *_deleteReason;
+    NSString *_deleteReasonText;
 }
+
 
 @end
 
@@ -175,6 +183,8 @@ static NSString * const reuseIdentifierReceipt = @"CustomTableViewCellReceipt";
 static NSString * const reuseIdentifierReceiptProductItem = @"CustomTableViewCellReceiptProductItem";
 static NSString * const reuseIdentifierReceiptShort = @"CustomTableViewCellReceiptShort";
 static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCellReceiptShortHeader";
+static NSString * const reuseIdentifierText = @"CustomTableViewCellText";
+static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCancel";
 @implementation ReceiptSummary2ViewController
 @synthesize lblLocation;
 @synthesize lblDate;
@@ -185,7 +195,7 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
 @synthesize preOrderEventIDHistoryView;
 @synthesize titleAndCloseButtonView;
 @synthesize tbvData;
-
+@synthesize pvDeleteReasonCode;
 
 - (IBAction)unwindToReceiptSummary2:(UIStoryboardSegue *)segue
 {
@@ -733,7 +743,7 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [self loadingOverlayView];
+    
     
     if(textField == self.txtInitialChanges || textField == self.txtDeposit)
     {
@@ -755,6 +765,14 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
         [self loadingOverlayView];
         [_homeModel updateItems:dbReceiptReferenceOrderNo withData:@[strReceiptID,strReferenceOrderNo]];
     }
+    else if(textField.tag == 100)
+    {
+        _deleteReasonText = textField.text;
+    }
+    else if(textField.tag == 101)
+    {
+        
+    }
     else
     {
         //txtRemark
@@ -765,6 +783,7 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
         
         _homeModel = [[HomeModel alloc] init];
         _homeModel.delegate = self;
+        [self loadingOverlayView];
         [_homeModel updateItems:dbReceipt withData:_receiptRemark];
     }
 }
@@ -970,6 +989,36 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
         }
     }
     
+    //*****tbvDeleteReason
+    float tbvDeleteReasonWidth = self.view.frame.size.width;
+    float tbvDeleteReasonHeight = 44*3+30;
+    CGRect tbvDiscountFrame = CGRectMake((self.view.frame.size.width-tbvDeleteReasonWidth)/2, (self.view.frame.size.height-tbvDeleteReasonHeight)/2, tbvDeleteReasonWidth, tbvDeleteReasonHeight);
+    
+    _tbvDeleteReason = [[UITableView alloc]initWithFrame:tbvDiscountFrame style:UITableViewStylePlain];
+    _tbvDeleteReason.delegate = self;
+    _tbvDeleteReason.dataSource = self;
+    _tbvDeleteReason.scrollEnabled = NO;
+    
+    {
+        UINib *nib = [UINib nibWithNibName:reuseIdentifierText bundle:nil];
+        [_tbvDeleteReason registerNib:nib forCellReuseIdentifier:reuseIdentifierText];
+    }
+    {
+        UINib *nib = [UINib nibWithNibName:reuseIdentifierSaveCancel bundle:nil];
+        [_tbvDeleteReason registerNib:nib forCellReuseIdentifier:reuseIdentifierSaveCancel];
+    }
+    
+    //add dropshadow
+    [self addDropShadow:_tbvDeleteReason];
+    
+    
+    
+    _deleteReason = [[DeleteReason alloc]init];
+    _deleteReasonText = @"";
+    [pvDeleteReasonCode removeFromSuperview];
+    pvDeleteReasonCode.delegate = self;
+    pvDeleteReasonCode.dataSource = self;
+    //*****tbvDeleteReason
 }
 
 - (BOOL) hasPost:(NSInteger)receiptID
@@ -1145,55 +1194,59 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
     [alert addAction:
      [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Delete product (No.%@)",receiptProductItem.row]
                               style:UIAlertActionStyleDestructive
-                            handler:^(UIAlertAction *action) {
-                                //update receiptproductitem producttype=xx,productID=customMadeEdit
-                                //update product status = 'I'
-                                    //customerreceipt trackingno คงไว้
-                                
-                                NSMutableArray *arrProduct = [[NSMutableArray alloc]init];
-                                NSMutableArray *arrCustomMade = [[NSMutableArray alloc]init];;
-                                NSMutableArray *arrReceiptProductItem = [[NSMutableArray alloc]init];;
-                                if([receiptProductItem.productType isEqualToString:@"I"] || [receiptProductItem.productType isEqualToString:@"P"] || [receiptProductItem.productType isEqualToString:@"R"] || [receiptProductItem.productType isEqualToString:@"S"])
-                                {
-                                    Product *product = [[Product alloc]init];
-                                    product.productID = receiptProductItem.productID;
-                                    product.status = @"I";
-                                    product.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                                    product.modifiedUser = [Utility modifiedUser];
-                                    [arrProduct addObject:product];
-                                }
-                                ReceiptProductItem *receiptProductItemUpdate = [[ReceiptProductItem alloc]init];
-                                receiptProductItemUpdate.receiptProductItemID = receiptProductItem.receiptProductItemID;
-                                receiptProductItemUpdate.productID = receiptProductItem.productID;
-                               
-        if([receiptProductItem.productType isEqualToString:@"C"] || [receiptProductItem.productType isEqualToString:@"B"] || [receiptProductItem.productType isEqualToString:@"E"])
-        {
-            CustomMade *customMade = [self getCustomMade:[receiptProductItem.productID integerValue]];
-            [arrCustomMade addObject:customMade];
-        }
+                            handler:^(UIAlertAction *action)
+    {
+                    
+//        NSMutableArray *arrProduct = [[NSMutableArray alloc]init];
+//        NSMutableArray *arrCustomMade = [[NSMutableArray alloc]init];;
+//        NSMutableArray *arrReceiptProductItem = [[NSMutableArray alloc]init];
+//        if([receiptProductItem.productType isEqualToString:@"I"] || [receiptProductItem.productType isEqualToString:@"P"] || [receiptProductItem.productType isEqualToString:@"R"] || [receiptProductItem.productType isEqualToString:@"S"])
+//        {
+//            Product *product = [[Product alloc]init];
+//            product.productID = receiptProductItem.productID;
+//            product.status = @"I";
+//            product.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//            product.modifiedUser = [Utility modifiedUser];
+//            [arrProduct addObject:product];
+//        }
+//        ReceiptProductItem *receiptProductItemUpdate = [[ReceiptProductItem alloc]init];
+//        receiptProductItemUpdate.receiptProductItemID = receiptProductItem.receiptProductItemID;
+//        receiptProductItemUpdate.productID = receiptProductItem.productID;
+//
+//
+//        if([receiptProductItem.productType isEqualToString:@"C"] || [receiptProductItem.productType isEqualToString:@"B"] || [receiptProductItem.productType isEqualToString:@"E"])
+//        {
+//            CustomMade *customMade = [self getCustomMade:[receiptProductItem.productID integerValue]];
+//            [arrCustomMade addObject:customMade];
+//        }
+//
+//        if([receiptProductItem.productType isEqualToString:@"R"])
+//        {
+//            if(!receiptProductItem.isPreOrder2)
+//            {
+//                CustomMade *customMade = [self getCustomMadeFromProductIDPost:receiptProductItem.productID];
+//                [arrCustomMade addObject:customMade];
+//            }
+//        }
+//
+//
+//        receiptProductItemUpdate.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        receiptProductItemUpdate.modifiedUser = [Utility modifiedUser];
+//        [arrReceiptProductItem addObject:receiptProductItemUpdate];
+//
+//
+//
+//        NSArray *arrData = @[arrProduct,arrCustomMade,arrReceiptProductItem];
         
-                                if([receiptProductItem.productType isEqualToString:@"R"])
-                                {
-                                    if(!receiptProductItem.isPreOrder2)
-                                    {
-                                        CustomMade *customMade = [self getCustomMadeFromProductIDPost:receiptProductItem.productID];
-                                        [arrCustomMade addObject:customMade];
-                                    }
-                                }
-                                    
         
-                                receiptProductItemUpdate.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                                receiptProductItemUpdate.modifiedUser = [Utility modifiedUser];
-                                [arrReceiptProductItem addObject:receiptProductItemUpdate];
-                                
-                                
-                                
-                                NSArray *arrData = @[arrProduct,arrCustomMade,arrReceiptProductItem];
-                                [self loadingOverlayView];
-                                [_homeModel updateItems:dbReceiptProductItemDelete withData:arrData];
-                                
-//                                [self fetchData];
-                            }]];
+//        [self loadingOverlayView];
+//        [_homeModel updateItems:dbReceiptProductItemDelete withData:@(receiptProductItemID)];
+        
+        [self showDeleteView:0 receiptProductItemID:receiptProductItemID];
+        
+    }
+      
+    ]];
     [alert addAction:
      [UIAlertAction actionWithTitle:@"Cancel"
                               style:UIAlertActionStyleCancel
@@ -1208,8 +1261,8 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
     UIButton *deleteButton = (UIButton *)sender;
     NSInteger receiptID = deleteButton.tag;
 
-    
-    
+    [self showDeleteView:receiptID receiptProductItemID:0];
+    return;
     {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
                                                                        message:nil
@@ -1230,8 +1283,8 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
                                     NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
                                     NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
                                     NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
-                                    NSMutableArray *arrRewardPoint = [RewardPoint getRewardPointWithReceiptID:receiptID];
-                                    [[SharedRewardPoint sharedRewardPoint].rewardPointList removeObjectsInArray:arrRewardPoint];
+//                                    NSMutableArray *arrRewardPoint = [RewardPoint getRewardPointWithReceiptID:receiptID];
+//                                    [[SharedRewardPoint sharedRewardPoint].rewardPointList removeObjectsInArray:arrRewardPoint];
                                     
 
                                     NSMutableArray *updateProductList = [[NSMutableArray alloc]init];
@@ -1293,24 +1346,29 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
     }
 }
 
+
+
 -(void)itemsDeletedWithReturnData:(NSArray *)data
 {
     [self removeOverlayViews];
     if(_homeModel.propCurrentDB == dbReceiptAndReceiptProductItemDelete)
     {
-        NSInteger receiptID = [_selectedReceiptID integerValue];
+//        NSInteger receiptID = [_selectedReceiptID integerValue];
+        NSInteger receiptID = _deleteReason.receiptID;
         Receipt *receipt = [self getReceipt:receiptID];
         NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
         NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
         NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
         NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
-       
+        NSMutableArray *arrRewardPoint = [RewardPoint getRewardPointWithReceiptID:receiptID];
+        
        
         
         [_receiptListForDate removeObject:receipt];
         [_itemTrackingNoListForDate removeObjectsInArray:arrItemTrackingNo];
         [_receiptProductItemListForDate removeObjectsInArray:arrReceiptProductItem];
         [_customMadeListForDate removeObjectsInArray:arrCustomMade];
+        [[SharedRewardPoint sharedRewardPoint].rewardPointList removeObjectsInArray:arrRewardPoint];
         for(Product *item in arrProduct)
         {
             item.status = @"I";
@@ -1356,7 +1414,10 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
             return [_receiptListForDate count];
         }
     }
-
+    else if(tableView == _tbvDeleteReason)
+    {
+        return 1;
+    }
     return 1;
 }
 
@@ -1382,6 +1443,10 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
     else if(tableView == preOrderEventIDHistoryView)
     {
         row = [_preOrderEventIDHistoryList count];
+    }
+    else if(tableView == _tbvDeleteReason)
+    {
+        row = 3;
     }
     else
     {
@@ -1642,6 +1707,45 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
         cell.textLabel.text = [Event getEvent:preOrderEventIDHistory.preOrderEventID].location;
         cell.detailTextLabel.text = [Utility formatDate:preOrderEventIDHistory.modifiedDate fromFormat:@"yyyy-MM-dd HH:mm:ss" toFormat:@"yyyy-MM-dd HH:mm"];
     }
+    else if(tableView == _tbvDeleteReason)
+    {
+        if(indexPath.item == 0)
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.tag = 101;
+            cell.txtValue.placeholder = @"Choose delete reason";
+            cell.txtValue.text = _deleteReason.reason;
+            cell.txtValue.delegate = self;
+            cell.txtValue.inputView = pvDeleteReasonCode;
+            return  cell;
+
+        }
+        else if(indexPath.item == 1)
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.tag = 100;
+            cell.txtValue.placeholder = @"Other reasons";
+            cell.txtValue.text = _deleteReasonText;
+            cell.txtValue.delegate = self;
+            return  cell;            
+        }
+        else if(indexPath.item == 2)
+        {
+            CustomTableViewCellSaveCancel *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierSaveCancel];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            
+//            cell.btnSave.tag = tableView.tag;
+            [cell.btnSave setTitle:@"Delete" forState:UIControlStateNormal];
+            [cell.btnSave sizeToFit];
+            cell.btnSaveWidth.constant = cell.btnSave.frame.size.width;
+            [cell.btnSave addTarget:self action:@selector(deleteReceipt:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.btnCancel addTarget:self action:@selector(cancelDelete:) forControlEvents:UIControlEventTouchUpInside];
+            return cell;
+        }
+    }
     else
     {
         //table for receiptProductItem
@@ -1764,6 +1868,10 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
     {
         return 44;
     }
+    else if(tableView == _tbvDeleteReason)
+    {
+        return 44;
+    }
     else
     {
         return 30;
@@ -1817,6 +1925,16 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
             }
         }
     }
+    else if(tableView == _tbvDeleteReason)
+    {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+        [view setBackgroundColor:[UIColor systemGroupedBackgroundColor]]; //your background color...
+        UILabel *label = [[UILabel alloc]initWithFrame:view.frame];
+        label.text = @"Delete reason";
+        [view addSubview:label];
+        return view;
+    }
+    
     return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
@@ -1851,6 +1969,10 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
             }
         }
     }
+    else if(tableView == _tbvDeleteReason)
+    {
+        return 30;
+    }
     return 0.01f;
 }
 
@@ -1865,6 +1987,19 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
     }
     return 0.01f;
 }
+
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//   NSString *sectionName;
+//
+//   if(tableView == _tbvDeleteReason)
+//   {
+//       sectionName = NSLocalizedString(@"Delete reason", @"Delete reason");
+//   }
+//
+//
+//   return sectionName;
+//}
 
 -(void)showActionList:(id)sender
 {
@@ -2244,8 +2379,8 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
 
 -(void)itemsUpdated
 {
-
 }
+
 -(void)itemsUpdatedWithReturnData:(NSArray *)data
 {
     if(_homeModel.propCurrentDB == dbCashAllocationByEventIDAndInputDate)
@@ -2389,6 +2524,46 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
         Receipt *receipt = [self getReceipt:dbReceipt.receiptID];
         receipt.referenceOrderNo = dbReceipt.referenceOrderNo;
         [tbvData reloadData];
+    }
+    else if(_homeModel.propCurrentDB == dbReceiptDeleteWithReason)
+    {
+        [self removeOverlayViews];
+        [tbvData reloadData];
+        
+        
+        NSInteger receiptID = _deleteReason.receiptID;
+        Receipt *receipt = [self getReceipt:receiptID];
+        NSArray *arrItemTrackingNo = [self getItemTrackingNoList:receiptID];
+        NSArray *arrReceiptProductItem = [self getReceiptProductItemList:receiptID];
+        NSArray *arrCustomMade = [self getCustomMadeList:arrReceiptProductItem];
+        NSArray *arrProduct = [self getProductList:arrReceiptProductItem];
+        NSMutableArray *arrRewardPoint = [RewardPoint getRewardPointWithReceiptID:receiptID];
+        
+       
+        
+        [_receiptListForDate removeObject:receipt];
+        [_itemTrackingNoListForDate removeObjectsInArray:arrItemTrackingNo];
+        [_receiptProductItemListForDate removeObjectsInArray:arrReceiptProductItem];
+        [_customMadeListForDate removeObjectsInArray:arrCustomMade];
+        [[SharedRewardPoint sharedRewardPoint].rewardPointList removeObjectsInArray:arrRewardPoint];
+        for(Product *item in arrProduct)
+        {
+            item.status = @"I";
+            item.remark = @"";
+            item.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
+            item.modifiedUser = [Utility modifiedUser];
+        }
+        
+        [self setData];
+        
+        
+        NSArray *messageList = data[0];
+        InAppMessage *message = messageList[0];
+        NSString *strMessage = message.message;
+        if(![Utility isStringEmpty:message.message])
+        {
+            [self alertMessage:strMessage title:@"Warning"];
+        }
     }
 }
 
@@ -2754,6 +2929,91 @@ static NSString * const reuseIdentifierReceiptShortHeader = @"CustomTableViewCel
         }
     }
     return productList;
+}
+
+- (void)showDeleteView:(NSInteger)receiptID receiptProductItemID:(NSInteger)receiptProductItemID
+{
+    _deleteReason = [[DeleteReason alloc]init];
+    _deleteReason.receiptID = receiptID;
+    _deleteReason.receiptProductItemID = receiptProductItemID;
+    _deleteReasonText = @"";
+    [_tbvDeleteReason reloadData];
+    
+    
+    _tbvDeleteReason.alpha = 0.0;
+    [self.view addSubview:_vwDimBackground];
+    [self.view addSubview:_tbvDeleteReason];
+    [UIView animateWithDuration:0.2 animations:^{
+        _tbvDeleteReason.alpha = 1.0;
+    }];
+}
+
+-(void)deleteReceipt:(id)sender
+{
+    //validate
+    if(_deleteReason.code == 0)
+    {
+        [self alertMessage:@"Please choose delete reason" title:@"Warning"];
+        return;
+    }
+    
+    [self loadingOverlayView];
+    if(_deleteReason.receiptID != 0)
+    {
+        [_homeModel updateItems:dbReceiptDeleteWithReason withData:@[_deleteReason,_deleteReasonText]];
+    }
+    else
+    {
+        [_homeModel updateItems:dbReceiptProductItemDelete withData:@[_deleteReason,_deleteReasonText]];
+    }
+    
+    
+    
+    [_tbvDeleteReason removeFromSuperview];
+    [_vwDimBackground removeFromSuperview];
+}
+
+-(void)cancelDelete:(id)sender
+{
+    [_tbvDeleteReason removeFromSuperview];
+    [_vwDimBackground removeFromSuperview];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+    // Handle the selection
+    NSArray *deleteReasonList = [DeleteReason getDeleteReasonList];
+    DeleteReason *deleteReason = deleteReasonList[row];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    CustomTableViewCellText *cell = [_tbvDeleteReason cellForRowAtIndexPath:indexPath];
+    cell.txtValue.text = deleteReason.reason;
+    _deleteReason.code = deleteReason.code;
+    _deleteReason.reason = deleteReason.reason;
+}
+
+// tell the picker how many rows are available for a given component
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    NSArray *deleteReasonList = [DeleteReason getDeleteReasonList];
+    return [deleteReasonList count];
+}
+
+// tell the picker how many components it will have
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+// tell the picker the title for a given component
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSArray *deleteReasonList = [DeleteReason getDeleteReasonList];
+    DeleteReason *deleteReason = deleteReasonList[row];
+
+    return deleteReason.reason;
+}
+
+// tell the picker the width of each row for a given component
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    //    int sectionWidth = 300;
+    
+    return self.view.frame.size.width;
 }
 
 @end

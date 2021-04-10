@@ -349,6 +349,10 @@
     
     
     NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
+    //*****fix ค่า ip ไว้จาก db
+    [userSettings setObject:[Utility setting:vPrinterIPAddress] forKey:@"ipAddress"];
+    [userSettings setObject:[Utility setting:vPrinterModelName] forKey:@"LastSelectedPrinter"];
+    //*****fix ค่า ip ไว้จาก db
     NSString *selectedPrinterName = [userSettings stringForKey:@"LastSelectedPrinter"];
     
     if(selectedPrinterName && [selectedPrinterName length]>0)

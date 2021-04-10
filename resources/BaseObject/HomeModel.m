@@ -61,6 +61,8 @@
 #import "ItemTrackingNo.h"
 #import "PreOrder2.h"
 #import "ProductItem.h"
+#import "DeleteReason.h"
+#import "YearMonth.h"
 
 
 #import "SharedProductSales.h"
@@ -356,6 +358,16 @@
             arrClassName = @[@"MiraklOrder"];
         }
             break;
+        case dbYearMonth:
+        {
+            arrClassName = @[@"YearMonth"];
+        }
+            break;
+        case dbYearMonthCost:
+        {
+            arrClassName = @[@"YearMonthCost"];
+        }
+            break;
         default:
             break;
     }
@@ -490,6 +502,8 @@
         case dbJDFetchOrders:
         case dbMiraklPendingOrders:
         case dbMiraklFetchOrders:
+        case dbYearMonth:
+        case dbYearMonthCost:
         {
             [_dataToDownload appendData:dataRaw];
             if([ _dataToDownload length ]/_downloadSize == 1.0f)
@@ -1122,6 +1136,19 @@
             url = [NSString stringWithFormat:[Utility url:urlEventInventoryGetList],[Utility randomStringWithLength:6]];
         }
             break;
+        case dbYearMonth:
+        {
+            NSNumber *page = (NSNumber *)object;
+            noteDataString = [NSString stringWithFormat:@"page=%d",[page intValue]];
+            url = [NSString stringWithFormat:[Utility url:urlYearMonthGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
+        case dbYearMonthCost:
+        {
+            noteDataString = [Utility getNoteDataString:object];
+            url = [NSString stringWithFormat:[Utility url:urlYearMonthCostGetList],[Utility randomStringWithLength:6]];
+        }
+            break;
         default:
             break;
     }
@@ -1584,6 +1611,18 @@
             url = [NSURL URLWithString:[Utility url:urlWordPressRegisterInsert]];
         }
             break;
+        case dbYearMonth:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthInsert]];
+        }
+            break;
+        case dbYearMonthCost:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthCostInsert]];
+        }
+            break;
         default:
             break;
     }
@@ -1845,6 +1884,14 @@
                             else if([strTableName isEqualToString:@"WordPressRegister"])
                             {
                                 arrClassName = @[@"WordPressUser"];
+                            }
+                            else if([strTableName isEqualToString:@"YearMonth"])
+                            {
+                                arrClassName = @[@"YearMonth",@"Message"];                                
+                            }
+                            else if([strTableName isEqualToString:@"YearMonthCost"])
+                            {
+                                arrClassName = @[@"YearMonthCost"];
                             }
                             
                             
@@ -2657,33 +2704,41 @@
             break;
         case dbReceiptProductItemDelete:
         {
+//            NSInteger receiptProductItemID = [((NSNumber *)data) intValue];
+//            noteDataString = [NSString stringWithFormat:@"receiptProductItemID=%ld",receiptProductItemID] ;
+            
+            
             NSArray *arrData = (NSArray *)data;
-            NSArray *arrProduct = arrData[0];
-            NSArray *arrCustomMade = arrData[1];
-            NSArray *arrReceiptProductItem = arrData[2];
+            DeleteReason *deleteReason = arrData[0];
+            NSString *reasonText = arrData[1];
+//            NSInteger receiptProductItemID = [((NSNumber *)arrData[2]) intValue];
+            noteDataString = [Utility getNoteDataString:deleteReason];
+            noteDataString = [NSString stringWithFormat:@"%@&reasonText=%@",noteDataString,reasonText];
             
-            NSInteger countProduct = 0;
-            NSInteger countCustomMade = 0;
-            NSInteger countReceiptProductItem = 0;
-            noteDataString = [NSString stringWithFormat:@"countProduct=%ld&countCustomMade=%ld&countReceiptProductItem=%ld",[arrProduct count],[arrCustomMade count],[arrReceiptProductItem count]];
-            
-            for(Product *item in arrProduct)
-            {
-                noteDataString = [NSString stringWithFormat:@"%@&productIDMain%02ld=%@",noteDataString,countProduct,item.productID];
-                countProduct++;
-            }
-            for(CustomMade *item in arrCustomMade)
-            {
-                noteDataString = [NSString stringWithFormat:@"%@&customMadeID%02ld=%ld",noteDataString,countCustomMade,item.customMadeID];
-                countCustomMade++;
-            }
-            for(ReceiptProductItem *item in arrReceiptProductItem)
-            {
-                noteDataString = [NSString stringWithFormat:@"%@&%@",noteDataString,[Utility getNoteDataString:item withRunningNo:countReceiptProductItem]];
-                countReceiptProductItem++;
-            }
             
             url = [NSURL URLWithString:[Utility url:urlReceiptProductItemDelete]];
+        }
+            break;
+        case dbReceiptDeleteWithReason:
+        {
+            NSArray *arrData = (NSArray *)data;
+            DeleteReason *deleteReason = arrData[0];
+            NSString *reasonText = arrData[1];
+            noteDataString = [Utility getNoteDataString:deleteReason];
+            noteDataString = [NSString stringWithFormat:@"%@&reasonText=%@",noteDataString,reasonText];
+            url = [NSURL URLWithString:[Utility url:urlReceiptDeleteWithReasonUpdate]];
+        }
+            break;
+        case dbYearMonth:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthUpdate]];
+        }
+            break;
+        case dbYearMonthCost:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthCostUpdate]];
         }
             break;
         default:
@@ -2807,6 +2862,42 @@
                     if(self.delegate)
                     {
                         [self.delegate itemsUpdatedWithReturnData:items];
+                    }
+                }
+                else if([function isEqualToString:@"YearMonth"])
+                {
+                    NSArray *arrClassName = @[@"YearMonth",@"Message"];
+                    NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                    
+                    
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsUpdatedWithReturnData:items];
+                    }
+                }
+                else if([function isEqualToString:@"YearMonthCost"])
+                {
+                    NSArray *arrClassName = @[@"YearMonthCost"];
+                    NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                    
+                    
+                    if(self.delegate)
+                    {
+                        [self.delegate itemsUpdatedWithReturnData:items];
+                    }
+                }
+                else if(propCurrentDB == dbReceiptDeleteWithReason)
+                {
+                    if([status isEqual:@"1"] && [function isEqualToString:@"ReceiptDeleteWithReason"])
+                    {
+                        NSArray *arrClassName = @[@"InAppMessage"];
+                        NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                        
+                        
+                        if(self.delegate)
+                        {
+                            [self.delegate itemsUpdatedWithReturnData:items];
+                        }
                     }
                 }
                 else
@@ -3073,6 +3164,24 @@
             url = [NSURL URLWithString:[Utility url:urlMainInventoryItemDelete]];
         }
             break;
+        case dbYearMonthConfirm:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthConfirmDelete]];
+        }
+            break;
+        case dbYearMonth:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthDelete]];
+        }
+            break;
+        case dbYearMonthCost:
+        {
+            noteDataString = [Utility getNoteDataString:data];
+            url = [NSURL URLWithString:[Utility url:urlYearMonthCostDelete]];
+        }
+            break;
         default:
             break;
     }
@@ -3130,6 +3239,28 @@
                     {
                         [self.delegate itemsDeletedWithReturnData:items];
                     }
+                }
+            }
+            else if([status isEqual:@"1"] && [strTableName isEqualToString:@"YearMonth"])
+            {
+                NSArray *arrClassName = @[@"YearMonth",@"InAppMessage"];
+                NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                
+                
+                if(self.delegate)
+                {
+                    [self.delegate itemsDeletedWithReturnData:items];
+                }
+            }
+            else if([status isEqual:@"1"] && [strTableName isEqualToString:@"YearMonthCost"])
+            {
+                NSArray *arrClassName = @[@"YearMonthCost"];
+                NSArray *items = [Utility jsonToArray:dataJson arrClassName:arrClassName];
+                
+                
+                if(self.delegate)
+                {
+                    [self.delegate itemsDeletedWithReturnData:items];
                 }
             }
             else

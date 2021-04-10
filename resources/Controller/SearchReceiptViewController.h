@@ -10,13 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SearchReceiptViewController : CustomViewController
+@interface SearchReceiptViewController : CustomViewController<UIPickerViewDelegate,UIPickerViewDataSource>
 @property (strong, nonatomic) IBOutlet UITextField *txtSearchText;
 @property (strong, nonatomic) IBOutlet UIButton *btnSearch;
 @property (strong, nonatomic) IBOutlet UITableView *tbvData;
 - (IBAction)searchReceipt:(id)sender;
 - (IBAction)unwindToSearchReceipt:(UIStoryboardSegue *)segue;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segConSearchBy;
+@property (strong, nonatomic) IBOutlet UIPickerView *pvDeleteReasonCode;
 @end
 
 NS_ASSUME_NONNULL_END

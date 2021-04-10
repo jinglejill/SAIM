@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MiraklOrder : NSObject
 @property (nonatomic) NSInteger pendingOrderCount;
+@property (nonatomic) NSInteger waitingDebitOrderCount;
+@property (nonatomic) NSInteger shippingOrderCount;
 @end
 
 NS_ASSUME_NONNULL_END

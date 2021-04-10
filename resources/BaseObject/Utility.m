@@ -9,8 +9,6 @@
 #import "Utility.h"
 #import "Message.h"
 #import "Setting.h"
-//#import "RNEncryptor.h"
-//#import "RNDecryptor.h"
 #import "Event.h"
 #import <objc/runtime.h>
 #import "ProductWithQuantity.h"
@@ -700,13 +698,43 @@ extern NSString *globalModifiedUser;
             url = @"/SAIM/SAIMJDFetchOrdersGetList.php?%@";
             break;
         case urlReceiptProductItemDelete:
-            url = @"/SAIM/SAIMReceiptProductItemDelete.php";
+            url = @"/SAIM/SAIMReceiptProductItemDelete2.php";
             break;
         case urlMiraklPendingOrdersGetList:
             url = @"/SAIM/SAIMMiraklPendingOrdersGetList.php?%@";
             break;
         case urlMiraklFetchOrdersGetList:
             url = @"/SAIM/SAIMMiraklFetchOrdersGetList.php?%@";
+            break;
+        case urlReceiptDeleteWithReasonUpdate:
+            url = @"/SAIM/SAIMReceiptDeleteWithReasonUpdate.php";
+            break;
+        case urlYearMonthInsert:
+            url = @"/SAIM/SAIMYearMonthInsert.php";
+            break;
+        case urlYearMonthUpdate:
+            url = @"/SAIM/SAIMYearMonthUpdate.php";
+            break;
+        case urlYearMonthGetList:
+            url = @"/SAIM/SAIMYearMonthGetList.php?%@";
+            break;
+        case urlYearMonthConfirmDelete:
+            url = @"/SAIM/SAIMYearMonthConfirmDelete.php";
+            break;
+        case urlYearMonthCostGetList:
+            url = @"/SAIM/SAIMYearMonthCostGetList.php?%@";
+            break;
+        case urlYearMonthDelete:
+            url = @"/SAIM/SAIMYearMonthDelete.php";
+            break;
+        case urlYearMonthCostInsert:
+            url = @"/SAIM/SAIMYearMonthCostInsert.php";
+            break;
+        case urlYearMonthCostUpdate:
+            url = @"/SAIM/SAIMYearMonthCostUpdate.php";
+            break;
+        case urlYearMonthCostDelete:
+            url = @"/SAIM/SAIMYearMonthCostDelete.php";
             break;
         default:
             break;
@@ -1085,6 +1113,14 @@ extern NSString *globalModifiedUser;
     formatterBaht.minimumFractionDigits = min;
     formatterBaht.maximumFractionDigits = max;
     NSString *strFormattedBaht = [formatterBaht stringFromNumber:[NSNumber numberWithFloat:[number floatValue]]];
+    return strFormattedBaht;
+}
++ (NSString *)formatFloat:(float)number withMinFraction:(NSInteger)min andMaxFraction:(NSInteger)max
+{
+    [formatterBaht setNumberStyle:NSNumberFormatterDecimalStyle];
+    formatterBaht.minimumFractionDigits = min;
+    formatterBaht.maximumFractionDigits = max;
+    NSString *strFormattedBaht = [formatterBaht stringFromNumber:[NSNumber numberWithFloat:number]];
     return strFormattedBaht;
 }
 

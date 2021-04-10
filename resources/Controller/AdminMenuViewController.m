@@ -66,6 +66,7 @@ enum enumAdminMenu
     menuSearchSalesTelephone,
     menuProductSalesSet,
     menuProductCost,
+    menuFixedCostByMonth,
     menuMemberAndPoint,
     menuRewardProgramSetup,
     menuSalesSummary,
@@ -222,6 +223,7 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
     _menuSectionSales = @[@"Search sales (telephone)",
                           @"Price offer set",
                           @"Product cost",
+                          @"Fixed cost by month",
                           @"Member and point",
                           @"Reward program setup",
                           @"Sales summary",
@@ -710,6 +712,9 @@ static NSString *SectionHeaderViewIdentifier = @"SectionHeaderViewIdentifier";
                 break;                
             case menuProductCost:
                 [self performSegueWithIdentifier:@"segProductCost" sender:self];
+                break;
+            case menuFixedCostByMonth:
+                [self performSegueWithIdentifier:@"segFixedCostByMonth" sender:self];
                 break;
             case menuMemberAndPoint:
                 [self performSegueWithIdentifier:@"segMemberAndPoint" sender:self];

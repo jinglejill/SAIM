@@ -36,6 +36,9 @@
 		EF5E04CF1D7A80DD005CC8DE /* ProductStatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5E04CC1D7A80DD005CC8DE /* ProductStatusDetailViewController.m */; };
 		EF6392E625CD532D007005C1 /* FetchOrdersMiraklViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6392E525CD532D007005C1 /* FetchOrdersMiraklViewController.m */; };
 		EF6392E925CD536D007005C1 /* MiraklOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6392E825CD536D007005C1 /* MiraklOrder.m */; };
+		EF6392F225D23FD3007005C1 /* CustomTableViewCellText.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6392F025D23FD3007005C1 /* CustomTableViewCellText.m */; };
+		EF6392F325D23FD3007005C1 /* CustomTableViewCellText.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6392F125D23FD3007005C1 /* CustomTableViewCellText.xib */; };
+		EF6392F625D24096007005C1 /* DeleteReason.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6392F525D24096007005C1 /* DeleteReason.m */; };
 		EF67EF091E79581A005D20F9 /* ProductionOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF061E79581A005D20F9 /* ProductionOrder.m */; };
 		EF67EF0A1E79581A005D20F9 /* SalesByChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF081E79581A005D20F9 /* SalesByChannel.m */; };
 		EF67EF131E795833005D20F9 /* ProductionOrderAddedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF67EF0B1E795832005D20F9 /* ProductionOrderAddedListViewController.m */; };
@@ -95,6 +98,8 @@
 		EF88062E241F6F0B00862ED5 /* CustomTableViewCellOrder.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF88062C241F6F0B00862ED5 /* CustomTableViewCellOrder.xib */; };
 		EF880635241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF880634241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib */; };
 		EF880638241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = EF880637241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m */; };
+		EF8B6F72260986C1005637D0 /* FixedCostByMonthDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6F71260986C1005637D0 /* FixedCostByMonthDetailViewController.m */; };
+		EF8B6F7526098B72005637D0 /* YearMonthCost.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6F7426098B72005637D0 /* YearMonthCost.m */; };
 		EF8B8A412432CF43005F6E91 /* ReportTopSpenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A402432CF43005F6E91 /* ReportTopSpenderViewController.m */; };
 		EF8B8A452432DC40005F6E91 /* CustomTableViewCellTopSpender.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */; };
 		EF8B8A462432DC40005F6E91 /* CustomTableViewCellTopSpender.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */; };
@@ -189,6 +194,8 @@
 		EFCAD5FA1E5FEADB0013393D /* single_item.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F71E5FEADB0013393D /* single_item.html */; };
 		EFD5AEC02471F04000591DA3 /* FetchOrdersLazadaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */; };
 		EFD5AEC32471F1C600591DA3 /* LazadaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */; };
+		EFD6C9A7260355BD00CAB281 /* FixedCostByMonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD6C9A6260355BD00CAB281 /* FixedCostByMonthViewController.m */; };
+		EFD6C9AA26035DEA00CAB281 /* YearMonth.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD6C9A926035DEA00CAB281 /* YearMonth.m */; };
 		EFD78CE1255D180E0024C368 /* FetchOrdersJDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD78CE0255D180E0024C368 /* FetchOrdersJDViewController.m */; };
 		EFD78CE4255D35440024C368 /* JDOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD78CE3255D35440024C368 /* JDOrder.m */; };
 		EFDB57011CF143FF0082E91D /* SharedPushSync.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDB56FA1CF143FF0082E91D /* SharedPushSync.m */; };
@@ -500,6 +507,11 @@
 		EF6392E525CD532D007005C1 /* FetchOrdersMiraklViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersMiraklViewController.m; sourceTree = "<group>"; };
 		EF6392E725CD536D007005C1 /* MiraklOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiraklOrder.h; sourceTree = "<group>"; };
 		EF6392E825CD536D007005C1 /* MiraklOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MiraklOrder.m; sourceTree = "<group>"; };
+		EF6392EF25D23FD3007005C1 /* CustomTableViewCellText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellText.h; sourceTree = "<group>"; };
+		EF6392F025D23FD3007005C1 /* CustomTableViewCellText.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellText.m; sourceTree = "<group>"; };
+		EF6392F125D23FD3007005C1 /* CustomTableViewCellText.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellText.xib; sourceTree = "<group>"; };
+		EF6392F425D24096007005C1 /* DeleteReason.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteReason.h; sourceTree = "<group>"; };
+		EF6392F525D24096007005C1 /* DeleteReason.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteReason.m; sourceTree = "<group>"; };
 		EF67EF051E79581A005D20F9 /* ProductionOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductionOrder.h; sourceTree = "<group>"; };
 		EF67EF061E79581A005D20F9 /* ProductionOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductionOrder.m; sourceTree = "<group>"; };
 		EF67EF071E79581A005D20F9 /* SalesByChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesByChannel.h; sourceTree = "<group>"; };
@@ -603,6 +615,10 @@
 		EF880634241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableHeaderFooterViewOrderSummary.xib; sourceTree = "<group>"; };
 		EF880636241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableHeaderFooterViewOrderSummary.h; sourceTree = "<group>"; };
 		EF880637241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableHeaderFooterViewOrderSummary.m; sourceTree = "<group>"; };
+		EF8B6F70260986C1005637D0 /* FixedCostByMonthDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FixedCostByMonthDetailViewController.h; sourceTree = "<group>"; };
+		EF8B6F71260986C1005637D0 /* FixedCostByMonthDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FixedCostByMonthDetailViewController.m; sourceTree = "<group>"; };
+		EF8B6F7326098B72005637D0 /* YearMonthCost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YearMonthCost.h; sourceTree = "<group>"; };
+		EF8B6F7426098B72005637D0 /* YearMonthCost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YearMonthCost.m; sourceTree = "<group>"; };
 		EF8B8A3F2432CF43005F6E91 /* ReportTopSpenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportTopSpenderViewController.h; sourceTree = "<group>"; };
 		EF8B8A402432CF43005F6E91 /* ReportTopSpenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportTopSpenderViewController.m; sourceTree = "<group>"; };
 		EF8B8A422432DC40005F6E91 /* CustomTableViewCellTopSpender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellTopSpender.h; sourceTree = "<group>"; };
@@ -758,6 +774,10 @@
 		EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersLazadaViewController.m; sourceTree = "<group>"; };
 		EFD5AEC12471F1C600591DA3 /* LazadaOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazadaOrder.h; sourceTree = "<group>"; };
 		EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LazadaOrder.m; sourceTree = "<group>"; };
+		EFD6C9A5260355BD00CAB281 /* FixedCostByMonthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FixedCostByMonthViewController.h; sourceTree = "<group>"; };
+		EFD6C9A6260355BD00CAB281 /* FixedCostByMonthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FixedCostByMonthViewController.m; sourceTree = "<group>"; };
+		EFD6C9A826035DEA00CAB281 /* YearMonth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YearMonth.h; sourceTree = "<group>"; };
+		EFD6C9A926035DEA00CAB281 /* YearMonth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YearMonth.m; sourceTree = "<group>"; };
 		EFD78CDF255D180E0024C368 /* FetchOrdersJDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchOrdersJDViewController.h; sourceTree = "<group>"; };
 		EFD78CE0255D180E0024C368 /* FetchOrdersJDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersJDViewController.m; sourceTree = "<group>"; };
 		EFD78CE2255D35440024C368 /* JDOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JDOrder.h; sourceTree = "<group>"; };
@@ -1750,6 +1770,10 @@
 				EFD78CE0255D180E0024C368 /* FetchOrdersJDViewController.m */,
 				EF6392E425CD532D007005C1 /* FetchOrdersMiraklViewController.h */,
 				EF6392E525CD532D007005C1 /* FetchOrdersMiraklViewController.m */,
+				EFD6C9A5260355BD00CAB281 /* FixedCostByMonthViewController.h */,
+				EFD6C9A6260355BD00CAB281 /* FixedCostByMonthViewController.m */,
+				EF8B6F70260986C1005637D0 /* FixedCostByMonthDetailViewController.h */,
+				EF8B6F71260986C1005637D0 /* FixedCostByMonthDetailViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1948,6 +1972,9 @@
 				EFFE1B372540400C004308EF /* CustomTableHeaderFooterViewDelete.xib */,
 				EFFE1B3425403FFE004308EF /* CustomTableHeaderFooterViewDelete.h */,
 				EFFE1B3525403FFE004308EF /* CustomTableHeaderFooterViewDelete.m */,
+				EF6392EF25D23FD3007005C1 /* CustomTableViewCellText.h */,
+				EF6392F025D23FD3007005C1 /* CustomTableViewCellText.m */,
+				EF6392F125D23FD3007005C1 /* CustomTableViewCellText.xib */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -2267,6 +2294,12 @@
 				EF6392E825CD536D007005C1 /* MiraklOrder.m */,
 				EF45EDA025C435BC00358806 /* ReplaceReason.h */,
 				EF45EDA125C435BC00358806 /* ReplaceReason.m */,
+				EF6392F425D24096007005C1 /* DeleteReason.h */,
+				EF6392F525D24096007005C1 /* DeleteReason.m */,
+				EFD6C9A826035DEA00CAB281 /* YearMonth.h */,
+				EFD6C9A926035DEA00CAB281 /* YearMonth.m */,
+				EF8B6F7326098B72005637D0 /* YearMonthCost.h */,
+				EF8B6F7426098B72005637D0 /* YearMonthCost.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2292,7 +2325,6 @@
 				EFF081111CAF52C5003E74D6 /* Sources */,
 				EFF081121CAF52C5003E74D6 /* Frameworks */,
 				EFF081131CAF52C5003E74D6 /* Resources */,
-				EF8B53072574AB850026A9B9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2481,6 +2513,7 @@
 				EFF083E41CAFA7E0003E74D6 /* add active3.png in Resources */,
 				EF733D8A24206C6700750577 /* CustomTableViewCellDiscountReason.xib in Resources */,
 				EFF084061CAFA7E0003E74D6 /* webgreecegrey.jpg in Resources */,
+				EF6392F325D23FD3007005C1 /* CustomTableViewCellText.xib in Resources */,
 				EF8B8A792433A100005F6E91 /* Icon-Small-50@2x.png in Resources */,
 				EF8B8A7E2433A100005F6E91 /* Icon-60@3x.png in Resources */,
 				EF77B7972410C14E00834B8D /* CustomTableViewCellReceiptShort.xib in Resources */,
@@ -2534,26 +2567,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		EF8B53072574AB850026A9B9 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nproductVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INFOPLIST_FILE\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $productVersion\" \"$INFOPLIST_FILE\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		EFF081111CAF52C5003E74D6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -2564,6 +2577,7 @@
 				EFF083AB1CAFA7E0003E74D6 /* PreOrderViewController.m in Sources */,
 				EFD5AEC02471F04000591DA3 /* FetchOrdersLazadaViewController.m in Sources */,
 				EF77B7A6241A130800834B8D /* CustomTableViewCellExpenseDaily.m in Sources */,
+				EF8B6F72260986C1005637D0 /* FixedCostByMonthDetailViewController.m in Sources */,
 				EFCAD5C51E5EEB3A0013393D /* AccountReceiptPDFViewController.m in Sources */,
 				EFCAD5E81E5EEB630013393D /* AccountMapping.m in Sources */,
 				EFF083861CAFA7E0003E74D6 /* AddEditEventViewController.m in Sources */,
@@ -2606,6 +2620,7 @@
 				EFF083A71CAFA7E0003E74D6 /* PreOrderAddPreOrderViewController.m in Sources */,
 				EFF083AA1CAFA7E0003E74D6 /* PreOrderScanViewController.m in Sources */,
 				EFF084431CAFA7E0003E74D6 /* SharedProduct.m in Sources */,
+				EF6392F625D24096007005C1 /* DeleteReason.m in Sources */,
 				EF67EF141E795833005D20F9 /* DeliverOrderScanViewController.m in Sources */,
 				EF67EF0A1E79581A005D20F9 /* SalesByChannel.m in Sources */,
 				EF9DC7D01CCF5E84004ABAB6 /* ProductDeleteScanViewController.m in Sources */,
@@ -2638,6 +2653,7 @@
 				EFCAD5E91E5EEB630013393D /* AccountReceipt.m in Sources */,
 				EFA072AC1F57175E00830045 /* HomeModel.m in Sources */,
 				EFF083A51CAFA7E0003E74D6 /* MasterListViewController.m in Sources */,
+				EFD6C9A7260355BD00CAB281 /* FixedCostByMonthViewController.m in Sources */,
 				EFF083991CAFA7E0003E74D6 /* EventInventorySummaryViewController.m in Sources */,
 				EF799BA91D0C066B00473F5F /* SearchSalesTelephoneViewController.m in Sources */,
 				EFF083921CAFA7E0003E74D6 /* CompareInventoryHistoryViewController.m in Sources */,
@@ -2737,6 +2753,7 @@
 				EF0C10E11CC35744001A23E6 /* PreOrderPageViewController.m in Sources */,
 				EFF083A11CAFA7E0003E74D6 /* InventorySourceViewController.m in Sources */,
 				EFC91FEB1D5496C6007345F1 /* Credentials.m in Sources */,
+				EFD6C9AA26035DEA00CAB281 /* YearMonth.m in Sources */,
 				EFF083D21CAFA7E0003E74D6 /* CustomUICollectionReusableView.m in Sources */,
 				EFB460D32445DE1C00C5100E /* PreOrder2ViewController.m in Sources */,
 				EFF0838F1CAFA7E0003E74D6 /* ChartTabBarController.m in Sources */,
@@ -2761,6 +2778,7 @@
 				EFECE9AA1CD5DD7E003A0190 /* SharedSetting.m in Sources */,
 				EFF083CB1CAFA7E0003E74D6 /* UserAccountViewController.m in Sources */,
 				EFF084651CAFA7E0003E74D6 /* CPDStockPriceStore.m in Sources */,
+				EF6392F225D23FD3007005C1 /* CustomTableViewCellText.m in Sources */,
 				EFF084341CAFA7E0003E74D6 /* SharedCompareInventory.m in Sources */,
 				EF4CB25D1E717134008A93FC /* AccountReceiptHistorySummary.m in Sources */,
 				EF9DC7D61CCF5EC5004ABAB6 /* ProductDelete.m in Sources */,
@@ -2773,6 +2791,7 @@
 				EFF083751CAFA7E0003E74D6 /* PDFSelectVIewControllerViewController.m in Sources */,
 				EFA072AB1F57175E00830045 /* AppDelegate.m in Sources */,
 				EFF083C11CAFA7E0003E74D6 /* SalesCustomMadeAddCustomMadeViewController.m in Sources */,
+				EF8B6F7526098B72005637D0 /* YearMonthCost.m in Sources */,
 				EF9DC7CF1CCF5E84004ABAB6 /* ProductDeleteHistoryViewController.m in Sources */,
 				EF880638241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m in Sources */,
 				EFF0842E1CAFA7E0003E74D6 /* SalesByPriceData.m in Sources */,
@@ -3000,7 +3019,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 992;
+				CURRENT_PROJECT_VERSION = 1250;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3015,7 +3034,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.6.5;
+				MARKETING_VERSION = 1.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3035,7 +3054,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 992;
+				CURRENT_PROJECT_VERSION = 1250;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3050,7 +3069,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.6.5;
+				MARKETING_VERSION = 1.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

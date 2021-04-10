@@ -832,13 +832,22 @@
                                     <segment title="Name"/>
                                 </segments>
                             </segmentedControl>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Srb-rQ-0oC">
+                                <rect key="frame" x="0.0" y="418" width="600" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="die-dg-vcM"/>
+                                </constraints>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="axB-20-jHL" firstAttribute="top" secondItem="Srb-rQ-0oC" secondAttribute="bottom" id="B0O-CP-yn5"/>
                             <constraint firstItem="cff-PP-3NX" firstAttribute="centerY" secondItem="SDy-It-hgl" secondAttribute="centerY" id="COa-Gl-3w7"/>
+                            <constraint firstItem="Srb-rQ-0oC" firstAttribute="leading" secondItem="Yw1-Oi-l6c" secondAttribute="leading" id="KxV-C2-fP7"/>
                             <constraint firstItem="X2c-c4-mRs" firstAttribute="leading" secondItem="SDy-It-hgl" secondAttribute="trailing" constant="8" id="Kzg-6K-z3g"/>
                             <constraint firstAttribute="trailing" secondItem="Y6F-bG-XYR" secondAttribute="trailing" id="Psp-Fq-4Dt"/>
                             <constraint firstItem="cff-PP-3NX" firstAttribute="leading" secondItem="X2c-c4-mRs" secondAttribute="trailing" constant="8" id="Pto-dE-kzg"/>
+                            <constraint firstAttribute="trailing" secondItem="Srb-rQ-0oC" secondAttribute="trailing" id="bVM-PA-tHO"/>
                             <constraint firstItem="axB-20-jHL" firstAttribute="top" secondItem="Y6F-bG-XYR" secondAttribute="bottom" id="dYQ-9j-c9V"/>
                             <constraint firstItem="X2c-c4-mRs" firstAttribute="centerY" secondItem="SDy-It-hgl" secondAttribute="centerY" id="f10-Y3-X7p"/>
                             <constraint firstItem="SDy-It-hgl" firstAttribute="top" secondItem="Lls-0b-8IG" secondAttribute="bottom" constant="8" id="f6R-c8-hZd"/>
@@ -852,6 +861,7 @@
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
                         <outlet property="btnSearch" destination="X2c-c4-mRs" id="MiR-LN-yYn"/>
+                        <outlet property="pvDeleteReasonCode" destination="Srb-rQ-0oC" id="If8-ag-qY7"/>
                         <outlet property="segConSearchBy" destination="cff-PP-3NX" id="TwE-Pn-jEa"/>
                         <outlet property="tbvData" destination="Y6F-bG-XYR" id="kSN-M2-9Dh"/>
                         <outlet property="txtSearchText" destination="SDy-It-hgl" id="9XB-x8-NZN"/>
@@ -1233,6 +1243,7 @@
                         <segue destination="1wN-Lg-UG6" kind="show" identifier="segProductPostedNew" id="a3U-cs-Hd9"/>
                         <segue destination="776-RF-5vx" kind="show" identifier="segProductPost2" id="p6q-i6-KGa"/>
                         <segue destination="Mil-gt-ZBT" kind="show" identifier="segReportTopSpender" id="Z9N-HE-wT1"/>
+                        <segue destination="Eyv-ND-k0W" kind="show" identifier="segFixedCostByMonth" id="FF5-W9-fFv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D4a-Ie-UJW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -10461,6 +10472,12 @@
                                     <action selector="expenseButtonClicked:" destination="OkO-h8-dSl" eventType="touchUpInside" id="9bU-WV-uCu"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xU8-f1-8y9">
+                                <rect key="frame" x="0.0" y="418" width="600" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="2dO-fW-vmi"/>
+                                </constraints>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -10486,6 +10503,7 @@
                             <constraint firstAttribute="trailing" secondItem="q0y-5d-KQT" secondAttribute="trailing" id="KsT-DJ-wqL"/>
                             <constraint firstItem="fJ4-Io-Ggu" firstAttribute="centerY" secondItem="sb1-MA-Fdm" secondAttribute="centerY" id="OxZ-pM-czv"/>
                             <constraint firstItem="Oaf-PV-jwt" firstAttribute="top" secondItem="9l1-1w-KCd" secondAttribute="bottom" constant="27" id="PBM-tf-lJa"/>
+                            <constraint firstItem="xU8-f1-8y9" firstAttribute="leading" secondItem="FuJ-pz-46N" secondAttribute="leading" id="PEy-pM-7fv"/>
                             <constraint firstItem="xcT-Fb-6Fj" firstAttribute="centerY" secondItem="wkP-6a-81N" secondAttribute="centerY" id="PoW-Mz-gWX"/>
                             <constraint firstItem="Ki4-Ue-CDK" firstAttribute="leading" secondItem="FuJ-pz-46N" secondAttribute="leading" id="QIo-gz-biY"/>
                             <constraint firstItem="0ex-sz-LDX" firstAttribute="centerY" secondItem="Tic-1H-VyX" secondAttribute="centerY" id="SIT-rk-9Go"/>
@@ -10499,6 +10517,7 @@
                             <constraint firstItem="bdx-VM-sE6" firstAttribute="leading" secondItem="FuJ-pz-46N" secondAttribute="leading" id="Wcw-df-Mkv"/>
                             <constraint firstItem="q9I-mm-a1L" firstAttribute="leading" secondItem="bdx-VM-sE6" secondAttribute="trailing" constant="2" id="YXw-qQ-geO"/>
                             <constraint firstItem="n7A-ei-Crg" firstAttribute="centerY" secondItem="I1f-Ov-YNq" secondAttribute="centerY" id="Z0d-MJ-cBF"/>
+                            <constraint firstAttribute="trailing" secondItem="xU8-f1-8y9" secondAttribute="trailing" id="a6h-5L-Ghi"/>
                             <constraint firstItem="Hmk-ex-8Z0" firstAttribute="centerY" secondItem="wkP-6a-81N" secondAttribute="centerY" id="a7q-nr-QXQ"/>
                             <constraint firstItem="OBj-A4-r3g" firstAttribute="leading" secondItem="FuJ-pz-46N" secondAttribute="leadingMargin" id="acj-fz-xi8"/>
                             <constraint firstItem="I1f-Ov-YNq" firstAttribute="top" secondItem="OBj-A4-r3g" secondAttribute="bottom" constant="20" id="azH-X4-UFI"/>
@@ -10525,6 +10544,7 @@
                             <constraint firstItem="zqu-wN-3Bi" firstAttribute="leading" secondItem="n7A-ei-Crg" secondAttribute="trailing" constant="2" id="v8d-8h-ORd"/>
                             <constraint firstItem="P3u-QY-wTH" firstAttribute="centerY" secondItem="bdx-VM-sE6" secondAttribute="centerY" id="vEX-Mw-QiM"/>
                             <constraint firstItem="zhw-UJ-dhg" firstAttribute="centerX" secondItem="FuJ-pz-46N" secondAttribute="centerX" id="wkZ-83-HMD"/>
+                            <constraint firstItem="exe-cd-vrI" firstAttribute="top" secondItem="xU8-f1-8y9" secondAttribute="bottom" id="x9J-83-UeX"/>
                             <constraint firstItem="Tic-1H-VyX" firstAttribute="top" secondItem="wkP-6a-81N" secondAttribute="bottom" constant="5" id="xBY-aM-fan"/>
                             <constraint firstItem="XGy-uH-E24" firstAttribute="centerY" secondItem="wkP-6a-81N" secondAttribute="centerY" id="xGS-ta-kYR"/>
                             <constraint firstAttribute="trailing" secondItem="PJT-gx-JKt" secondAttribute="trailing" id="yWo-Ww-89h"/>
@@ -10566,6 +10586,7 @@
                         <outlet property="lblTotalCredit" destination="XGy-uH-E24" id="qdp-g0-1tS"/>
                         <outlet property="lblTotalDiscount" destination="q0y-5d-KQT" id="Mqb-pN-mBV"/>
                         <outlet property="lblTotalTransfer" destination="nQA-cF-dUz" id="D5N-Ww-hQD"/>
+                        <outlet property="pvDeleteReasonCode" destination="xU8-f1-8y9" id="g0d-ft-BDS"/>
                         <outlet property="tbvData" destination="Ki4-Ue-CDK" id="gUe-kU-I2S"/>
                         <outlet property="txtDeposit" destination="0ex-sz-LDX" id="8ej-cL-jLw"/>
                         <outlet property="txtInitialChanges" destination="DmY-iE-XQf" id="e3n-De-tom"/>
@@ -10638,9 +10659,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzG-4d-n4o">
-                                <rect key="frame" x="0.0" y="364" width="600" height="216"/>
+                                <rect key="frame" x="0.0" y="418" width="600" height="162"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="216" id="cxY-y5-RDm"/>
+                                    <constraint firstAttribute="height" constant="162" id="SDF-aL-PoB"/>
                                 </constraints>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eth-q9-nBM">
@@ -10820,6 +10841,47 @@
             </objects>
             <point key="canvasLocation" x="4420.8000000000002" y="35515.142428785613"/>
         </scene>
+        <!--Year-month-->
+        <scene sceneID="pFv-Fz-zim">
+            <objects>
+                <viewController id="Eyv-ND-k0W" customClass="FixedCostByMonthViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7ez-AS-aGD"/>
+                        <viewControllerLayoutGuide type="bottom" id="wb8-Cl-rMF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cT0-Wa-esl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XKK-EN-JMR">
+                                <rect key="frame" x="0.0" y="56" width="600" height="524"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wb8-Cl-rMF" firstAttribute="top" secondItem="XKK-EN-JMR" secondAttribute="bottom" id="Ldn-4s-hmJ"/>
+                            <constraint firstItem="XKK-EN-JMR" firstAttribute="leading" secondItem="cT0-Wa-esl" secondAttribute="leading" id="XC5-XM-GaB"/>
+                            <constraint firstAttribute="trailing" secondItem="XKK-EN-JMR" secondAttribute="trailing" id="vMe-pC-X9c"/>
+                            <constraint firstItem="XKK-EN-JMR" firstAttribute="top" secondItem="7ez-AS-aGD" secondAttribute="bottom" id="w2G-je-EzZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Year-month" id="Ldd-6P-hPC">
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="ssb-Rs-Ynb">
+                            <connections>
+                                <action selector="addYearMonth:" destination="Eyv-ND-k0W" id="ciw-ME-Fuo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tbvData" destination="XKK-EN-JMR" id="ZJY-1h-RKu"/>
+                        <segue destination="UyK-uu-eJe" kind="show" identifier="segFixedCostByMonthDetail" id="nkM-YO-QoY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oDc-v9-wNX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4420.8000000000002" y="36183.508245877063"/>
+        </scene>
         <!--Report Top Spender Detail View Controller-->
         <scene sceneID="4cM-0G-e4E">
             <objects>
@@ -10939,16 +11001,58 @@
             </objects>
             <point key="canvasLocation" x="3408" y="-10538"/>
         </scene>
+        <!--Fixed-cost-->
+        <scene sceneID="WmQ-wy-ta5">
+            <objects>
+                <viewController id="UyK-uu-eJe" customClass="FixedCostByMonthDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cbS-jM-4t7"/>
+                        <viewControllerLayoutGuide type="bottom" id="9MI-5V-0vU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bef-cE-SLE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zMX-is-wHz">
+                                <rect key="frame" x="0.0" y="56" width="600" height="524"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zMX-is-wHz" firstAttribute="top" secondItem="cbS-jM-4t7" secondAttribute="bottom" id="CDM-fX-CzB"/>
+                            <constraint firstAttribute="trailing" secondItem="zMX-is-wHz" secondAttribute="trailing" id="gqG-Kg-daf"/>
+                            <constraint firstItem="zMX-is-wHz" firstAttribute="leading" secondItem="Bef-cE-SLE" secondAttribute="leading" id="m4x-nH-VB6"/>
+                            <constraint firstItem="9MI-5V-0vU" firstAttribute="top" secondItem="zMX-is-wHz" secondAttribute="bottom" id="pxc-23-9Lz"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Fixed-cost" id="cZH-Lh-UdG">
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="WWu-XP-bau">
+                            <connections>
+                                <action selector="addYearMonthCost:" destination="UyK-uu-eJe" id="4LC-iN-n14"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tbvData" destination="zMX-is-wHz" id="1nu-t6-TaX"/>
+                        <segue destination="Y6p-NN-PH0" kind="unwind" identifier="segUnwindToFixedCostByMonth" unwindAction="unwindToFixedCostByMonth:" id="R7j-PN-QfU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4UT-hX-gW0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Y6p-NN-PH0" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5624" y="36184"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="E94-US-F5O"/>
-        <segue reference="EuT-84-LyY"/>
-        <segue reference="LTq-dG-1GP"/>
+        <segue reference="psN-gf-bXV"/>
+        <segue reference="MUM-h3-0tF"/>
         <segue reference="4yE-Qg-HDn"/>
-        <segue reference="cP2-P0-5Dz"/>
-        <segue reference="9ra-1x-DzB"/>
+        <segue reference="a3U-cs-Hd9"/>
+        <segue reference="p6q-i6-KGa"/>
         <segue reference="vse-6D-9fz"/>
-        <segue reference="IO0-2v-kek"/>
+        <segue reference="CWt-gC-d07"/>
         <segue reference="acR-H4-5ZS"/>
         <segue reference="OjM-Sf-scz"/>
         <segue reference="X8c-xP-KRh"/>
@@ -10956,14 +11060,14 @@
         <segue reference="gxu-0q-I94"/>
         <segue reference="vdH-iP-jJO"/>
         <segue reference="xHp-nl-Xg8"/>
-        <segue reference="K1B-zP-IPt"/>
+        <segue reference="Ben-RG-KVx"/>
         <segue reference="dmJ-Dp-3VG"/>
         <segue reference="QPs-p5-w2u"/>
-        <segue reference="Rwk-vg-RG3"/>
-        <segue reference="Fbg-5H-yQQ"/>
+        <segue reference="zDB-jD-xVZ"/>
+        <segue reference="k1B-UH-fDb"/>
         <segue reference="JL6-WT-o9t"/>
         <segue reference="4CG-FE-rFa"/>
-        <segue reference="5jr-d3-aCN"/>
+        <segue reference="Ka8-BP-L5P"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="webgreecegrey.jpg" width="108" height="162"/>

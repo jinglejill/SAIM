@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CustomTableViewCellSaveCancel : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIButton *btnSave;
 @property (strong, nonatomic) IBOutlet UIButton *btnCancel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnSaveWidth;
 
 @end
 

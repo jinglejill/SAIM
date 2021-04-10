@@ -78,7 +78,11 @@ enum enumSetting
     vAdminDeviceToken,
     vAdminEmail,
     vExpiredDate,
-    vShippingFee
+    vShippingFee,
+    vLazadaToken,
+    vLazadaRefreshToken,
+    vPrinterIPAddress,
+    vPrinterModelName
 };
 enum enumDB
 {
@@ -212,7 +216,11 @@ enum enumDB
     dbJDPendingOrders,
     dbJDFetchOrders,
     dbMiraklPendingOrders,
-    dbMiraklFetchOrders
+    dbMiraklFetchOrders,
+    dbReceiptDeleteWithReason,
+    dbYearMonth,
+    dbYearMonthConfirm,
+    dbYearMonthCost
 };
 enum enumUrl
 {
@@ -387,7 +395,17 @@ enum enumUrl
     urlJDPendingOrdersGetList,
     urlJDFetchOrdersGetList,
     urlMiraklPendingOrdersGetList,
-    urlMiraklFetchOrdersGetList
+    urlMiraklFetchOrdersGetList,
+    urlReceiptDeleteWithReasonUpdate,
+    urlYearMonthInsert,
+    urlYearMonthUpdate,
+    urlYearMonthGetList,
+    urlYearMonthConfirmDelete,
+    urlYearMonthDelete,
+    urlYearMonthCostGetList,
+    urlYearMonthCostInsert,
+    urlYearMonthCostUpdate,
+    urlYearMonthCostDelete
     
 };
 enum enumTableName
@@ -521,6 +539,7 @@ enum enumProductLabel
 + (NSString *) currentDateTimeStringForDB;
 + (NSString *)formatBaht:(NSString *)number;
 + (NSString *)formatBaht:(NSString *)number withMinFraction:(NSInteger)min andMaxFraction:(NSInteger)max;
++ (NSString *)formatFloat:(float)number withMinFraction:(NSInteger)min andMaxFraction:(NSInteger)max;
 + (NSString *)getProductName:(NSString *)productNameGroupInput;
 + (CustomMade *)getCustomMade:(NSInteger)customMadeID;
 + (CustomMade *)getCustomMadeFromProductIDPost:(NSString *)productIDPost;

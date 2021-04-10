@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
 #import "CustomCollectionViewFlowLayout.h"
+#import "CustomViewController.h"
 
-@interface ReceiptSummary2ViewController : UIViewController<HomeModelProtocol,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ReceiptSummary2ViewController : CustomViewController<UIPickerViewDelegate,UIPickerViewDataSource>
 @property (strong, nonatomic) IBOutlet UICollectionView *colViewSummaryTable;
 @property (strong, nonatomic) IBOutlet UILabel *lblLocation;
 @property (strong, nonatomic) IBOutlet UILabel *lblDate;
@@ -33,6 +34,7 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *lblSalesPerChange;
 @property (strong, nonatomic) IBOutlet UIButton *btnExpense;
+@property (strong, nonatomic) IBOutlet UIPickerView *pvDeleteReasonCode;
 
 - (IBAction)expenseButtonClicked:(id)sender;
 
