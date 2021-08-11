@@ -99,9 +99,13 @@ void myExceptionHandler(NSException *exception)
     [barButtonAppearance setBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault]; // Change to your colour
 //        [barButtonAppearance setBackButtonBackgroundImage:[self imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     
-    NSLog(@"%f",ceil(102.5));
-    
-    
+//    NSLog(@"%f",ceil(102.5));
+//    NSString *firstLetter = [@"A2" substringWithRange:NSMakeRange(1, 1)];
+//    NSLog(@"%@",firstLetter);
+    NSString *alphabet = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//    NSRange range = [alphabet rangeOfString:@"E"];
+    NSString *nextAlphabet = [alphabet substringWithRange:NSMakeRange(5,1)];
+    NSLog(@"%@",nextAlphabet);
     
     [Utility setFinishLoadSharedData:NO];
     _homeModel = [[HomeModel alloc]init];

@@ -610,7 +610,7 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
     
     
     //expense value can be changed only at the date equal to current date
-    self.btnExpense.enabled = [[Utility dateToString:_selectedDateTime toFormat:@"yyyy-MM-dd"] isEqualToString: [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"]];
+//    self.btnExpense.enabled = [[Utility dateToString:_selectedDateTime toFormat:@"yyyy-MM-dd"] isEqualToString: [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"]];
     
 }
 

@@ -2597,8 +2597,8 @@
             timestampString = "571155825.61958"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "742"
-            endingLineNumber = "742"
+            startingLineNumber = "743"
+            endingLineNumber = "743"
             landmarkName = "+url:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2699,8 +2699,8 @@
             timestampString = "571155825.61983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1165"
-            endingLineNumber = "1165"
+            startingLineNumber = "1166"
+            endingLineNumber = "1166"
             landmarkName = "+getColorName:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2930,7 +2930,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "323741B4-BE41-48B7-8CB7-514FC13BDD7F"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "resources/Controller/GenerateQRCodePageViewController.m"
@@ -2971,8 +2971,8 @@
             timestampString = "571155825.620464"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2153"
-            endingLineNumber = "2153"
+            startingLineNumber = "2154"
+            endingLineNumber = "2154"
             landmarkName = "+hasEventSales:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2988,8 +2988,8 @@
             timestampString = "571155825.620512"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2348"
-            endingLineNumber = "2348"
+            startingLineNumber = "2349"
+            endingLineNumber = "2349"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3005,8 +3005,8 @@
             timestampString = "571155825.620557"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2414"
-            endingLineNumber = "2414"
+            startingLineNumber = "2415"
+            endingLineNumber = "2415"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3022,8 +3022,8 @@
             timestampString = "571155825.6206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2424"
-            endingLineNumber = "2424"
+            startingLineNumber = "2425"
+            endingLineNumber = "2425"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3039,8 +3039,8 @@
             timestampString = "571155825.620653"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2429"
-            endingLineNumber = "2429"
+            startingLineNumber = "2430"
+            endingLineNumber = "2430"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3056,8 +3056,8 @@
             timestampString = "571155825.620698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2427"
-            endingLineNumber = "2427"
+            startingLineNumber = "2428"
+            endingLineNumber = "2428"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3581,8 +3581,8 @@
             timestampString = "565350419.380249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3598,8 +3598,8 @@
             timestampString = "571155825.621886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2274"
-            endingLineNumber = "2274"
+            startingLineNumber = "2275"
+            endingLineNumber = "2275"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3615,8 +3615,8 @@
             timestampString = "571155825.621941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2323"
-            endingLineNumber = "2323"
+            startingLineNumber = "2324"
+            endingLineNumber = "2324"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3632,8 +3632,8 @@
             timestampString = "571155825.621991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2395"
-            endingLineNumber = "2395"
+            startingLineNumber = "2396"
+            endingLineNumber = "2396"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3649,8 +3649,8 @@
             timestampString = "571155825.62204"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2397"
-            endingLineNumber = "2397"
+            startingLineNumber = "2398"
+            endingLineNumber = "2398"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3666,8 +3666,8 @@
             timestampString = "571155825.622088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2389"
-            endingLineNumber = "2389"
+            startingLineNumber = "2390"
+            endingLineNumber = "2390"
             landmarkName = "+itemsSynced:action:data:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3683,8 +3683,8 @@
             timestampString = "565350419.3804851"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "-itemsSynced:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3700,8 +3700,8 @@
             timestampString = "565350419.380619"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "-userNotificationCenter:willPresentNotification:withCompletionHandler:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3854,8 +3854,8 @@
             timestampString = "565350419.3816299"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "424"
-            endingLineNumber = "424"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
             landmarkName = "-itemsSynced:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3888,8 +3888,8 @@
             timestampString = "565350419.381757"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-userNotificationCenter:willPresentNotification:withCompletionHandler:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3905,8 +3905,8 @@
             timestampString = "565350419.381838"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3939,8 +3939,8 @@
             timestampString = "565350419.381959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -4664,8 +4664,8 @@
             timestampString = "571155825.628718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2514"
-            endingLineNumber = "2514"
+            startingLineNumber = "2515"
+            endingLineNumber = "2515"
             landmarkName = "+itemsDownloaded:"
             landmarkType = "7">
          </BreakpointContent>
@@ -4681,8 +4681,8 @@
             timestampString = "571155825.628786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2525"
-            endingLineNumber = "2525"
+            startingLineNumber = "2526"
+            endingLineNumber = "2526"
             landmarkName = "+addDay:numberOfDay:"
             landmarkType = "7">
          </BreakpointContent>
@@ -5172,8 +5172,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2517"
-            endingLineNumber = "2517"
+            startingLineNumber = "2518"
+            endingLineNumber = "2518"
             landmarkName = "Utility"
             landmarkType = "3">
          </BreakpointContent>
@@ -7220,8 +7220,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1528"
-            endingLineNumber = "1528"
+            startingLineNumber = "1529"
+            endingLineNumber = "1529"
             landmarkName = "+removeKeyword:text:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7348,8 +7348,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1240"
-            endingLineNumber = "1240"
+            startingLineNumber = "1241"
+            endingLineNumber = "1241"
             landmarkName = "+getProductCost:productID:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7604,8 +7604,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1344"
-            endingLineNumber = "1344"
+            startingLineNumber = "1345"
+            endingLineNumber = "1345"
             landmarkName = "+trimString:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8226,8 +8226,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2599"
-            endingLineNumber = "2599"
+            startingLineNumber = "2600"
+            endingLineNumber = "2600"
             landmarkName = "+getFirstDateOfMonth:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8306,8 +8306,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "+setting:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8354,8 +8354,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "+setting:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9234,8 +9234,8 @@
             filePath = "resources/Controller/ExpenseDailyViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "-textFieldDidEndEditing:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9250,8 +9250,8 @@
             filePath = "resources/Controller/ExpenseDailyViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
+            startingLineNumber = "416"
+            endingLineNumber = "416"
             landmarkName = "-textFieldDidEndEditing:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9266,8 +9266,8 @@
             filePath = "resources/Controller/ExpenseDailyViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "454"
-            endingLineNumber = "454"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
             landmarkName = "-saveExpense:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9282,8 +9282,8 @@
             filePath = "resources/Controller/ExpenseDailyViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
+            startingLineNumber = "477"
+            endingLineNumber = "477"
             landmarkName = "-cancelExpense:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9426,8 +9426,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "575"
-            endingLineNumber = "575"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
             landmarkName = "+url:"
             landmarkType = "7">
          </BreakpointContent>
@@ -12146,8 +12146,8 @@
             filePath = "resources/BaseObject/AppDelegate.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "7">
          </BreakpointContent>
@@ -13923,8 +13923,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1474"
-            endingLineNumber = "1474"
+            startingLineNumber = "1475"
+            endingLineNumber = "1475"
             landmarkName = "+getProductCategory2:"
             landmarkType = "7">
          </BreakpointContent>
@@ -15037,7 +15037,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "CE03C2AE-EDC1-4357-919C-C6E3DC681008"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "resources/Controller/AccountReceiptPDFViewController.m"
@@ -15107,8 +15107,8 @@
             filePath = "resources/Controller/ExpenseDailyViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "-saveExpense:"
             landmarkType = "7">
          </BreakpointContent>
@@ -15379,8 +15379,8 @@
             filePath = "resources/BaseObject/Utility.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2614"
-            endingLineNumber = "2614"
+            startingLineNumber = "2615"
+            endingLineNumber = "2615"
             landmarkName = "+jsonToArray:arrClassName:"
             landmarkType = "7">
          </BreakpointContent>
@@ -16366,7 +16366,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EDDE2BA1-F108-4B01-97B4-D96929C0CA23"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "resources/Controller/FixedCostByMonthViewController.m"
@@ -16680,6 +16680,182 @@
                   offsetFromSymbolStart = "161">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F2CEC513-E95E-47BD-AC18-9C00F7EECE38"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/Controller/FirstPageViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "-itemsDownloaded:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9223F779-7817-4BF8-8804-D51CA2BA8B9C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/BaseObject/HomeModel.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "656"
+            endingLineNumber = "656"
+            landmarkName = "-downloadItems:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "50627A2C-2D65-4695-8930-814AB28A0658"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/BaseObject/HomeModel.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "655"
+            endingLineNumber = "655"
+            landmarkName = "-downloadItems:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8C4BBC20-C220-4842-816D-C2AFCE55672C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/BaseObject/HomeModel.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "564"
+            endingLineNumber = "564"
+            landmarkName = "-prepareData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EDAB8E97-8DAF-4D95-B485-6AFC5E5795A4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/BaseObject/HomeModel.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "623"
+            endingLineNumber = "623"
+            landmarkName = "-prepareData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A3FD457-8172-486C-A049-ED38D1111905"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/Controller/ReceiptSummary2ViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
+            landmarkName = "-setData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96B46346-1917-4681-93D8-D755006581C2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/Controller/ColorViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "-getNextCode"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EED0D5D6-0A12-4083-BA56-1704563A455E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/BaseObject/AppDelegate.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "859FF9C7-966A-412B-B10A-18A12C3BA2E4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/BaseObject/AppDelegate.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96C78B0B-ED57-4CB6-A52C-0A057B50EB5F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/Controller/ColorViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "-updateDefaultAndAddNewData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "805227CC-0076-4E4A-A1D0-C5201B5A00E3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "resources/Controller/ColorViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "-updateDefaultAndAddNewData"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

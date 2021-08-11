@@ -163,8 +163,8 @@
     //remove all newLabelList
     //add temp data to newlabellist
     [self convertCodeToColorID];//table นี้ใช้ code เป็น primary key เลยต้อง copy code ใส่ใน default id อันนี้ทำได้เพราะ code ที่ใช้เป็นตัวเลขเท่านั้น
-//    NSInteger nextID = [Utility getNextID:tblColor];
-    NSInteger intNextCode = [[self getNextCode] integerValue];
+    
+    NSString *lastCode = @"";
     NSMutableArray *colorNewList = [[NSMutableArray alloc]init];
     for(int i=0; i<[_newList count]; i++)
     {
@@ -173,8 +173,18 @@
         Color *color = [[Color alloc]init];
         if(cell != nil)
         {
-            color.code = [NSString stringWithFormat:@"%02ld",intNextCode + i];
+            if(i == 0)
+            {
+//                NSInteger intNextCode = [[self getNextCode] integerValue];
+//                color.code = [NSString stringWithFormat:@"%02ld",intNextCode + i];
+                color.code = [self getNextCode];
+            }
+            else
+            {
+                color.code = [self getNextCodeWithAlphabet:lastCode];
+            }
             color.name = cell.textNewLabel.text;
+            lastCode = color.code;
         }
         [colorNewList addObject:color];
     }
@@ -188,9 +198,6 @@
 {
     //gen next running code
     NSMutableArray *colorList = [SharedColor sharedColor].colorList;
-    //    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_productCategory2 = %@",productCategory2];
-    //    NSArray *filterArray = [productCategory1List filteredArrayUsingPredicate:predicate1];
-    
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"_code" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, nil];
     NSArray *sortArray = [colorList sortedArrayUsingDescriptors:sortDescriptors];
@@ -203,9 +210,87 @@
     else
     {
         Color *color = colorList[0];
-        NSInteger number = [color.code intValue];
+        return  [self getNextCodeWithAlphabet:color.code];
+//        if([color.code length] < 2)
+//        {
+//            NSInteger number = [color.code intValue];
+//            return [NSString stringWithFormat:@"%02ld",number+1];
+//        }
+//        else if([color.code length] == 2)
+//        {
+//            NSString *firstLetter = [color.code substringWithRange:NSMakeRange(0, 1)];
+//            NSString *secondLetter = [color.code substringWithRange:NSMakeRange(1, 1)];
+//            NSInteger intFirstLetter = [firstLetter intValue];
+//            if(intFirstLetter > 0)
+//            {
+//                //number
+//                NSInteger number = [color.code intValue];
+//                return [NSString stringWithFormat:@"%02ld",number+1];
+//            }
+//            else
+//            {
+//                //letter
+//                if([secondLetter intValue] < 9)
+//                {
+//                    return [NSString stringWithFormat:@"%@%d",firstLetter,[secondLetter intValue]+1];
+//                }
+//                else
+//                {
+//                    return [NSString stringWithFormat:@"%@0",[self getNextAlphabetLetter:secondLetter]];
+//                }
+//            }
+//        }
+    }
+    return @"";
+}
+-(NSString *)getNextAlphabetLetter:(NSString *)givenAlphabet
+{
+    NSString *alphabet = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    NSRange range = [alphabet rangeOfString:givenAlphabet];
+    NSString *nextAlphabet = [alphabet substringWithRange:NSMakeRange(range.location+1,1)];
+    
+    return  nextAlphabet;
+    
+}
+-(NSString *)getNextCodeWithAlphabet:(NSString *)lastCode
+{
+    if([lastCode length] < 2)
+    {
+        NSInteger number = [lastCode intValue];
         return [NSString stringWithFormat:@"%02ld",number+1];
     }
+    else if([lastCode length] == 2)
+    {
+        NSString *firstLetter = [lastCode substringWithRange:NSMakeRange(0, 1)];
+        NSString *secondLetter = [lastCode substringWithRange:NSMakeRange(1, 1)];
+        NSInteger intFirstLetter = [firstLetter intValue];
+        if(intFirstLetter > 0)
+        {
+            //number
+            if(![lastCode isEqualToString:@"99"])
+            {
+                NSInteger number = [lastCode intValue];
+                return [NSString stringWithFormat:@"%02ld",number+1];
+            }
+            else
+            {
+                return @"A0";
+            }
+        }
+        else
+        {
+            //letter
+            if([secondLetter intValue] < 9)
+            {
+                return [NSString stringWithFormat:@"%@%d",firstLetter,[secondLetter intValue]+1];
+            }
+            else
+            {
+                return [NSString stringWithFormat:@"%@0",[self getNextAlphabetLetter:secondLetter]];
+            }
+        }
+    }
+    return @"";
 }
 -(void)convertCodeToColorID
 {

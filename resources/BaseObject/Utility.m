@@ -71,6 +71,7 @@
 #import "SharedPreOrderEventIDHistory.h"
 
 #define tBlueColor          [UIColor colorWithRed:0/255.0 green:123/255.0 blue:255/255.0 alpha:1]
+//#define tBlueColor          [UIColor colorWithRed:83/255.0 green:12/255.0 blue:7/255.0 alpha:1]
 
 extern NSArray *globalMessage;
 extern NSString *globalPingAddress;

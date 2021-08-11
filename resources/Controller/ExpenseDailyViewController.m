@@ -371,6 +371,12 @@ static NSString * const reuseIdentifierExpenseAmount = @"CustomTableViewCellExpe
     {
         if (editingStyle == UITableViewCellEditingStyleDelete)
         {
+            if(![[Utility formatDate:inputDate fromFormat:[Utility setting:vFormatDateDB] toFormat:@"yyyy-MM-dd" ] isEqualToString: [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"]])
+            {
+                [self alertMessage:@"Cannot delete expense for the selected date" title:@"Warning"];
+                return;
+            }
+            
             //remove the deleted object from your data source.
             //If your data source is an NSMutableArray, do this
             [self loadingOverlayView];
@@ -415,6 +421,12 @@ static NSString * const reuseIdentifierExpenseAmount = @"CustomTableViewCellExpe
 
 - (IBAction)addExpense:(id)sender
 {
+    if(![[Utility formatDate:inputDate fromFormat:[Utility setting:vFormatDateDB] toFormat:@"yyyy-MM-dd" ] isEqualToString: [Utility dateToString:[Utility currentDateTime] toFormat:@"yyyy-MM-dd"]])
+    {
+        [self alertMessage:@"Cannot add expense for the selected date" title:@"Warning"];
+        return;
+    }
+    
     {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         CustomTableViewCellExpenseItem *cell = [_tbvExpenseAdd cellForRowAtIndexPath:indexPath];

@@ -156,7 +156,7 @@ static NSString * const reuseIdentifierText = @"CustomTableViewCellText";
             cell.txtValue.text = _yearMonth.yearMonth;
             cell.txtValue.tag = 100;
             cell.txtValue.delegate = self;
-            cell.txtValue.keyboardType = UIKeyboardTypeNumberPad;
+            cell.txtValue.keyboardType = UIKeyboardTypeDefault;
             cell.txtValue.placeholder = @"Year-month";
             
             return cell;

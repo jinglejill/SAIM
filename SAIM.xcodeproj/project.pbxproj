@@ -3019,7 +3019,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1250;
+				CURRENT_PROJECT_VERSION = 1266;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3034,7 +3034,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 2.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3054,7 +3054,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1250;
+				CURRENT_PROJECT_VERSION = 1266;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3069,7 +3069,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 2.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
