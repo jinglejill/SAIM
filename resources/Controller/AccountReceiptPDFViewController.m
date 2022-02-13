@@ -272,13 +272,24 @@
         }
         else if([productName.productCategory2 isEqualToString:@"02"])
         {
-            strProductName = [NSString stringWithFormat:@"เครื่องประดับรุ่น %@",productName.name];
+            if([productName.name isEqualToString:@"CM กันกัด"] || [productName.name isEqualToString:@"ฟองน้ำเสริมหัว"])//temp
+            {
+                strProductName = @"รองเท้ารุ่น Sock";
+            }
+            else
+            {
+                strProductName = [NSString stringWithFormat:@"เครื่องประดับรุ่น %@",productName.name];
+            }
         }
         else if([productName.productCategory2 isEqualToString:@"03"])
         {
-            if([productName.name isEqualToString:@"Pearl strap"] || [productName.name isEqualToString:@"Gold chain"])
+            if([productName.name isEqualToString:@"Pearl strap"] || [productName.name isEqualToString:@"Gold chain"] || [productName.name isEqualToString:@"Adjustable chain strap"])
             {
                 strProductName = [NSString stringWithFormat:@"กระเป๋ารุ่น %@",@"Accessories"];
+            }
+            else if([productName.name isEqualToString:@"Laptop case"])
+            {
+                strProductName = [NSString stringWithFormat:@"กระเป๋ารุ่น %@",@"Juliet"];
             }
             else
             {
@@ -296,11 +307,14 @@
         strTotalAmount = [Utility formatBaht:strTotalAmount withMinFraction:2 andMaxFraction:2];
         
         
-        if([strProductName isEqualToString:@"รองเท้ารุ่น Sock U"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock V"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock O"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock Taylor"])
+        if([strProductName isEqualToString:@"รองเท้ารุ่น Sock U"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock V"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock O"] || [strProductName isEqualToString:@"รองเท้ารุ่น Sock Taylor"] || [strProductName isEqualToString:@"รองเท้ารุ่น CM กันกัด"] || [productName.name isEqualToString:@"ฟองน้ำเสริมหัว"])
         {
             strProductName = @"รองเท้ารุ่น Sock";
         }
-        
+        else if([strProductName isEqualToString:@"รองเท้ารุ่น Sale 2"])
+        {
+            strProductName = @"รองเท้ารุ่น Rachael";
+        }
         
         [item setValue:strItemNo forKey:@"itemNo"];///*************
         [item setValue:strProductName forKey:@"itemDesc"];

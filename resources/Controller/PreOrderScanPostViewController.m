@@ -200,7 +200,7 @@
             NSString *decryptedMessage = [metadataObj stringValue];
             
             //tracking post barcode
-            if([decryptedMessage length] == 13 || [decryptedMessage length] == 7 || [decryptedMessage length] < 18)
+            if([decryptedMessage length] <= 18)
             {                
                 if(![_previousTrackingNo isEqualToString:decryptedMessage] && [_arrReceiptIDScanPost count]>0)
                 {
@@ -283,7 +283,7 @@
             NSString *line0Format = [NSString stringWithFormat:@"SAIM %@",[Utility makeFirstLetterUpperCaseOtherLower:[Utility dbName]]];
             
             //tracking post barcode
-            if([decryptedMessage length] < 18)
+            if([decryptedMessage length] <= 18)
             {
                 if(![_previousTrackingNo isEqualToString:decryptedMessage] && [_arrReceiptIDScanPost count]>0)
                 {

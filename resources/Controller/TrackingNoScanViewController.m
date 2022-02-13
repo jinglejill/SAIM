@@ -134,7 +134,7 @@
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeCode128Code])
         {
             NSString *decryptedMessage = [metadataObj stringValue];
-            if([decryptedMessage length] == 13 || [decryptedMessage length] == 7 || [decryptedMessage length] < 18)
+            if([decryptedMessage length] <= 18)
             {
                 if (_audioPlayer) {
                     [_audioPlayer play];
@@ -196,7 +196,7 @@
         else if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode])
         {
             NSString *decryptedMessage = [metadataObj stringValue];
-            if([decryptedMessage length] < 18)
+            if([decryptedMessage length] <= 18)
             {
                 if (_audioPlayer) {
                     [_audioPlayer play];

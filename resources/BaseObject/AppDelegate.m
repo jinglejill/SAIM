@@ -21,7 +21,7 @@
 
 
 #define SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
+#define tTheme          [UIColor colorWithRed:196/255.0 green:164/255.0 blue:168/255.0 alpha:1]
 
 #import "UserAccount.h"
 #import "ProductName.h"
@@ -102,10 +102,27 @@ void myExceptionHandler(NSException *exception)
 //    NSLog(@"%f",ceil(102.5));
 //    NSString *firstLetter = [@"A2" substringWithRange:NSMakeRange(1, 1)];
 //    NSLog(@"%@",firstLetter);
-    NSString *alphabet = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//    NSRange range = [alphabet rangeOfString:@"E"];
-    NSString *nextAlphabet = [alphabet substringWithRange:NSMakeRange(5,1)];
-    NSLog(@"%@",nextAlphabet);
+//    NSString *alphabet = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+////    NSRange range = [alphabet rangeOfString:@"E"];
+//    NSString *nextAlphabet = [alphabet substringWithRange:NSMakeRange(5,1)];
+//    NSLog(@"%@",nextAlphabet);
+    
+//    if (@available(iOS 15.0, *)) {
+//        UINavigationBarAppearance *navBarAppearance = [[UINavigationBarAppearance alloc] init];
+//      navBarAppearance.backgroundColor = [UIColor redColor];
+//        [navBarAppearance configureWithOpaqueBackground];
+//        [UINavigationBar appearance].standardAppearance = navBarAppearance;
+//        [UINavigationBar appearance].scrollEdgeAppearance = navBarAppearance;
+//    }
+    
+    if (@available(iOS 15, *)){
+            UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+            [appearance configureWithOpaqueBackground];
+            appearance.titleTextAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
+        appearance.backgroundColor = tTheme;//[UIColor colorWithRed:0.0/255.0 green:125/255.0 blue:0.0/255.0 alpha:1.0];
+            [UINavigationBar appearance].standardAppearance = appearance;
+            [UINavigationBar appearance].scrollEdgeAppearance = appearance;
+        }
     
     [Utility setFinishLoadSharedData:NO];
     _homeModel = [[HomeModel alloc]init];

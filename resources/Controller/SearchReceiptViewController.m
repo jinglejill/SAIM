@@ -321,7 +321,8 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         {
             NSArray *receiptProductItemList = [self getReceiptProductItemList:receipt.receiptID];
             float tableViewHeight = [receiptProductItemList count]*30;
-            cell.tbvDataHeight.constant = tableViewHeight;
+            cell.tbvDataHeight.constant = 30+tableViewHeight;
+            //                cell.tbvDataHeight.constant = tableViewHeight;
             [cell.tbvData reloadData];
         }
         
@@ -500,7 +501,8 @@ static NSString * const reuseIdentifierSaveCancel = @"CustomTableViewCellSaveCan
         }
         
         float redeemedValueHeight = receipt.redeemedValue > 0?19:0;
-        return 176+[receiptProductItemList count]*30 -17+discountReasonHeight+redeemedValueHeight;
+        return 176+30+[receiptProductItemList count]*30 -17+discountReasonHeight+redeemedValueHeight;
+        //            return 176+[receiptProductItemList count]*30 -17+discountReasonHeight+redeemedValueHeight;
     }
     else if(tableView == _tbvDeleteReason)
     {

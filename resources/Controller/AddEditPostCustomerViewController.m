@@ -7,15 +7,23 @@
 //
 
 #import "AddEditPostCustomerViewController.h"
+#import "CustomTableHeaderFooterViewDelete.h"
+#import "CustomTableViewCellText.h"
+#import "CustomTableViewCellTextViewTableViewCell.h"
+#import "CustomUITextView.h"
 #import "Utility.h"
 #import "UserMenuViewController.h"
-#import "CustomerReceipt.h"
 #import "PostCustomer.h"
 #import "SharedPostBuy.h"
-#import "SharedCustomerReceipt.h"
 #import "SharedPostCustomer.h"
 #import "SharedPushSync.h"
 #import "PushSync.h"
+#import "SharedProductBuy.h"
+#import "ProductDetail.h"
+#import "ItemTrackingNo.h"
+
+
+#define kOFFSET_FOR_KEYBOARD 80.0
 
 
 @interface AddEditPostCustomerViewController ()<UISearchBarDelegate>
@@ -23,14 +31,21 @@
     HomeModel *_homeModel;
     UIActivityIndicatorView *indicator;
     UIView *overlayView;
-    NSMutableArray *_postCustomerList;
     PostCustomer *_postCustomer;
+    PostCustomer *_postCustomerX;
     NSInteger _searchResultIndex;
     PostCustomer *_previousSearchPostCustomer;
-    BOOL _searchData;
+    BOOL _searchDataFound;
     NSString *_strReceiptID;
+    NSMutableArray *_productBuyList;
+    NSInteger _postCustomerID;
     
     
+    
+    BOOL _viewDidLoadSearch;
+    float controlWidth;
+    float controlXOrigin;
+    float controlYOrigin;
 }
 @property (nonatomic,strong) NSArray        *dataSource;
 @property (nonatomic,strong) NSMutableArray        *dataSourceForSearchResult;
@@ -38,217 +53,118 @@
 @property (nonatomic)        float          searchBarBoundsY;
 @property (nonatomic,strong) UISearchBar        *searchBar;
 @end
+static NSString * const reuseIdentifier = @"CustomTableHeaderFooterViewDelete";
+static NSString * const reuseIdentifierText = @"CustomTableViewCellText";
+static NSString * const reuseIdentifierTextView = @"CustomTableViewCellTextViewTableViewCell";
 
 @implementation AddEditPostCustomerViewController
+@synthesize tbvData;
 @synthesize btnCancel;
-@synthesize booAddOrEdit;
 @synthesize btnDelete;
-@synthesize action;
-@synthesize paid;
-@synthesize telephoneNoSearch;
-@synthesize postCustomerID;
 @synthesize searchView;
 @synthesize btnNextCustomer;
 @synthesize btnPreviousCustomer;
-@synthesize hasPost;
-@synthesize receiptID;
-
 @synthesize selectedPostCustomer;
-@synthesize selectedCustomerReceipt;
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-//    if([textField isEqual:txtFirstName])
-    {
-        textField.text = [Utility removeApostrophe:textField.text];
-    }
-}
+
+@synthesize paid;
+@synthesize telephoneNoSearch;
+@synthesize productBuyIndex;
+@synthesize email;
+@synthesize selectedItemTrackingNo;
+@synthesize receiptProductItemList;
+@synthesize readOnly;
+@synthesize pageIndex;
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-//    if([textView isEqual:txtVwAddress])
+    textView.text = [Utility removeApostrophe:textView.text];
+    if(textView.tag == 110)
     {
-        textView.text = [Utility removeApostrophe:textView.text];
+        _postCustomerX.taxCustomerAddress = textView.text;
     }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    textField.text = [Utility removeApostrophe:textField.text];
+    if(textField.tag == 101)
+    {
+        _postCustomerX.lineID = textField.text;
+    }
+    else if(textField.tag == 102)
+    {
+        _postCustomerX.emailAddress = textField.text;
+    }
+    else if(textField.tag == 103)
+    {
+        _postCustomerX.taxNo = textField.text;
+    }
+    else if(textField.tag == 104)
+    {
+        _postCustomerX.facebookID = textField.text;
+    }
+    else if(textField.tag == 105)
+    {
+        _postCustomerX.taxCustomerName = textField.text;
+    }
+    else if(textField.tag == 106)
+    {
+        _postCustomerX.postcode = textField.text;
+    }
+    else if(textField.tag == 107)
+    {
+        _postCustomerX.country = textField.text;
+    }
+    else if(textField.tag == 108)
+    {
+        _postCustomerX.other = textField.text;
+    }
+    else if(textField.tag == 109)
+    {
+        _postCustomerX.telephone = textField.text;
+    }
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    UIEdgeInsets contentInsets;
+    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    } else {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+    }
+        
+    tbvData.contentInset = contentInsets;
+    tbvData.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    tbvData.contentInset = UIEdgeInsetsZero;
+    tbvData.scrollIndicatorInsets = UIEdgeInsetsZero;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+   
+   
+    _postCustomerX = [[PostCustomer alloc]init];
+    tbvData.delegate = self;
+    tbvData.dataSource = self;
+    
+    {
+        [tbvData registerNib:[UINib nibWithNibName:reuseIdentifier bundle:nil] forHeaderFooterViewReuseIdentifier:reuseIdentifier];
+    }
+    
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
     
-//    [self loadingOverlayView];
-//    [_homeModel downloadItems:dbPostCustomer];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self prepareUI];
-    if(paid)
-    {
-        if(postCustomerID != 0)
-        {
-//            PostCustomer *postCustomer = [Utility getPostCustomer:postCustomerID];
-            PostCustomer *postCustomer = selectedPostCustomer;
-            
-            if(postCustomer)
-            {
-                [self setData:postCustomer];
-            }
-            else
-            {
-                if(![telephoneNoSearch isEqualToString:@""])
-                {
-                    _searchBar.text = telephoneNoSearch;
-                    [self searchBar:_searchBar textDidChange:_searchBar.text];
-                    txtTelephone.text = telephoneNoSearch;
-                }
-            }
-            
-
-
-            NSMutableArray *postCustomerSearchList = self.dataSourceForSearchResult;
-            for(int i=0; i<[postCustomerSearchList count]; i++)
-            {
-                PostCustomer *postCustomerSearch = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex+i];
-                if(postCustomerSearch.postCustomerID == postCustomer.postCustomerID)
-                {
-                    [self setData:postCustomerSearch];
-                    break;
-                }
-            }
-        }
-    }
-    else
-    {
-        if(booAddOrEdit)
-        {
-            //fill search text and do search
-            if(![telephoneNoSearch isEqualToString:@""])
-            {
-                _searchBar.text = telephoneNoSearch;
-                [self searchBar:_searchBar textDidChange:_searchBar.text];
-                txtTelephone.text = telephoneNoSearch;
-            }
-        }
-        else
-        {
-            _searchBar.text = telephoneNoSearch;
-            [self searchBar:_searchBar textDidChange:_searchBar.text];
-            txtTelephone.text = telephoneNoSearch;
-
-
-            PostCustomer *postCustomer = [SharedPostBuy sharedPostBuy].postBuyList[0];
-            if(postCustomer.postCustomerID == 0)
-            {
-                [self setData:postCustomer];
-                [self.dataSourceForSearchResult insertObject:postCustomer atIndex:0];
-                btnPreviousCustomer.enabled = _searchResultIndex>0;
-                btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
-            }
-            else
-            {
-                NSMutableArray *postCustomerSearchList = self.dataSourceForSearchResult;
-                for(int i=0; i<[postCustomerSearchList count]; i++)
-                {
-                    PostCustomer *postCustomerSearch = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex+i];
-                    if(postCustomerSearch.postCustomerID == postCustomer.postCustomerID)
-                    {
-                        [self setData:postCustomerSearch];
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-
--(void)prepareUI{
+    
     [self addSearchBar];
-}
-
-#pragma mark - UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{    
-    return 13;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-    }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    switch (indexPath.row) {
-        case 0:
-        {
-            [cell addSubview:txtFirstName];
-            [cell addSubview:btnCopyToTaxCustomerName];
-        }
-            break;
-        case 1:
-        {
-            [cell addSubview:txtVwAddress];
-            [cell addSubview:btnFillDetail];
-        }
-            break;
-        case 2:
-        {
-            [cell addSubview:txtVwAddress2];
-        }
-            break;
-        case 3:
-            [cell addSubview:txtPostCode];
-            break;
-        case 4:
-            [cell addSubview:txtCountry];
-            break;
-        case 5:
-            [cell addSubview:txtTelephone];
-            break;
-        case 6:
-            [cell addSubview:txtLineID];
-            break;
-        case 7:
-            [cell addSubview:txtFacebookID];
-            break;
-        case 8:
-            [cell addSubview:txtEmailAddress];
-            break;
-        case 9:
-            [cell addSubview:txtTaxCustomerName];
-            break;
-        case 10:
-            [cell addSubview:txtVwTaxCustomerAddress];
-            break;
-        case 11:
-            [cell addSubview:txtTaxNo];
-            break;
-        case 12:
-            [cell addSubview:txtOther];
-            break;
-    }
-    
-    return cell;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 10?39*2:39;
-}
-
-#pragma mark - Life Cycle method
-- (void)loadView
-{
-    [super loadView];
     
     _homeModel = [[HomeModel alloc] init];
     _homeModel.delegate = self;
@@ -258,7 +174,7 @@
         overlayView.backgroundColor = [UIColor colorWithRed:256 green:256 blue:256 alpha:0];
         
         
-        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         indicator.frame = CGRectMake(self.view.bounds.size.width/2-indicator.frame.size.width/2,self.view.bounds.size.height/2-indicator.frame.size.height/2,indicator.frame.size.width,indicator.frame.size.height);
     }
     
@@ -266,31 +182,174 @@
     self.navigationController.toolbarHidden = NO;
     btnNextCustomer.enabled = NO;
     btnPreviousCustomer.enabled = NO;
-    _searchResultIndex = 0;
     
     
-    _strReceiptID = [NSString stringWithFormat:@"%ld",receiptID];
+    
     _previousSearchPostCustomer = [[PostCustomer alloc]init];
     [self clearPostData];
-    _searchData = NO;
-    
-    _postCustomerList = [SharedPostCustomer sharedPostCustomer].postCustomerList;
-    action = 0;
+    _searchDataFound = NO;
     
     
-    float controlWidth = self.tableView.bounds.size.width - 40*2;//minus left, right margin
-    float controlXOrigin = 15;
-    float controlYOrigin = (self.tableView.rowHeight - 25)/2;//table row height minus control height and set vertical center
+    [self setUI];
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+        [tbvData reloadData];
+    });
+//    [self.view bringSubviewToFront:txtLineID];
+    {
+        UINib *nib = [UINib nibWithNibName:reuseIdentifierText bundle:nil];
+        [tbvData registerNib:nib forCellReuseIdentifier:reuseIdentifierText];
+    }
+    {
+        UINib *nib = [UINib nibWithNibName:reuseIdentifierTextView bundle:nil];
+        [tbvData registerNib:nib forCellReuseIdentifier:reuseIdentifierTextView];
+    }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self                                             selector:@selector(keyboardWillShow:)
+                                name:UIKeyboardWillShowNotification
+                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                selector:@selector(keyboardWillHide:)
+                                name:UIKeyboardWillHideNotification
+                                object:nil];
+                                            
+}
+
+-(void)setUI
+{
+    [self prepareUI];
+    txtEmailAddress.text = email;
+    _postCustomerX.emailAddress = email;
+    _productBuyList = [SharedProductBuy sharedProductBuy].productBuyList;
+    _postCustomerID = 0;
+    if(!paid)
+    {
+        if(productBuyIndex == -1)
+        {
+            for(int i=0; i<[_productBuyList count]; i++)
+            {
+                CustomMade *customMade = (CustomMade *)_productBuyList[i][productBuyDetail];
+                ProductDetail *productDetail = (ProductDetail *)_productBuyList[i][productBuyDetail];
+                if([self isProductInventoryOrPreOrder:i])
+                {
+                    if(productDetail.postCustomerID != 0)
+                    {
+                        _postCustomerID = productDetail.postCustomerID;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(customMade.postCustomerID != 0)
+                    {
+                        _postCustomerID = productDetail.postCustomerID;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            CustomMade *customMade = (CustomMade *)_productBuyList[productBuyIndex][productBuyDetail];
+            ProductDetail *productDetail = (ProductDetail *)_productBuyList[productBuyIndex][productBuyDetail];
+            if([self isProductInventoryOrPreOrder:productBuyIndex])
+            {
+                if(productDetail.postCustomerID != 0)
+                {
+                    _postCustomerID = productDetail.postCustomerID;
+                }
+            }
+            else
+            {
+                if(customMade.postCustomerID != 0)
+                {
+                    _postCustomerID = productDetail.postCustomerID;
+                }
+            }
+        }
+    }
+    else
+    {
+        if(selectedPostCustomer)
+        {
+            _postCustomerID = selectedPostCustomer.postCustomerID;
+        }
+        
+    }
+    
+    
+    
+    
+    
+    if(![Utility isStringEmpty:telephoneNoSearch])
+    {
+        _searchBar.text = telephoneNoSearch;
+        txtTelephone.text = telephoneNoSearch;
+        _postCustomerX.telephone = telephoneNoSearch;
+        [self loadingOverlayView];
+        _viewDidLoadSearch = 1;
+        [self searchBar:_searchBar textDidChange:_searchBar.text];
+        
+        
+        if(_postCustomerID == 0)
+        {
+            [btnDelete removeFromSuperview];
+        }
+
+    }
+    else if(selectedPostCustomer)
+    {
+        [self setData:selectedPostCustomer];
+    }
+}
+
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    // register for keyboard notifications
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                         selector:@selector(keyboardWillShow)
+//                                             name:UIKeyboardWillShowNotification
+//                                           object:nil];
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                         selector:@selector(keyboardWillHide)
+//                                             name:UIKeyboardWillHideNotification
+//                                           object:nil];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    // unregister for keyboard notifications while not visible.
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                             name:UIKeyboardWillShowNotification
+//                                           object:nil];
+//
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                             name:UIKeyboardWillHideNotification
+//                                           object:nil];
+//}
+
+-(void)prepareUI
+{
+    
+    
+    controlWidth = self.view.bounds.size.width - 40*2;//minus left, right margin
+    controlXOrigin = 15;
+    controlYOrigin = (44 - 25)/2;//table row height minus control height and set vertical center
+//    controlYOrigin = 0;
     
     txtFirstName = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, 25)];
     txtFirstName.placeholder = @"Customer name";
     txtFirstName.clearButtonMode = UITextFieldViewModeWhileEditing;
     txtFirstName.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
     txtFirstName.delegate = self;
-    
-    
-    btnCopyToTaxCustomerName = [[UIButton alloc]initWithFrame:CGRectMake(self.tableView.bounds.size.width-20-18,39-18-20,18,18)];
+
+    NSLog(@"tbvData origin:%f",tbvData.bounds.size.width-20-18);
+    NSLog(@"view origin:%f",self.view.frame.size.width-20-18);
+    btnCopyToTaxCustomerName = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-20-18-20, controlYOrigin,18,18)];
     [btnCopyToTaxCustomerName setImage:[UIImage imageNamed:@"edit2.png"] forState:UIControlStateNormal];
     [btnCopyToTaxCustomerName addTarget:self action:@selector(copyToTaxCustomerName:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -300,11 +359,12 @@
     txtVwAddress = [[CustomUITextView alloc] initWithFrame:CGRectMake(controlXOrigin-4, controlYOrigin, controlWidth, 25)];
     txtVwAddress.placeholder = @" Address";
     txtVwAddress.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    [txtVwAddress  setFont: [UIFont fontWithName:@".SFUIText-Regular" size:17]];
+//    [txtVwAddress  setFont: [UIFont fontWithName:@".SFUIText-Regular" size:17]];
+    [txtVwAddress setFont:[UIFont systemFontOfSize:17]];
     txtVwAddress.delegate = self;
     
     
-    btnFillDetail = [[UIButton alloc]initWithFrame:CGRectMake(self.tableView.bounds.size.width-20-18,39*2-18-20,18,18)];
+    btnFillDetail = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-20-18-20,39*2-18-20,18,18)];//
     [btnFillDetail setImage:[UIImage imageNamed:@"edit2.png"] forState:UIControlStateNormal];
     [btnFillDetail addTarget:self action:@selector(fillDetail:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -312,7 +372,8 @@
     txtVwAddress2 = [[CustomUITextView alloc] initWithFrame:CGRectMake(controlXOrigin-4, controlYOrigin, controlWidth, 25)];
     txtVwAddress2.placeholder = @" Address 2";
     txtVwAddress2.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    [txtVwAddress2  setFont: [UIFont fontWithName:@".SFUIText-Regular" size:17]];
+//    [txtVwAddress2  setFont: [UIFont fontWithName:@".SFUIText-Regular" size:17]];
+    [txtVwAddress2 setFont:[UIFont systemFontOfSize:17]];
     txtVwAddress2.delegate = self;
     
     
@@ -335,6 +396,7 @@
     txtTelephone.clearButtonMode = UITextFieldViewModeWhileEditing;
     txtTelephone.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
     txtTelephone.delegate = self;
+    [txtTelephone addTarget:self action:@selector(txtTelephoneNoDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     
     txtLineID = [[UITextField alloc] initWithFrame:CGRectMake(controlXOrigin, controlYOrigin, controlWidth, 25)];
@@ -369,7 +431,8 @@
     txtVwTaxCustomerAddress = [[CustomUITextView alloc] initWithFrame:CGRectMake(controlXOrigin-4, controlYOrigin, controlWidth, 25)];
     txtVwTaxCustomerAddress.placeholder = @" Tax customer address";
     txtVwTaxCustomerAddress.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
-    [txtVwTaxCustomerAddress  setFont: [UIFont fontWithName:@".SFUIText-Regular" size:17]];
+//    [txtVwTaxCustomerAddress  setFont: [UIFont fontWithName:@".SFUIText-Regular" size:17]];
+    [txtVwTaxCustomerAddress setFont:[UIFont systemFontOfSize:17]];
     txtVwTaxCustomerAddress.delegate = self;
     
     
@@ -389,45 +452,271 @@
     txtOther.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin);
     txtOther.delegate = self;
     
-    
-    [self loadViewProcess];
+   
+    if(readOnly)
+    {
+        _searchBar.userInteractionEnabled = NO;
+        _btnDone.enabled = NO;
+        btnPreviousCustomer.enabled = NO;
+        btnNextCustomer.enabled = NO;
+        
+        txtFirstName.enabled = NO;
+        btnCopyToTaxCustomerName.enabled = NO;
+        txtVwAddress.editable = NO;
+        btnFillDetail.enabled = NO;
+        txtVwAddress2.editable = NO;
+        txtPostCode.enabled = NO;
+        txtCountry.enabled = NO;
+        txtTelephone.enabled = NO;
+        txtLineID.enabled = NO;
+        txtFacebookID.enabled = NO;
+        txtEmailAddress.enabled = NO;
+        txtTaxCustomerName.enabled = NO;
+        txtVwTaxCustomerAddress.editable = NO;
+        txtTaxNo.enabled = NO;
+        txtOther.enabled = NO;
+        
+        btnDelete.enabled = NO;
+        
+        
+    }
 }
 
-- (void)loadViewProcess
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(booAddOrEdit)
-    {
-        [btnDelete removeFromSuperview];
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{    
+//    return 13+6;
+    return 13;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     }
-    else
-    {
-        if(paid)
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    [[cell subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    switch (indexPath.row) {
+        case 0:
         {
-//            NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_postCustomerID = %ld",postCustomerID];
-//            NSArray *filterArray = [_postCustomerList filteredArrayUsingPredicate:predicate1];
-//            _postCustomer = (PostCustomer *)filterArray[0];
-            _postCustomer = selectedPostCustomer;
-            [self setData:_postCustomer];
+            [cell addSubview:txtFirstName];
+            [cell addSubview:btnCopyToTaxCustomerName];
+        }
+            break;
+        case 1:
+        {
+            [cell addSubview:txtVwAddress];
+            [cell addSubview:btnFillDetail];
+        }
+            break;
+        case 2:
+        {
+            [cell addSubview:txtVwAddress2];
+        }
+            break;
+        case 3:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Postcode";
+            cell.txtValue.tag = 106;
+            cell.txtValue.text = _postCustomerX.postcode;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 4:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Country";
+            cell.txtValue.tag = 107;
+            cell.txtValue.text = _postCustomerX.country;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 5:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Phone no.";
+            cell.txtValue.tag = 109;
+            cell.txtValue.text = _postCustomerX.telephone;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 6:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Line ID";
+            cell.txtValue.tag = 101;
+            cell.txtValue.text = _postCustomerX.lineID;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 7:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Facebook ID";
+            cell.txtValue.tag = 104;
+            cell.txtValue.text = _postCustomerX.facebookID;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 8:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Email";
+            cell.txtValue.tag = 102;
+            cell.txtValue.text = _postCustomerX.emailAddress;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 9:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Tax Customer Name";
+            cell.txtValue.tag = 105;
+            cell.txtValue.text = _postCustomerX.taxCustomerName;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 10:
+        {
+            CustomTableViewCellTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierTextView];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textView.placeholder = @"Tax Customer Address";
+            cell.textView.tag = 110;
+            cell.textView.text = _postCustomerX.taxCustomerAddress;
+            cell.textView.delegate = self;
+            cell.textView.editable = !readOnly;
+            return  cell;
+        }
+        case 11:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Tax no.";
+            cell.txtValue.tag = 103;
+            cell.txtValue.text = _postCustomerX.taxNo;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+        case 12:
+        {
+            CustomTableViewCellText *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifierText];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.txtValue.placeholder = @"Other";
+            cell.txtValue.tag = 108;
+            cell.txtValue.text = _postCustomerX.other;
+            cell.txtValue.delegate = self;
+            cell.txtValue.enabled = !readOnly;
+            return  cell;
+        }
+    }
+    
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    return indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 10?39*2:39;
+//    return indexPath.row == 1 || indexPath.row == 10?44*2:indexPath.row == 2?0:44;
+    return indexPath.row == 1 || indexPath.row == 10?39*2:(indexPath.row == 2?0:39);
+//    return indexPath.row == 1 || indexPath.row == 10?39*2:39;
+//    switch (indexPath.row)
+//    {
+//        case 0:
+//            return 39;
+//        case 1:
+//            return 39*2;
+//        case 2:
+//            return 0;
+//        case 3:
+//        case 4:
+//        case 5:
+//        case 6:
+//        case 7:
+//        case 8:
+//        case 9:
+//            return 39;
+//        case 10:
+//            return 39*2;
+//        case 11:
+//        case 12:
+//            return 39;
+//
+//
+//    }
+//    return 39;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if(tableView == tbvData)
+    {
+//        if(section == 0)
+        {
+            CustomTableHeaderFooterViewDelete *cell = [tableView dequeueReusableHeaderFooterViewWithIdentifier:reuseIdentifier];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.btnDelete.enabled = !readOnly;
+            [cell.btnDelete addTarget:self action:@selector(deletePost:) forControlEvents:UIControlEventTouchUpInside];
             
-        }
-        else
-        {
-            NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
-            _postCustomer = (PostCustomer *)postBuyList[0];
-            [self setData:_postCustomer];
+            
+            return cell;
         }
     }
+    
+    
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if(tableView == tbvData)
+    {
+        return 30;
+    }
+    
+    return 0.01f;
+}
+
+#pragma mark - Life Cycle method
+- (void)loadView
+{
+    [super loadView];
+    
 }
 
 - (BOOL)validateEmailAddress
 {
     txtEmailAddress.text = [Utility trimString:txtEmailAddress.text];
-    if([txtEmailAddress.text isEqualToString:@""])
+    _postCustomerX.emailAddress = [Utility trimString:_postCustomerX.emailAddress];
+    if([_postCustomerX.emailAddress isEqualToString:@""])
     {
         return YES;
     }
     
-    NSArray *arrEmailAddress = [txtEmailAddress.text componentsSeparatedByString:@","];
+    NSArray *arrEmailAddress = [_postCustomerX.emailAddress componentsSeparatedByString:@","];
     for(int i=0; i<[arrEmailAddress count]; i++)
     {
         NSString *email = [Utility trimString:arrEmailAddress[i]];
@@ -458,6 +747,7 @@
             
             NSRange needleRange = NSMakeRange(1,[matchText length]-2);
             txtPostCode.text = [matchText substringWithRange:needleRange];
+            _postCustomerX.postcode = [matchText substringWithRange:needleRange];
             break;
         }
     }
@@ -515,6 +805,7 @@
             txtVwAddress.text = [txtVwAddress.text stringByReplacingOccurrencesOfString:matchTextWithComma withString:@""];
             txtVwAddress.text = [txtVwAddress.text stringByReplacingOccurrencesOfString:matchTextWithSpace withString:@""];
             txtCountry.text = matchText;
+            _postCustomerX.country = matchText;
         }
     }
     
@@ -563,13 +854,13 @@
                         telephoneFormat = [NSString stringWithFormat:@"0%@",[telephoneFormat substringWithRange:needleRange]];
                     }
                     telephoneFormat = [Utility insertDash:telephoneFormat];
-                    if([txtTelephone.text isEqualToString:@""])
+                    if([_postCustomerX.telephone isEqualToString:@""])
                     {
-                        txtTelephone.text = telephoneFormat;
+                        _postCustomerX.telephone = telephoneFormat;
                     }
                     else
                     {
-                        txtTelephone.text = [NSString stringWithFormat:@"%@,%@",txtTelephone.text,telephoneFormat];
+                        _postCustomerX.telephone = [NSString stringWithFormat:@"%@,%@",_postCustomerX.telephone,telephoneFormat];
                     }
                 }
                 
@@ -593,7 +884,7 @@
             NSString* matchText = [searchedString substringWithRange:[match range]];
             txtVwAddress.text = [txtVwAddress.text stringByReplacingOccurrencesOfString:matchText withString:@""];
             txtEmailAddress.text = matchText;
-            
+            _postCustomerX.emailAddress = matchText;
             
             //delete keyword
             NSArray *arrKeyword = @[@",อีเมล์ : ",@",อีเมล์ :",@"อีเมล์ : ",@"อีเมล์ :",@"อีเมล",@"Email : ",@"Email"];
@@ -632,29 +923,41 @@
 -(void)copyToTaxCustomerName:(id)sender
 {
     txtTaxCustomerName.text = [Utility removeApostrophe:txtFirstName.text];
-    NSString *postcode = [txtPostCode.text isEqualToString:@""]?@"":[NSString stringWithFormat:@" %@",txtPostCode.text];
-    NSString *country = [txtCountry.text isEqualToString:@""]?@"":[NSString stringWithFormat:@" %@",txtCountry.text];
-    NSString *telephoneNo = [txtTelephone.text isEqualToString:@""]?@"":[NSString stringWithFormat:@" โทร. %@",txtTelephone.text];
+    _postCustomerX.taxCustomerName = [Utility removeApostrophe:txtFirstName.text];
+    NSString *postcode = [_postCustomerX.postcode isEqualToString:@""]?@"":[NSString stringWithFormat:@" %@",_postCustomerX.postcode];
+    NSString *country = [_postCustomerX.country isEqualToString:@""]?@"":[NSString stringWithFormat:@" %@",_postCustomerX.country];
+    NSString *telephoneNo = [_postCustomerX.telephone isEqualToString:@""]?@"":[NSString stringWithFormat:@" โทร. %@",_postCustomerX.telephone];
     txtVwTaxCustomerAddress.text = [NSString stringWithFormat:@"%@%@%@%@",[Utility removeApostrophe:txtVwAddress.text],postcode,country,telephoneNo];
+    _postCustomerX.taxCustomerAddress = [NSString stringWithFormat:@"%@%@%@%@",[Utility removeApostrophe:txtVwAddress.text],postcode,country,telephoneNo];
+
 }
 
 -(void)setData:(PostCustomer *)postCustomer
 {
     selectedPostCustomer = postCustomer;
     
-    
     txtFirstName.text = postCustomer.firstName;
     txtVwAddress.text = postCustomer.street1;
     txtPostCode.text = postCustomer.postcode;
+    _postCustomerX.postcode = postCustomer.postcode;
     txtCountry.text = postCustomer.country;
+    _postCustomerX.country = postCustomer.country;
     txtTelephone.text = [Utility insertDash:postCustomer.telephone];
+    _postCustomerX.telephone = [Utility insertDash:postCustomer.telephone];
     txtLineID.text = postCustomer.lineID;
+    _postCustomerX.lineID = postCustomer.lineID;
     txtFacebookID.text = postCustomer.facebookID;
+    _postCustomerX.facebookID = postCustomer.facebookID;
     txtEmailAddress.text = postCustomer.emailAddress;
+    _postCustomerX.emailAddress = postCustomer.emailAddress;
     txtTaxCustomerName.text = postCustomer.taxCustomerName;
+    _postCustomerX.taxCustomerName = postCustomer.taxCustomerName;
     txtVwTaxCustomerAddress.text = postCustomer.taxCustomerAddress;
+    _postCustomerX.taxCustomerAddress = postCustomer.taxCustomerAddress;
     txtTaxNo.text = postCustomer.taxNo;
+    _postCustomerX.taxNo = postCustomer.taxNo;
     txtOther.text = postCustomer.other;
+    _postCustomerX.other = postCustomer.other;
     
     
     _previousSearchPostCustomer.firstName = postCustomer.firstName;
@@ -669,21 +972,33 @@
     _previousSearchPostCustomer.taxCustomerAddress = postCustomer.taxCustomerAddress;
     _previousSearchPostCustomer.taxNo = postCustomer.taxNo;
     _previousSearchPostCustomer.other = postCustomer.other;
+    
+    [tbvData reloadData];
 }
 -(void)showNotFoundSearchData
 {
     txtFirstName.text = @"";
     txtVwAddress.text = @"";
     txtPostCode.text = @"";
+    _postCustomerX.postcode = @"";
     txtCountry.text = @"";
+    _postCustomerX.country = @"";
     txtTelephone.text = self.searchBar.text;
+    _postCustomerX.telephone = self.searchBar.text;
     txtLineID.text = @"";
+    _postCustomerX.lineID = @"";
     txtFacebookID.text = @"";
+    _postCustomerX.facebookID = @"";
     txtEmailAddress.text = @"";
+    _postCustomerX.emailAddress = @"";
     txtTaxCustomerName.text = @"";
+    _postCustomerX.taxCustomerName = @"";
     txtVwTaxCustomerAddress.text = @"";
+    _postCustomerX.taxCustomerAddress = @"";
     txtTaxNo.text = @"";
+    _postCustomerX.taxNo = @"";
     txtOther.text = @"";
+    _postCustomerX.other = @"";
     
     
     _previousSearchPostCustomer.firstName = @"";
@@ -703,16 +1018,21 @@
 {
     postCustomer.firstName = txtFirstName.text;
     postCustomer.street1 = txtVwAddress.text;
-    postCustomer.postcode = txtPostCode.text;
-    postCustomer.country = txtCountry.text;
-    postCustomer.telephone = [Utility removeDashAndSpaceAndParenthesis:txtTelephone.text];
+    postCustomer.postcode = _postCustomerX.postcode;
+    postCustomer.country = _postCustomerX.country;
+    postCustomer.telephone = [Utility removeDashAndSpaceAndParenthesis:_postCustomerX.telephone];
     postCustomer.lineID = txtLineID.text;
-    postCustomer.facebookID = txtFacebookID.text;
+    postCustomer.lineID = _postCustomerX.lineID;
+    postCustomer.facebookID = _postCustomerX.facebookID;
     postCustomer.emailAddress = txtEmailAddress.text;
+    postCustomer.emailAddress = _postCustomerX.emailAddress;
     postCustomer.taxCustomerName = txtTaxCustomerName.text;
+    postCustomer.taxCustomerName = _postCustomerX.taxCustomerName;
     postCustomer.taxCustomerAddress = txtVwTaxCustomerAddress.text;
+    postCustomer.taxCustomerAddress = _postCustomerX.taxCustomerAddress;
     postCustomer.taxNo = txtTaxNo.text;
-    postCustomer.other = txtOther.text;
+    postCustomer.taxNo = _postCustomerX.taxNo;
+    postCustomer.other = _postCustomerX.other;
 }
 - (BOOL)validateData
 {
@@ -730,6 +1050,8 @@
         
         return NO;
     }
+    
+    
     
     return YES;
 }
@@ -753,199 +1075,50 @@
     {
         [responder resignFirstResponder];
     }
+    
     if(![self validateData])
     {
         return;
     }
     
-    telephoneNoSearch = txtTelephone.text;
-    
-    
+
     if(!paid)
     {
-        if(booAddOrEdit)
+        if(_postCustomerID == 0)
         {
             if(![self inputPost])
             {
-                action = 0;
-                [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
+                [self performSegueWithIdentifier:@"segUnwindToReceipt2" sender:self];
             }
             else
             {
-                if(_searchData)
+                if(_searchDataFound)
                 {
                     if(![self editSearchData])
                     {
-                        _postCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
-                        [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                        [[SharedPostBuy sharedPostBuy].postBuyList addObject:_postCustomer];//post customer with id
-                        
-                        action = 1;
-                        [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
+                        selectedPostCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
+                        [self segUnwindToReceipt2:selectedPostCustomer];
                     }
                     else
                     {
-                        _postCustomer = [[PostCustomer alloc]init];
-                        _postCustomer.postCustomerID = 0;
-                        [self assignTextToPostCustomer:_postCustomer];
-                        _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
-                        
-                        [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                        [[SharedPostBuy sharedPostBuy].postBuyList addObject:_postCustomer];//post customer with id = @""
-                        
-                        action = 1;
-                        [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
-                    }
-                }
-                else
-                {
-                    _postCustomer = [[PostCustomer alloc]init];
-                    _postCustomer.postCustomerID = 0;
-                    [self assignTextToPostCustomer:_postCustomer];
-                    _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
-                    
-                    [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                    [[SharedPostBuy sharedPostBuy].postBuyList addObject:_postCustomer];//post customer with id = @""
-                    
-                    action = 1;
-                    [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
-                }
-            }
-        }
-        else
-        {
-            if(![self changePost])
-            {
-                action = 0;
-                [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
-            }
-            else
-            {
-                if(_searchData)
-                {
-                    if(![self editSearchData])
-                    {
-                        _postCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
-                        [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                        [[SharedPostBuy sharedPostBuy].postBuyList addObject:_postCustomer];//post customer with id
-                        
-                        action = 2;
-                        [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
-                    }
-                    else
-                    {
-                        _postCustomer = [[PostCustomer alloc]init];
-                        _postCustomer.postCustomerID = 0;
-                        [self assignTextToPostCustomer:_postCustomer];
-                        _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
-                        
-                        [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                        [[SharedPostBuy sharedPostBuy].postBuyList addObject:_postCustomer];//post customer with id = @""
-                        
-                        action = 2;
-                        [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
-                    }
-                }
-                else
-                {
-                    _postCustomer = [[PostCustomer alloc]init];
-                    _postCustomer.postCustomerID = 0;
-                    [self assignTextToPostCustomer:_postCustomer];
-                    _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
-                    
-                    [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                    [[SharedPostBuy sharedPostBuy].postBuyList addObject:_postCustomer];//post customer with id = @""
-                    
-                    action = 2;
-                    [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
-                }
-            }
-        }
-    }
-    else
-    {
-        if(booAddOrEdit)
-        {
-            if(![self inputPost])
-            {
-                [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
-            }
-            else
-            {
-                if(_searchData)
-                {
-                    if(![self editSearchData])
-                    {
-                        PostCustomer *postCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
-                        CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                        customerReceipt.receiptID = receiptID;
-                        customerReceipt.postCustomerID = postCustomer.postCustomerID;
-//                        [self loadingOverlayView];
-                        [_homeModel updateItems:dbCustomerReceiptUpdatePostCustomerID withData:customerReceipt];
-                        
-//                        //update sharedcustomerreceipt
-//                        [self updateSharedCustomerReceipt:customerReceipt];
-//
-//                        [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
-                    }
-                    else
-                    {
-                        _postCustomer = [[PostCustomer alloc]init];
-//                        _postCustomer.postCustomerID = [Utility getNextID:tblPostCustomer];
-                        _postCustomer.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                        _postCustomer.modifiedUser = [Utility modifiedUser];
-                        [self assignTextToPostCustomer:_postCustomer];
-                        _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
+                        selectedPostCustomer = [[PostCustomer alloc]init];
+                        selectedPostCustomer.postCustomerID = 0;
+                        [self assignTextToPostCustomer:selectedPostCustomer];
                         
                         
-                        CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                        customerReceipt.receiptID = receiptID;
-//                        customerReceipt.postCustomerID = _postCustomer.postCustomerID;
-                        customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                        customerReceipt.modifiedUser = [Utility modifiedUser];
-                        
-                        
-                        NSMutableArray *data = [[NSMutableArray alloc]init];
-                        [data addObject:_postCustomer];
-                        [data addObject:_strReceiptID];
                         [self loadingOverlayView];
-                        [_homeModel insertItems:dbPostCustomer withData:data];
-                        
-                        
-//                        //update shared
-//                        [self updateSharedPostCustomer:_postCustomer];
-//                        [self updateSharedCustomerReceipt:customerReceipt];
-//                        [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
+                        [_homeModel insertItems:dbPostCustomerAdd withData:selectedPostCustomer];
                     }
                 }
                 else
                 {
-                    _postCustomer = [[PostCustomer alloc]init];
-//                    _postCustomer.postCustomerID = [Utility getNextID:tblPostCustomer];
-                    _postCustomer.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    _postCustomer.modifiedUser = [Utility modifiedUser];
-                    [self assignTextToPostCustomer:_postCustomer];
-                    _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
+                    selectedPostCustomer = [[PostCustomer alloc]init];
+                    selectedPostCustomer.postCustomerID = 0;
+                    [self assignTextToPostCustomer:selectedPostCustomer];
                     
                     
-                    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                    customerReceipt.receiptID = receiptID;
-                    customerReceipt.postCustomerID = _postCustomer.postCustomerID;
-                    customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    customerReceipt.modifiedUser = [Utility modifiedUser];
-                    
-                    
-                    NSMutableArray *data = [[NSMutableArray alloc]init];
-                    [data addObject:_postCustomer];
-                    [data addObject:_strReceiptID];
                     [self loadingOverlayView];
-                    [_homeModel insertItems:dbPostCustomer withData:data];
-                    
-                    
-//                    //update shared
-//                    [self updateSharedPostCustomer:_postCustomer];
-//                    [self updateSharedCustomerReceipt:customerReceipt];
-//                    [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
+                    [_homeModel insertItems:dbPostCustomerAdd withData:selectedPostCustomer];
                 }
             }
         }
@@ -953,110 +1126,149 @@
         {
             if(![self changePost])
             {
-                [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
+                [self performSegueWithIdentifier:@"segUnwindToReceipt2" sender:self];
             }
             else
             {
-                if(_searchData)
+                if(![self inputPost])
                 {
-                    if(![self editSearchData])
-                    {
-                        PostCustomer *postCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
-                        CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                        customerReceipt.receiptID = receiptID;
-                        customerReceipt.postCustomerID = postCustomer.postCustomerID;
-//                        [self loadingOverlayView];
-                        [_homeModel updateItems:dbCustomerReceiptUpdatePostCustomerID withData:customerReceipt];
-                        
-//                        //update sharedcustomerreceipt
-//                        [self updateSharedCustomerReceipt:customerReceipt];
-//
-//                        [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
-                    }
-                    else
-                    {
-                        _postCustomer = [[PostCustomer alloc]init];
-//                        _postCustomer.postCustomerID = [Utility getNextID:tblPostCustomer];
-                        _postCustomer.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                        _postCustomer.modifiedUser = [Utility modifiedUser];
-                        [self assignTextToPostCustomer:_postCustomer];
-                        _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
-                        
-                        
-                        CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                        customerReceipt.receiptID = receiptID;
-                        customerReceipt.postCustomerID = _postCustomer.postCustomerID;
-                        customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                        customerReceipt.modifiedUser = [Utility modifiedUser];
-                        
-                        
-                        NSMutableArray *data = [[NSMutableArray alloc]init];
-                        [data addObject:_postCustomer];
-                        [data addObject:_strReceiptID];
-                        [self loadingOverlayView];
-                        [_homeModel insertItems:dbPostCustomer withData:data];
-                        
-                        
-//                        //update shared
-//                        [self updateSharedPostCustomer:_postCustomer];
-//                        [self updateSharedCustomerReceipt:customerReceipt];
-//                        [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
-                    }
+                    [self deletePost:nil];
                 }
                 else
                 {
-                    _postCustomer = [[PostCustomer alloc]init];
-//                    _postCustomer.postCustomerID = [Utility getNextID:tblPostCustomer];
-                    _postCustomer.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    _postCustomer.modifiedUser = [Utility modifiedUser];
-                    [self assignTextToPostCustomer:_postCustomer];
-                    _postCustomer.customerID = [self getCustomerID:_postCustomer.telephone];
-                    
-                    
-                    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                    customerReceipt.receiptID = receiptID;
-                    customerReceipt.postCustomerID = _postCustomer.postCustomerID;
-                    customerReceipt.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    customerReceipt.modifiedUser = [Utility modifiedUser];
-                    
-                    
-                    NSMutableArray *data = [[NSMutableArray alloc]init];
-                    [data addObject:_postCustomer];
-                    [data addObject:_strReceiptID];
-                    [_homeModel insertItems:dbPostCustomer withData:data];
-                    
-                    
-//                    //update shared
-//                    [self updateSharedPostCustomer:_postCustomer];
-//                    [self updateSharedCustomerReceipt:customerReceipt];
-//                    [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
+                    if(_searchDataFound)
+                    {
+                        if(![self editSearchData])
+                        {
+                            selectedPostCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
+                            [self segUnwindToReceipt2:selectedPostCustomer];
+                        }
+                        else
+                        {
+                            selectedPostCustomer = [[PostCustomer alloc]init];
+                            selectedPostCustomer.postCustomerID = 0;
+                            [self assignTextToPostCustomer:selectedPostCustomer];
+                            
+                            
+                            [self loadingOverlayView];
+                            [_homeModel insertItems:dbPostCustomerAdd withData:selectedPostCustomer];
+                        }
+                    }
+                    else
+                    {
+                        selectedPostCustomer = [[PostCustomer alloc]init];
+                        selectedPostCustomer.postCustomerID = 0;
+                        [self assignTextToPostCustomer:selectedPostCustomer];
+                        
+                        
+                        [self loadingOverlayView];
+                        [_homeModel insertItems:dbPostCustomerAdd withData:selectedPostCustomer];
+                    }
                 }
             }
         }
     }
-}
-
--(void)itemsInserted
-{
-}
-
--(void)itemsInsertedWithReturnData:(NSArray *)data
-{
-    [self removeOverlayViews];
-    
-    NSMutableArray *returnPostCustomerList = data[0];
-    PostCustomer *returnPostCustomer = returnPostCustomerList[0];
-    //update shared add postcustomer to
-    selectedPostCustomer = returnPostCustomer;
-    selectedCustomerReceipt.postCustomerID = returnPostCustomer.postCustomerID;
-    
-    [[SharedPostCustomer sharedPostCustomer].postCustomerList addObject:returnPostCustomer];
-    [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
+    else if(paid)
+    {
+        if(_postCustomerID == 0)
+        {
+            if(![self inputPost])
+            {
+                [self cancelButtonClicked:nil];
+//                [self performSegueWithIdentifier:@"segUnwindToReceiptSummary2" sender:self];
+            }
+            else
+            {
+                if(_searchDataFound)
+                {
+                    if(![self editSearchData])
+                    {
+                        selectedPostCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
+                        
+                        //update db
+                        [self loadingOverlayView];
+                        [_homeModel updateItems:dbItemTrackingNo withData:@[selectedPostCustomer,receiptProductItemList]];
+                        
+                    }
+                    else
+                    {
+                        selectedPostCustomer = [[PostCustomer alloc]init];
+                        selectedPostCustomer.postCustomerID = 0;
+                        [self assignTextToPostCustomer:selectedPostCustomer];
+                        
+                        
+                        [self loadingOverlayView];
+                        [_homeModel insertItems:dbItemTrackingNoPostCustomerAdd withData:@[selectedPostCustomer,receiptProductItemList]];
+                    }
+                }
+                else
+                {
+                    selectedPostCustomer = [[PostCustomer alloc]init];
+                    selectedPostCustomer.postCustomerID = 0;
+                    [self assignTextToPostCustomer:selectedPostCustomer];
+                    
+                    
+                    [self loadingOverlayView];
+                    [_homeModel insertItems:dbItemTrackingNoPostCustomerAdd withData:@[selectedPostCustomer,receiptProductItemList]];
+                }
+            }
+        }
+        else
+        {
+            if(![self changePost])
+            {
+                [self cancelButtonClicked:nil];
+//                [self performSegueWithIdentifier:@"segUnwindToReceiptSummary2" sender:self];
+            }
+            else
+            {
+                if(![self inputPost])
+                {
+                    [self deletePost:nil];
+                }
+                else
+                {
+                    if(_searchDataFound)
+                    {
+                        if(![self editSearchData])
+                        {
+                            selectedPostCustomer = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex];
+                            
+                            //update db
+                            [self loadingOverlayView];
+                            [_homeModel updateItems:dbItemTrackingNo withData:@[selectedPostCustomer,receiptProductItemList]];
+                            
+                        }
+                        else
+                        {
+                            selectedPostCustomer = [[PostCustomer alloc]init];
+                            selectedPostCustomer.postCustomerID = 0;
+                            [self assignTextToPostCustomer:selectedPostCustomer];
+                            
+                            
+                            [self loadingOverlayView];
+                            [_homeModel insertItems:dbItemTrackingNoPostCustomerAdd withData:@[selectedPostCustomer,receiptProductItemList]];
+                        }
+                    }
+                    else
+                    {
+                        selectedPostCustomer = [[PostCustomer alloc]init];
+                        selectedPostCustomer.postCustomerID = 0;
+                        [self assignTextToPostCustomer:selectedPostCustomer];
+                        
+                        
+                        [self loadingOverlayView];
+                        [_homeModel insertItems:dbItemTrackingNoPostCustomerAdd withData:@[selectedPostCustomer,receiptProductItemList]];
+                    }
+                }
+            }
+        }
+    }
 }
 
 -(BOOL)changePost
 {
-    NSString *allText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",txtFirstName.text,txtVwAddress.text,txtPostCode.text,txtCountry.text,[Utility removeDashAndSpaceAndParenthesis:txtTelephone.text],txtLineID.text,txtFacebookID.text,txtEmailAddress.text,txtTaxCustomerName.text,txtVwTaxCustomerAddress.text,txtTaxNo.text,txtOther.text];
+    NSString *allText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",txtFirstName.text,txtVwAddress.text,_postCustomerX.postcode,_postCustomerX.country,[Utility removeDashAndSpaceAndParenthesis:_postCustomerX.telephone],_postCustomerX.lineID,_postCustomerX.facebookID,_postCustomerX.emailAddress,_postCustomerX.taxCustomerName,_postCustomerX.taxCustomerAddress,_postCustomerX.taxNo,_postCustomerX.other];
     NSString *allDBText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",_postCustomer.firstName,_postCustomer.street1,_postCustomer.postcode,_postCustomer.country,_postCustomer.telephone,_postCustomer.lineID,_postCustomer.facebookID,_postCustomer.emailAddress,_postCustomer.taxCustomerName,_postCustomer.taxCustomerAddress,_postCustomer.taxNo,_postCustomer.other];
     if([allText isEqualToString:allDBText])
     {
@@ -1067,7 +1279,7 @@
 
 -(BOOL)inputPost
 {
-    NSString *allText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",txtFirstName.text,txtVwAddress.text,txtPostCode.text,txtCountry.text,[Utility removeDashAndSpaceAndParenthesis:txtTelephone.text],txtLineID.text,txtFacebookID.text,txtEmailAddress.text,txtTaxCustomerName.text,txtVwTaxCustomerAddress.text,txtTaxNo.text,txtOther.text];
+    NSString *allText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",txtFirstName.text,txtVwAddress.text,_postCustomerX.postcode,_postCustomerX.country,[Utility removeDashAndSpaceAndParenthesis:_postCustomerX.telephone],_postCustomerX.lineID,_postCustomerX.facebookID,_postCustomerX.emailAddress,_postCustomerX.taxCustomerName,_postCustomerX.taxCustomerAddress,_postCustomerX.taxNo,_postCustomerX.other];
     if([allText isEqualToString:@""])
     {
         return NO;
@@ -1077,7 +1289,7 @@
 
 -(BOOL)editSearchData
 {
-    NSString *allText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",txtFirstName.text,txtVwAddress.text,txtPostCode.text,txtCountry.text,[Utility removeDashAndSpaceAndParenthesis:txtTelephone.text],txtLineID.text,txtFacebookID.text,txtEmailAddress.text,txtTaxCustomerName.text,txtVwTaxCustomerAddress.text,txtTaxNo.text,txtOther.text];
+    NSString *allText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",txtFirstName.text,txtVwAddress.text,_postCustomerX.postcode,_postCustomerX.country,[Utility removeDashAndSpaceAndParenthesis:_postCustomerX.telephone],_postCustomerX.lineID,_postCustomerX.facebookID,_postCustomerX.emailAddress,_postCustomerX.taxCustomerName,_postCustomerX.taxCustomerAddress,_postCustomerX.taxNo,_postCustomerX.other];
     NSString *allSearchDataText = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@",_previousSearchPostCustomer.firstName,_previousSearchPostCustomer.street1,_previousSearchPostCustomer.postcode,_previousSearchPostCustomer.country,_previousSearchPostCustomer.telephone,_previousSearchPostCustomer.lineID,_previousSearchPostCustomer.facebookID,_previousSearchPostCustomer.emailAddress,_previousSearchPostCustomer.taxCustomerName,_previousSearchPostCustomer.taxCustomerAddress,_previousSearchPostCustomer.taxNo,_previousSearchPostCustomer.other];
     if([allText isEqualToString:allSearchDataText])
     {
@@ -1086,26 +1298,8 @@
     return YES;
 }
 
-//- (void)updateSharedPostCustomer:(PostCustomer *)postCustomer
-//{
-//    [[SharedPostCustomer sharedPostCustomer].postCustomerList addObject:postCustomer];
-//}
-
-//- (void)updateSharedCustomerReceipt:(CustomerReceipt *)customerReceipt
-//{
-//    for(CustomerReceipt *item in [SharedCustomerReceipt sharedCustomerReceipt].customerReceiptList)
-//    {
-//        if(item.receiptID == customerReceipt.receiptID)
-//        {
-//            item.postCustomerID = customerReceipt.postCustomerID;
-//            item.modifiedDate = [Utility dateToString:[NSDate date] toFormat:@"yyyy-MM-dd HH:mm:ss"];
-//            item.modifiedUser = [Utility modifiedUser];
-//            break;
-//        }
-//    }
-//}
-
-- (IBAction)deletePost:(id)sender {
+- (IBAction)deletePost:(id)sender
+{
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
@@ -1115,32 +1309,52 @@
                             handler:^(UIAlertAction *pAction) {
                                 if(paid)
                                 {
-                                    CustomerReceipt *customerReceipt = [[CustomerReceipt alloc]init];
-                                    customerReceipt.receiptID = receiptID;
-                                    customerReceipt.postCustomerID = 0;
-                                    [_homeModel updateItems:dbCustomerReceiptUpdatePostCustomerID withData:customerReceipt];
-                                    
-//                                    //update sharedcustomerreceipt
-//                                    [self updateSharedCustomerReceipt:customerReceipt];
-                                    
-                                    
-                                    action = 3;
-                                    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Success"
-                                                                                                   message:@"Delete post success"
-                                                                                            preferredStyle:UIAlertControllerStyleAlert];
-                                    
-                                    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                                          handler:^(UIAlertAction * action){
-                                                                                              [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];//
-                                                                                          }];
-                                    [alert addAction:defaultAction];
-                                    [self presentViewController:alert animated:YES completion:nil];
+                                    PostCustomer *postCustomer = [[PostCustomer alloc]init];
+                                    postCustomer.postCustomerID = 0;
+                                    [self loadingOverlayView];
+                                    [_homeModel updateItems:dbItemTrackingNoPostCustomerDelete withData:@[postCustomer,receiptProductItemList]];
                                 }
                                 else
-                                {
-                                    [[SharedPostBuy sharedPostBuy].postBuyList removeAllObjects];
-                                    action = 3;
-                                    [self performSegueWithIdentifier:@"segUnwindToReceipt" sender:self];
+                                {                            
+                                    NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
+                                    for(PostCustomer *item in postBuyList)
+                                    {
+                                        if(item.postCustomerID == _postCustomer.postCustomerID)
+                                        {
+                                            if(productBuyIndex == -1)
+                                            {
+                                                CustomMade *customMade = (CustomMade *)_productBuyList[0][productBuyDetail];
+                                                ProductDetail *productDetail = (ProductDetail *)_productBuyList[0][productBuyDetail];
+                                                if([self isProductInventoryOrPreOrder:0])
+                                                {
+                                                    productDetail.postCustomerID = 0;
+                                                }
+                                                else
+                                                {
+                                                    customMade.postCustomerID = 0;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                for(int i=0; i<[_productBuyList count]; i++)
+                                                {
+                                                    CustomMade *customMade = (CustomMade *)_productBuyList[i][productBuyDetail];
+                                                    ProductDetail *productDetail = (ProductDetail *)_productBuyList[i][productBuyDetail];
+                                                    if([self isProductInventoryOrPreOrder:i])
+                                                    {
+                                                        productDetail.postCustomerID = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        customMade.postCustomerID = 0;
+                                                    }
+                                                }
+                                            }
+                                            [postBuyList removeObject:item];
+                                            break;
+                                        }
+                                    }
+                                    [self performSegueWithIdentifier:@"segUnwindToReceipt2" sender:self];
                                 }
                                 
                             }]];
@@ -1158,7 +1372,6 @@
         UIPopoverPresentationController *popPresenter = [alert popoverPresentationController];
         popPresenter.sourceView = btnDelete;
         popPresenter.sourceRect = btnDelete.bounds;
-        //        popPresenter.barButtonItem = _barButtonIpad;
     }
     ///////////////
     [self presentViewController:alert animated:YES completion:nil];
@@ -1166,103 +1379,66 @@
 
 -(void)itemsDownloaded:(NSArray *)items
 {
+    [self removeOverlayViews];
+    
     self.dataSourceForSearchResult = items[0];
-    
-    
-    //set data to text
-    if([self.dataSourceForSearchResult count]>0)
+    if(_viewDidLoadSearch)
     {
-        [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
-        btnPreviousCustomer.enabled = _searchResultIndex>0;
-        btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
-        _searchData = YES;
+        _viewDidLoadSearch = 0;
+        {
+            int i=0;
+            for(PostCustomer *item in self.dataSourceForSearchResult)
+            {
+                if(item.postCustomerID == _postCustomerID)
+                {
+                    _searchResultIndex = i;
+                    _postCustomer = item;
+                    [self setData:item];
+                    btnPreviousCustomer.enabled = _searchResultIndex>0;
+                    btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
+                    _searchDataFound = YES;
+                    break;
+                }
+                i++;
+            }
+        }
     }
     else
     {
-        [self showNotFoundSearchData];
-        btnPreviousCustomer.enabled = NO;
-        btnNextCustomer.enabled = NO;
-        _searchData = NO;
+        //set data to text
+        if([self.dataSourceForSearchResult count]>0)
+        {
+            _searchResultIndex = 0;
+            [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
+            btnPreviousCustomer.enabled = _searchResultIndex>0;
+            btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
+            _searchDataFound = YES;
+        }
+        else
+        {
+            [self showNotFoundSearchData];
+            btnPreviousCustomer.enabled = NO;
+            btnNextCustomer.enabled = NO;
+            _searchDataFound = NO;
+        }
     }
+    
 }
-//-(void)itemsDownloaded:(NSArray *)items
-//{
-//    [self removeOverlayViews];
-//    _postCustomerList = items[0];
-//
-//
-//
-//    [self prepareUI];
-//    if(paid)
-//    {
-//        if(postCustomerID != 0)
-//        {
-////            PostCustomer *postCustomer = [Utility getPostCustomer:postCustomerID];
-//            PostCustomer *postCustomer = selectedPostCustomer;
-//            [self setData:postCustomer];
-//            if(![telephoneNoSearch isEqualToString:@""])
-//            {
-//                _searchBar.text = telephoneNoSearch;
-//                [self searchBar:_searchBar textDidChange:_searchBar.text];
-//                txtTelephone.text = telephoneNoSearch;
-//            }
-//
-//
-//            NSMutableArray *postCustomerSearchList = self.dataSourceForSearchResult;
-//            for(int i=0; i<[postCustomerSearchList count]; i++)
-//            {
-//                PostCustomer *postCustomerSearch = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex+i];
-//                if(postCustomerSearch.postCustomerID == postCustomer.postCustomerID)
-//                {
-//                    [self setData:postCustomerSearch];
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//    else
-//    {
-//        if(booAddOrEdit)
-//        {
-//            //fill search text and do search
-//            if(![telephoneNoSearch isEqualToString:@""])
-//            {
-//                _searchBar.text = telephoneNoSearch;
-//                [self searchBar:_searchBar textDidChange:_searchBar.text];
-//                txtTelephone.text = telephoneNoSearch;
-//            }
-//        }
-//        else
-//        {
-//            _searchBar.text = telephoneNoSearch;
-//            [self searchBar:_searchBar textDidChange:_searchBar.text];
-//            txtTelephone.text = telephoneNoSearch;
-//
-//
-//            PostCustomer *postCustomer = [SharedPostBuy sharedPostBuy].postBuyList[0];
-//            if(postCustomer.postCustomerID == 0)
-//            {
-//                [self setData:postCustomer];
-//                [self.dataSourceForSearchResult insertObject:postCustomer atIndex:0];
-//                btnPreviousCustomer.enabled = _searchResultIndex>0;
-//                btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
-//            }
-//            else
-//            {
-//                NSMutableArray *postCustomerSearchList = self.dataSourceForSearchResult;
-//                for(int i=0; i<[postCustomerSearchList count]; i++)
-//                {
-//                    PostCustomer *postCustomerSearch = (PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex+i];
-//                    if(postCustomerSearch.postCustomerID == postCustomer.postCustomerID)
-//                    {
-//                        [self setData:postCustomerSearch];
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+
+- (IBAction)nextButtonClicked:(id)sender {
+    _searchResultIndex -=1;
+    btnPreviousCustomer.enabled = _searchResultIndex>0;
+    btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
+    [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
+}
+
+- (IBAction)previousButtonClicked:(id)sender {
+    _searchResultIndex += 1;
+    btnPreviousCustomer.enabled = _searchResultIndex>0;
+    btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
+    [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
+}
+
 - (void)itemsFail
 {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:[Utility getConnectionLostTitle]
@@ -1271,8 +1447,7 @@
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-//                                                              [self loadingOverlayView];
-//                                                              [_homeModel downloadItems:dbMaster];
+
                                                           }];
     
     [alert addAction:defaultAction];
@@ -1280,16 +1455,86 @@
         [self presentViewController:alert animated:YES completion:nil];
     } );
 }
-- (void)itemsUpdated
+
+-(void)itemsUpdatedWithReturnData:(NSArray *)data
 {
-    
-}
--(void)itemsUpdatedWithReturnID:(NSInteger)ID
-{
-    if(_homeModel.propCurrentDB == dbCustomerReceiptUpdatePostCustomerID)
+    if(_homeModel.propCurrentDB == dbItemTrackingNo)
     {
-        selectedCustomerReceipt.postCustomerID = ID;
-        [self performSegueWithIdentifier:@"segUnwindToReceiptSummary" sender:self];
+        [self removeOverlayViews];
+        NSMutableArray *returnPostCustomerList = data[0];
+        PostCustomer *returnPostCustomer = returnPostCustomerList[0];
+        
+        
+        selectedPostCustomer = returnPostCustomer;
+        
+        if(pageIndex == 1)
+        {
+            [self performSegueWithIdentifier:@"segUnwindToSearchReceipt" sender:self];
+        }
+        else
+        {
+            [self performSegueWithIdentifier:@"segUnwindToReceiptSummary2" sender:self];
+        }
+    }
+    else if(_homeModel.propCurrentDB == dbItemTrackingNoPostCustomerDelete)
+    {
+        [self removeOverlayViews];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Success"
+                                                                       message:@"Delete post success"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+        handler:^(UIAlertAction * action)
+          {
+            if(pageIndex == 1)
+            {
+                [self performSegueWithIdentifier:@"segUnwindToSearchReceiptDelete" sender:self];//
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"segUnwindToReceiptSummary2Delete" sender:self];//
+            }
+            
+              
+          }];
+
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+-(void)itemsInsertedWithReturnData:(NSArray *)data
+{
+    if(_homeModel.propCurrentDB == dbPostCustomerAdd)
+    {
+        [self removeOverlayViews];
+        
+        NSArray *postCustomerList = data[0];
+        PostCustomer *postCustomer = postCustomerList[0];
+        
+        [self segUnwindToReceipt2:postCustomer];
+    }
+    else if(_homeModel.propCurrentDB == dbItemTrackingNoPostCustomerAdd)
+    {
+        [self removeOverlayViews];
+        
+        
+        NSMutableArray *returnPostCustomerList = data[0];
+        PostCustomer *returnPostCustomer = returnPostCustomerList[0];
+        
+        
+        //update shared add postcustomer to
+        selectedPostCustomer = returnPostCustomer;
+        
+        if(pageIndex == 1)
+        {
+            [self performSegueWithIdentifier:@"segUnwindToSearchReceipt" sender:self];
+        }
+        else
+        {
+            [self performSegueWithIdentifier:@"segUnwindToReceiptSummary2" sender:self];
+        }
     }
 }
 
@@ -1326,7 +1571,6 @@
         self.searchBar.barTintColor         = [UIColor grayColor];
         self.searchBar.delegate             = self;
         self.searchBar.placeholder          = @"search mobile no.";
-        self.searchBar.delegate = self;
         self.searchBar.keyboardType = UIKeyboardTypeNumberPad;
         [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor grayColor]];
     }
@@ -1337,17 +1581,17 @@
 }
 #pragma mark - search
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
-    NSPredicate *resultPredicate   = [NSPredicate predicateWithFormat:@"_telephone contains[c] %@", searchText];
-    self.dataSourceForSearchResult = [[_postCustomerList filteredArrayUsingPredicate:resultPredicate] mutableCopy];
-    self.dataSourceForSearchResult = [PostCustomer getPostCustomerSortByModifiedDate:self.dataSourceForSearchResult];
-}
+//- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope{
+//    NSPredicate *resultPredicate   = [NSPredicate predicateWithFormat:@"_telephone contains[c] %@", searchText];
+//}
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     // user did type something, check our datasource for text that looks the same
     txtTelephone.text = [Utility insertDash:searchText];
+    _postCustomerX.telephone = [Utility insertDash:searchText];
     if (searchText.length>0)
     {
+        
         // search and reload data source
         self.searchBarActive = YES;
         if(searchText.length>5)
@@ -1357,28 +1601,12 @@
         else
         {
             //clear data
+            [self removeOverlayViews];
             [self clearPostData];
             btnPreviousCustomer.enabled = NO;
             btnNextCustomer.enabled = NO;
-            _searchData = NO;
+            _searchDataFound = NO;
         }
-//        [self filterContentForSearchText:[Utility removeDashAndSpaceAndParenthesis:searchText] scope:@""];
-        
-//        //set data to text
-//        if([self.dataSourceForSearchResult count]>0)
-//        {
-//            [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
-//            btnPreviousCustomer.enabled = _searchResultIndex>0;
-//            btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
-//            _searchData = YES;
-//        }
-//        else
-//        {
-//            [self showNotFoundSearchData];
-//            btnPreviousCustomer.enabled = NO;
-//            btnNextCustomer.enabled = NO;
-//            _searchData = NO;
-//        }
     }
     else
     {
@@ -1386,14 +1614,14 @@
         // we will consider the searchbar is not active
         //        self.searchBarActive = NO;
         
- 
+        [self removeOverlayViews];
         [self cancelSearching];
         
         //clear data
         [self clearPostData];
         btnPreviousCustomer.enabled = NO;
         btnNextCustomer.enabled = NO;
-        _searchData = NO;
+        _searchDataFound = NO;
     }
 }
 
@@ -1403,7 +1631,7 @@
     [self clearPostData];
     btnPreviousCustomer.enabled = NO;
     btnNextCustomer.enabled = NO;
-    _searchData = NO;
+    _searchDataFound = NO;
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     self.searchBarActive = YES;
@@ -1433,15 +1661,24 @@
     txtFirstName.text = @"";
     txtVwAddress.text = @"";
     txtPostCode.text = @"";
+    _postCustomerX.postcode = @"";
     txtCountry.text = @"";
+    _postCustomerX.country = @"";
     txtTelephone.text = @"";
+    _postCustomerX.telephone = @"";
     txtLineID.text = @"";
+    _postCustomerX.lineID = @"";
     txtFacebookID.text = @"";
+    _postCustomerX.facebookID = @"";
     txtEmailAddress.text = @"";
+    _postCustomerX.emailAddress = @"";
     txtTaxCustomerName.text = @"";
+    _postCustomerX.taxCustomerName = @"";
     txtVwTaxCustomerAddress.text = @"";
+    _postCustomerX.taxCustomerAddress = @"";
     txtTaxNo.text = @"";
     txtOther.text = @"";
+    _postCustomerX.other = @"";
     
     _previousSearchPostCustomer.firstName = @"";
     _previousSearchPostCustomer.street1 = @"";
@@ -1455,19 +1692,6 @@
     _previousSearchPostCustomer.taxCustomerAddress = @"";
     _previousSearchPostCustomer.taxNo = @"";
     _previousSearchPostCustomer.other = @"";
-}
-- (IBAction)nextButtonClicked:(id)sender {
-    _searchResultIndex +=1;
-    btnPreviousCustomer.enabled = _searchResultIndex>0;
-    btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
-    [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
-}
-
-- (IBAction)previousButtonClicked:(id)sender {
-    _searchResultIndex -= 1;
-    btnPreviousCustomer.enabled = _searchResultIndex>0;
-    btnNextCustomer.enabled = [self.dataSourceForSearchResult count]-1>_searchResultIndex;
-    [self setData:(PostCustomer*)self.dataSourceForSearchResult[_searchResultIndex]];
 }
 
 -(void) loadingOverlayView
@@ -1501,19 +1725,108 @@
      ];
 }
 
--(NSInteger)getCustomerID:(NSString *)telephone
+//-(NSInteger)getCustomerID:(NSString *)telephone
+//{
+//    NSMutableArray *postCustomerList = _postCustomerList;
+//    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_telephone = %@",telephone];
+//    NSArray *filterArray = [postCustomerList filteredArrayUsingPredicate:predicate1];
+//
+//    if([filterArray count] > 0)
+//    {
+//        PostCustomer *postCustomer = filterArray[0];
+//        return postCustomer.customerID;
+//    }
+//
+//
+//    return 0;
+//}
+
+-(BOOL)isProductInventoryOrPreOrder:(NSInteger)productBuyIndex
 {
-    NSMutableArray *postCustomerList = _postCustomerList;
-    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"_telephone = %@",telephone];
-    NSArray *filterArray = [postCustomerList filteredArrayUsingPredicate:predicate1];
-    
-    if([filterArray count] > 0)
+    return [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productInventory]] || [_productBuyList[productBuyIndex][productType] isEqualToString:[NSString stringWithFormat:@"%d",productPreOrder]];
+}
+
+-(void)segUnwindToReceipt2:(PostCustomer *)postCustomer
+{
+    NSMutableArray *postBuyList = [SharedPostBuy sharedPostBuy].postBuyList;
+    for(PostCustomer *item in postBuyList)
     {
-        PostCustomer *postCustomer = filterArray[0];
-        return postCustomer.customerID;
+        if(item.postCustomerID == postCustomer.postCustomerID)
+        {
+            [postBuyList removeObject:item];
+            break;
+        }
     }
+    [postBuyList addObject:postCustomer];
     
     
-    return 0;
+    if(productBuyIndex == -1)
+    {
+        for(int i=0; i<[_productBuyList count]; i++)
+        {
+            CustomMade *customMade = (CustomMade *)_productBuyList[i][productBuyDetail];
+            ProductDetail *productDetail = (ProductDetail *)_productBuyList[i][productBuyDetail];
+            if([self isProductInventoryOrPreOrder:i])
+            {
+                productDetail.postCustomerID = postCustomer.postCustomerID;
+            }
+            else
+            {
+                customMade.postCustomerID = postCustomer.postCustomerID;
+            }
+        }
+    }
+    else
+    {
+        CustomMade *customMade = (CustomMade *)_productBuyList[productBuyIndex][productBuyDetail];
+        ProductDetail *productDetail = (ProductDetail *)_productBuyList[productBuyIndex][productBuyDetail];
+        if([self isProductInventoryOrPreOrder:productBuyIndex])
+        {
+            productDetail.postCustomerID = postCustomer.postCustomerID;
+        }
+        else
+        {
+            customMade.postCustomerID = postCustomer.postCustomerID;
+        }
+    }
+            
+    [self performSegueWithIdentifier:@"segUnwindToReceipt2" sender:self];
+}
+
+-(void)txtTelephoneNoDidChange :(UITextField *)textField
+{
+    self.searchBar.text = [Utility trimString:textField.text];
+}
+- (IBAction)cancelButtonClicked:(id)sender
+{
+    if(readOnly)
+    {
+        if(pageIndex == 2)
+        {
+            [self performSegueWithIdentifier:@"segUnwindToSearchSalesTelephoneDetail" sender:self];
+        }
+        else if(pageIndex == 0)
+        {
+            [self performSegueWithIdentifier:@"segUnwindToReportTopSpenderDetail" sender:self];
+        }
+    }
+    else
+    {
+        if(pageIndex == 1)
+        {
+            [self performSegueWithIdentifier:@"segUnwindToSearchReceiptCancel" sender:self];
+        }
+        else
+        {
+            if(paid)
+            {
+                [self performSegueWithIdentifier:@"segUnwindToReceiptSummary2Cancel" sender:self];
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"segUnwindToReceipt2" sender:self];
+            }
+        }
+    }
 }
 @end

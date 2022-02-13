@@ -192,6 +192,8 @@
 		EFCAD5F81E5FEADB0013393D /* last_item.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F51E5FEADB0013393D /* last_item.html */; };
 		EFCAD5F91E5FEADB0013393D /* receipt.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F61E5FEADB0013393D /* receipt.html */; };
 		EFCAD5FA1E5FEADB0013393D /* single_item.html in Resources */ = {isa = PBXBuildFile; fileRef = EFCAD5F71E5FEADB0013393D /* single_item.html */; };
+		EFCEC3B5273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCEC3B3273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.m */; };
+		EFCEC3B6273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFCEC3B4273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.xib */; };
 		EFD5AEC02471F04000591DA3 /* FetchOrdersLazadaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */; };
 		EFD5AEC32471F1C600591DA3 /* LazadaOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD5AEC22471F1C600591DA3 /* LazadaOrder.m */; };
 		EFD6C9A7260355BD00CAB281 /* FixedCostByMonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD6C9A6260355BD00CAB281 /* FixedCostByMonthViewController.m */; };
@@ -770,6 +772,9 @@
 		EFCAD5F51E5FEADB0013393D /* last_item.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = last_item.html; sourceTree = "<group>"; };
 		EFCAD5F61E5FEADB0013393D /* receipt.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = receipt.html; sourceTree = "<group>"; };
 		EFCAD5F71E5FEADB0013393D /* single_item.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = single_item.html; sourceTree = "<group>"; };
+		EFCEC3B2273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCellTextViewTableViewCell.h; sourceTree = "<group>"; };
+		EFCEC3B3273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCellTextViewTableViewCell.m; sourceTree = "<group>"; };
+		EFCEC3B4273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCellTextViewTableViewCell.xib; sourceTree = "<group>"; };
 		EFD5AEBE2471F04000591DA3 /* FetchOrdersLazadaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchOrdersLazadaViewController.h; sourceTree = "<group>"; };
 		EFD5AEBF2471F04000591DA3 /* FetchOrdersLazadaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FetchOrdersLazadaViewController.m; sourceTree = "<group>"; };
 		EFD5AEC12471F1C600591DA3 /* LazadaOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LazadaOrder.h; sourceTree = "<group>"; };
@@ -1866,20 +1871,74 @@
 		EFF082531CAFA7E0003E74D6 /* CustomUIView */ = {
 			isa = PBXGroup;
 			children = (
-				EF8B8A51243338D6005F6E91 /* CustomMadeView.h */,
-				EF8B8A4D243338D5005F6E91 /* CustomMadeView.m */,
-				EF8B8A50243338D6005F6E91 /* CustomMadeView.xib */,
-				EF8B8A4F243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.h */,
-				EF8B8A52243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m */,
-				EF8B8A4E243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib */,
 				EFF082541CAFA7E0003E74D6 /* APLSectionHeaderView.h */,
 				EFF082551CAFA7E0003E74D6 /* APLSectionHeaderView.m */,
 				EFF082561CAFA7E0003E74D6 /* APLSectionInfo.h */,
 				EFF082571CAFA7E0003E74D6 /* APLSectionInfo.m */,
 				EFF082581CAFA7E0003E74D6 /* CustomCollectionViewFlowLayout.h */,
 				EFF082591CAFA7E0003E74D6 /* CustomCollectionViewFlowLayout.m */,
+				EF8B8A51243338D6005F6E91 /* CustomMadeView.h */,
+				EF8B8A4D243338D5005F6E91 /* CustomMadeView.m */,
+				EF8B8A50243338D6005F6E91 /* CustomMadeView.xib */,
 				EFCAD5CA1E5EEB460013393D /* CustomPrintPageRenderer.h */,
 				EFCAD5CB1E5EEB460013393D /* CustomPrintPageRenderer.m */,
+				EFFE1B3425403FFE004308EF /* CustomTableHeaderFooterViewDelete.h */,
+				EFFE1B3525403FFE004308EF /* CustomTableHeaderFooterViewDelete.m */,
+				EFFE1B372540400C004308EF /* CustomTableHeaderFooterViewDelete.xib */,
+				EF880636241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.h */,
+				EF880637241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m */,
+				EF880634241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib */,
+				EF733D8124206B0D00750577 /* CustomTableViewCellDiscount.h */,
+				EF733D8224206B0D00750577 /* CustomTableViewCellDiscount.m */,
+				EF733D8324206B0D00750577 /* CustomTableViewCellDiscount.xib */,
+				EF733D8624206C6600750577 /* CustomTableViewCellDiscountReason.h */,
+				EF733D8724206C6600750577 /* CustomTableViewCellDiscountReason.m */,
+				EF733D8824206C6600750577 /* CustomTableViewCellDiscountReason.xib */,
+				EF77B7AD241A26B200834B8D /* CustomTableViewCellExpenseAmount.h */,
+				EF77B7AE241A26B200834B8D /* CustomTableViewCellExpenseAmount.m */,
+				EF77B7AF241A26B200834B8D /* CustomTableViewCellExpenseAmount.xib */,
+				EF77B7A3241A130800834B8D /* CustomTableViewCellExpenseDaily.h */,
+				EF77B7A4241A130800834B8D /* CustomTableViewCellExpenseDaily.m */,
+				EF77B7A5241A130800834B8D /* CustomTableViewCellExpenseDaily.xib */,
+				EF8B8A4F243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.h */,
+				EF8B8A52243338D6005F6E91 /* CustomTableViewCellExpenseDailyHeader.m */,
+				EF8B8A4E243338D5005F6E91 /* CustomTableViewCellExpenseDailyHeader.xib */,
+				EF77B7A8241A22E700834B8D /* CustomTableViewCellExpenseItem.h */,
+				EF77B7A9241A22E700834B8D /* CustomTableViewCellExpenseItem.m */,
+				EF77B7AA241A22E700834B8D /* CustomTableViewCellExpenseItem.xib */,
+				EF88062A241F6F0B00862ED5 /* CustomTableViewCellOrder.h */,
+				EF88062B241F6F0B00862ED5 /* CustomTableViewCellOrder.m */,
+				EF88062C241F6F0B00862ED5 /* CustomTableViewCellOrder.xib */,
+				EFF0E017240FBF8E00776023 /* CustomTableViewCellReceipt.h */,
+				EFF0E018240FBF8E00776023 /* CustomTableViewCellReceipt.m */,
+				EFF0E019240FBF8E00776023 /* CustomTableViewCellReceipt.xib */,
+				EFF0E02024109CE300776023 /* CustomTableViewCellReceiptProductItem.h */,
+				EFF0E02124109CE300776023 /* CustomTableViewCellReceiptProductItem.m */,
+				EFF0E02224109CE300776023 /* CustomTableViewCellReceiptProductItem.xib */,
+				EF77B7932410C14E00834B8D /* CustomTableViewCellReceiptShort.h */,
+				EF77B7942410C14E00834B8D /* CustomTableViewCellReceiptShort.m */,
+				EF77B7952410C14E00834B8D /* CustomTableViewCellReceiptShort.xib */,
+				EF45EDA825C44A7B00358806 /* CustomTableViewCellReplaceReason.h */,
+				EF45EDA925C44A7B00358806 /* CustomTableViewCellReplaceReason.m */,
+				EF45EDAA25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib */,
+				EF45EDA325C438E700358806 /* CustomTableViewCellReplaceReasonCode.h */,
+				EF45EDA425C438E700358806 /* CustomTableViewCellReplaceReasonCode.m */,
+				EF45EDA525C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib */,
+				EF83DB29244ACF5B0043B24E /* CustomTableViewCellReward.h */,
+				EF83DB2A244ACF5B0043B24E /* CustomTableViewCellReward.m */,
+				EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */,
+				EF733D8B24206E8700750577 /* CustomTableViewCellSaveCancel.h */,
+				EF733D8C24206E8700750577 /* CustomTableViewCellSaveCancel.m */,
+				EF733D8D24206E8700750577 /* CustomTableViewCellSaveCancel.xib */,
+				EF6392EF25D23FD3007005C1 /* CustomTableViewCellText.h */,
+				EF6392F025D23FD3007005C1 /* CustomTableViewCellText.m */,
+				EF6392F125D23FD3007005C1 /* CustomTableViewCellText.xib */,
+				EFCEC3B2273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.h */,
+				EFCEC3B3273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.m */,
+				EFCEC3B4273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.xib */,
+				EF8B8A422432DC40005F6E91 /* CustomTableViewCellTopSpender.h */,
+				EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */,
+				EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */,
 				EFF0825A1CAFA7E0003E74D6 /* CustomUIAlertController.h */,
 				EFF0825B1CAFA7E0003E74D6 /* CustomUIAlertController.m */,
 				EFF0825E1CAFA7E0003E74D6 /* CustomUICollectionReusableView.h */,
@@ -1906,6 +1965,8 @@
 				EFF082711CAFA7E0003E74D6 /* CustomUITableViewController.m */,
 				EFF082721CAFA7E0003E74D6 /* CustomUITextView.h */,
 				EFF082731CAFA7E0003E74D6 /* CustomUITextView.m */,
+				EF77B7A0241A10D400834B8D /* CustomViewController.h */,
+				EF77B7A1241A10D400834B8D /* CustomViewController.m */,
 				EFF082741CAFA7E0003E74D6 /* MGSwipeButton.h */,
 				EFF082751CAFA7E0003E74D6 /* MGSwipeButton.m */,
 				EFF082761CAFA7E0003E74D6 /* MGSwipeTableCell.h */,
@@ -1922,59 +1983,6 @@
 				EF7074B01F3869C100D1EA2E /* TransferUndoView.h */,
 				EF7074B11F3869C100D1EA2E /* TransferUndoView.m */,
 				EF7074B21F3869C100D1EA2E /* TransferUndoView.xib */,
-				EF45EDA325C438E700358806 /* CustomTableViewCellReplaceReasonCode.h */,
-				EF45EDA425C438E700358806 /* CustomTableViewCellReplaceReasonCode.m */,
-				EF45EDA525C438E700358806 /* CustomTableViewCellReplaceReasonCode.xib */,
-				EF45EDA825C44A7B00358806 /* CustomTableViewCellReplaceReason.h */,
-				EF45EDA925C44A7B00358806 /* CustomTableViewCellReplaceReason.m */,
-				EF45EDAA25C44A7B00358806 /* CustomTableViewCellReplaceReason.xib */,
-				EFF0E017240FBF8E00776023 /* CustomTableViewCellReceipt.h */,
-				EFF0E018240FBF8E00776023 /* CustomTableViewCellReceipt.m */,
-				EFF0E019240FBF8E00776023 /* CustomTableViewCellReceipt.xib */,
-				EFF0E02024109CE300776023 /* CustomTableViewCellReceiptProductItem.h */,
-				EFF0E02124109CE300776023 /* CustomTableViewCellReceiptProductItem.m */,
-				EFF0E02224109CE300776023 /* CustomTableViewCellReceiptProductItem.xib */,
-				EF77B7932410C14E00834B8D /* CustomTableViewCellReceiptShort.h */,
-				EF77B7942410C14E00834B8D /* CustomTableViewCellReceiptShort.m */,
-				EF77B7952410C14E00834B8D /* CustomTableViewCellReceiptShort.xib */,
-				EF77B7A0241A10D400834B8D /* CustomViewController.h */,
-				EF77B7A1241A10D400834B8D /* CustomViewController.m */,
-				EF77B7A3241A130800834B8D /* CustomTableViewCellExpenseDaily.h */,
-				EF77B7A4241A130800834B8D /* CustomTableViewCellExpenseDaily.m */,
-				EF77B7A5241A130800834B8D /* CustomTableViewCellExpenseDaily.xib */,
-				EF77B7A8241A22E700834B8D /* CustomTableViewCellExpenseItem.h */,
-				EF77B7A9241A22E700834B8D /* CustomTableViewCellExpenseItem.m */,
-				EF77B7AA241A22E700834B8D /* CustomTableViewCellExpenseItem.xib */,
-				EF77B7AD241A26B200834B8D /* CustomTableViewCellExpenseAmount.h */,
-				EF77B7AE241A26B200834B8D /* CustomTableViewCellExpenseAmount.m */,
-				EF77B7AF241A26B200834B8D /* CustomTableViewCellExpenseAmount.xib */,
-				EF88062A241F6F0B00862ED5 /* CustomTableViewCellOrder.h */,
-				EF88062B241F6F0B00862ED5 /* CustomTableViewCellOrder.m */,
-				EF88062C241F6F0B00862ED5 /* CustomTableViewCellOrder.xib */,
-				EF880634241FC9D200862ED5 /* CustomTableHeaderFooterViewOrderSummary.xib */,
-				EF880636241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.h */,
-				EF880637241FC9F200862ED5 /* CustomTableHeaderFooterViewOrderSummary.m */,
-				EF733D8124206B0D00750577 /* CustomTableViewCellDiscount.h */,
-				EF733D8224206B0D00750577 /* CustomTableViewCellDiscount.m */,
-				EF733D8324206B0D00750577 /* CustomTableViewCellDiscount.xib */,
-				EF733D8624206C6600750577 /* CustomTableViewCellDiscountReason.h */,
-				EF733D8724206C6600750577 /* CustomTableViewCellDiscountReason.m */,
-				EF733D8824206C6600750577 /* CustomTableViewCellDiscountReason.xib */,
-				EF733D8B24206E8700750577 /* CustomTableViewCellSaveCancel.h */,
-				EF733D8C24206E8700750577 /* CustomTableViewCellSaveCancel.m */,
-				EF733D8D24206E8700750577 /* CustomTableViewCellSaveCancel.xib */,
-				EF8B8A422432DC40005F6E91 /* CustomTableViewCellTopSpender.h */,
-				EF8B8A432432DC40005F6E91 /* CustomTableViewCellTopSpender.m */,
-				EF8B8A442432DC40005F6E91 /* CustomTableViewCellTopSpender.xib */,
-				EF83DB29244ACF5B0043B24E /* CustomTableViewCellReward.h */,
-				EF83DB2A244ACF5B0043B24E /* CustomTableViewCellReward.m */,
-				EF83DB2B244ACF5B0043B24E /* CustomTableViewCellReward.xib */,
-				EFFE1B372540400C004308EF /* CustomTableHeaderFooterViewDelete.xib */,
-				EFFE1B3425403FFE004308EF /* CustomTableHeaderFooterViewDelete.h */,
-				EFFE1B3525403FFE004308EF /* CustomTableHeaderFooterViewDelete.m */,
-				EF6392EF25D23FD3007005C1 /* CustomTableViewCellText.h */,
-				EF6392F025D23FD3007005C1 /* CustomTableViewCellText.m */,
-				EF6392F125D23FD3007005C1 /* CustomTableViewCellText.xib */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -2502,6 +2510,7 @@
 				EFF083771CAFA7E0003E74D6 /* PrinterList.plist in Resources */,
 				EFF083F51CAFA7E0003E74D6 /* info active3.png in Resources */,
 				EFF083FA1CAFA7E0003E74D6 /* postCustomerNo.png in Resources */,
+				EFCEC3B6273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.xib in Resources */,
 				EF83DB2D244ACF5B0043B24E /* CustomTableViewCellReward.xib in Resources */,
 				EFF0836E1CAFA7E0003E74D6 /* 58_0_700.bin in Resources */,
 				EFF0E01B240FBF8F00776023 /* CustomTableViewCellReceipt.xib in Resources */,
@@ -2850,6 +2859,7 @@
 				EF3EF4311D54D4A900F36F93 /* QRCodeView.m in Sources */,
 				EFF083901CAFA7E0003E74D6 /* ColorViewController.m in Sources */,
 				EF795DD61DA9FD2B00191CDA /* SharedEventSales.m in Sources */,
+				EFCEC3B5273C6E48003F5FE9 /* CustomTableViewCellTextViewTableViewCell.m in Sources */,
 				EF45EDA225C435BC00358806 /* ReplaceReason.m in Sources */,
 				EFCAD5F21E5EEB630013393D /* InvoiceComposer.m in Sources */,
 				EFF084561CAFA7E0003E74D6 /* SharedSalesBySizeData.m in Sources */,
@@ -3019,7 +3029,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1266;
+				CURRENT_PROJECT_VERSION = 1316;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3034,7 +3044,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 2.6;
+				MARKETING_VERSION = 3.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -3054,7 +3064,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1266;
+				CURRENT_PROJECT_VERSION = 1316;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3069,7 +3079,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/resources/Lib",
 				);
-				MARKETING_VERSION = 2.6;
+				MARKETING_VERSION = 3.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
